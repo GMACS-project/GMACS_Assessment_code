@@ -14,7 +14,9 @@ holded in this repo:
 
    * the [GMACS](https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS) folder contains:
 	i) the current version of GMACS [in development](https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS/Dvpt_Version),
+
 	ii) the most recent and ["validated"](https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS/Latest_Version) version of GMACS,
+
 	iii) a *SAFE_stock* .Rmd file for each stock that can be used to produce comparison between different version of your assessment. It uses the 
 	[gmr](https://github.com/szuwalski/gmr) package that you will need to make plots and some modified functions called from the 
 	[Modif_functions](https://github.com/GMACS-project/GMACS_Assessment_code/blob/main/GMACS/Modif_functions.R) R script.

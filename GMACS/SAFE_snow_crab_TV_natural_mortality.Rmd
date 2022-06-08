@@ -1,0 +1,716 @@
+---
+author: "Cody Szuwalski & Matthieu Veron"
+date: "June 2022 - GMACS version 2.01.K"
+output:
+  pdf_document:
+    fig_caption: yes
+    fig_height: 4
+    fig_width: 6
+header-includes:   
+-  \pagenumbering{gobble}
+number_sections: yes
+csl: fish-and-fisheries.csl
+toc: yes
+title: "An skeleton assessment for Snow crab in GMACS - Time varying natural mortality"
+---
+
+```{r, include=FALSE}
+
+knitr::opts_chunk$set(echo=FALSE,message=FALSE,warning=FALSE)
+
+library(plyr)
+library(dplyr)
+library(knitr)
+library(ggplot2)
+library(PBSmodelling)
+library(pander)
+library(coda)
+library(maps)
+library(lattice)
+library(PBSmapping)
+library(mapdata)    #some additional hires data
+library(maptools)   #useful tools such as reading shapefiles
+library(mapproj)
+library(plotrix)
+library(ggridges)
+library(reshape2)
+library(miceadds)
+library(devtools)
+
+#install.packages("szuwalski/gmr")
+library(gmr)
+
+in_path<-"C:/gmacs-develop/gmr/R/"
+source.all( path=in_path, grepstring="\\.R",  print.source=TRUE, file_sep="__"  )
+
+source(paste0(getwd(), "/Modif_functions.R"))
+
+```
+
+\newpage
+
+```{r,echo=F,message=FALSE,warning=F,include=FALSE}
+
+ABC_buffer  <-0.8
+chosen_ind<-1
+OFL_fleet_ind<-0
+
+# Species of interest
+Spc <- "SNOW_M_time_varying"
+Spc2 <- "SNOW"
+
+#===PULL gmacs DATA AND outputs
+mod_names <- c(
+  "Version 1.00",
+  "Version 1.01",
+  "Version 2.01.K",
+  "Version 2.01.K - Constant M"
+)
+ScenarioNames<-mod_names
+
+# needs terminal backslash
+.MODELDIR = c(
+              paste0(dirname(getwd()), "/GMACS_Terminal_molt/GMACS_V_1_00/build/",Spc,"/"),
+              paste0(dirname(getwd()), "/GMACS_Terminal_molt/GMACS_V_1_01/build/",Spc,"/"),
+              paste0(getwd(), "/Latest_Version/build/",Spc,"/"),
+              paste0(getwd(), "/Latest_Version/build/SNOW/")
+              )
+
+.THEME    = theme_bw(base_size = 12, base_family = "") +
+  theme(strip.text.x = element_text(margin= margin(1,0,1,0)),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.background = element_blank(),
+        strip.background = element_rect(color="white",fill="white"))
+
+.OVERLAY  = TRUE
+
+#==some of this repeats info in the .DAT file and should be read directly, rather than
+#==repeated here (e.g. .FLEET and .SEAS)
+.SEX      = c("Aggregate","Male","Female")
+.FLEET    = c("Pot_Fishery","Trawl_Bycatch","NMFS_Trawl_1982","NMFS_Trawl_1989","BSFRF_2009", "NMFS_2009", "BSFRF_2010", "NMFS_2010")
+.TYPE     = c("Retained","Discarded","Total")
+.SHELL    = c("New","Old")
+.MATURITY = c("Aggregate","Mature","Immature")
+.SEAS     = c("1","2","3")
+
+fn       <- paste0(.MODELDIR, "gmacs")
+M        <- lapply(fn, read_admb) #need .prj file to run gmacs and need .rep file here
+names(M) <- mod_names
+
+#==loop through the size comp data, plot and save to be included later
+# 
+ mdf <- .get_sizeComps_df(M)
+ 
+# for(x in 1:length(mdf)){
+# png(paste(.MODELDIR[1],"plots/size_comp_",x,".png",sep=""),height=8,width=8,res=300,units='in')
+# plot_size_comps(M,which=x)
+# dev.off()
+# }
+# 
+# for(x in 1:length(mdf)){
+#   png(paste(.MODELDIR[1],"plots/size_ridges_",x,".png",sep=""),height=8,width=8,res=300,units='in')
+#   plot_size_ridges(M,which=x)
+#   dev.off()
+# }
+
+
+```
+
+
+\newpage
+
+
+1. Stock: snow crab.
+
+2. Catches: trends and current levels
+
+3. Stock Biomass: 
+
+4. Recruitment
+
+\newpage
+
+5. Management 
+
+
+```{r,echo=F}
+ # # =UPDATE TO USE GMACS
+ # ManTable <-read.csv("ManagementTable.csv")
+ # PlotTab<- data.frame(ManTable)
+ # colnames(PlotTab)<-c("Year","MSST","Biomass (MMB)","TAC","Retained catch","Total catch", "OFL","ABC")
+ # 
+ # PlotTab[(nrow(PlotTab)-1),6]<-format(round(sum(M[[chosen_ind]]$obs_catch[,ncol(M[[chosen_ind]]$obs_catch)]),1),nsmall=1)
+ # PlotTab[(nrow(PlotTab)-1),4:5]<-format(round(M[[chosen_ind]]$obs_catch[1,ncol(M[[chosen_ind]]$obs_catch)],1),nsmall=1)
+ # 
+ # #==I forget which estimates go in which year
+ # PlotTab[(nrow(PlotTab)-1),2]<-format(round(M[[chosen_ind]]$spr_bmsy/2,1),nsmall=1)
+ # PlotTab[(nrow(PlotTab)),3]<-NA
+ # PlotTab[nrow(PlotTab),7]<-format(round(M[[chosen_ind]]$spr_cofl,1),nsmall=1)
+ # PlotTab[nrow(PlotTab),8]<-format(round(M[[chosen_ind]]$spr_cofl*ABC_buffer,1),nsmall=1)
+ # PlotTab[nrow(PlotTab),6]<- " "
+ # PlotTab[is.na(PlotTab)]<-" "
+ # rownames(PlotTab)<- NULL
+ # pander(PlotTab,split.cells=10,caption="\\label{managementtable}Historical status and catch specifications for snow crab (1,000t).")
+
+```
+
+
+```{r,echo=F}
+
+# PlotTab3<-PlotTab
+# for(x in 1:nrow(PlotTab3))
+#   for(y in seq(2,8))
+#     PlotTab3[x,y]<-round(as.numeric(unlist(PlotTab[x,y]))*2.20462,2)
+# PlotTab3[is.na(PlotTab3)]<-" "
+# pander(PlotTab3,split.cells=10,caption="Historical status and catch specifications for snow crab (millions of lbs).")
+
+
+```
+
+6.  Basis for the OFL
+
+7.	Probability Density Function of the OFL
+
+8.	Basis for ABC
+
+\newpage
+
+\newpage
+# A.  Summary of Major Changes 
+
+1. Management: None 
+
+2. Input data: 
+
+3. Assessment methodology: 
+
+4. Assessment results
+
+Notes: **_Natural mortality is considered as time varying in this assessment._**
+
+# B. Comments, responses, and assessment summary
+
+# C. Introduction
+## Distribution
+## Life history characteristics
+## Natural mortality
+## Weight at length
+## Maturity
+## Molting probability
+## Reproduction
+## Growth
+## Management history
+## ADFG harvest strategy
+## History of BMSY
+## Fishery history
+
+\newpage
+
+# D. Data
+## Catch data
+## Survey biomass and size composition data
+## Spatial distribution
+# E. Analytic approach
+## History of modeling approaches
+## Model description
+## Model selection and evaluation
+## Results
+## Fits to data
+## Estimated population processes and derived quantities
+# F. Calculation of the OFL
+## Methodology of the OFL
+## Calculated OFLs and interpretation
+## Projections under harvest strategies
+
+\newpage
+
+# G. Calculation of the ABC
+## Uncertainty in the ABC
+## Author recommendations
+# H. Data gaps and research priorities
+## Methodology
+## Data sources
+## Scientific uncertainty
+# I. Ecosystem considerations
+
+# Appendix A: Population dynamics
+
+
+
+
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F}
+
+
+PlotTab<- data.frame(Model=ScenarioNames,
+                     MMB=rep(0,length(ScenarioNames)),
+                     B35=rep(0,length(ScenarioNames)),
+                     F35=rep(0,length(ScenarioNames)),
+                     FOFL=rep(0,length(ScenarioNames)),
+                     OFL=rep(0,length(ScenarioNames)),
+                     Status=rep(0,length(ScenarioNames)))
+                     
+for(x in 1:length(M))
+{
+   PlotTab$MMB[x]<-M[[x]]$ssb[length(M[[x]]$ssb)]
+   PlotTab$B35[x]<-M[[x]]$spr_bmsy
+   PlotTab$F35[x]<-M[[x]]$sd_fmsy
+   PlotTab$FOFL[x]<-M[[x]]$sd_fofl[1]
+   PlotTab$OFL[x]<-M[[x]]$spr_cofl
+   PlotTab$Status[x]<- PlotTab$MMB[x]/PlotTab$B35[x]
+}
+
+rownames(PlotTab)<- NULL
+#PlotTab[,c(2:6)]<-round(PlotTab[,c(2:6)],2)
+PlotTab[,c(2:6)]<-round(PlotTab[,c(2:6)],3)
+kable(PlotTab[,1:6],split.cells=c(25,rep(7,5)),justify=c("left",rep("center",5)),caption="\\label{stepchange}Changes in management quantities for each scenario considered. Reported management quantities are derived from maximum likelihood estimates.")
+
+
+```
+
+\newpage
+
+
+```{r,echo=FALSE,warning=FALSE,message=F,fig.width=8.5,fig.height=7,fig.cap="\\label{cpue_1}Model fits to the NMFS_Trawl_1982 survey."}
+
+plot_cpue(M, ShowEstErr = TRUE, "NMFS_Trawl_1982", ylab = "Survey biomass")
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,fig.width=8.5,fig.height=7,fig.cap="\\label{cpue_2}Model fits to the NMFS trawl 1989 survey."}
+
+plot_cpue(M, ShowEstErr = TRUE, "NMFS_Trawl_1989", ylab = "Survey biomass")
+
+```
+
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,fig.width=8.5,fig.height=7,fig.cap="\\label{cpue_2}Model fits to the BSFRF 2009 survey."}
+
+plot_cpue(M, ShowEstErr = TRUE, "BSFRF_2009", ylab = "Survey biomass")
+
+
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,fig.width=8.5,fig.height=7,fig.cap="\\label{cpue_2}Model fits to the NMFS 2009 survey."}
+
+plot_cpue(M, ShowEstErr = TRUE, "NMFS_2009", ylab = "Survey biomass")
+
+
+
+```
+
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,fig.width=8.5,fig.height=7,fig.cap="\\label{cpue_2}Model fits to the BSFRF 2010 survey."}
+
+plot_cpue(M, ShowEstErr = TRUE, "BSFRF_2010", ylab = "Survey biomass")
+
+
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,fig.width=8.5,fig.height=7,fig.cap="\\label{cpue_2}Model fits to the NMFS 2010 survey."}
+
+plot_cpue(M, ShowEstErr = TRUE, "NMFS_2010", ylab = "Survey biomass")
+
+
+
+```
+
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,fig.width=8.5,fig.height=7,fig.cap="\\label{catch}Model fits to the catch data."}
+
+#plot_catch(M,x_leg=0.85,y_leg=0.8)
+
+plot_catch(M)
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_comp_1}Model fits to the size composition data."}
+
+#include_graphics("plots/size_comp_2.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_comp_1.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_comp_2}Model fits to the size composition data."}
+
+#include_graphics("plots/size_comp_2.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_comp_2.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_comp_3}Model fits to the size composition data."}
+
+#include_graphics("plots/size_comp_3.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_comp_3.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_comp_4}Model fits to the size composition data."}
+
+#include_graphics("plots/size_comp_4.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_comp_4.png",sep=""))
+
+```
+
+\newpage
+
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_comp_5}Model fits to the size composition data."}
+
+#include_graphics("plots/size_comp_5.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_comp_5.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_comp_6}Model fits to the size composition data."}
+
+#include_graphics("plots/size_comp_6.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_comp_6.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_comp_7}Model fits to the size composition data."}
+
+#include_graphics("plots/size_comp_7.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_comp_7.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_comp_7}Model fits to the size composition data."}
+
+#include_graphics("plots/size_comp_7.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_comp_8.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_comp_7}Model fits to the size composition data."}
+
+#include_graphics("plots/size_comp_7.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_comp_9.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_comp_7}Model fits to the size composition data."}
+
+#include_graphics("plots/size_comp_7.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_comp_10.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_comp_7}Model fits to the size composition data."}
+
+#include_graphics("plots/size_comp_7.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_comp_11.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_comp_7}Model fits to the size composition data."}
+
+#include_graphics("plots/size_comp_7.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_comp_12.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_comp_7}Model fits to the size composition data."}
+
+#include_graphics("plots/size_comp_7.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_comp_13.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_comp_7}Model fits to the size composition data."}
+
+#include_graphics("plots/size_comp_7.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_comp_14.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_comp_7}Model fits to the size composition data."}
+
+#include_graphics("plots/size_comp_7.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_comp_15.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_comp_7}Model fits to the size composition data."}
+
+#include_graphics("plots/size_comp_7.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_comp_16.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_comp_7}Model fits to the size composition data."}
+
+#include_graphics("plots/size_comp_7.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_comp_17.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_ridges_1}Observed size composition data."}
+
+#include_graphics("plots/size_ridges_1.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_ridges_1.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_ridges_2}Observed size composition data."}
+
+#include_graphics("plots/size_ridges_2.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_ridges_2.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_ridges_3}Observed size composition data."}
+
+#include_graphics("plots/size_ridges_3.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_ridges_3.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_ridges_4}Observed size composition data."}
+
+#include_graphics("plots/size_ridges_4.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_ridges_4.png",sep=""))
+
+```
+
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_ridges_5}Observed size composition data."}
+
+#include_graphics("plots/size_ridges_5.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_ridges_5.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_ridges_6}Observed size composition data."}
+
+#include_graphics("plots/size_ridges_6.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_ridges_6.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_ridges_7}Observed size composition data."}
+
+#include_graphics("plots/size_ridges_7.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_ridges_7.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_ridges_7}Observed size composition data."}
+
+#include_graphics("plots/size_ridges_7.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_ridges_8.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_ridges_7}Observed size composition data."}
+
+#include_graphics("plots/size_ridges_7.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_ridges_9.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_ridges_7}Observed size composition data."}
+
+#include_graphics("plots/size_ridges_7.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_ridges_10.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_ridges_7}Observed size composition data."}
+
+#include_graphics("plots/size_ridges_7.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_ridges_11.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_ridges_7}Observed size composition data."}
+
+#include_graphics("plots/size_ridges_7.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_ridges_12.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_ridges_7}Observed size composition data."}
+
+#include_graphics("plots/size_ridges_7.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_ridges_13.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_ridges_7}Observed size composition data."}
+
+#include_graphics("plots/size_ridges_7.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_ridges_14.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_ridges_7}Observed size composition data."}
+
+#include_graphics("plots/size_ridges_7.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_ridges_15.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_ridges_7}Observed size composition data."}
+
+#include_graphics("plots/size_ridges_7.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_ridges_16.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,out.width="100%",fig.cap="\\label{size_ridges_7}Observed size composition data."}
+
+#include_graphics("plots/size_ridges_7.png")
+# include_graphics(paste(.MODELDIR[1],"plots/size_ridges_17.png",sep=""))
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,fig.width=8.5,fig.height=7,fig.cap="\\label{fmort}Estimated fishing mortality by fleet."}
+
+#plot_F(M,in_leg_x=.8,in_leg_y=.9)
+plot_F(M)
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,fig.width=8.5,fig.height=7,fig.cap="\\label{moltinc}Estimated molt increments."}
+
+plot_growth_inc(M)
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,fig.width=8.5,fig.height=7,fig.cap="\\label{moltprob}Estimated probability of molting."}
+
+plot_molt_prob(M)
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,fig.width=8.5,fig.height=7,fig.cap="\\label{select}Estimated selectivity."}
+
+plot_selectivity(M)
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,fig.width=8.5,fig.height=7,fig.cap="\\label{recruits}Estimated recruitment."}
+
+plot_recruitment(M)
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,fig.width=8.5,fig.height=7,fig.cap="\\label{ssb}Estimated mature biomass"}
+
+plot_ssb(M)
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,fig.width=8.5,fig.height=7,fig.cap="\\label{rec_size}Estimated size at recruitment"}
+
+plot_recruitment_size(M)
+
+```
+
+\newpage
+
+```{r,echo=FALSE,warning=FALSE,message=F,fig.width=8.5,fig.height=7,fig.cap="\\label{kobe}Kobe plot for the Pot Fishery fleet."}
+
+plot_kobe(M,fleet_in="Pot_Fishery",ref_ind=2)
+
+```

@@ -7,8 +7,8 @@ holded in this repo:
    * [Assessment data](https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/Assessment_data): this folder contains the latest files 
      (for each stock) that GMACS needs to run an evaluation.
 
-	** In this folder you'll find a batch command allowing you to copy and paste these files in the Version of GMACS you want to work with (Development or most recent version)
-        ** This folder is intended to be used by authors to upload their own files as soon as they modify them.
+	1- In this folder you'll find a batch command allowing you to copy and paste these files in the Version of GMACS you want to work with (Development or most recent version)
+        2- This folder is intended to be used by authors to upload their own files as soon as they modify them.
 
 
    * the [GMACS](https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS) folder contains:

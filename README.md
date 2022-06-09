@@ -31,6 +31,8 @@ holded in this repo:
     with the terminally molting life history incorporated. Similarly, you can find further details about differences between these version in this [document](https://github.com/GMACS-project/GMACS_Assessment_code/blob/main/GMACS_Terminal_molt/VERSIONS_GMACS_Terminal_molt.docx).
 
 
-The most recent version of GMACS is a UNIFIED code and can therefore be used for all stocks. 
+The most recent version of GMACS (_version 2.01.K_) is a UNIFIED code and can therefore be used for all stocks. 
+This version is based on the 2.01.J version (see details for each branch in their respective document) and incorporate new option to compute
+average recruitment used in the calculation of the reference points.
 
 Other developments are currently in progress and will be uploaded as soon as possible.

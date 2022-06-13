@@ -45,15 +45,15 @@ source("Additional_functions.R")
 
 # Species of interest
 .Spc <-c(
-  # "SMBKC"
-  "all"
+  "SMBKC"
+  # "all"
   # "WAG",
   # "EAG"
   )
 
 # Names of the GMACS version to consider for run
 .GMACS_version <- c(
-  "Dvpt_Version",
+  # "Dvpt_Version",
   "Latest_Version"
   )
 
@@ -62,7 +62,7 @@ source("Additional_functions.R")
 # folder will be: paste0(dirname(getwd()), "/Assessments/")
 
 .VERSIONDIR <- c(
-  paste0(getwd(), "/Dvpt_Version/"),
+  # paste0(getwd(), "/Dvpt_Version/"),
   paste0(getwd(), "/Latest_Version/")
 )
 
@@ -85,10 +85,10 @@ source("Additional_functions.R")
   # vector of length(.GMACS_version)
   # 0: GMACS is not compiled. This assumes that an executable exists in the directory of the concerned version.
   # 1: GMACS is compiles
-.COMPILE <- c(1,1)
+.COMPILE <- c(1)
 
 # Run GMACS
-.RUN_GMACS <- FALSE
+.RUN_GMACS <- TRUE
 
 # Use latets available data for the assessment?
 .LastAssDat <- TRUE
@@ -98,7 +98,7 @@ source("Additional_functions.R")
 
 
 # Do comparison?
-.MAKE_Comp <- TRUE
+.MAKE_Comp <- FALSE
 
 # Show Rterminal
 .VERBOSE <- TRUE

@@ -3,10 +3,11 @@ title: "A basic workflow for using the GMACS repository for developpers"
 author: "Matthieu VERON"
 date: "Last compiled on `r format(Sys.time(), '%d %B, %Y')`"
 output:
-  pdf_document:
-    number_sections: true
+  word_document: default
   html_notebook:
-    number_sections: true
+    number_sections: yes
+  pdf_document:
+    number_sections: yes
 ---
 
 
@@ -23,44 +24,64 @@ output:
 [Dvpt_Version]:https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS/Dvpt_Version
 [Latest_Version]:https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS/Latest_Version
 
+
+
+
+
+
 # Introduction
 
-This document is intended to give you "guidelines and generic steps" to follow when working on GMACS to release a new version. Its aims are to show you how to use this Github repository to modify GMACS version while tracking code changes. The idea here is to make this workflow easy to follow so we will work with Github with no command-line interface using the graphical interface for Git: [Github Desktop].
+This document is intended to give you "guidelines and generic steps" to follow when working on GMACS and release a new version. Its aims are to show you how to use this Github repository to modify GMACS  while tracking code changes. The idea here is to make this workflow easy to follow so we will work with Github with no command-line interface using the graphical interface for Git *[Github Desktop]*.
 
-We assume you already know how to use Rstudio with projects. If you have never used Github (and/or Githhub Desktop) with Rstudio, you can see the following nice online workshops: the ["Happy Git and Github for the useR"] from *Jenny Brian* and the [R Workflow] workshop from *Elizabeth Holmes*.
+We assume you already know how to use Rstudio with projects. If you have never used Github (and/or Githhub Desktop) with Rstudio, you can see the following online workshops: the ["Happy Git and Github for the useR"] from *Jenny Brian* and the [R Workflow] workshop from *Elizabeth Holmes*.
+
+In this document we use a number of R commands to update a new version of GMACS. The functions used are available in the `gmr` package which will be useful for working with gmacs. This package is available on the organization's repository. 
+
+The various `Rcommand` in this document are summarized in a clean and runnable `.R` script () which you should use whenever you want to release a new version of GMACS. This R script will guide you through all the steps of the procedure making the GMACS upgrade process easier and more transparent.
+
+
+
+
 
 # Set-up for using this workflow
 
-As a member of the [*GMACS-project*] organization, you probably already have a [Github] account; if not, you will need one if you want to act as an active developer. You will also need to get installed R (or Rstudio) and Github Desktop on your computer. Below are the links to install these programs:
+As a member of the [GMACS-project] organization, you probably already have a [Github] account; if not, you will need one if you want to work with this repository and potentially act as an active developer. You will also need to get installed R (or Rstudio) and Github Desktop on your computer. Below are the links to install these programs:
 
 -   Install [R]
 -   Install [Rstudio]
 -   Install [Github Desktop]
 
-If you want to link your R/Rstudio to your Github account so that you can push your changes from Rstudio directly to Github, please refer po the two workshops listed above. I will not cover this topic in this document.
+If you want to link your R/Rstudio to your Github account so that you can push your changes from Rstudio directly to Github, please refer to the two workshops listed above. I will not cover this topic in this document.
 
-# Let's get the [GMACS_Assessment_code] repository on your computer
+
+
+
+
+
+# Let's get the *GMACS_Assessment_code* repository on your computer
 
 I am going to show you a workflow to get the [GMACS_Assessment_code] repository on your computer. Here, you have two options:
 
-  1. First, you want to contribute to the development of GMACS. You will therefore [**fork**](#Fork-repo) the repository to be able to directly push up changes to GMACS to the organization's repository.
-  2. The second one, you only want to [**clone**](#Copy-repo) the repository of the organization and modify it to your liking without pushing up these modifications to the repository of the organization. In this case, you will not contribute directly to the development of GMACS.
+  1. You want to contribute to the development of GMACS: you will therefore need to [**fork**](#Fork-repo) the repository to be able to directly push up changes to GMACS to the organization's repository.
+  2. You only want to [**clone**](#Copy-repo) the repository of the organization and modify it to your liking without pushing up modifications to the repository of the organization. In this case, you will not contribute directly to the development of GMACS.
 
-## Fork the [GMACS_Assessment_code] repository to your computer {#Fork-repo}
+
+## Fork the [GMACS_Assessment_code] repository {#Fork-repo}
 
 By **_forking_** this repository, you will be able to contribute to the organization's repository. If you just want to copy it and then modify it for your own purpose on you computer, please follow the steps described in the [Copy a GMACS-project repository](#Copy-repo) section. 
 
-Warning: *the following workflow will provide you with "real"  access to the GMACS repository. Therefore, any changes you may make to this repository can become "permanent". Please, never delete an important file or folder if you are not sure. Thank you.*
+**Warning:** *the following workflow will provide you with "real"  access to the GMACS repository. Therefore, any changes you may make to this repository can become "permanent". Please, never delete an important file or folder if you are not sure. Thank you.*
 
   1. In Github Desktop, click *File > Clone Repository*
   2. In the *"Clone a repository"* popup window, chose the URL tab and paste the GMACS_Assessment_code repository url.
   3. Check the selected folder in the local path and click `Clone`.
   
-You are now ready to make some changes to GMACS, commit them and push up them to the organization repository. You can also create a new RStudio project in the folder on holding the [GMACS_Assessment_code] repository on your computer and start to work with GMACS outputs.
+You are now ready to make some changes to GMACS, commit them and push up them to the organization repository. You can also create a new RStudio project in the folder holding the [GMACS_Assessment_code] repository on your computer and start to work with GMACS outputs.
 
-## Copy a GMACS-project repository {#Copy-repo}
 
-Here I show you how to copy the [GMACS_Assessment_code] repository on your computer. By follwoing these steps, you will not be able to contribute to the [GMACS-project] organisation but you will have the possibility to adapt this repository for your purpose without fear of impacting the organization's repository. Below are the steps to follow: 
+## Clone the [GMACS_Assessment_code] repository {#Copy-repo}
+
+Here I show you how to copy the [GMACS_Assessment_code] repository on your computer. By following these steps, you will not be able to contribute to the [GMACS-project] organisation but you will have the possibility to adapt this repository for your purpose without fear of impacting the organization's repository. Below are the steps to follow: 
 
   1. Get and copy the [url](https://github.com/GMACS-project/GMACS_Assessment_code) of the [GMACS_Assessment_code] repository.
   2. Go to you Github account. It should be github.com/your-name.
@@ -68,39 +89,67 @@ Here I show you how to copy the [GMACS_Assessment_code] repository on your compu
   4. Paste the url in _**the Your old repository’s clone URL**_ section and give a name for this new repo. You have now the [GMACS_Assessment_code] on your own Github (i.e., you have an url looking like *github.com/your-name/GMACS_Assessment_code* if you kept the same name as the one of the organization).
   5. You can now clone this repository to your computer following the same steps as those used to clone the [GMACS_Assessment_code] repository from the [organization] website.
 
+
+
+
+
+
 # Let's work on a new version of GMACS
 
-In the **[GMACS]** folder of the [GMACS_Assessment_code] repository, two subfolders should attract your attention when you want to develop a new version of GMACS. I'm talking about development when you make a change (no matter how small) to the GMACS code. 
+In the **[GMACS]** folder of the [GMACS_Assessment_code] repository, two subfolders should attract your attention when you want to implement a new version of GMACS (I'm talking about development when you make a change (no matter how small) to the GMACS code): 
 
-  1. In the **[Dvpt_Version]** folder, you will find the version of GMACS currently in development. This means that this version is still being tested after some modifications and has not been released as a stable version.
-  2. The latest stable and tested version of GMACS is hold in the [Latest_Version] subfolder. 
+  1. The **[Dvpt_Version]** folder: this folder contains the version of GMACS **_currently in development_**. This means that this version is still being tested after some modifications and has not been released as a stable version.
+  2. The **[Latest_Version]** folder: this folder holds the latest stable and tested version of GMACS. 
   
-These two subfolders contain all the hardware you need to run GMACS either in a "development way" or to get a stable assessment. 
+These two subfolders contain all the hardware you need to run GMACS either in a "development way" or to get a "stable" stock assessment.
 
-**If you want to make new changes to the GMACS code, please work only in the sub-folder [dvpt_Version].**
+**If you want to make new changes to the GMACS code, please work only in the subfolder _[dvpt_Version]_.**
 
 In the following, I give you some guidelines about how correctly update a GMACS version and push up those change on Github. Obviously, this assumes that you have previously forked (and not cloned) the organization's repo on your computer. 
 
-Let's take the example of the incorporation of time-varying natural mortality in GMACS.
+Let's take the example of incorporating time-varying natural mortality into GMACS. I will not go through the implementation of the code itself but simply give you the path to follow to:
+
+  i. keep track of these changes, 
+  ii. check that they do not impact the obtainment of a new executable (i.e., that the code can be compiled),
+  iii. analyze the impact of these changes on the assessment for a stock (i.e., compare with the last stable version of GMACS the results of the assessment using this version under development) and,
+  iv. release this new stable version of GMACS to the community.
 
 _Reminder:_ **You will be working in the [Dvpt_Version] sub-folder.**
 
+
+
+
+
+
 ## Modify the gmacsbase.tpl
 
-In the [Dvpt_Version] subfolder, open the gmacsbase.tpl file in an editor and incorporate new functions/variables to get a time-varying natural mortality configuration. This operation does not require any "new entries" or variable declarations in the .ctl, .dat or .prj files so that the change you make will remain (first) at the gmacsbase.tpl file level.
+In the [Dvpt_Version] subfolder, open the gmacsbase.tpl file in an editor and incorporate the new functions/variables to get time-varying natural mortality configuration. This operation does not require any "new entries" or variable declarations in the .ctl, .dat or .prj files so that the change you make will remain (first) at the gmacsbase.tpl file level.
+
+
+
+
+
 
 ## Check compilation and build the executable
 
-Once you are done with the implementation of the new insigths in GMACS, you need to check that you are able to compile the model and build the executable. 
+Once you are done with the implementation of the new insights in GMACS, you need to check that you are still able to compile the model and build the executable.
 
-The R script [Update_GMACS.Rmd] will guide you through all these steps. A number of functions have been developed to make the process of updating GMACS easier and more transparent. 
 
 If the compilation worked, then you can modify (if needed) the .dat, .ctl, .prj files. 
 
+
+
+
+
+
 ## Modify the .dat, .ctl, .prj files
 
-
 ## Compare the results of this new version with the results from the last assessment
+
+
+
+
+
 
 # Spread the new GMACS version to the whole community
 

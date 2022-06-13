@@ -191,8 +191,12 @@
 ## lb meanF, ub meanF,lbannualmaleF(F_dev), ubannual maleF(F_dev),lbannualfemaleF(F_dev), ubannual femaleF(F_dev)
 ## BBRKC uses STD_PHZ1=0.5 STD_PHZ2=45.5
 ## Mean_F    Fema-Offset   STD_PHZ1 STD_PHZ2 PHZ_M PHZ_F    Lb      Ub     Lb     Ub      Lb    Ub
-    0.487826676       0.0        3.0    15.0     2    -1     -12      4    -10     10     -10    10   # 
-    0.00027863       0.0        4.0    15.0     2    -1     -12      4    -10     10     -10    10   # 
+#    0.487826676       0.0        3.0    15.0     2    -1     -12      4    -10     10     -10    10   # 
+#    0.00027863       0.0        4.0    15.0     2    -1     -12      4    -10     10     -10    10   # 
+#
+    0.487826676       0.0        3.0    15.0     2    -1     -12      5    -10     10     -10    10   # 
+    0.00027863       0.0        4.0    15.0     2    -1     -12      5    -10     10     -10    10   # 
+#
 ##  ————————————————————————————————————————————————————————————————————————————————————##
 ## OPTIONS FOR SIZE COMPOSTION DATA                                                     ##
 ##     One column for each data matrix                                                  ##

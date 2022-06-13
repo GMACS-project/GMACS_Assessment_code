@@ -202,6 +202,8 @@ tables <-GMACS(Spc = .Spc, GMACS_version = .GMACS_version,
 ### Model predicted fishing mortalities and selectivities for all sources of mortality
 ### Abundances of immature and mature crab in the last year
 
+\newpage
+
 
 # B.  Saint Matthew Island Blue King Crab (SMBKC; *Paralithodes platypus*) Stock Assessment
 ### Management quantities for each version
@@ -212,6 +214,8 @@ tables <-GMACS(Spc = .Spc, GMACS_version = .GMACS_version,
 ### Model fits to size composition data (in catch and surveys)
 ### Model predicted fishing mortalities and selectivities for all sources of mortality
 ### Abundances of immature and mature crab in the last year
+
+\newpage
 
 
 # C.  Bristol Bay Red King Crab (BBRKC; *Paralithodes camtschaticus*) Stock Assessment
@@ -225,6 +229,8 @@ tables <-GMACS(Spc = .Spc, GMACS_version = .GMACS_version,
 ### Abundances of immature and mature crab in the last year
 
 
+\newpage
+
 # D.  Snow crab (*Chionoecetes opilio*) Stock Assessment
 ### Management quantities for each version
 ### Estimated recruitment time series
@@ -236,6 +242,8 @@ tables <-GMACS(Spc = .Spc, GMACS_version = .GMACS_version,
 ### Abundances of immature and mature crab in the last year
 
 
+\newpage
+
 # E.  Tanner Crab (*Chionoecetes bairdi*)
 ### Management quantities for each version
 ### Estimated recruitment time series
@@ -246,6 +254,8 @@ tables <-GMACS(Spc = .Spc, GMACS_version = .GMACS_version,
 ### Model predicted fishing mortalities and selectivities for all sources of mortality
 ### Abundances of immature and mature crab in the last year
 
+
+\newpage
 
 # F.  Norton Sound Red King Crab Stock Assessment (*Paralithodes camtschaticus*)
 ### Management quantities for each version

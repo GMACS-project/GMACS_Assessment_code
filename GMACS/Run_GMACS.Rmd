@@ -1,0 +1,124 @@
+---
+author: "Matthieu VERON"
+date: "6/9/2022"
+output:
+    pdf_document:
+    fig_caption: yes
+    fig_height: 4
+    fig_width: 6
+header-includes:   
+-  \pagenumbering{gobble}
+number_sections: yes
+csl: fish-and-fisheries.csl
+toc: yes
+title: "A template to compile and run GMACS to compare management quantities between different versions."
+---
+
+```{r setup, include=FALSE, echo = FALSE}
+knitr::opts_chunk$set(echo=FALSE,message=FALSE,warning=FALSE)
+rm(list = ls())
+
+
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+
+
+# Some functions used to run admb in R
+# install.packages("PBSadmb")
+library(PBSadmb)
+library(knitr)
+library(svDialogs)
+
+library(miceadds)
+#install.packages("szuwalski/gmr")
+library(gmr)
+
+in_path<-"C:/gmacs-develop/gmr/R/"
+source.all( path=in_path, grepstring="\\.R",  print.source=TRUE, file_sep="__"  )
+
+# Source functions that need to be added to gmr
+source("Additional_functions.R")
+```
+
+\newpage
+
+```{r Define runs and versions, echo=F, message=FALSE, warning=FALSE, include=FALSE}
+
+# Species of interest
+.Spc <-c(
+  # "SMBKC"
+  "all"
+  # "WAG",
+  # "EAG"
+  )
+
+# Names of the GMACS version to consider for run
+.GMACS_version <- c(
+  "Dvpt_Version",
+  "Latest_Version"
+  )
+
+# Define directory
+# /!\ If the last assessment is used here, the directory for this 
+# folder will be: paste0(dirname(getwd()), "/Assessments/")
+
+.VERSIONDIR <- c(
+  paste0(getwd(), "/Dvpt_Version/"),
+  paste0(getwd(), "/Latest_Version/")
+)
+
+# Use Last Assessment for comparison?
+# If yes, you must provide the names of the model for each species in the variable .ASSMOD_NAMES
+# Those model folder must have to be hold in the folder Assessments
+.ASS <- FALSE
+
+# names of the model for the last assessment - Only useful if comparison is made.
+# if all stocks are considered they have to be ordered as follow:
+# "AIGKC/EAG" / "AIGKC/WAG" / "BBRKC" / "SMBKC" / "SNOW"
+.ASSMOD_NAMES <- NULL
+                # c("model_21_1e",
+                #   "model_21_1e",
+                #   "model_21_1",
+                #   "model_16_0",
+                #   "model_21_g")
+
+# Need to conpile the model?
+  # vector of length(.GMACS_version)
+  # 0: GMACS is not compiled. This assumes that an executable exists in the directory of the concerned version.
+  # 1: GMACS is compiles
+.COMPILE <- c(1,1)
+
+# Run GMACS
+.RUN_GMACS <- TRUE
+
+# Use latets available data for the assessment?
+.LastAssDat <- TRUE
+
+# Define the directories for ADMB
+.ADMBpaths <- "ADpaths.txt"
+
+
+# Do comparison?
+.MAKE_Comp <- TRUE
+
+# Show Rterminal
+.VERBOSE <- TRUE
+
+```
+
+```{r, echo=TRUE, results='asis'}
+
+res <- GMACS(
+  Spc = .Spc,
+  GMACS_version = .GMACS_version,
+  Dir = .VERSIONDIR,
+  ASS = .ASS,
+  AssMod_names = .ASSMOD_NAMES,
+  compile = .COMPILE,
+  run = .RUN_GMACS,
+  LastAssDat = .LastAssDat,
+  ADMBpaths = .ADMBpaths,
+  make.comp = .MAKE_Comp,
+  verbose <- .VERBOSE
+)
+
+```

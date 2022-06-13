@@ -1,0 +1,296 @@
+---
+author: "Matthieu VERON"
+date: "6/11/2022"
+output:
+    pdf_document:
+    fig_caption: yes
+    fig_height: 4
+    fig_width: 6
+header-includes:   
+-  \pagenumbering{gobble}
+number_sections: yes
+csl: fish-and-fisheries.csl
+toc: yes
+title: "A template to compare the latest version of GMACS with the last available assesment."
+---
+
+```{r setup, include=FALSE, echo = FALSE}
+knitr::opts_chunk$set(echo=FALSE,message=FALSE,warning=FALSE)
+rm(list = ls())
+
+
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+
+# Some functions used to run admb in R
+# install.packages("PBSadmb")
+library(PBSadmb)
+library(knitr)
+library(svDialogs)
+
+library(miceadds)
+#install.packages("szuwalski/gmr")
+library(gmr)
+in_path<-"C:/gmacs-develop/gmr/R/"
+source.all( path=in_path, grepstring="\\.R",  print.source=TRUE, file_sep="__"  )
+
+
+
+
+source("Additional_functions.R")
+
+```
+
+\newpage
+
+```{r Define runs and versions, echo=F, message=FALSE, warning=FALSE, include=FALSE}
+
+# Species of interest
+.Spc <-c(
+  # "all"
+  "EAG",
+  "WAG",
+  "BBRKC",
+  "SMBKC",
+  "SNOW_M_time_varying"
+  )
+
+# Names of the GMACS version to consider for run
+.GMACS_version <- c(
+  "Last_Assessment",
+  "Latest_Version"
+  )
+
+# Define directory
+.VERSIONDIR <- c(
+  paste0(dirname(getwd()), "/Assessments/"),
+  paste0(getwd(), "/Latest_Version/")
+)
+
+# Use Last Assessment for comparison?
+# If yes, you must provide the names of the model for each species in the variable .ASSMOD_NAMES
+# Those model folder must have to be hold in the folder Assessments
+.ASS <- TRUE
+
+# names of the model for the last assessment - Only useful if comparison is made.
+# if all stocks are considered they have to be ordered as follow:
+# "AIGKC/EAG" / "AIGKC/WAG" / "BBRKC" / "SMBKC" / "SNOW"
+.ASSMOD_NAMES <- c("model_21_1e",
+                   "model_21_1e",
+                   "model_21_1",
+                   "model_16_0",
+                   "model_21_g")
+
+# Need to conpile the model?
+  # vector of length(.GMACS_version)
+  # 0: GMACS is not compiled. This assumes that an executable exists in the directory of the concerned version.
+  # 1: GMACS is compiles
+.COMPILE <- c(0,0)
+
+# Run GMACS
+.RUN_GMACS <- FALSE
+
+# Use latets available data for the assessment?
+.LastAssDat <- TRUE
+
+# Define the directories for ADMB
+.ADMBpaths <- "ADpaths.txt"
+
+# Do comparison?
+.MAKE_Comp <- TRUE
+
+# Show Rterminal
+.VERBOSE <- FALSE
+
+```
+
+
+\newpage
+
+
+This document presents a comparison between the latest available assessment results and the latest available version of GMACS for all stocks currently assessed (or intended to be assessed) with the _**Generalized Assessment Model for Crustaceans**_.
+
+This comparison covers various quantities and includes graphs where useful. This includes:
+
+1. Management quantities for each version
+
+2. Estimated recruitment time series
+
+3. Estimated recruitment length distribution
+
+4. Model fit to the observed mature biomass
+
+5. Model fits to catch data (catch and bycatch)
+
+6. Model fits to size composition data (in catch and surveys)
+
+7. Model predicted fishing mortalities and selectivities for all sources of mortality
+
+8. Abundances of immature and mature crab in the last year
+
+
+The latest available version of GMACS is version 2.01.K - It was last compiled on 06/06/2022.
+Here is a summary of the latest changes from the version 2.01.J:
+
+  * Added an option to select how to calculate the average recruitment used in the computation of the reference points.
+  This involves to options:
+    1. Use an average recruitment over a given period of time, or
+    2. Consider the estimated average recruitment estimate for the current year.
+
+
+
+```{r, echo=FALSE, results='asis'}
+
+
+
+tables <-GMACS(Spc = .Spc, GMACS_version = .GMACS_version,
+        Dir = .VERSIONDIR,
+        ASS = .ASS,
+        AssMod_names = .ASSMOD_NAMES,
+        compile = .COMPILE,
+        run = .RUN_GMACS,
+        LastAssDat = .LastAssDat,
+        ADMBpaths = .ADMBpaths,
+        make.comp = .MAKE_Comp,
+        verbose <- .VERBOSE)
+# print(tables)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```
+
+
+
+\newpage
+
+# A.  Aleutian Islands Golden King Crab (AIGKC; *Lithodes aequispinus*) Stock Assessments
+## west of 174° W longitude (WAG)
+### Management quantities for each version
+### Estimated recruitment time series
+### Estimated recruitment length distribution
+### Model fit to the observed mature biomass
+### Model fits to catch data (catch and bycatch)
+### Model fits to size composition data (in catch and surveys)
+### Model predicted fishing mortalities and selectivities for all sources of mortality
+### Abundances of immature and mature crab in the last year
+
+## East of 174° W longitude (EAG)
+### Management quantities for each version
+### Estimated recruitment time series
+### Estimated recruitment length distribution
+### Model fit to the observed mature biomass
+### Model fits to catch data (catch and bycatch)
+### Model fits to size composition data (in catch and surveys)
+### Model predicted fishing mortalities and selectivities for all sources of mortality
+### Abundances of immature and mature crab in the last year
+
+
+# B.  Saint Matthew Island Blue King Crab (SMBKC; *Paralithodes platypus*) Stock Assessment
+### Management quantities for each version
+### Estimated recruitment time series
+### Estimated recruitment length distribution
+### Model fit to the observed mature biomass
+### Model fits to catch data (catch and bycatch)
+### Model fits to size composition data (in catch and surveys)
+### Model predicted fishing mortalities and selectivities for all sources of mortality
+### Abundances of immature and mature crab in the last year
+
+
+# C.  Bristol Bay Red King Crab (BBRKC; *Paralithodes camtschaticus*) Stock Assessment
+### Management quantities for each version
+### Estimated recruitment time series
+### Estimated recruitment length distribution
+### Model fit to the observed mature biomass
+### Model fits to catch data (catch and bycatch)
+### Model fits to size composition data (in catch and surveys)
+### Model predicted fishing mortalities and selectivities for all sources of mortality
+### Abundances of immature and mature crab in the last year
+
+
+# D.  Snow crab (*Chionoecetes opilio*) Stock Assessment
+### Management quantities for each version
+### Estimated recruitment time series
+### Estimated recruitment length distribution
+### Model fit to the observed mature biomass
+### Model fits to catch data (catch and bycatch)
+### Model fits to size composition data (in catch and surveys)
+### Model predicted fishing mortalities and selectivities for all sources of mortality
+### Abundances of immature and mature crab in the last year
+
+
+# E.  Tanner Crab (*Chionoecetes bairdi*)
+### Management quantities for each version
+### Estimated recruitment time series
+### Estimated recruitment length distribution
+### Model fit to the observed mature biomass
+### Model fits to catch data (catch and bycatch)
+### Model fits to size composition data (in catch and surveys)
+### Model predicted fishing mortalities and selectivities for all sources of mortality
+### Abundances of immature and mature crab in the last year
+
+
+# F.  Norton Sound Red King Crab Stock Assessment (*Paralithodes camtschaticus*)
+### Management quantities for each version
+### Estimated recruitment time series
+### Estimated recruitment length distribution
+### Model fit to the observed mature biomass
+### Model fits to catch data (catch and bycatch)
+### Model fits to size composition data (in catch and surveys)
+### Model predicted fishing mortalities and selectivities for all sources of mortality
+### Abundances of immature and mature crab in the last year
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

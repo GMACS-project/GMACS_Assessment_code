@@ -1,3 +1,4 @@
+# ----------------------------
 .get_cpue_df <- function(M)
 {
   n   <- length(M)
@@ -27,14 +28,7 @@
   return(mdf)
 }
 
-
-
-
-
-
-
-
-
+# ----------------------------
 .get_catch_df <- function(M)
 {
   n <- length(M)
@@ -70,13 +64,7 @@
   return(mdf)
 }
 
-
-
-
-
-
-
-
+# ----------------------------
 plot_selectivity <- function(M,
          xlab = "Mid-point of size class (mm)",
          ylab = "Selectivity",
@@ -125,15 +113,7 @@ plot_selectivity <- function(M,
   print(p )
 }
 
-
-
-
-
-
-
-
-
-
+# ----------------------------
 plot_recruitment <- function(M, xlab = "Year", ylab = "Recruitment (millions of individuals)")
 {
   xlab <- paste0("\n", xlab)
@@ -160,8 +140,6 @@ plot_recruitment <- function(M, xlab = "Year", ylab = "Recruitment (millions of 
   {
     
   }
-  
-  
   p <- p + labs(x = xlab, y = ylab)
   if (!.OVERLAY) p <- p + facet_wrap(~Model)
   if (length(unique(mdf$sex)) > 1) p <- p + facet_wrap(~sex, ncol = 1)
@@ -184,14 +162,7 @@ plot_recruitment <- function(M, xlab = "Year", ylab = "Recruitment (millions of 
   print(p + .THEME)
 }
 
-
-
-
-
-
-
-
-
+# ----------------------------
 plot_selectivity_mod <- function(
          M,
          xlab = "Mid-point of size class (mm)",
@@ -236,3 +207,5 @@ plot_selectivity_mod <- function(
   
   print(p )
 }
+
+# ----------------------------

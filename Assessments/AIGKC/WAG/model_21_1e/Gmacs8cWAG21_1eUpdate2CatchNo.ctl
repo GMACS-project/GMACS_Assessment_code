@@ -191,12 +191,8 @@
 ## lb meanF, ub meanF,lbannualmaleF(F_dev), ubannual maleF(F_dev),lbannualfemaleF(F_dev), ubannual femaleF(F_dev)
 ## BBRKC uses STD_PHZ1=0.5 STD_PHZ2=45.5
 ## Mean_F    Fema-Offset   STD_PHZ1 STD_PHZ2 PHZ_M PHZ_F    Lb      Ub     Lb     Ub      Lb    Ub
-#    0.487826676       0.0        3.0    15.0     2    -1     -12      4    -10     10     -10    10   # 
-#    0.00027863       0.0        4.0    15.0     2    -1     -12      4    -10     10     -10    10   # 
-#
-    0.487826676       0.0        3.0    15.0     2    -1     -12      5    -10     10     -10    10   # 
-    0.00027863       0.0        4.0    15.0     2    -1     -12      5    -10     10     -10    10   # 
-#
+    0.487826676       0.0        3.0    15.0     2    -1     -12      4    -10     10     -10    10   # 
+    0.00027863       0.0        4.0    15.0     2    -1     -12      4    -10     10     -10    10   # 
 ##  ————————————————————————————————————————————————————————————————————————————————————##
 ## OPTIONS FOR SIZE COMPOSTION DATA                                                     ##
 ##     One column for each data matrix                                                  ##
@@ -275,7 +271,6 @@
 # 
 1960       # First year of recruitment estimation,rec_dev. There is a difference in timing between Gmacs and my model, EAG 21_1a first rec_dev is 1961 and last rec_dev 2021
 2021       # last year of recruitment estimation, rec_dev
-   0	   # Terminal molting (0 = off, 1 = on). If on, the calc_stock_recruitment_relationship() isn't called in the procedure
    1       # phase for recruitment estimation,earlier -1. rec_dev estimation phase, BBRKC uses 2
   -2       # phase for recruitment sex-ratio estimation
   0.5      # Initial value for Expected sex-ratio
@@ -287,7 +282,6 @@
    10      # Maximum phase (stop the estimation after this phase), 10  Maximum phase. If you put 1 it  will stop after phase 1
    -1      # Maximum number of function calls, if 1, stop at fn 1 call; if -1, run as long as it takes 
    1       # Calculate reference points (0=no)
-   1	   # Use years specified to computed average sex ratio in the calculation of average recruitment for reference points (0 = off -i.e. Rec based on End year, 1 = on)
    200     # Year to compute equilibria
 ## EMPHASIS FACTORS (CATCH)
 #ret_male  tot_male   Groundfish 

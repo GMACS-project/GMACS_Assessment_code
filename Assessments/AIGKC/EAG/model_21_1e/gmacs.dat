@@ -1,0 +1,18 @@
+###datafile
+gmacs7cWAG21_1aUpdate2CatchNo.dat
+# controlfile
+gmacs7cWAG21_1aUpdate2CatchNo.ctl
+# projectfile
+gmacs7cWAG21_1aUpdate2CatchNo.prj
+# Jitter specs (1= yes; SD)
+0 0.1
+# Output variances of (1=Yes)
+1   # Reference points
+0   # Recruits
+0   # SSB
+0   # Fbar
+0   # OutDynB0
+# Retrospective
+0
+# EOF
+9999

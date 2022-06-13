@@ -1,4 +1,4 @@
-#  WAG21_1e Update2
+#  EAG21_1e Update2
 #  ——————————————————————————————————————————————————————————————————————————————————————  #
 #  Controls  for  leading  parameter  vector  theta
 #  LEGEND  FOR  PRIOR:
@@ -10,7 +10,7 @@
 # ival      lb     ub       phz   prior   p1      p2      # parameter         #
 # —————————————————————————————————————————————————————————————————————————————————————— #
   0.21      0.01   1.0      -3     2     0.18    0.04      # M
- 7.569555623 -10.0 20.0   1    0    -10.0    20.0      # ln R0, logarithm of unfished recruits, from my model
+ 7.793810659  -10.0 20.0   1    0    -10.0    20.0      # ln R0, logarithm of unfished recruits, from my model
  
  12.0       -10.0   20.0     -3    0    -10.0    20.0      # ln Rini, logarithm of initial recruitment(syr)
 
@@ -18,7 +18,7 @@
 
  110.0      103.0  165.0     -2    1     72.5    7.25      # (earlier estimated)recruitment expected value, ra, Expected value of recruitment distribution 
  
- 0.961318631  0.001  20.0    3    0     0.1     5.0    ##1 (any run change after first gmacs run0 recruitment scale (variance component), rbeta, rate parameter for recruitment distribution
+ 15.183067602  0.001  20.0    3    0     0.1     5.0    ##1 ( any run change after first gmacs run0 recruitment scale (variance component), rbeta, rate parameter for recruitment distribution
  
   -0.693147181 -10.0   0.75   -1    0   -10.0     0.75      # ln (SigmaR), where sigmaR is 0.5,standard deviation of recruitment deviations, used in the LH of rec_dev
  
@@ -69,11 +69,11 @@
 ## ———————————————————————————————————————————————————————————————————————————————————— ##
 # ival        lb        ub     phz   prior      p1      p2         # parameter         #
 # —————————————————————————————————————————————————————————————————————————————————————— #
-    25.196667522   10.0    50.0    7       0       0.0    20.0   # alpha, a-b, converted from my base par result, from my model 
-    0.090287711   -0.4    20.0     7       0       0.0    10.0   # beta, b/meanL, converted from my base par result, from my model 
-   3.667971226   0.01    5.0      7       0       0.0     3.0   # growth scale, standard deviation of the normal distribution, from my model 
-   141.100064775  65.0   165.0    7       0       0.0    999.0  #  moult mu, my base par L50, from my model 
-   0.102920636  -0.1      2.0     7       0       0.0     2.0   # moult cv, moultL50 cv 1/(a*L50), from my model 
+    26.530599454   10.0    50.0    7       0       0.0    20.0   # alpha, a-b, converted from my base par result, from my model 
+   0.099439238   -0.4    20.0     7       0       0.0    10.0   # beta, b/meanL, converted from my base par result, from my model 
+   3.704001935   0.01    5.0      7       0       0.0     3.0   # growth scale, standard deviation of the normal distribution, from my model 
+   141.030388205  65.0   165.0    7       0       0.0    999.0  #  moult mu, my base par L50, from my model 
+   0.075056320  -0.1      2.0     7       0       0.0     2.0   # moult cv, moultL50 cv 1/(a*L50), from my model 
  # ———————————————————————————————————————————————————————————————————————————————————— ##
 
 # The custom growth-increment matrix
@@ -111,8 +111,8 @@
        2         6                      # male retention type model (flat equal to one, 1 parameter)
        1         0                      # male retention flag (0 = no, 1 = yes)
        0         0                      # extra
+# AEPAEP
        1         1 	      		# determines if maximum selectivity at size is forced to equal 1 or not
-
 ##  ————————————————————————————————————————————————————————————————————————————————————##
 ##  Selectivity  P(capture  of  all  sizes)
 ## ———————————————————————————————————————————————————————————————————————————————————— ##
@@ -120,10 +120,10 @@
 # index index par sex  ival      lb    ub   prior    p1     p2    mirror period period  ##
 ## ———————————————————————————————————————————————————————————————————————————————————— ##
 ## Gear-1
-   1     1     1   0  134.901126827 105.0 180.0   0   100.0  190.0     3     1960   2004 #set sex 0 for male only fishery, from my model  
-   1     2     2   0  18.431613644  0.01   20.0   0     0.1   50.0     3     1960   2004 # from my model 
-   1     3     1   0  134.436890424 105.0 180.0   0   100.0  190.0     3     2005   2021 # from my model  
-   1     4     2   0   7.435698766  0.01   20.0   0     0.1   50.0     3     2005   2021 # from my model 
+   1     1     1   0  82.051523026 105.0 180.0   0   100.0  190.0     3     1960   2004 #set sex 0 for male only fishery, from my model  
+   1     2     2   0  0.916889514  0.01   40.0   0     0.1   50.0     3     1960   2004 # ub increased from 20. to 40.from my model 
+   1     3     1   0  133.718440941 105.0 180.0   0   100.0  190.0     3     2005   2021 # from my model  
+   1     4     2   0   8.126894567  0.01   20.0   0     0.1   50.0     3     2005   2021 # from my model 
                       
 # Gear-2  
    2     5     1   0    1.00      0.99  1.02   0     10.0  200.0   -3     1960   2021
@@ -133,8 +133,8 @@
 ## gear  par   sel                                                     phz    start  end        
 # index index par sex  ival        lb    ub     prior   p1     p2     mirror period period   
 # Gear-1
- -1      6    1   0   136.009505623  105.0  180.0  0      100.0  190.0    3     1960   2021 # from my model 
- -1      7    2   0    1.869278156   0.0001  20.0  0      0.1    50.0     3     1960   2021 # from my model 
+ -1      6    1   0   136.203128755  105.0  180.0  0      100.0  190.0    3     1960   2021 # from my model 
+ -1      7    2   0    2.121540047   0.0001  20.0  0      0.1    50.0     3     1960   2021 # from my model 
                                           
 # Gear-2
  -2      8    1   0    1.00         0.99   1.01  0       10.0   200.0    -3     1960   2021
@@ -160,9 +160,9 @@
 ## 1= analytic), 
 ## Lambda =multilier for iput CV, Emphasis = multiplier for likelihood 
 ##  ival       lb         ub    phz    prior   p1         p2     Analytic?   LAMBDA   Emphasis
- 0.001038534  0.0000001   0.01   1      0      0.0     1.0      0           1       1   # observer cpue index 1995-2004
- 0.001080062  0.0000001   0.01   1      0      0.0     1.0      0           1       1   # observer cpue index 2005-2021 
- 0.000674553   0.0000001  0.01   1      0      0.0     1.0      0           1       1   # fishery cpue index 1985-1998
+ 0.000393337  0.0000001   0.01   1      0      0.0     1.0      0           1       1   # observer cpue index 1995-2004
+ 0.000313924  0.0000001   0.01   1      0      0.0     1.0      0           1       1   # observer cpue index 2005-2021 
+ 0.000369687   0.0000001  0.01   1      0      0.0     1.0      0           1       1   # fishery cpue index 1985-1998
     
 ## if a uniform prior is specified then use lb and ub rather than p1 and p2
 ##  ————————————————————————————————————————————————————————————————————————————————————##
@@ -173,9 +173,9 @@
 ##     prior type: 0 = uniform, 1 = normal, 2 = lognormal, 3 = beta, 4 = gamma          ##
 ## ———————————————————————————————————————————————————————————————————————————————————— ##
 ##  ival          lb        ub    phz   prior   p1    p2
- 0.000172920   0.0000001    0.5     6     0      0.5   100  # obs CPUE additional CV adjusted for abundance in 1000s
- 0.000082029   0.0000001    0.5     6     0      0.5   100  # obs CPUE additional CV adjusted for abundance in 1000s
- 0.000140039   0.0000001    0.5     6     0      0.5   100  # fishery CPUE additional CV adjusted for abundance in 1000s
+ 0.000162542   0.0000001    0.5     6     0      0.5   100  # obs CPUE additional CV adjusted for abundance in 1000s
+ 0.000152979   0.0000001    0.5    6     0      0.5   100  # obs CPUE additional CV adjusted for abundance in 1000s
+ 0.000230704   0.0000001    0.5      6     0      0.5   100  # fishery CPUE additional CV adjusted for abundance in 1000s
 
 ### Pointers to how the the additional CVs are used (0 ignore; >0 link to one of the parameters
 1 2 3
@@ -191,12 +191,8 @@
 ## lb meanF, ub meanF,lbannualmaleF(F_dev), ubannual maleF(F_dev),lbannualfemaleF(F_dev), ubannual femaleF(F_dev)
 ## BBRKC uses STD_PHZ1=0.5 STD_PHZ2=45.5
 ## Mean_F    Fema-Offset   STD_PHZ1 STD_PHZ2 PHZ_M PHZ_F    Lb      Ub     Lb     Ub      Lb    Ub
-#    0.487826676       0.0        3.0    15.0     2    -1     -12      4    -10     10     -10    10   # 
-#    0.00027863       0.0        4.0    15.0     2    -1     -12      4    -10     10     -10    10   # 
-#
-    0.487826676       0.0        3.0    15.0     2    -1     -12      5    -10     10     -10    10   # 
-    0.00027863       0.0        4.0    15.0     2    -1     -12      5    -10     10     -10    10   # 
-#
+    0.262545356       0.0        3.0    15.0     2    -1     -12      4    -10     10     -10    10   # 
+    0.000202008       0.0        4.0    15.0     2    -1     -12      4    -10     10     -10    10   # 
 ##  ————————————————————————————————————————————————————————————————————————————————————##
 ## OPTIONS FOR SIZE COMPOSTION DATA                                                     ##
 ##     One column for each data matrix                                                  ##
@@ -220,8 +216,8 @@
    # AEPAEP
    1   1          # Set to 2 for survey-like predictions; 1 for catch-like predictions
    # AEPAEP
-   0.41228506640625 0.5453007578125  # Emphasis AEP for Dritchlet (Ret, Tot, multiplier of stage1 ESS)
-   1   1         # LAMBDA 0 to ignore the length comp
+   0.59264415625  0.4694576875  # Emphasis AEP for Dritchlet (Ret, Tot, multiplier of stage1 ESS)
+    1   1         # LAMBDA 0 to ignore the length comp
   ##  ——————————————————————————————————————————————————————————————————————————————————  ##
 
 ##  TIME  VARYING  NATURAL  MORTALIIY  RATES  ##
@@ -258,24 +254,23 @@
 ##  TAGGING controls  CONTROLS
 ##  ———————————————————————————————————————————————————————————————————————————————————— ##
  1          # emphasis on tagging data (1 =use tag LH, 0=ignore)
-
 ## ———————————————————————————————————————————————————————————————————————————————————— ##	
-## Maturity specific natural mortality
-## AEP
+## Maturity specific natural mortality  
+### AEP
 ## ———————————————————————————————————————————————————————————————————————————————————— ##	
 # maturity specific natural mortality? (yes = 1; no = 0; only for use if nmature > 1)
-0																				
+ 0																				
 ## ——————————————————————————————————————————————————————————————————————————————————————————— ##																					
 ## 	ival        lb		ub		phz		prior	p1		p2         # parameter     ##																					
 ## ——————————————————————————————————————————————————————————————————————————————————————————— ##																					
 	0	    -1		1		-1		0	 1		1		
+##  ———————————————————————————————————————————————————————————————————————————————————— ##
 ##  ———————————————————————————————————————————————————————————————————————————————————— ##
 ##  OTHER  CONTROLS
 ##  ———————————————————————————————————————————————————————————————————————————————————— ##
 # 
 1960       # First year of recruitment estimation,rec_dev. There is a difference in timing between Gmacs and my model, EAG 21_1a first rec_dev is 1961 and last rec_dev 2021
 2021       # last year of recruitment estimation, rec_dev
-   0	   # Terminal molting (0 = off, 1 = on). If on, the calc_stock_recruitment_relationship() isn't called in the procedure
    1       # phase for recruitment estimation,earlier -1. rec_dev estimation phase, BBRKC uses 2
   -2       # phase for recruitment sex-ratio estimation
   0.5      # Initial value for Expected sex-ratio
@@ -287,8 +282,7 @@
    10      # Maximum phase (stop the estimation after this phase), 10  Maximum phase. If you put 1 it  will stop after phase 1
    -1      # Maximum number of function calls, if 1, stop at fn 1 call; if -1, run as long as it takes 
    1       # Calculate reference points (0=no)
-   1	   # Use years specified to computed average sex ratio in the calculation of average recruitment for reference points (0 = off -i.e. Rec based on End year, 1 = on)
-   200     # Year to compute equilibria
+   200     ### Year to compute equilibria
 ## EMPHASIS FACTORS (CATCH)
 #ret_male  tot_male   Groundfish 
         4       2          1
@@ -299,9 +293,11 @@
 
 ## EMPHASIS FACTORS (Priors)
 ##                                                             
+# Log_fdevs   meanF       Mdevs  Rec_devs Initial_devs Fst_dif_dev Mean_sex-Ratio  Fvecs Fdovs
+#         0       0         0.0         2            0         0           0          1     0       #
+# AEP
 # Log_fdevs   meanF       Mdevs  Rec_devs Initial_devs Fst_dif_dev Mean_sex-Ratio  Molt_prob	Free selectivity	Init_n_at_len Fvecs Fdovs
-         0       0         0.0         2            0         0           0                0                   0                    0     1     0       #
-
+	  0       0         0.0         2            0         0           0                0                   0                    0     1     0       #
 ##  EOF
 9999
 

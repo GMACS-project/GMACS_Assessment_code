@@ -1,0 +1,72 @@
+---
+author: "Matthieu VERON"
+date: "Last compiled on `r format(Sys.time(), '%d %B, %Y')`"
+output:
+    pdf_document:
+    fig_caption: yes
+    fig_height: 4
+    fig_width: 6
+header-includes:   
+-  \pagenumbering{gobble}
+number_sections: yes
+csl: fish-and-fisheries.csl
+toc: yes
+title: "A file to update and release a new version of GMACS."
+---
+
+```{r setup, include=FALSE, echo = FALSE}
+knitr::opts_chunk$set(echo=FALSE,message=FALSE,warning=FALSE)
+rm(list = ls())
+
+
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+
+# Some functions used to run admb in R
+# install.packages("PBSadmb")
+library(PBSadmb)
+library(knitr)
+library(svDialogs)
+
+library(miceadds)
+#install.packages("szuwalski/gmr")
+library(gmr)
+in_path<-"C:/gmacs-develop/gmr/R/"
+source.all( path=in_path, grepstring="\\.R",  print.source=TRUE, file_sep="__"  )
+
+
+
+
+source("Additional_functions.R")
+source("UpdateGMACS_function.R")
+
+```
+
+
+# Compile the new version
+
+
+```{r Check the compilation of the new version, echo=T, message=FALSE, warning=FALSE, include=FALSE}
+
+# Define the directories for ADMB
+.ADMBpaths <- "ADpaths.txt"
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

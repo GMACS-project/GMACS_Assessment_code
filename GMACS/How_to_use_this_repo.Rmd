@@ -2,11 +2,11 @@
 title: "A basic workflow for using the GMACS repository for developpers"
 author: "Matthieu VERON"
 date: "Last compiled on `r format(Sys.time(), '%d %B, %Y')`"
-output:
-  word_document:
-    number_section: yes
+output:  
   html_notebook:
     number_sections: yes
+  word_document:
+    number_section: yes
   pdf_document:
     number_sections: yes
 ---
@@ -50,11 +50,14 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-This document is intended to give you "guidelines and generic steps" to follow when working on GMACS and release a new version. Its aims are to show you how to use this Github repository to modify GMACS while tracking code changes. The idea here is to make this workflow easy to follow so we will work with Github with no command-line interface using the graphical interface for Git *[Github Desktop]*.
+This document is intended to give you "guidelines and generic steps" to follow when working on GMACS and releasing a new version. Its aims are to show you how to use the GMACS Github repository to modify GMACS while tracking code changes. The idea is to make this workflow easy to follow so we will work with Github without the command-line interface using the graphical interface for Git *[Github Desktop]*.
 
-We assume you already know how to use Rstudio with projects. If you have never used Github (and/or Githhub Desktop) with Rstudio, you can see the following online workshops: the ["Happy Git and Github for the useR"] from *Jenny Brian* and the [R Workflow] workshop from *Elizabeth Holmes*.
+We assume you already know how to use Rstudio with projects. If you have never used Github (and/or Githhub Desktop) with Rstudio, you can find out more from the following online workshops: the ["Happy Git and Github for the useR"] from *Jenny Brian* and the [R Workflow] workshop from *Elizabeth Holmes*.
 
-Throughout this document, we will use a number of `R` code to update a new version of GMACS. The functions used are available in the [`gmr`] package which will be useful for working with gmacs. This package is available on the organization's repository. To get it install you will need the [`devtools`] package. In the course of this document we will also need different packages to use AD Model Builder ([ADMB]) to compile and build the GMACS executable.
+Throughout this document, we will use `R` code to update to a new version of GMACS. The functions used are available in the [`gmr`] package, which is useful for working with GMACS. This package is available on the repository. To get it installed you will need the [`devtools`] package. 
+
+
+In the course of this document, we will also need various packages required to i) call AD Model Builder ([ADMB]) in `R` (to compile and build the GMACS executable), ii) .
 
 As the repository is private, you will have to set your credentials in R to be able to download the package.
 The following code help you to do this. Please use the address of your Github account (the one that gives you access to the organization's repository in Github).

@@ -100,7 +100,7 @@ addText <- function(path=NULL, add.text=NULL, spec.loc=NULL,
     
     if(is.null(end.doc)==FALSE && isTRUE(end.doc)){
       
-      res <- tryCatch(length(readLines(path))+1, warning=function(w)w)
+      res <- tryCatch(length(readLines(path))+1, warning = function(w)w)
       if(inherits(res,"warning")) rstudioapi::insertText(c(Inf,2), text = " \n",id = id)
       
       

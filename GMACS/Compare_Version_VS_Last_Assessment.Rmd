@@ -34,8 +34,6 @@ in_path<-"C:/gmacs-develop/gmr/R/"
 source.all( path=in_path, grepstring="\\.R",  print.source=TRUE, file_sep="__"  )
 
 
-
-
 source("Additional_functions.R")
 
 ```

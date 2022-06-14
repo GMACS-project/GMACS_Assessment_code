@@ -55,7 +55,7 @@
 // Label 700: write_eval
 DATA_SECTION
 
- !! TheHeader =  adstring("## GMACS Version 2.01.K - MERGED CODE; Previous compilation on:  2022-06-06; Last compilation on:  2022-06-13 14:16:24");
+!! TheHeader =  adstring("## GMACS Version 2.01.K; Compiled 2022-06-13 22:18:15");
 
 //-------------------------------
 // Sandbox for testing functions |

@@ -1,0 +1,682 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\title{A basic workflow for using the GMACS repository for developpers}
+\author{Matthieu VERON}
+\date{Last compiled on 13 June, 2022}
+
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={A basic workflow for using the GMACS repository for developpers},
+  pdfauthor={Matthieu VERON},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\begin{document}
+\maketitle
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+This document is intended to give you ``guidelines and generic steps''
+to follow when working on GMACS and release a new version. Its aims are
+to show you how to use this Github repository to modify GMACS while
+tracking code changes. The idea here is to make this workflow easy to
+follow so we will work with Github with no command-line interface using
+the graphical interface for Git
+\emph{\href{https://desktop.github.com/}{Github Desktop}}.
+
+We assume you already know how to use Rstudio with projects. If you have
+never used Github (and/or Githhub Desktop) with Rstudio, you can see the
+following online workshops: the
+\href{https://happygitwithr.com/}{``Happy Git and Github for the useR''}
+from \emph{Jenny Brian} and the
+\href{https://rverse-tutorials.github.io/RWorkflow-NWFSC-2021/index.html}{R
+Workflow} workshop from \emph{Elizabeth Holmes}.
+
+Throughout this document, we will use a number of \texttt{R} code to
+update a new version of GMACS. The functions used are available in the
+\href{https://github.com/GMACS-project/gmr}{\texttt{gmr}} package which
+will be useful for working with gmacs. This package is available on the
+organization's repository. To get it install you will need the
+\href{https://www.r-project.org/nosvn/pandoc/devtools.html}{\texttt{devtools}}
+package. In the course of this document we will also need different
+packages to use AD Model Builder
+(\href{https://www.admb-project.org/}{ADMB}) to compile and build the
+GMACS executable.
+
+As the repository is private, you will have to set your credentials in R
+to be able to download the package. The following code help you to do
+this. Please use the address of your Github account (the one that gives
+you access to the organization's repository in Github).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\NormalTok{.pack }\OtherTok{\textless{}{-}} \StringTok{"gmr"}
+\NormalTok{.DirSrc }\OtherTok{\textless{}{-}} \StringTok{"GMACS{-}project/gmr"}
+\NormalTok{.Username }\OtherTok{\textless{}{-}} \StringTok{""}                     \CommentTok{\# the name of your Github}
+\NormalTok{.UserEmail}\OtherTok{\textless{}{-}} \StringTok{""}        \CommentTok{\# Your email address associated to your Github account}
+
+\CommentTok{\# Remove the package if you already got it installed on your computer}
+\FunctionTok{remove.packages}\NormalTok{(.pack, }\AttributeTok{lib=}\StringTok{"\textasciitilde{}/R/win{-}library/4.1"}\NormalTok{)}
+
+\CommentTok{\# Set config}
+\NormalTok{usethis}\SpecialCharTok{::}\FunctionTok{use\_git\_config}\NormalTok{(}\AttributeTok{user.name =}\NormalTok{ .Username, }\AttributeTok{user.email =}\NormalTok{ .UserEmail)}
+
+\CommentTok{\# Go to github page to generate token}
+\NormalTok{usethis}\SpecialCharTok{::}\FunctionTok{create\_github\_token}\NormalTok{() }
+
+\CommentTok{\# Paste your PAT into pop{-}up that follows...}
+\NormalTok{credentials}\SpecialCharTok{::}\FunctionTok{set\_github\_pat}\NormalTok{()}
+
+\CommentTok{\# Now remotes::install\_github() will work}
+\NormalTok{devtools}\SpecialCharTok{::}\FunctionTok{install\_github}\NormalTok{(.DirSrc)}
+\end{Highlighting}
+\end{Shaded}
+
+The following code proceeds the installation of the \texttt{{[}gmr{]}}
+package on your machine and load the various libraries.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{rm}\NormalTok{(}\AttributeTok{list=}\FunctionTok{ls}\NormalTok{())     }\CommentTok{\# Clean your R session}
+
+\CommentTok{\# Set the working directory as the directory of this document{-}{-}{-}{-}}
+\FunctionTok{setwd}\NormalTok{(}\FunctionTok{dirname}\NormalTok{(rstudioapi}\SpecialCharTok{::}\FunctionTok{getActiveDocumentContext}\NormalTok{()}\SpecialCharTok{$}\NormalTok{path))}
+\CommentTok{\# check your directory}
+\FunctionTok{getwd}\NormalTok{()}
+
+\CommentTok{\# Get installed devtools to be able to install the gmr package{-}{-}{-}{-}}
+\FunctionTok{install.packages}\NormalTok{(}\StringTok{"devtools"}\NormalTok{)                      }\CommentTok{\# install devtools}
+\NormalTok{devtools}\SpecialCharTok{::}\FunctionTok{install\_github}\NormalTok{(}\StringTok{"GMACS{-}project/gmr"}\NormalTok{)       }\CommentTok{\# install devtools}
+
+\CommentTok{\# Install and load the packages{-}{-}{-}{-}}
+
+\FunctionTok{library}\NormalTok{(gmr)}
+\FunctionTok{install.packages}\NormalTok{(}\StringTok{"miceadds"}\NormalTok{)                      }\CommentTok{\# install miceadds}
+\FunctionTok{library}\NormalTok{(miceadds)}
+\FunctionTok{install.packages}\NormalTok{(}\StringTok{"PBSadmb"}\NormalTok{)                       }\CommentTok{\# install PBSadmb}
+\FunctionTok{library}\NormalTok{(PBSadmb)}
+\FunctionTok{install.packages}\NormalTok{(}\StringTok{"knitr"}\NormalTok{)                         }\CommentTok{\# install knitr}
+\FunctionTok{library}\NormalTok{(knitr)}
+\CommentTok{\# install.packages("svDialogs")                     \# install svDialogs}
+\FunctionTok{library}\NormalTok{(svDialogs)}
+
+
+
+\CommentTok{\# Source additional functions {-} They will be add to gmr latter}
+\FunctionTok{source}\NormalTok{(}\StringTok{"Additional\_functions.R"}\NormalTok{)}
+\FunctionTok{source}\NormalTok{(}\StringTok{"GetGmacsExe.R"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{Codes} in this document are summarized in a clean and runnable
+\texttt{.R} script
+(\href{https://github.com/GMACS-project/GMACS_Assessment_code/blob/main/GMACS/UpdateGMACS.R}{UpdateGMACS.R})
+which you should use whenever you want to release a new version of
+GMACS. This R script will guide you through all the steps of the
+procedure making the GMACS upgrade process easier and more transparent.
+
+\hypertarget{set-up-for-using-this-workflow}{%
+\section{Set-up for using this
+workflow}\label{set-up-for-using-this-workflow}}
+
+As a member of the
+\href{https://github.com/GMACS-project}{GMACS-project} organization, you
+probably already have a \href{https://github.com/}{Github} account; if
+not, you will need one if you want to work with this repository and
+potentially act as an active developer. You will also need to get
+installed R (or Rstudio) and Github Desktop on your computer. Below are
+the links to install these programs:
+
+\begin{itemize}
+\tightlist
+\item
+  Install \href{https://cran.r-project.org/}{R}
+\item
+  Install
+  \href{https://www.rstudio.com/products/rstudio/download/}{Rstudio}
+\item
+  Install \href{https://desktop.github.com/}{Github Desktop}
+\end{itemize}
+
+If you want to link your R/Rstudio to your Github account so that you
+can push your changes from Rstudio directly to Github, please refer to
+the two workshops listed above. I will not cover this topic in this
+document.
+
+\hypertarget{lets-get-the-gmacs_assessment_code-repository-on-your-computer}{%
+\section{\texorpdfstring{Let's get the \emph{GMACS\_Assessment\_code}
+repository on your
+computer}{Let's get the GMACS\_Assessment\_code repository on your computer}}\label{lets-get-the-gmacs_assessment_code-repository-on-your-computer}}
+
+I am going to show you a workflow to get the
+\href{https://github.com/GMACS-project/GMACS_Assessment_code}{GMACS\_Assessment\_code}
+repository on your computer. Here, you have two options:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  You want to contribute to the development of GMACS: you will therefore
+  need to \protect\hyperlink{Fork-repo}{\textbf{fork}} the repository to
+  be able to directly push up changes to GMACS to the organization's
+  repository.
+\item
+  You only want to \protect\hyperlink{Copy-repo}{\textbf{clone}} the
+  repository of the organization and modify it to your liking without
+  pushing up modifications to the repository of the organization. In
+  this case, you will not contribute directly to the development of
+  GMACS.
+\end{enumerate}
+
+\hypertarget{Fork-repo}{%
+\subsection{\texorpdfstring{Fork the
+\href{https://github.com/GMACS-project/GMACS_Assessment_code}{GMACS\_Assessment\_code}
+repository}{Fork the GMACS\_Assessment\_code repository}}\label{Fork-repo}}
+
+By \textbf{\emph{forking}} this repository, you will be able to
+contribute to the organization's repository. If you just want to copy it
+and then modify it for your own purpose on you computer, please follow
+the steps described in the \protect\hyperlink{Copy-repo}{Copy a
+GMACS-project repository} section.
+
+\textbf{Warning:} \emph{the following workflow will provide you with
+``real'' access to the GMACS repository. Therefore, any changes you may
+make to this repository can become ``permanent''. Please, never delete
+an important file or folder if you are not sure. Thank you.}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  In Github Desktop, click \emph{File \textgreater{} Clone Repository}
+\item
+  In the \emph{``Clone a repository''} popup window, chose the URL tab
+  and paste the GMACS\_Assessment\_code repository url.
+\item
+  Check the selected folder in the local path and click \texttt{Clone}.
+\end{enumerate}
+
+You are now ready to make some changes to GMACS, commit them and push up
+them to the organization repository. You can also create a new RStudio
+project in the folder holding the
+\href{https://github.com/GMACS-project/GMACS_Assessment_code}{GMACS\_Assessment\_code}
+repository on your computer and start to work with GMACS outputs.
+
+\hypertarget{Copy-repo}{%
+\subsection{\texorpdfstring{Clone the
+\href{https://github.com/GMACS-project/GMACS_Assessment_code}{GMACS\_Assessment\_code}
+repository}{Clone the GMACS\_Assessment\_code repository}}\label{Copy-repo}}
+
+Here I show you how to copy the
+\href{https://github.com/GMACS-project/GMACS_Assessment_code}{GMACS\_Assessment\_code}
+repository on your computer. By following these steps, you will not be
+able to contribute to the
+\href{https://github.com/GMACS-project}{GMACS-project} organisation but
+you will have the possibility to adapt this repository for your purpose
+without fear of impacting the organization's repository. Below are the
+steps to follow:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Get and copy the
+  \href{https://github.com/GMACS-project/GMACS_Assessment_code}{url} of
+  the
+  \href{https://github.com/GMACS-project/GMACS_Assessment_code}{GMACS\_Assessment\_code}
+  repository.
+\item
+  Go to you Github account. It should be github.com/your-name.
+\item
+  In Github, click the \texttt{+} in top right and select
+  \texttt{import\ repository}.
+\item
+  Paste the url in \textbf{\emph{the Your old repository's clone URL}}
+  section and give a name for this new repo. You have now the
+  \href{https://github.com/GMACS-project/GMACS_Assessment_code}{GMACS\_Assessment\_code}
+  on your own Github (i.e., you have an url looking like
+  \emph{github.com/your-name/GMACS\_Assessment\_code} if you kept the
+  same name as the one of the organization).
+\item
+  You can now clone this repository to your computer following the same
+  steps as those used to clone the
+  \href{https://github.com/GMACS-project/GMACS_Assessment_code}{GMACS\_Assessment\_code}
+  repository from the
+  \href{https://github.com/GMACS-project}{organization} website.
+\end{enumerate}
+
+\hypertarget{lets-work-on-a-new-version-of-gmacs}{%
+\section{Let's work on a new version of
+GMACS}\label{lets-work-on-a-new-version-of-gmacs}}
+
+In the
+\textbf{\href{https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS}{GMACS}}
+folder of the
+\href{https://github.com/GMACS-project/GMACS_Assessment_code}{GMACS\_Assessment\_code}
+repository, two subfolders should attract your attention when you want
+to implement a new version of GMACS (I'm talking about development when
+you make a change (no matter how small) to the GMACS code):
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  The
+  \textbf{\href{https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS/Dvpt_Version}{Dvpt\_Version}}
+  folder: this folder contains the version of GMACS
+  \textbf{\emph{currently in development}}. This means that this version
+  is still being tested after some modifications and has not been
+  released as a stable version.
+\item
+  The
+  \textbf{\href{https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS/Latest_Version}{Latest\_Version}}
+  folder: this folder holds the latest stable and tested version of
+  GMACS.
+\end{enumerate}
+
+These two subfolders contain all the hardware you need to run GMACS
+either in a ``development way'' or to get a ``stable'' stock assessment.
+
+\textbf{If you want to make new changes to the GMACS code, please work
+only in the subfolder
+\emph{\href{https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS/Dvpt_Version}{Dvpt\_Version}}.}
+
+In the following, I give you some guidelines about how correctly update
+a GMACS version and push up those change on Github. Obviously, this
+assumes that you have previously forked (and not cloned) the
+organization's repo on your computer.
+
+Let's take the example of incorporating time-varying natural mortality
+into GMACS with a focus on snow crab. I will not go through the
+implementation of the code itself but simply give you the path to follow
+to:
+
+\begin{enumerate}
+\def\labelenumi{\roman{enumi}.}
+\tightlist
+\item
+  keep track of these changes,
+\item
+  check that they do not impact the obtainment of a new executable
+  (i.e., that the code can be compiled),
+\item
+  analyze the impact of these changes on the assessment for a stock
+  (i.e., compare with the last stable version of GMACS the results of
+  the assessment using this version under development) and,
+\item
+  release this new stable version of GMACS to the community.
+\end{enumerate}
+
+\emph{Reminder:} \textbf{You will be working in the
+\href{https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS/Dvpt_Version}{Dvpt\_Version}
+subfolder.}
+
+\hypertarget{modify-the-gmacsbase.tpl}{%
+\subsection{Modify the gmacsbase.tpl}\label{modify-the-gmacsbase.tpl}}
+
+In the
+\href{https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS/Dvpt_Version}{Dvpt\_Version}
+subfolder, open the gmacsbase.tpl file in an editor and incorporate the
+new functions/variables to get time-varying natural mortality
+configuration. This operation does not require any ``new entries'' or
+variable declarations in the .ctl, .dat or .prj files so that the change
+you make will remain (first) at the gmacsbase.tpl file level.
+
+\hypertarget{check-compilation-and-build-the-executable}{%
+\subsection{Check compilation and build the
+executable}\label{check-compilation-and-build-the-executable}}
+
+Once you are done with the configuration of time-varying natural
+mortality in GMACS, you now need to check that you are still able to
+compile the model and build the executable. To build the source files of
+GMACS into an executable, you will need to call ADMB. Gmacs can now be
+compile, build and run using \texttt{R}. The only requirement is to
+provide him with specific directories so it will be able locate ADMB and
+a C/C++ compiler.
+
+To provide such directories, you can use the
+\href{https://github.com/GMACS-project/GMACS_Assessment_code/blob/main/GMACS/ADpaths.txt}{ADpaths.txt}
+file available on Github. You will need to modify the paths accordingly
+with your setups on your computer. This text file holds the information
+of specific R variable names and the pathway to use them. \textbf{Please
+do not modify the R variable names in this file otherwise you will have
+some troubles and will not be able to build the GMACS executable.} By
+default, this file is locate in the current working directory (i.e., in
+the GMACS folder).
+
+Running this procedure, you will be asked to provide a name for the new
+version of GMACS. This name will be the one used at the end of all your
+modifications for this new version so if you have to realize multiple
+compilation, please stay ``consistent'' in the name of the version you
+provide.
+
+The following code compiles and build the GMACS executable.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\CommentTok{\# Define the name of the file containing the different pathways needed to build}
+\CommentTok{\# the GMACS executable }
+\NormalTok{.ADMBpaths }\OtherTok{\textless{}{-}} \StringTok{"ADpaths.txt"}
+
+\CommentTok{\# Run the GetGmacsExe function}
+\FunctionTok{GetGmacsExe}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+While the command is running, you will see on the console exactly what
+is going on. If the compilation worked, you should have a new executable
+named \texttt{gmacs.exe} in the root of the
+\href{https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS/Dvpt_Version}{Dvpt\_Version}
+directory. You are now ready to test this new version. Let's first
+modify (if needed) the .dat, .ctl, .prj files.
+
+\hypertarget{modify-the-.dat-.ctl-.prj-files}{%
+\subsection{Modify the .dat, .ctl, .prj
+files}\label{modify-the-.dat-.ctl-.prj-files}}
+
+In our case, we only need to modify the control parameters for the Time
+varying natural mortality rates. In the .ctl file, we therefore changed
+the \emph{type} of model for natural mortality, the \emph{phase of
+estimation}, the \emph{standard deviation} of the deviations for the
+random walk, the number of \emph{step-changes} as we used blocked
+changes, we define the specific years position of the knots and finally
+we specified the values for the initial parameters, their low bound,
+their high bound and their phase.
+
+\hypertarget{run-the-development-version-using-a-case-study-snow-crab}{%
+\subsection{Run the Development version using a case study: Snow
+crab}\label{run-the-development-version-using-a-case-study-snow-crab}}
+
+You are now going to run the GMACS development version for a specific
+case study. Let's take the snow crab stock as example for this
+demonstration. GMACS can be run using the
+\href{https://github.com/GMACS-project/GMACS_Assessment_code/blob/main/GMACS/Run_GMACS.Rmd}{Run\_GMACS}
+Rmarkdown document which call the \texttt{GMACS()} function.
+
+First define the characteristics of this analysis:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\CommentTok{\# Species of interest}
+\NormalTok{.Spc }\OtherTok{\textless{}{-}}\FunctionTok{c}\NormalTok{(}
+  \StringTok{"SNOW\_M\_time\_varying"}
+\NormalTok{  )}
+
+\CommentTok{\# Names of the GMACS version to consider}
+\NormalTok{.GMACS\_version }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+  \StringTok{"Dvpt\_Version"}
+\NormalTok{  )}
+
+\CommentTok{\# Define directories}
+\NormalTok{.VERSIONDIR }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+  \FunctionTok{paste0}\NormalTok{(}\FunctionTok{getwd}\NormalTok{(), }\StringTok{"/Dvpt\_Version/"}\NormalTok{)}
+\NormalTok{  )}
+
+\CommentTok{\# Need to conpile the model?}
+  \CommentTok{\# vector of length(.GMACS\_version)}
+  \CommentTok{\# 0: GMACS is not compiled. This assumes that an executable exists in the directory of the concerned version.}
+  \CommentTok{\# 1: GMACS is compiles}
+\NormalTok{.COMPILE }\OtherTok{\textless{}{-}} \DecValTok{0}       \CommentTok{\# You already compile and build the executable}
+
+\CommentTok{\# Run GMACS}
+\NormalTok{.RUN\_GMACS }\OtherTok{\textless{}{-}} \ConstantTok{TRUE}
+
+\CommentTok{\# Use latest available data for the assessment?}
+\NormalTok{.LastAssDat }\OtherTok{\textless{}{-}} \ConstantTok{TRUE}
+
+\CommentTok{\# Define the directories for ADMB}
+\NormalTok{.ADMBpaths }\OtherTok{\textless{}{-}} \StringTok{"ADpaths.txt"}
+
+\CommentTok{\# Show Rterminal}
+\NormalTok{.VERBOSE }\OtherTok{\textless{}{-}} \ConstantTok{TRUE}
+\end{Highlighting}
+\end{Shaded}
+
+Then, run the model:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{res }\OtherTok{\textless{}{-}} \FunctionTok{GMACS}\NormalTok{(}
+  \AttributeTok{Spc =}\NormalTok{ .Spc,}
+  \AttributeTok{GMACS\_version =}\NormalTok{ .GMACS\_version,}
+  \AttributeTok{Dir =}\NormalTok{ .VERSIONDIR,}
+  \AttributeTok{compile =}\NormalTok{ .COMPILE,}
+  \AttributeTok{run =}\NormalTok{ .RUN\_GMACS,}
+  \AttributeTok{LastAssDat =}\NormalTok{ .LastAssDat,}
+  \AttributeTok{ADMBpaths =}\NormalTok{ .ADMBpaths,}
+\NormalTok{  verbose }\OtherTok{\textless{}{-}}\NormalTok{ .VERBOSE}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+All the output files resulting from this run are stored in the
+*GMACS\Dvpt\_Version\build\SNOW\_M\_time\_varying* directory. You are
+now ready to compare the outputs of this GMACS development version with
+the ones coming from the latest assessment.
+
+\hypertarget{compare-the-results-of-this-new-version-with-the-results-from-the-last-assessment}{%
+\subsection{Compare the results of this new version with the results
+from the last
+assessment}\label{compare-the-results-of-this-new-version-with-the-results-from-the-last-assessment}}
+
+In the
+\href{https://github.com/GMACS-project/GMACS_Assessment_code}{GMACS\_Assessment\_code}
+repository, the required input files and specific outputs files from the
+latest assessment for all stocks are are stored in the folder
+\href{https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/Assessments}{Assessments}.
+For each stocks, this folder contains the models that have been tested,
+presented and selected by the Crab Plan Team and the Scientific and
+Statistical Committee to realize the assessment of each crab stock.
+
+This comparison can be done using the
+\href{https://github.com/GMACS-project/GMACS_Assessment_code/blob/main/GMACS/Compare_Version_VS_Last_Assessment.Rmd}{Compare\_Version\_VS\_Last\_Assessment}
+Rmarkdown document. Here, we will compare the results of the stock
+assessment for snow crab between the latest assessment and the
+development version of GMACS. In the same way as previously, the
+comparison is done by calling the the \texttt{GMACS()} function. You
+should have been able to do the run and the comparison at the same time
+i.e., calling the \texttt{GMACS()} function only once but for the
+purpose of this document we split the steps. Obviously, we are not going
+again through the entire run here. You have first to modify the
+\texttt{.GMACS\_version} and the \texttt{.VERSIONDIR} variables to
+consider the last assessment and turn off the \texttt{.RUN\_GMACS}
+variable to avoid going again through the run. You will also need to
+specify the \texttt{.ASS} and \texttt{.ASSMOD\_NAMES} variables that
+indicate you want to consider the last assessment in the comparison and
+the name of the model used for this assessment and of course, you will
+have to turn on the \texttt{.MAKE\_Comp} variable to inticate that you
+want to make comparison between the two versions.
+
+Changes the parameters for the comparison:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\CommentTok{\# Names of the GMACS version to consider for run}
+\NormalTok{.GMACS\_version }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+  \StringTok{"Last\_Assessment"}\NormalTok{,}
+  \StringTok{"Latest\_Version"}
+\NormalTok{  )}
+
+\CommentTok{\# Define directory}
+\NormalTok{.VERSIONDIR }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+  \FunctionTok{paste0}\NormalTok{(}\FunctionTok{dirname}\NormalTok{(}\FunctionTok{getwd}\NormalTok{()), }\StringTok{"/Assessments/"}\NormalTok{),}
+  \FunctionTok{paste0}\NormalTok{(}\FunctionTok{getwd}\NormalTok{(), }\StringTok{"/Latest\_Version/"}\NormalTok{)}
+\NormalTok{)}
+
+\CommentTok{\# Run GMACS}
+\NormalTok{.RUN\_GMACS }\OtherTok{\textless{}{-}} \ConstantTok{FALSE}
+
+\CommentTok{\# Use Last Assessment for comparison?}
+\CommentTok{\# If yes, you must provide the names of the model for each species in the variable .ASSMOD\_NAMES}
+\CommentTok{\# Those model folder must have to be hold in the folder Assessments}
+\NormalTok{.ASS }\OtherTok{\textless{}{-}} \ConstantTok{TRUE}
+
+\CommentTok{\# names of the model for the last assessment {-} Only useful if comparison is made.}
+\CommentTok{\# if all stocks are considered they have to be ordered as follow:}
+\CommentTok{\# "AIGKC/EAG" / "AIGKC/WAG" / "BBRKC" / "SMBKC" / "SNOW"}
+\NormalTok{.ASSMOD\_NAMES }\OtherTok{\textless{}{-}} \StringTok{"model\_21\_g"}
+
+\CommentTok{\# Do comparison?}
+\NormalTok{.MAKE\_Comp }\OtherTok{\textless{}{-}} \ConstantTok{TRUE}
+\end{Highlighting}
+\end{Shaded}
+
+Call the GMACS() function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\NormalTok{tables }\OtherTok{\textless{}{-}} \FunctionTok{GMACS}\NormalTok{(}\AttributeTok{Spc =}\NormalTok{ .Spc, }\AttributeTok{GMACS\_version =}\NormalTok{ .GMACS\_version,}
+        \AttributeTok{Dir =}\NormalTok{ .VERSIONDIR,}
+        \AttributeTok{ASS =}\NormalTok{ .ASS,}
+        \AttributeTok{AssMod\_names =}\NormalTok{ .ASSMOD\_NAMES,}
+        \AttributeTok{run =}\NormalTok{ .RUN\_GMACS,}
+        \AttributeTok{make.comp =}\NormalTok{ .MAKE\_Comp)}
+\CommentTok{\# print(tables)}
+\end{Highlighting}
+\end{Shaded}
+
+If you are satisfied with the results of the comparison between these
+two versions of GMACS, you are now ready to formalize and release this
+new version and spread it to the community.
+
+\hypertarget{spread-the-new-gmacs-version-to-the-whole-community}{%
+\section{Spread the new GMACS version to the whole
+community}\label{spread-the-new-gmacs-version-to-the-whole-community}}
+
+The first step before releasing the new version is to update the
+\href{https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS/Latest_Version}{Latest\_Version}
+folder with the new code of GMACS.
+
+\hypertarget{copy-the-latest-version-to-the-latest_version-folder}{%
+\subsection{Copy the latest version to the Latest\_Version
+folder}\label{copy-the-latest-version-to-the-latest_version-folder}}
+
+Luckily and for the sake of efficiency and transparency, you don't have
+to do anything by hand. The \texttt{UpdateGMACS()} function allows you
+to:
+
+\begin{enumerate}
+\def\labelenumi{\roman{enumi})}
+\tightlist
+\item
+  Copy and paste all the files you used for the GMACS development
+  version to the
+  \href{https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS/Latest_Version}{Latest\_Version}
+  folder
+\item
+  Compile this new release version in the
+  \href{https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS/Latest_Version}{Latest\_Version}
+  folder and get everything ready to use it
+\end{enumerate}
+
+\hypertarget{push-up-changes-to-the-organizations-repository}{%
+\subsection{Push up changes to the organization's
+repository}\label{push-up-changes-to-the-organizations-repository}}
+
+\hypertarget{re-run-the-assessments-with-the-latest-version-optional}{%
+\subsection{Re-run the assessments with the latest version
+(optional)}\label{re-run-the-assessments-with-the-latest-version-optional}}
+
+\end{document}

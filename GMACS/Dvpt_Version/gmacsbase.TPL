@@ -55,7 +55,7 @@
 // Label 700: write_eval
 DATA_SECTION
 
- !! TheHeader =  adstring("## GMACS Version 2.01.K - MERGED CODE; Compiled 2022-06-06");
+!! TheHeader =  adstring("## GMACS Version 2.01.K; Compiled 2022-06-13 22:18:15");
 
 //-------------------------------
 // Sandbox for testing functions |
@@ -2829,7 +2829,8 @@ PARAMETER_SECTION
   sdreport_vector ParsOut(1,NVarPar);
   vector sd_fmsy(1,nfleet);
   vector sd_fofl(1,nfleet);
-  vector sd_log_ssb(syr,nyrRetro);
+//  vector sd_log_ssb(syr,nyrRetro);
+  sdreport_vector sd_log_ssb(syr,nyrRetro);
   sdreport_number sd_last_ssb;
 
   //added eight lines by Jie

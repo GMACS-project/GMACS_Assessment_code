@@ -90,7 +90,7 @@ source("Additional_functions.R")
 # Run GMACS
 .RUN_GMACS <- TRUE
 
-# Use latets available data for the assessment?
+# Use latest available data for the assessment?
 .LastAssDat <- TRUE
 
 # Define the directories for ADMB
@@ -111,13 +111,13 @@ res <- GMACS(
   Spc = .Spc,
   GMACS_version = .GMACS_version,
   Dir = .VERSIONDIR,
-  ASS = .ASS,
-  AssMod_names = .ASSMOD_NAMES,
+  # ASS = .ASS,
+  # AssMod_names = .ASSMOD_NAMES,
   compile = .COMPILE,
   run = .RUN_GMACS,
   LastAssDat = .LastAssDat,
   ADMBpaths = .ADMBpaths,
-  make.comp = .MAKE_Comp,
+  # make.comp = .MAKE_Comp,
   verbose <- .VERBOSE
 )
 

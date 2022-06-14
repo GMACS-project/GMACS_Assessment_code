@@ -118,21 +118,35 @@ addText <- function(path=NULL, add.text=NULL, spec.loc=NULL,
 
 
 # Insert Time and Date in the new gmacs.tpl compiled
-insertTime <- function(object=NULL, pattern=NULL){
+insertTime <- function(object=NULL, pattern=NULL, update = NULL){
   header <- which(stringr::str_detect(object, pattern =pattern))
   object1 <- object[1:(header-1)]
   txt.header <- object[header]
+  
+  if(!update){
   txt.header <- sub("Compiled", "Previous compilation on: ", txt.header)
   txt.header <- sub('");', paste("; Last compilation on:  ", Sys.time(), '");' ,sep=""), txt.header)
   object <- c(object1, txt.header, object[(header+1):length(object)])
+  } else {
+    txt.header <- getVerGMACS()
+    object <- list(header, txt.header)
+  }
   return(object)
 }
 
 
-# Function fo get the Version and compilation date of a .TPL
-getVerGMACS <- function (file=NULL, Dir = NULL){
+# Function to indicate the Version and compilation date of gmacbase.TPL when updating
+getVerGMACS <- function (){
+  New.ver <- NA
   
-  
+  while(is.na(New.ver)){
+    text = "You've been modifying GMACS. Please, provide a name for the new version.\nIt should be similar to: 'Verison 2.01.A'"
+    New.ver <- dlgInput(text, Sys.info())$res
+    Sys.sleep(0.1)
+  }
+  # New.ver <- paste("'",New.ver,"'",sep = "")
+  New.ver <- paste('!! TheHeader =  adstring("## GMACS ', New.ver, '; Compiled ',Sys.time(),'");', sep="")
+  return(New.ver)
 } 
 
 
@@ -140,23 +154,8 @@ getVerGMACS <- function (file=NULL, Dir = NULL){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Function to write gmacs.TPL from gmacsbase.TPL and personal.TPL
-write_TPL <- function(vv = vv, Dir = Dir){
+write_TPL <- function(vv = vv, Dir = Dir, update = FALSE){
   
   gmacsbase <- paste0(Dir[vv], "gmacsbase.tpl")
   if(file.exists(gmacsbase)==FALSE) stop(cat("\ngmacsbase.tpl does not exist\n"))
@@ -165,8 +164,22 @@ write_TPL <- function(vv = vv, Dir = Dir){
   gmacs <- paste0(Dir[vv], "gmacs.tpl")
   fs::file_create(gmacs)
 
+  if(update){
+    add.text <- readLines(gmacsbase)
+    unlink(gmacsbase, recursive = FALSE, force = FALSE)
+    fs::file_create(gmacsbase)
+    
+    Insert <- insertTime(object = add.text, pattern = ' !! TheHeader', update = update)
+    header <- Insert[[1]]
+    txt.header <- Insert[[2]]
+
+    fileConn<-file(gmacsbase)
+    writeLines(text = paste0(c(add.text[1:(header-1)],txt.header, add.text[(header+1):length(add.text)]), collapse = "\n"), fileConn)
+    close(fileConn)    
+  }
+  
   add.text <- readLines(gmacsbase)
-  add.text <- insertTime(object = add.text, pattern = ' !! TheHeader')
+  if(!update) add.text <- insertTime(object = add.text, pattern = ' !! TheHeader', update = update)
   add.text <- paste0(add.text, collapse = "\n")
   add.text <- c(add.text, "\n", "")
 
@@ -301,7 +314,7 @@ Do_GMACS <- function(Spc = NULL,
       
       #  Create gmacs.tpl from gmacsbase.tpl and personal.tpl
       cat("Now writing gmacs.tpl\n")
-      write_TPL(vv, Dir = Dir)
+      write_TPL(vv, Dir = Dir, update = FALSE)
       # cat("\n")
       
       # Copy files from lib\
@@ -643,19 +656,19 @@ Do_Comp <- function(Spc = NULL, GMACS_version = NULL, ASS = NULL, AssMod_names  
 
 
 
-GMACS <- function(Spc = NULL,
-                  GMACS_version = NULL,
-                  Dir = NULL,
-                  ASS = NULL,
-                  AssMod_names  = NULL,
-                  compile = NULL,
-                  run = NULL,
+GMACS <- function(Spc = "",
+                  GMACS_version = '',
+                  Dir = '',
+                  ASS = FALSE,
+                  AssMod_names  = "",
+                  compile = FALSE,
+                  run = FALSE,
                   LastAssDat = NULL,
-                  ADMBpaths = NULL,
-                  make.comp = NULL,
-                  verbose = NULL){
+                  ADMBpaths = "",
+                  make.comp = FALSE,
+                  verbose = FALSE){
   
-  
+
   # Check consistency
   if(length(GMACS_version)!=length(Dir)) {
     cat("The number of directory does not match the number of version you specified\n");

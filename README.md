@@ -1,4 +1,4 @@
-# A A generalized size-structured stock assessment modelling framework for Crustaceans !
+# A generalized size-structured stock assessment modelling framework for Crustaceans !
 
 In this repository, you will find all you need to run the latest version of GMACS and help in its developpement. Here is a description of each folder
 holded in this repo: 

@@ -16,19 +16,22 @@ UpdateGMACS <- function(){
   
   
   for (nm in 1:length(stock.files)){
-    # delNew <- list.files(paste(dirNew, "build/", stock.files[nm], sep=""))
-    # 
-    # for(f in 1:length(delNew))
-    #   unlink(paste(dirSrc, "build/", stock.files[nm],delNew[f], sep=""),recursive = TRUE, force = TRUE)
-    # 
     
+    # Clean the Latest_Version directory
+    tmp <- paste(dirNew, "build/", stock.files[nm], sep="")
+    term <- .CallTerm(command = "clean.bat", .Dir = tmp, verbose = FALSE)
+    rstudioapi::terminalKill(id = term)
     
+    # Clean the Dvpt_Version directory
     tmp <- paste(dirSrc, "build/", stock.files[nm], sep="")
-    nam <- read_GMACS.dat(path = paste(tmp, "/gmacs.dat", sep=""))
-    file.copy(from = file.path(tmp, c(nam,"gmacs.dat" )), 
-              to = paste(dirNew, "build/", stock.files[nm], sep=""), overwrite = TRUE, recursive = TRUE, copy.date = TRUE)
+    term <- .CallTerm(command = "clean.bat", .Dir = tmp, verbose = FALSE)
+    rstudioapi::terminalKill(id = term)
+    nam <- list.files(path = tmp)
     
     
+    file.copy(from = file.path(tmp, nam), 
+              to = paste(dirNew, "build/", stock.files[nm], sep=""), 
+              overwrite = TRUE, recursive = TRUE, copy.date = TRUE)
   }
 }
 

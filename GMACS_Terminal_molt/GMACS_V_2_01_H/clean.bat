@@ -16,8 +16,8 @@ del checkfile.rep
 del personal.rep
 del gmacs_in.*
 del gmacs_files_in.dat
-del gmacs.rep
-del gamcs.par
+::del gmacs.rep
+::del gamcs.par
 del *.exe
 
 

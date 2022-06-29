@@ -3,7 +3,7 @@
 1983 2019                  # First and last year for average recruitment/MMB for Bspr calculation (Tier 3 or Tier 4)
 1983 2019                  # First and last year for average sex ratio for computing reference points
 2016 2020                  # First and last year for average F for discards (computing reference points)
-2015 2016                  # First and last year for average M (0 = last year) !!!NEW: 1/2022
+0     0                    # First and last year for average M (0 = last year) !!!NEW: 1/2022
 2016 2020                  # First and last year for average season length proportion (0 = last year) !!!NEW: 1/2022
 2019                       # Year used for computing growth (0 = last year) !!!NEW: 1/2022
 2019 2020                  # First and last year for average selectivities (0 = last year) !!!NEW: 1/2022
@@ -29,9 +29,9 @@
 1983 2019                  # First and last year for average recruitment/MMB for projection (Tier 3 or Tier 4)  !!!NEW: 1/2022
 1983 2019                  # First and last year for average sex ratio for projection   !!!NEW: 1/2022
 2016 2020                  # First and last year for average F for discards (computing projections) !!!NEW: 1/2022
-2015 2016                     # First and last year for average M (0 = last year) !!!NEW: 1/2022
-2016 2020                     # First and last year for average season length proportion (0 = last year) !!!NEW: 1/2022
-2019                          # Year used for computing growth (0 = last year) !!!NEW: 1/2022
+0    0                     # First and last year for average M (0 = last year) !!!NEW: 1/2022
+2016 2020                  # First and last year for average season length proportion (0 = last year) !!!NEW: 1/2022
+2019                       # Year used for computing growth (0 = last year) !!!NEW: 1/2022
 2019 2020                  # First and last year for average selectivities (0 = last year) !!!NEW: 1/2022
 
 
@@ -51,8 +51,8 @@
 # Stop after XX mcdraws
 10000
 
-# Full diagnostics
-0
+# Full diagnostics (1=Yes)
+1  
 
 ## eof
 9999

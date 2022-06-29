@@ -15,6 +15,7 @@ title: "An skeleton assessment for Snow crab in GMACS - Time varying natural mor
 ---
 
 ```{r, include=FALSE}
+rm(list=ls())
 
 knitr::opts_chunk$set(echo=FALSE,message=FALSE,warning=FALSE)
 
@@ -40,10 +41,7 @@ library(devtools)
 #install.packages("szuwalski/gmr")
 library(gmr)
 
-in_path<-"C:/gmacs-develop/gmr/R/"
-source.all( path=in_path, grepstring="\\.R",  print.source=TRUE, file_sep="__"  )
-
-source(paste0(getwd(), "/Modif_functions.R"))
+# source(paste0(getwd(), "/Modif_functions.R"))
 
 ```
 
@@ -57,14 +55,12 @@ OFL_fleet_ind<-0
 
 # Species of interest
 Spc <- "SNOW_M_time_varying"
-Spc2 <- "SNOW"
 
 #===PULL gmacs DATA AND outputs
 mod_names <- c(
   "Version 1.00",
   "Version 1.01",
-  "Version 2.01.K",
-  "Version 2.01.K - Constant M"
+  "Version 2.01.L"
 )
 ScenarioNames<-mod_names
 
@@ -72,8 +68,7 @@ ScenarioNames<-mod_names
 .MODELDIR = c(
               paste0(dirname(getwd()), "/GMACS_Terminal_molt/GMACS_V_1_00/build/",Spc,"/"),
               paste0(dirname(getwd()), "/GMACS_Terminal_molt/GMACS_V_1_01/build/",Spc,"/"),
-              paste0(getwd(), "/Latest_Version/build/",Spc,"/"),
-              paste0(getwd(), "/Latest_Version/build/SNOW/")
+              paste0(getwd(), "/Latest_Version/build/",Spc,"/")
               )
 
 .THEME    = theme_bw(base_size = 12, base_family = "") +

@@ -55,7 +55,7 @@
 // Label 700: write_eval
 DATA_SECTION
 
-!! TheHeader =  adstring("## GMACS Version 2.01.K; Compiled 2022-06-13 22:18:15");
+ !! TheHeader =  adstring("## GMACS Version 2.01.L; Compiled 2022-06-27 15:48:41");
 
 //-------------------------------
 // Sandbox for testing functions |
@@ -1539,7 +1539,7 @@ DATA_SECTION
      }
     if ( q_anal(k) == YES )
      {
-      if ( prior_qtype(k) != UNIFORM_PRIOR & prior_qtype(k) != LOGNORMAL_PRIOR )
+      if ( prior_qtype(k) != UNIFORM_PRIOR || prior_qtype(k) != LOGNORMAL_PRIOR )
        {
         cout << "Error: you're only allowed to use a uniform or lognormal prior if the analytic q option is being used," << endl;
         cout << "       you can either specify a uniform or lognormal prior for q or switch analytic q off." << endl;
@@ -2808,7 +2808,6 @@ PARAMETER_SECTION
   matrix fut_recruits(1,nsex,1,nproj);                     ///> Projected recruitment
 
   // Extra sd variables
-//  sdreport_vector ParsOut(1,NVarPar);
 //  vector sd_fbar(syr,nyr-1);
 //  vector sd_log_dyn_Bzero(syr+1,nyr);
 //  sdreport_vector sd_rbar(1,2);
@@ -2822,14 +2821,10 @@ PARAMETER_SECTION
 //  sdreport_vector sd_log_ssb(syr,nyr);
 //  sdreport_number sd_last_ssb;
 
-
-//	sdreport_vector sd_log_ssb(syr,nyrRetro);
-
   sdreport_matrix sd_log_recruits(1,nsex,syr,nyr);
   sdreport_vector ParsOut(1,NVarPar);
   vector sd_fmsy(1,nfleet);
   vector sd_fofl(1,nfleet);
-//  vector sd_log_ssb(syr,nyrRetro);
   sdreport_vector sd_log_ssb(syr,nyrRetro);
   sdreport_number sd_last_ssb;
 
@@ -5649,8 +5644,9 @@ FUNCTION calc_prior_densities
 // -------------------------------------------------------------------------------------------------- 
 // Label 401: catch_likelihood
 FUNCTION catch_likelihood
- dvariable effort,pi;
-  pi = 3.14159265359;
+ dvariable effort;
+// dvariable pi;
+//  pi = 3.14159265359;
 
   // 1) Likelihood of the catch data.
   res_catch.initialize();
@@ -5673,9 +5669,10 @@ FUNCTION catch_likelihood
          }
       }
      dvector catch_sd = sqrt(log(1.0 + square(catch_cv(k))));
-	 for ( int jj = 1; jj <= nCatchRows(k); jj++ )
-     if (dCatchData(k,jj,1) <= nyrRetro)
-      nloglike(1,k) += log(sqrt(2.0*pi)*catch_sd(jj)) + 0.5*square(res_catch(k,jj)/catch_sd(jj));
+     nloglike(1,k) += dnorm(res_catch(k), catch_sd);
+//	 for ( int jj = 1; jj <= nCatchRows(k); jj++ )
+//     if (dCatchData(k,jj,1) <= nyrRetro)
+//      nloglike(1,k) += log(sqrt(2.0*pi)*catch_sd(jj)) + 0.5*square(res_catch(k,jj)/catch_sd(jj));
    }
   if ( verbose >= 3 ) cout << "Ok after catch likelihood ..." << endl;
 
@@ -6946,7 +6943,7 @@ FUNCTION dvar_vector calc_predicted_project(const int YrRef2, const int YrRefGro
         vul /= float(YrRefSel2-YrRefSel1+1);
         selret = elem_prod(sel,ret);
 
-        if (season_type(j)==1) tempZ1 = _Z1(h,m,j); else tempZ1 = _Z2(h,m,j);
+        if (season_type(j)==0) tempZ1 = _Z1(h,m,j); else tempZ1 = _Z2(h,m,j);
         if (_ft(k,h,j) > 0)
 		{
         out(1) += nal * elem_div(elem_prod(_ft(k,h,j) * selret, 1.0 - mfexp(-tempZ1)), tempZ1);
@@ -9109,3 +9106,7 @@ FINAL_SECTION
 
 // 2022-06-06; (Version 2.01.J); Option to consider terminal moldting added (new input in .CTL file => cf OTHER CONTROLS)
 // 2022-06-06; (Version 2.01.K); Option to calculate the average recruitment used for reference points added (new input in .CTL file => cf OTHER CONTROLS)
+
+// 2022-06-27; (Version 2.01.L); Update catch likelihood function to use dnorm(). Clean a bit the code and fix a small
+// bug in the calc_predicted_project function (inverse season_type in the computation of tempZ1)
+

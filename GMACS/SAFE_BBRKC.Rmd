@@ -15,7 +15,7 @@ title: "An skeleton assessment for Bristol Bay Red King crab in GMACS"
 ---
 
 ```{r, include=FALSE}
-
+rm(list=ls())
 knitr::opts_chunk$set(echo=FALSE,message=FALSE,warning=FALSE)
 
 library(plyr)
@@ -40,10 +40,10 @@ library(devtools)
 #install.packages("szuwalski/gmr")
 library(gmr)
 
-in_path<-"C:/gmacs-develop/gmr/R/"
-source.all( path=in_path, grepstring="\\.R",  print.source=TRUE, file_sep="__"  )
-
-source(paste0(getwd(), "/Modif_functions.R"))
+# in_path<-"C:/gmacs-develop/gmr/R/"
+# source.all( path=in_path, grepstring="\\.R",  print.source=TRUE, file_sep="__"  )
+# 
+# source(paste0(getwd(), "/Modif_functions.R"))
 
 
 ```
@@ -61,23 +61,23 @@ Spc <- "BBRKC"
 
 #===PULL gmacs DATA AND outputs
 mod_names <- c(
-  "Version 2.01.E",
+  # "Version 2.01.E",
   "Version 2.01.F",
   "Version 2.01.G",
   "Version 2.01.H",
   "Version 2.01.I",
-  "Version 2.01.K"
+  "Version 2.01.L"
 )
 ScenarioNames<-mod_names
 
 # needs terminal backslash
 .MODELDIR = c(
-              paste0(dirname(getwd()), "/GMACS_Orig/GMACS_V_2_01_E/src_rbar_NO_snow/build/",Spc,"/"),
+              # paste0(dirname(getwd()), "/GMACS_Orig/GMACS_V_2_01_E/src_rbar_NO_snow/build/",Spc,"/"),
               paste0(dirname(getwd()), "/GMACS_Orig/GMACS_V_2_01_F/src_rbar_NO_snow/build/",Spc,"/"),
               paste0(dirname(getwd()), "/GMACS_Orig/GMACS_V_2_01_G/src_rbar_NO_snow/build/",Spc,"/"),
               paste0(dirname(getwd()), "/GMACS_Orig/GMACS_V_2_01_H/src_rbar_NO_snow/build/",Spc,"/"),
               paste0(dirname(getwd()), "/GMACS_Orig/GMACS_V_2_01_I/src_rbar_NO_snow/build/",Spc,"/"),
-              paste0(getwd(), "/Latest_Version/build/",Spc,"/")
+              paste0(getwd(), "/Dvpt_Version/build/",Spc,"/")
               )
 
 
@@ -553,6 +553,6 @@ plot_recruitment_size(M)
 
 ```{r,echo=FALSE,warning=FALSE,message=F,fig.width=8.5,fig.height=7,fig.cap="\\label{kobe}Kobe plot for the Pot Fishery fleet."}
 
-plot_kobe(M,fleet_in="Pot_Fishery",ref_ind=2)
+# plot_kobe(M,fleet_in="Pot_Fishery",ref_ind=2)
 
 ```

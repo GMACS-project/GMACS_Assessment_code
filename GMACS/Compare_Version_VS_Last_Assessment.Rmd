@@ -22,20 +22,14 @@ rm(list = ls())
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 # Some functions used to run admb in R
+
 # install.packages("PBSadmb")
-library(PBSadmb)
-library(knitr)
-library(svDialogs)
+# library(PBSadmb)
+# library(knitr)
+# library(svDialogs)
+# library(miceadds)
 
-library(miceadds)
-#install.packages("szuwalski/gmr")
 library(gmr)
-in_path<-"C:/gmacs-develop/gmr/R/"
-source.all( path=in_path, grepstring="\\.R",  print.source=TRUE, file_sep="__"  )
-
-
-source("Additional_functions.R")
-
 ```
 
 \newpage
@@ -55,13 +49,13 @@ source("Additional_functions.R")
 # Names of the GMACS version to consider for run
 .GMACS_version <- c(
   "Last_Assessment",
-  "Latest_Version"
+  "Dvpt_Version"
   )
 
 # Define directory
 .VERSIONDIR <- c(
   paste0(dirname(getwd()), "/Assessments/"),
-  paste0(getwd(), "/Latest_Version/")
+  paste0(getwd(), "/Dvpt_Version/")
 )
 
 # Use Last Assessment for comparison?
@@ -140,19 +134,21 @@ Here is a summary of the latest changes from the version 2.01.J:
 
 
 
-tables <-GMACS(Spc = .Spc, GMACS_version = .GMACS_version,
-        Dir = .VERSIONDIR,
-        ASS = .ASS,
-        AssMod_names = .ASSMOD_NAMES,
-        compile = .COMPILE,
-        run = .RUN_GMACS,
-        LastAssDat = .LastAssDat,
-        ADMBpaths = .ADMBpaths,
-        make.comp = .MAKE_Comp,
-        verbose <- .VERBOSE)
+
+tables <- GMACS(
+  Spc = .Spc,
+  GMACS_version = .GMACS_version,
+  Dir = .VERSIONDIR,
+  ASS = .ASS,
+  AssMod_names = .ASSMOD_NAMES,
+  compile = .COMPILE,
+  run = .RUN_GMACS,
+  LastAssDat = .LastAssDat,
+  ADMBpaths = .ADMBpaths,
+  make.comp = .MAKE_Comp,
+  verbose <- .VERBOSE
+)
 # print(tables)
-
-
 
 
 

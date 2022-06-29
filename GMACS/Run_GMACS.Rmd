@@ -18,43 +18,32 @@ title: "A template to compile and run GMACS to compare management quantities bet
 knitr::opts_chunk$set(echo=FALSE,message=FALSE,warning=FALSE)
 rm(list = ls())
 
-
+# Set the working directory
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 
-# Some functions used to run admb in R
-# install.packages("PBSadmb")
-library(PBSadmb)
-library(knitr)
-library(svDialogs)
 
-library(miceadds)
-#install.packages("szuwalski/gmr")
+# Load the gmr package
 library(gmr)
 
-in_path<-"C:/gmacs-develop/gmr/R/"
-source.all( path=in_path, grepstring="\\.R",  print.source=TRUE, file_sep="__"  )
-
-# Source functions that need to be added to gmr
-source("Additional_functions.R")
 ```
 
-\newpage
+
 
 ```{r Define runs and versions, echo=F, message=FALSE, warning=FALSE, include=FALSE}
 
 # Species of interest
 .Spc <-c(
-  "SMBKC"
-  # "all"
+  # "SMBKC"
+  "all"
   # "WAG",
   # "EAG"
   )
 
 # Names of the GMACS version to consider for run
 .GMACS_version <- c(
-  # "Dvpt_Version",
-  "Latest_Version"
+  "Dvpt_Version"
+  # "Latest_Version"
   )
 
 # Define directory
@@ -62,8 +51,8 @@ source("Additional_functions.R")
 # folder will be: paste0(dirname(getwd()), "/Assessments/")
 
 .VERSIONDIR <- c(
-  # paste0(getwd(), "/Dvpt_Version/"),
-  paste0(getwd(), "/Latest_Version/")
+  paste0(getwd(), "/Dvpt_Version/")
+  # paste0(getwd(), "/Latest_Version/")
 )
 
 # Use Last Assessment for comparison?
@@ -111,13 +100,12 @@ res <- GMACS(
   Spc = .Spc,
   GMACS_version = .GMACS_version,
   Dir = .VERSIONDIR,
-  # ASS = .ASS,
-  # AssMod_names = .ASSMOD_NAMES,
+  ASS = .ASS, AssMod_names = .ASSMOD_NAMES,
   compile = .COMPILE,
   run = .RUN_GMACS,
   LastAssDat = .LastAssDat,
   ADMBpaths = .ADMBpaths,
-  # make.comp = .MAKE_Comp,
+  make.comp = .MAKE_Comp,
   verbose <- .VERBOSE
 )
 

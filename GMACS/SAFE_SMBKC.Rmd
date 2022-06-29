@@ -39,11 +39,11 @@ library(devtools)
 
 #install.packages("szuwalski/gmr")
 library(gmr)
-
-in_path<-"C:/gmacs-develop/gmr/R/"
-source.all( path=in_path, grepstring="\\.R",  print.source=TRUE, file_sep="__"  )
-
-source(paste0(getwd(), "/Modif_functions.R"))
+# 
+# in_path<-"C:/gmacs-develop/gmr/R/"
+# source.all( path=in_path, grepstring="\\.R",  print.source=TRUE, file_sep="__"  )
+# 
+# source(paste0(getwd(), "/Modif_functions.R"))
 
 ```
 

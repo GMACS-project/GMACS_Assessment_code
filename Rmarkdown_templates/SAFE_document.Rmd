@@ -1,0 +1,77 @@
+---
+title: "`r params$doc_title`"
+subtitle : "`r params$sub_title`"
+author: "`r params$Author`"
+date: "Updated on: `r Sys.Date()`"
+params:
+  doc_title: "The Default Title"
+  Author: "Names of authors"
+  sub_title:
+    input: text
+    label: Sub Title
+    value: 'my_Sub_Title_and_File_Name'
+  Species:
+    label: "Species to consider:"
+    value: AEG
+    input: select
+    choices: [AEG, WAG, BBRKC, SMBKC, SNOW crab]
+  GMACS_Versions:
+    label: "GMACs version(s)"
+    input: checkbox
+    value: [V_2.01.A, V_2.01.B]
+  printcode: false  # or set it to true
+output:
+  pdf_document:
+    fig_caption: yes
+    fig_height: 4
+    fig_width: 6
+    keep_tex: false
+header-includes:   
+-  \pagenumbering{gobble}
+number_sections: yes
+csl: fish-and-fisheries.csl
+toc: yes
+knit: (
+  function(inputFile, encoding) { 
+    
+    pSubTitle <- paste('SAFE_','params$Species',sep='')
+    
+    rmarkdown::render( 
+      input       = inputFile, 
+      encoding    = encoding, 
+      params      = list(sub_title = pSubTitle),      
+      output_file = pSubTitle) })
+---
+
+```{r, setup, include=FALSE}
+# set this option in the first code chunk in the document
+knitr::opts_chunk$set(echo = params$printcode,
+                      message=FALSE,
+                      warning=FALSE
+                      )
+```
+
+
+```{r}
+library(gmr)
+
+```
+
+
+
+\newpage
+
+
+1. Stock: snow crab.
+
+2. Catches: trends and current levels
+
+3. Stock Biomass: 
+
+4. Recruitment
+
+\newpage
+
+5. Management 
+
+

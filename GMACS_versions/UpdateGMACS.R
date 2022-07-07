@@ -48,7 +48,7 @@ if (!require("gdata")) {                        # needed to manipulate data
 
 # 2. Install / update gmr package ----
 .Src <- "GMACS-project/gmr"
-.Update <- 2                            # Get the latest version of gmr? (0: no; 1: install for the first time;
+.Update <- 0                            # Get the latest version of gmr? (0: no; 1: install for the first time;
                                         # 2: update the package)
 mylib <- "~/R/win-library/4.1"          # the library directory to remove the 
 # gmr package from
@@ -83,7 +83,7 @@ library(gmr)
 
 # Species of interest
 .Spc <-c(
-  "all"
+  "SNOW_crab"
 )
 
 # Names of the GMACS version to consider

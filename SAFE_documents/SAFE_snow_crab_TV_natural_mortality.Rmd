@@ -38,11 +38,27 @@ library(reshape2)
 library(miceadds)
 library(devtools)
 
-#install.packages("szuwalski/gmr")
+
+
+# 2. Install / update gmr package ----
+.Src <- "GMACS-project/gmr"
+.Update <- 2                            # Get the latest version of gmr? (0: no; 1: install for the first time;
+                                        # 2: update the package)
+mylib <- "~/R/win-library/4.1"          # the library directory to remove the 
+# gmr package from
+
+#  remotes::install_github() will work to install gmr on your machine
+if(.Update == 1) devtools::install_github(.Src)
+
+
+# Updating to the latest version of gmr
+if(.Update == 2){
+  remove.packages("gmr", lib=mylib)
+  devtools::install_github(.Src)
+} 
+
+# Load the gmr package
 library(gmr)
-
-# source(paste0(getwd(), "/Modif_functions.R"))
-
 ```
 
 \newpage
@@ -54,7 +70,7 @@ chosen_ind<-1
 OFL_fleet_ind<-0
 
 # Species of interest
-Spc <- "SNOW_M_time_varying"
+Spc <- "SNOW_crab"
 
 #===PULL gmacs DATA AND outputs
 mod_names <- c(
@@ -66,9 +82,9 @@ ScenarioNames<-mod_names
 
 # needs terminal backslash
 .MODELDIR = c(
-              paste0(dirname(getwd()), "/GMACS_Terminal_molt/GMACS_V_1_00/build/",Spc,"/"),
-              paste0(dirname(getwd()), "/GMACS_Terminal_molt/GMACS_V_1_01/build/",Spc,"/"),
-              paste0(getwd(), "/Latest_Version/build/",Spc,"/")
+              paste0(dirname(getwd()), "/GMACS_versions/GMACS_Terminal_molt/GMACS_V_1_00/build/",Spc,"/"),
+              paste0(dirname(getwd()), "/GMACS_versions/GMACS_Terminal_molt/GMACS_V_1_01/build/",Spc,"/"),
+              paste0(dirname(getwd()), "/GMACS_versions/Latest_Version/build/",Spc,"/")
               )
 
 .THEME    = theme_bw(base_size = 12, base_family = "") +
@@ -97,7 +113,9 @@ names(M) <- mod_names
 #==loop through the size comp data, plot and save to be included later
 # 
  mdf <- .get_sizeComps_df(M)
- 
+
+# if(!file.exists(paste(.MODELDIR[1],"plots/",sep=""))) dir.create(paste(.MODELDIR[1],"plots/",sep=""))
+#  
 # for(x in 1:length(mdf)){
 # png(paste(.MODELDIR[1],"plots/size_comp_",x,".png",sep=""),height=8,width=8,res=300,units='in')
 # plot_size_comps(M,which=x)
@@ -706,6 +724,6 @@ plot_recruitment_size(M)
 
 ```{r,echo=FALSE,warning=FALSE,message=F,fig.width=8.5,fig.height=7,fig.cap="\\label{kobe}Kobe plot for the Pot Fishery fleet."}
 
-plot_kobe(M,fleet_in="Pot_Fishery",ref_ind=2)
+plot_kobe(M, fleet_in = "Pot_Fishery",ref_ind=2)
 
 ```

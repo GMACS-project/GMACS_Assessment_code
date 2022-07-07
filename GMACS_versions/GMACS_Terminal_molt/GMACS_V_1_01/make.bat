@@ -5,7 +5,7 @@ if NOT EXIST build\debug mkdir build\debug
 if NOT EXIST build\release mkdir build\release
 
 if NOT EXIST build\SNOW mkdir build\SNOW
-if NOT EXIST build\SNOW_M_time_varying mkdir build\SNOW_M_time_varying
+if NOT EXIST build\SNOW_M_time_varying mkdir build\SNOW_crab
 
 copy lib\*.cpp
 copy gmacsbase.tpl+personal.tpl gmacs.tpl
@@ -16,8 +16,8 @@ call admb -g gmacs.tpl tailcompression.cpp nloglike.cpp spr.cpp multinomial.cpp 
 copy gmacs.exe build\SNOW
 copy clean.bat build\SNOW
 
-copy gmacs.exe build\SNOW_M_time_varying
-copy clean.bat build\SNOW_M_time_varying
+copy gmacs.exe build\SNOW_crab
+copy clean.bat build\SNOW_crab
 
 rem call admb -f gmacs.tpl tailcompression.cpp nloglike.cpp spr.cpp multinomial.cpp robust_multi.cpp equilibrium.cpp dirichlet.cpp
 rem copy gmacs.exe build\release

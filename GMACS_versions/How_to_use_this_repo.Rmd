@@ -11,13 +11,18 @@ output:
     number_sections: yes
 ---
 
-```{r, include=FALSE}
+```{r, include=FALSE, echo=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   eval = FALSE,
   include = TRUE
 )
+
+main.path <- dirname(rstudioapi::getActiveDocumentContext()$path)
+knitr::opts_chunk$set(root.dir = main.path)
+knitr::opts_knit$set(root.dir = main.path)
+
 ```
 
 
@@ -93,7 +98,8 @@ The following code proceeds the installation of the `[gmr]` package on your mach
 rm(list=ls())     # Clean your R session
 
 # Set the working directory as the directory of this document----
-setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+# setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+
 # check your directory
 getwd()
 
@@ -314,39 +320,7 @@ In the same way as previously, the comparison is done by calling the the `GMACS(
 
 Changes the parameters for the comparison:
 
-```{r Compare the development version and the latest assessment}
-
-# Names of the GMACS version to consider for run
-.GMACS_version <- c(
-  "Last_Assessment",
-  "Latest_Version"
-  )
-
-# Define directory
-.VERSIONDIR <- c(
-  paste0(dirname(getwd()), "/Assessments/"),
-  paste0(getwd(), "/Latest_Version/")
-)
-
-# Run GMACS
-.RUN_GMACS <- FALSE
-
-# Use Last Assessment for comparison?
-# If yes, you must provide the names of the model for each species in the variable .ASSMOD_NAMES
-# Those model folder must have to be hold in the folder Assessments
-.ASS <- TRUE
-
-# names of the model for the last assessment - Only useful if comparison is made.
-# if all stocks are considered they have to be ordered as follow:
-# "AIGKC/EAG" / "AIGKC/WAG" / "BBRKC" / "SMBKC" / "SNOW"
-.ASSMOD_NAMES <- "model_21_g"
-
-# Do comparison?
-.MAKE_Comp <- TRUE
-```
-
-Call the GMACS() function:
-```{r, include=TRUE}
+```{r, Compare the development version and the latest assessment}
 
 # Names of the GMACS version to consider for run
 .GMACS_version <- c(
@@ -391,6 +365,7 @@ Call the GMACS() function:
 
 ```
 
+Call the GMACS() function:
 
 ```{r}
 # Call the GMACS() function:

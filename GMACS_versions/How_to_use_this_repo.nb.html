@@ -216,7 +216,7 @@ pre code {
 
 <h1 class="title toc-ignore">A basic workflow for using the GMACS repository for developpers</h1>
 <h4 class="author">Matthieu VERON</h4>
-<h4 class="date">Last compiled on 07 July, 2022</h4>
+<h4 class="date">Last compiled on 13 July, 2022</h4>
 
 </div>
 
@@ -233,7 +233,7 @@ pre code {
 <p>As the repository is private, you will have to set your credentials in R to be able to download the package. The following code help you to do this. Please use the address of your Github account (the one that gives you access to the organization’s repository in Github).</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuLnBhY2sgPC0gXCJnbXJcIlxuLkRpclNyYyA8LSBcIkdNQUNTLXByb2plY3QvZ21yXCJcbi5Vc2VybmFtZSA8LSBcIlwiICAgICAgICAgICAgICAgICAgICAgIyB0aGUgbmFtZSBvZiB5b3VyIEdpdGh1YlxuLlVzZXJFbWFpbDwtIFwiXCIgICAgICAgICMgWW91ciBlbWFpbCBhZGRyZXNzIGFzc29jaWF0ZWQgdG8geW91ciBHaXRodWIgYWNjb3VudFxuXG4jIFJlbW92ZSB0aGUgcGFja2FnZSBpZiB5b3UgYWxyZWFkeSBnb3QgaXQgaW5zdGFsbGVkIG9uIHlvdXIgY29tcHV0ZXJcbnJlbW92ZS5wYWNrYWdlcygucGFjaywgbGliPVwifi9SL3dpbi1saWJyYXJ5LzQuMVwiKVxuXG4jIFNldCBjb25maWdcbnVzZXRoaXM6OnVzZV9naXRfY29uZmlnKHVzZXIubmFtZSA9IC5Vc2VybmFtZSwgdXNlci5lbWFpbCA9IC5Vc2VyRW1haWwpXG5cbiMgR28gdG8gZ2l0aHViIHBhZ2UgdG8gZ2VuZXJhdGUgdG9rZW5cbnVzZXRoaXM6OmNyZWF0ZV9naXRodWJfdG9rZW4oKSBcblxuIyBQYXN0ZSB5b3VyIFBBVCBpbnRvIHBvcC11cCB0aGF0IGZvbGxvd3MuLi5cbmNyZWRlbnRpYWxzOjpzZXRfZ2l0aHViX3BhdCgpXG5cbiMgTm93IHJlbW90ZXM6Omluc3RhbGxfZ2l0aHViKCkgd2lsbCB3b3JrXG5kZXZ0b29sczo6aW5zdGFsbF9naXRodWIoLkRpclNyYylcblxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuLnBhY2sgPC0gXCJnbXJcIlxuLkRpclNyYyA8LSBcIkdNQUNTLXByb2plY3QvZ21yXCJcbi5Vc2VybmFtZSA8LSBcIlwiICAgICAgICAgICAgICAgICAgICAgIyB0aGUgbmFtZSBvZiB5b3VyIEdpdGh1YlxuLlVzZXJFbWFpbDwtIFwiXCIgICAgICAgICMgWW91ciBlbWFpbCBhZGRyZXNzIGFzc29jaWF0ZWQgdG8geW91ciBHaXRodWIgYWNjb3VudFxuXG4jIFJlbW92ZSB0aGUgcGFja2FnZSBpZiB5b3UgYWxyZWFkeSBnb3QgaXQgaW5zdGFsbGVkIG9uIHlvdXIgY29tcHV0ZXJcbnJlbW92ZS5wYWNrYWdlcygucGFjaywgbGliPVwifi9SL3dpbi1saWJyYXJ5LzQuMVwiKVxuXG4jIFNldCBjb25maWdcbnVzZXRoaXM6OnVzZV9naXRfY29uZmlnKHVzZXIubmFtZSA9IC5Vc2VybmFtZSwgdXNlci5lbWFpbCA9IC5Vc2VyRW1haWwpXG5cbiMgR28gdG8gZ2l0aHViIHBhZ2UgdG8gZ2VuZXJhdGUgdG9rZW5cbnVzZXRoaXM6OmNyZWF0ZV9naXRodWJfdG9rZW4oKSBcbmBgYCJ9 -->
 <pre class="r"><code>.pack &lt;- &quot;gmr&quot;
 .DirSrc &lt;- &quot;GMACS-project/gmr&quot;
 .Username &lt;- &quot;&quot;                     # the name of your Github
@@ -246,15 +246,25 @@ remove.packages(.pack, lib=&quot;~/R/win-library/4.1&quot;)
 usethis::use_git_config(user.name = .Username, user.email = .UserEmail)
 
 # Go to github page to generate token
-usethis::create_github_token() 
-
-# Paste your PAT into pop-up that follows...
-credentials::set_github_pat()
-
-# Now remotes::install_github() will work
-devtools::install_github(.DirSrc)
-</code></pre>
+usethis::create_github_token() </code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiKiBDYWxsIGBnaXRjcmVkczo6Z2l0Y3JlZHNfc2V0KClgIHRvIHJlZ2lzdGVyIHRoaXMgdG9rZW4gaW4gdGhlIGxvY2FsIEdpdCBjcmVkZW50aWFsIHN0b3JlXG4gIEl0IGlzIGFsc28gYSBncmVhdCBpZGVhIHRvIHN0b3JlIHRoaXMgdG9rZW4gaW4gYW55IHBhc3N3b3JkLW1hbmFnZW1lbnQgc29mdHdhcmUgdGhhdCB5b3UgdXNlXG52IE9wZW5pbmcgVVJMICdodHRwczovL2dpdGh1Yi5jb20vc2V0dGluZ3MvdG9rZW5zL25ldz9zY29wZXM9cmVwbyx1c2VyLGdpc3Qsd29ya2Zsb3cmZGVzY3JpcHRpb249REVTQ1JJQkUgVEhFIFRPS0VOXFwnUyBVU0UgQ0FTRSdcbiJ9 -->
+<pre><code>* Call `gitcreds::gitcreds_set()` to register this token in the local Git credential store
+  It is also a great idea to store this token in any password-management software that you use
+v Opening URL &#39;https://github.com/settings/tokens/new?scopes=repo,user,gist,workflow&amp;description=DESCRIBE THE TOKEN\&#39;S USE CASE&#39;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBQYXN0ZSB5b3VyIFBBVCBpbnRvIHBvcC11cCB0aGF0IGZvbGxvd3MuLi5cbmNyZWRlbnRpYWxzOjpzZXRfZ2l0aHViX3BhdCgpXG5gYGAifQ== -->
+<pre class="r"><code># Paste your PAT into pop-up that follows...
+credentials::set_github_pat()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiSWYgcHJvbXB0ZWQgZm9yIEdpdEh1YiBjcmVkZW50aWFscywgZW50ZXIgeW91ciBQQVQgaW4gdGhlIHBhc3N3b3JkIGZpZWxkXG5BdXRoZW50aWNhdGlvbiBmYWlsZWQuIFRva2VuIGludmFsaWQuXG5mYXRhbDogQ2Fubm90IHByb21wdCBiZWNhdXNlIHRlcm1pbmFsIHByb21wdHMgaGF2ZSBiZWVuIGRpc2FibGVkLlxuZXJyb3I6IHVuYWJsZSB0byByZWFkIGFza3Bhc3MgcmVzcG9uc2UgZnJvbSAncnBvc3RiYWNrLWFza3Bhc3MnXG5mYXRhbDogY291bGQgbm90IHJlYWQgUGFzc3dvcmQgZm9yICdodHRwczovL1BlcnNvbmFsQWNjZXNzVG9rZW5AZ2l0aHViLmNvbSc6IHRlcm1pbmFsIHByb21wdHMgZGlzYWJsZWRcbkVycm9yOiBGYWlsZWQgdG8gY2FsbCAnZ2l0IGNyZWRlbnRpYWwgZmlsbCdcbiJ9 -->
+<pre><code>If prompted for GitHub credentials, enter your PAT in the password field
+Authentication failed. Token invalid.
+fatal: Cannot prompt because terminal prompts have been disabled.
+error: unable to read askpass response from &#39;rpostback-askpass&#39;
+fatal: could not read Password for &#39;https://PersonalAccessToken@github.com&#39;: terminal prompts disabled
+Error: Failed to call &#39;git credential fill&#39;</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>The following code proceeds the installation of the <code>[gmr]</code> package on your machine and load the various libraries.</p>

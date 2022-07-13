@@ -14,20 +14,24 @@ toc: yes
 title: "A template to compare the latest version of GMACS with the last available assesment."
 ---
 
+
+
 ```{r setup, include=FALSE, echo = FALSE}
 knitr::opts_chunk$set(echo=FALSE,message=FALSE,warning=FALSE)
+main.path <- dirname(dirname(rstudioapi::getActiveDocumentContext()$path))
+
+knitr::opts_chunk$set(root.dir = main.path)
+knitr::opts_knit$set(root.dir = main.path)
+```
+
+
+
+
+```{r}
+
 rm(list = ls())
 
-
-setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-
-# Some functions used to run admb in R
-
-# install.packages("PBSadmb")
-# library(PBSadmb)
-# library(knitr)
-# library(svDialogs)
-# library(miceadds)
+# setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 library(gmr)
 ```
@@ -39,11 +43,11 @@ library(gmr)
 # Species of interest
 .Spc <-c(
   # "all"
-  "EAG",
-  "WAG",
-  "BBRKC",
-  "SMBKC",
-  "SNOW_M_time_varying"
+  # "EAG",
+  # "WAG",
+  # "BBRKC",
+  "SMBKC"
+  # "SNOW_crab"
   )
 
 # Names of the GMACS version to consider for run
@@ -54,8 +58,8 @@ library(gmr)
 
 # Define directory
 .VERSIONDIR <- c(
-  paste0(dirname(getwd()), "/Assessments/"),
-  paste0(getwd(), "/Dvpt_Version/")
+  paste0(getwd(), "/Assessments/"),
+  paste0(getwd(), "/GMACS_versions/Dvpt_Version/")
 )
 
 # Use Last Assessment for comparison?
@@ -66,11 +70,13 @@ library(gmr)
 # names of the model for the last assessment - Only useful if comparison is made.
 # if all stocks are considered they have to be ordered as follow:
 # "AIGKC/EAG" / "AIGKC/WAG" / "BBRKC" / "SMBKC" / "SNOW"
-.ASSMOD_NAMES <- c("model_21_1e",
-                   "model_21_1e",
-                   "model_21_1",
-                   "model_16_0",
-                   "model_21_g")
+.ASSMOD_NAMES <- c(
+                  # "model_21_1e",
+                   # "model_21_1e",
+                   # "model_21_1",
+                   "model_16_0"
+                   # "model_21_g"
+                   )
 
 # Need to conpile the model?
   # vector of length(.GMACS_version)

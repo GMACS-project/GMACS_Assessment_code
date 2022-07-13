@@ -16,12 +16,43 @@ title: "A template to compile and run GMACS to compare management quantities bet
 
 ```{r setup, include=FALSE, echo = FALSE}
 knitr::opts_chunk$set(echo=FALSE,message=FALSE,warning=FALSE)
+main.path <- dirname(dirname(rstudioapi::getActiveDocumentContext()$path))
+
+knitr::opts_chunk$set(root.dir = main.path)
+knitr::opts_knit$set(root.dir = main.path)
+```
+
+```{r}
+
 rm(list = ls())
 
-# Set the working directory
-setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+# Install and load the packages----
+
+# 1.Install devtools and gdata on your machine ----
+if (!require("devtools")) {                        # install devtools
+  install.packages("devtools")
+}
+
+if (!require("gdata")) {                        # needed to manipulate data
+  install.packages("gdata")
+}
+
+# 2. Install / update gmr package ----
+.Src <- "GMACS-project/gmr"
+.Update <- 0                            # Get the latest version of gmr? (0: no; 1: install for the first time;
+                                        # 2: update the package)
+mylib <- "~/R/win-library/4.1"          # the library directory to remove the 
+# gmr package from
+
+#  remotes::install_github() will work to install gmr on your machine
+if(.Update == 1) devtools::install_github(.Src)
 
 
+# Updating to the latest version of gmr
+if(.Update == 2){
+  remove.packages("gmr", lib=mylib)
+  devtools::install_github(.Src)
+} 
 
 # Load the gmr package
 library(gmr)
@@ -32,10 +63,14 @@ library(gmr)
 
 ```{r Define runs and versions, echo=F, message=FALSE, warning=FALSE, include=FALSE}
 
+# Set the working directory
+# setwd(dirname(dirname(rstudioapi::getActiveDocumentContext()$path)))
+
+
 # Species of interest
 .Spc <-c(
-  # "SMBKC"
-  "all"
+  "SMBKC"
+  # "all"
   # "WAG",
   # "EAG"
   )
@@ -51,7 +86,7 @@ library(gmr)
 # folder will be: paste0(dirname(getwd()), "/Assessments/")
 
 .VERSIONDIR <- c(
-  paste0(getwd(), "/Dvpt_Version/")
+  paste0(getwd(), "/GMACS_versions/Dvpt_Version/")
   # paste0(getwd(), "/Latest_Version/")
 )
 
@@ -106,7 +141,7 @@ res <- GMACS(
   LastAssDat = .LastAssDat,
   ADMBpaths = .ADMBpaths,
   make.comp = .MAKE_Comp,
-  verbose <- .VERBOSE
+  verbose = .VERBOSE
 )
 
 ```

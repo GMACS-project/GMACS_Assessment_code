@@ -1,4 +1,4 @@
-# The Generalized Model for Assessing Crustacean Stocks V 2.01.L
+# The Generalized Model for Assessing Crustacean Stocks
 
 The Generalized Model for Assessing Crustacean Stocks (GMACS) is a statistical size-structured population modeling framework designed to be flexible, scalable, and useful for both data-limited and data-rich situations. GMACS is an open source program coded in C++ and implemented in Automatic Differentiation Model Builder ([ADMB](http://www.admb-project.org/)). It allows to assess the impact of fishing on both the historical and the current abundance of the population and to evaluate sustainable rate of removals (i.e., catches).
 
@@ -12,7 +12,8 @@ The Generalized Model for Assessing Crustacean Stocks (GMACS) is a statistical s
     * [Rmarkdown templates](#rmarkdown-templates)
     * [SAFE documents](#safe-documents)
  -  [Installation](#installation)
- -  [How can I learn to use GMACS](how-can-i-learn-to-use-gmacs)
+ -  [Learning GMACS](#learning-gmacs)
+ -  [GMACS lifecycle](#gmacs-lifecycle)
  -  [How can I contribute to GMACS](how-can-i-contribute-to-gmacs)
  -  [Which tools are available for working with GMACS](which-tools-are-available-for-working-with-gmacs)
 
@@ -64,19 +65,35 @@ The [SAFE_documents](https://github.com/GMACS-project/GMACS_Assessment_code/tree
 
 ## Installation
 
-The most recent version of GMACS (_version 2.01.L_) is a UNIFIED code and can therefore be used for all stocks (see ["GMACS V 2.01.L"](https://github.com/GMACS-project/GMACS_Assessment_code/releases/tag/GMACS_Version) release). Other developments are currently in progress and will be uploaded as soon as possible.
+The most recent version of GMACS is a UNIFIED code and can therefore be used for all stocks (see ["GMACS V 2.01.L"](https://github.com/GMACS-project/GMACS_Assessment_code/releases/tag/GMACS_Version) release). Other developments are currently in progress and will be uploaded as soon as possible.
 
 You can download the latest compiled version from GMACS-project [Github release](https://github.com/GMACS-project/GMACS_Assessment_code/releases/tag/GMACS_Version)
 
-## How can I learn to use GMACS?
+## Learning GMACS
 
-You can learn more about the Generalized Model for Assessing Crustacean Stocks in the [GMACS user manual](https://gmacs-project.github.io/User-manual/) which is still in development. This manual is intended to provide the complete documentation of GMACS.
+If you are new to the Generalized Model for Assessing Crustacean Stocks you should start with the general introduction rather than trying to learn from reading individual documentation pages.
+Currently, there are two great places to start:
+ 1. The [GMACS user manual](https://gmacs-project.github.io/User-manual/) which is currently in development. This manual is intended to provide the complete documentation of GMACS.
+ 2. You can also learn more about how to use GMACS walking through the vignettes of the [gmr](https://gmacs-project.github.io/gmr/index.html) package. You can access these vignettes through the following link: https://gmacs-project.github.io/gmr/articles/
 
-Furthermore, you can also learn more about how to use GMACS walking through the vignettes of the [gmr](https://gmacs-project.github.io/gmr/articles/index.html) package. You can access these vignettes through the following link: https://gmacs-project.github.io/gmr/articles/
+## GMACS lifecycle
+
+GMACS is a modeling framework that has been continuously evolving over the last decade. These evolutions are mainly due to the involvement of several researchers with specific ideas on new GMACS functionalities related to stock assessment and management issues for crustacean stocks. In recent years, these developments have also focused on the issue of being able to take into account the different changes observed at sea. This led for example to incorporate more flexibility in GMACS to consider time-varying parameters in order to catch the potential changes in life history traits. 
+
+Today and for the years to come, the development perspectives of GMACS cover a very wide range of possibilities. The latter only make sense if you, as a user of GMACS, are involved in its development to ensure its flexibility and its ability to respond to your demands and needs.
 
 ## How can I contribute to GMACS?
 
+You want to report issues, you know of new features that you would like to see implemented in the next release of GMACS or just want to create new example and/or documentation, please consider to share it with us. Currently, you can contribute in GMACS in two ways: 
+ * by openning an [issue](https://github.com/GMACS-project/GMACS_Assessment_code/issues) on this repo, or 
+ * by submitting a pull request.
+
+For complete details about how to contribute to GMACS, please see the Contributing to GMACS document.
+
 ## Which tools are available for working with GMACS?
+
+Currently GMACS is linked to [`gmr`](gmacs-project.github.io/gmr/), an R package to work with GMACS in R, create plots of GMACS output, compare different models and prepare SAFE documents.
+
 
 
 

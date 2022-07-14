@@ -70,7 +70,7 @@ You can download the latest compiled version from GMACS-project [Github release]
 
 ## How can I learn to use GMACS?
 
-You can learn more about the Generalized Model for Assessing Crustacean Stocks in the [GMACS user manual](https://github.com/GMACS-project/User-manual) which is still in development. This manual is intended to provide the complete documentation of GMACS.
+You can learn more about the Generalized Model for Assessing Crustacean Stocks in the [GMACS user manual](https://gmacs-project.github.io/User-manual/) which is still in development. This manual is intended to provide the complete documentation of GMACS.
 
 Furthermore, you can also learn more about how to use GMACS walking through the vignettes of the [gmr](https://gmacs-project.github.io/gmr/articles/index.html) package. You can access these vignettes through the following link: https://gmacs-project.github.io/gmr/articles/
 

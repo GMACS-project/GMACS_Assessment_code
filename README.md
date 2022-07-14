@@ -38,7 +38,7 @@ The [Assessments](https://github.com/GMACS-project/GMACS_Assessment_code/tree/ma
 
 ## GMACS versions
 
-The [GMACS_versions](https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS) folder is the key folder of this repository.
+The [GMACS_versions](https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS_versions) folder is the key folder of this repository.
 You will find the following :
   * the current version of GMACS [in development](https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS_versions/Dvpt_Version),
   * the most [recent and "validated"](https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS_versions/Latest_Version) version of GMACS,

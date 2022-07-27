@@ -14,8 +14,8 @@ The Generalized Model for Assessing Crustacean Stocks (GMACS) is a statistical s
  -  [Installation](#installation)
  -  [Learning GMACS](#learning-gmacs)
  -  [GMACS lifecycle](#gmacs-lifecycle)
- -  [How can I contribute to GMACS](how-can-i-contribute-to-gmacs)
- -  [Which tools are available for working with GMACS](which-tools-are-available-for-working-with-gmacs)
+ -  [How can I contribute to GMACS](#how-can-i-contribute-to-gmacs)
+ -  [Which tools are available for working with GMACS](#which-tools-are-available-for-working-with-gmacs)
 
 ## Content of this repository
 

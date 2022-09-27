@@ -216,7 +216,7 @@ pre code {
 
 <h1 class="title toc-ignore">A basic workflow for using the GMACS repository for developpers</h1>
 <h4 class="author">Matthieu VERON</h4>
-<h4 class="date">Last compiled on 13 July, 2022</h4>
+<h4 class="date">Last compiled on 27 July, 2022</h4>
 
 </div>
 
@@ -233,7 +233,7 @@ pre code {
 <p>As the repository is private, you will have to set your credentials in R to be able to download the package. The following code help you to do this. Please use the address of your Github account (the one that gives you access to the organization’s repository in Github).</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbIi5wYWNrIDwtIFwiZ21yXCIiLCIuRGlyU3JjIDwtIFwiR01BQ1MtcHJvamVjdC9nbXJcIiIsIi5Vc2VybmFtZSA8LSBcIlwiICAgICAgICAgICAgICAgICAgICAgIyB0aGUgbmFtZSBvZiB5b3VyIEdpdGh1YiIsIi5Vc2VyRW1haWw8LSBcIlwiICAgICAgICAjIFlvdXIgZW1haWwgYWRkcmVzcyBhc3NvY2lhdGVkIHRvIHlvdXIgR2l0aHViIGFjY291bnQiLCIiLCIjIFJlbW92ZSB0aGUgcGFja2FnZSBpZiB5b3UgYWxyZWFkeSBnb3QgaXQgaW5zdGFsbGVkIG9uIHlvdXIgY29tcHV0ZXIiLCJyZW1vdmUucGFja2FnZXMoLnBhY2ssIGxpYj1cIn4vUi93aW4tbGlicmFyeS80LjFcIikiLCIiLCIjIFNldCBjb25maWciLCJ1c2V0aGlzOjp1c2VfZ2l0X2NvbmZpZyh1c2VyLm5hbWUgPSAuVXNlcm5hbWUsIHVzZXIuZW1haWwgPSAuVXNlckVtYWlsKSIsIiIsIiMgR28gdG8gZ2l0aHViIHBhZ2UgdG8gZ2VuZXJhdGUgdG9rZW4iLCJ1c2V0aGlzOjpjcmVhdGVfZ2l0aHViX3Rva2VuKCkgIiwiIiwiIyBQYXN0ZSB5b3VyIFBBVCBpbnRvIHBvcC11cCB0aGF0IGZvbGxvd3MuLi4iLCJjcmVkZW50aWFsczo6c2V0X2dpdGh1Yl9wYXQoKSIsIiIsIiMgTm93IHJlbW90ZXM6Omluc3RhbGxfZ2l0aHViKCkgd2lsbCB3b3JrIiwiZGV2dG9vbHM6Omluc3RhbGxfZ2l0aHViKC5EaXJTcmMpIiwiIl19 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuLnBhY2sgPC0gXCJnbXJcIlxuLkRpclNyYyA8LSBcIkdNQUNTLXByb2plY3QvZ21yXCJcbi5Vc2VybmFtZSA8LSBcIlwiICAgICAgICAgICAgICAgICAgICAgIyB0aGUgbmFtZSBvZiB5b3VyIEdpdGh1YlxuLlVzZXJFbWFpbDwtIFwiXCIgICAgICAgICMgWW91ciBlbWFpbCBhZGRyZXNzIGFzc29jaWF0ZWQgdG8geW91ciBHaXRodWIgYWNjb3VudFxuXG4jIFJlbW92ZSB0aGUgcGFja2FnZSBpZiB5b3UgYWxyZWFkeSBnb3QgaXQgaW5zdGFsbGVkIG9uIHlvdXIgY29tcHV0ZXJcbnJlbW92ZS5wYWNrYWdlcygucGFjaywgbGliPVwifi9SL3dpbi1saWJyYXJ5LzQuMVwiKVxuXG4jIFNldCBjb25maWdcbnVzZXRoaXM6OnVzZV9naXRfY29uZmlnKHVzZXIubmFtZSA9IC5Vc2VybmFtZSwgdXNlci5lbWFpbCA9IC5Vc2VyRW1haWwpXG5cbiMgR28gdG8gZ2l0aHViIHBhZ2UgdG8gZ2VuZXJhdGUgdG9rZW5cbnVzZXRoaXM6OmNyZWF0ZV9naXRodWJfdG9rZW4oKSBcbmBgYCJ9 -->
 <pre class="r"><code>.pack &lt;- &quot;gmr&quot;
 .DirSrc &lt;- &quot;GMACS-project/gmr&quot;
 .Username &lt;- &quot;&quot;                     # the name of your Github
@@ -246,62 +246,37 @@ remove.packages(.pack, lib=&quot;~/R/win-library/4.1&quot;)
 usethis::use_git_config(user.name = .Username, user.email = .UserEmail)
 
 # Go to github page to generate token
-usethis::create_github_token() 
-
-# Paste your PAT into pop-up that follows...
-credentials::set_github_pat()
-
-# Now remotes::install_github() will work
-devtools::install_github(.DirSrc)
-</code></pre>
+usethis::create_github_token() </code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiKiBDYWxsIGBnaXRjcmVkczo6Z2l0Y3JlZHNfc2V0KClgIHRvIHJlZ2lzdGVyIHRoaXMgdG9rZW4gaW4gdGhlIGxvY2FsIEdpdCBjcmVkZW50aWFsIHN0b3JlXG4gIEl0IGlzIGFsc28gYSBncmVhdCBpZGVhIHRvIHN0b3JlIHRoaXMgdG9rZW4gaW4gYW55IHBhc3N3b3JkLW1hbmFnZW1lbnQgc29mdHdhcmUgdGhhdCB5b3UgdXNlXG52IE9wZW5pbmcgVVJMICdodHRwczovL2dpdGh1Yi5jb20vc2V0dGluZ3MvdG9rZW5zL25ldz9zY29wZXM9cmVwbyx1c2VyLGdpc3Qsd29ya2Zsb3cmZGVzY3JpcHRpb249REVTQ1JJQkUgVEhFIFRPS0VOXFwnUyBVU0UgQ0FTRSdcbiJ9 -->
+<pre><code>* Call `gitcreds::gitcreds_set()` to register this token in the local Git credential store
+  It is also a great idea to store this token in any password-management software that you use
+v Opening URL &#39;https://github.com/settings/tokens/new?scopes=repo,user,gist,workflow&amp;description=DESCRIBE THE TOKEN\&#39;S USE CASE&#39;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBQYXN0ZSB5b3VyIFBBVCBpbnRvIHBvcC11cCB0aGF0IGZvbGxvd3MuLi5cbmNyZWRlbnRpYWxzOjpzZXRfZ2l0aHViX3BhdCgpXG5gYGAifQ== -->
+<pre class="r"><code># Paste your PAT into pop-up that follows...
+credentials::set_github_pat()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiSWYgcHJvbXB0ZWQgZm9yIEdpdEh1YiBjcmVkZW50aWFscywgZW50ZXIgeW91ciBQQVQgaW4gdGhlIHBhc3N3b3JkIGZpZWxkXG5BdXRoZW50aWNhdGlvbiBmYWlsZWQuIFRva2VuIGludmFsaWQuXG5mYXRhbDogQ2Fubm90IHByb21wdCBiZWNhdXNlIHRlcm1pbmFsIHByb21wdHMgaGF2ZSBiZWVuIGRpc2FibGVkLlxuZXJyb3I6IHVuYWJsZSB0byByZWFkIGFza3Bhc3MgcmVzcG9uc2UgZnJvbSAncnBvc3RiYWNrLWFza3Bhc3MnXG5mYXRhbDogY291bGQgbm90IHJlYWQgUGFzc3dvcmQgZm9yICdodHRwczovL1BlcnNvbmFsQWNjZXNzVG9rZW5AZ2l0aHViLmNvbSc6IHRlcm1pbmFsIHByb21wdHMgZGlzYWJsZWRcbkVycm9yOiBGYWlsZWQgdG8gY2FsbCAnZ2l0IGNyZWRlbnRpYWwgZmlsbCdcbiJ9 -->
+<pre><code>If prompted for GitHub credentials, enter your PAT in the password field
+Authentication failed. Token invalid.
+fatal: Cannot prompt because terminal prompts have been disabled.
+error: unable to read askpass response from &#39;rpostback-askpass&#39;
+fatal: could not read Password for &#39;https://PersonalAccessToken@github.com&#39;: terminal prompts disabled
+Error: Failed to call &#39;git credential fill&#39;</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>The following code proceeds the installation of the <code>[gmr]</code> package on your machine and load the various libraries.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbIiIsInJtKGxpc3Q9bHMoKSkgICAgICMgQ2xlYW4geW91ciBSIHNlc3Npb24iLCIiLCIjIFNldCB0aGUgd29ya2luZyBkaXJlY3RvcnkgYXMgdGhlIGRpcmVjdG9yeSBvZiB0aGlzIGRvY3VtZW50LS0tLSIsIiMgc2V0d2QoZGlybmFtZShyc3R1ZGlvYXBpOjpnZXRBY3RpdmVEb2N1bWVudENvbnRleHQoKSRwYXRoKSkiLCIiLCIjIGNoZWNrIHlvdXIgZGlyZWN0b3J5IiwiZ2V0d2QoKSIsIiIsIiMgSW5zdGFsbCBhbmQgbG9hZCB0aGUgcGFja2FnZXMtLS0tIiwiIiwiIyAxLkluc3RhbGwgZGV2dG9vbHMgYW5kIGdkYXRhIG9uIHlvdXIgbWFjaGluZSAtLS0tIiwiaWYgKCFyZXF1aXJlKFwiZGV2dG9vbHNcIikpIHsgICAgICAgICAgICAgICAgICAgICAgICAjIGluc3RhbGwgZGV2dG9vbHMiLCIgIGluc3RhbGwucGFja2FnZXMoXCJkZXZ0b29sc1wiKSIsIn0iLCIiLCJpZiAoIXJlcXVpcmUoXCJnZGF0YVwiKSkgeyAgICAgICAgICAgICAgICAgICAgICAgICMgbmVlZGVkIHRvIG1hbmlwdWxhdGUgZGF0YSIsIiAgaW5zdGFsbC5wYWNrYWdlcyhcImdkYXRhXCIpIiwifSIsIiIsIiMgMi4gSW5zdGFsbCAvIHVwZGF0ZSBnbXIgcGFja2FnZSAtLS0tIiwiLlNyYyA8LSBcIkdNQUNTLXByb2plY3QvZ21yXCIiLCIuVXBkYXRlIDwtIDAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBHZXQgdGhlIGxhdGVzdCB2ZXJzaW9uIG9mIGdtcj8gKDA6IG5vOyAxOiBpbnN0YWxsIGZvciB0aGUgZmlyc3QgdGltZTsiLCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyAyOiB1cGRhdGUgdGhlIHBhY2thZ2UpIiwibXlsaWIgPC0gXCJ+L1Ivd2luLWxpYnJhcnkvNC4xXCIgICAgICAgICAgIyB0aGUgbGlicmFyeSBkaXJlY3RvcnkgdG8gcmVtb3ZlIHRoZSAiLCIjIGdtciBwYWNrYWdlIGZyb20iLCIiLCIjICByZW1vdGVzOjppbnN0YWxsX2dpdGh1YigpIHdpbGwgd29yayB0byBpbnN0YWxsIGdtciBvbiB5b3VyIG1hY2hpbmUiLCJpZiguVXBkYXRlID09IDEpIGRldnRvb2xzOjppbnN0YWxsX2dpdGh1YiguU3JjKSIsIiIsIiIsIiMgVXBkYXRpbmcgdG8gdGhlIGxhdGVzdCB2ZXJzaW9uIG9mIGdtciIsImlmKC5VcGRhdGUgPT0gMil7IiwiICByZW1vdmUucGFja2FnZXMoXCJnbXJcIiwgbGliPW15bGliKSIsIiAgZGV2dG9vbHM6Omluc3RhbGxfZ2l0aHViKC5TcmMpIiwifSAiLCIiLCIiLCIjIExvYWQgdGhlIGdtciBwYWNrYWdlIiwibGlicmFyeShnbXIpIl19 -->
-<pre class="r"><code>
-rm(list=ls())     # Clean your R session
-
-# Set the working directory as the directory of this document----
-# setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-
-# check your directory
-getwd()
-
-# Install and load the packages----
-
-# 1.Install devtools and gdata on your machine ----
-if (!require(&quot;devtools&quot;)) {                        # install devtools
-  install.packages(&quot;devtools&quot;)
-}
-
-if (!require(&quot;gdata&quot;)) {                        # needed to manipulate data
-  install.packages(&quot;gdata&quot;)
-}
-
-# 2. Install / update gmr package ----
-.Src &lt;- &quot;GMACS-project/gmr&quot;
-.Update &lt;- 0                            # Get the latest version of gmr? (0: no; 1: install for the first time;
-                                        # 2: update the package)
-mylib &lt;- &quot;~/R/win-library/4.1&quot;          # the library directory to remove the 
-# gmr package from
-
-#  remotes::install_github() will work to install gmr on your machine
-if(.Update == 1) devtools::install_github(.Src)
-
-
-# Updating to the latest version of gmr
-if(.Update == 2){
-  remove.packages(&quot;gmr&quot;, lib=mylib)
-  devtools::install_github(.Src)
-} 
-
-
-# Load the gmr package
-library(gmr)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGlybmFtZShyc3R1ZGlvYXBpOjpnZXRBY3RpdmVEb2N1bWVudENvbnRleHQoKSRwYXRoKVxuXG5gYGAifQ== -->
+<pre class="r"><code>dirname(rstudioapi::getActiveDocumentContext()$path)
+</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiQzovVXNlcnMvTWF0dGhpZXUgVmVyc29uL0RvY3VtZW50cy9HaXRIdWIvR01BQ1MtcHJvamVjdC9HTUFDU19Bc3Nlc3NtZW50X2NvZGUvR01BQ1NfdmVyc2lvbnNcIlxuIn0= -->
+<pre><code>[1] &quot;C:/Users/Matthieu Verson/Documents/GitHub/GMACS-project/GMACS_Assessment_code/GMACS_versions&quot;</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p><code>Codes</code> in this document are summarized in a clean and runnable <code>.R</code> script (<a href="https://github.com/GMACS-project/GMACS_Assessment_code/blob/main/GMACS/UpdateGMACS.R">UpdateGMACS.R</a>) which you should use whenever you want to release a new version of GMACS. This R script will guide you through all the steps of the procedure making the GMACS upgrade process easier and more transparent.</p>
@@ -376,7 +351,7 @@ library(gmr)</code></pre>
 <p>The following code compiles and build the GMACS executable.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbIiIsIiMgRGVmaW5lIHRoZSBuYW1lIG9mIHRoZSBmaWxlIGNvbnRhaW5pbmcgdGhlIGRpZmZlcmVudCBwYXRod2F5cyBuZWVkZWQgdG8gYnVpbGQiLCIjIHRoZSBHTUFDUyBleGVjdXRhYmxlICIsIi5BRE1CcGF0aHMgPC0gXCJBRHBhdGhzLnR4dFwiIiwiIiwiIyBSdW4gdGhlIEdldEdtYWNzRXhlIGZ1bmN0aW9uIiwiLkdldEdtYWNzRXhlKCkiLCIiXX0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIERlZmluZSB0aGUgbmFtZSBvZiB0aGUgZmlsZSBjb250YWluaW5nIHRoZSBkaWZmZXJlbnQgcGF0aHdheXMgbmVlZGVkIHRvIGJ1aWxkXG4jIHRoZSBHTUFDUyBleGVjdXRhYmxlIFxuLkFETUJwYXRocyA8LSBcIkFEcGF0aHMudHh0XCJcblxuIyBSdW4gdGhlIEdldEdtYWNzRXhlIGZ1bmN0aW9uXG4uR2V0R21hY3NFeGUoKVxuXG5gYGAifQ== -->
 <pre class="r"><code>
 # Define the name of the file containing the different pathways needed to build
 # the GMACS executable 
@@ -400,7 +375,7 @@ library(gmr)</code></pre>
 <p>First define the characteristics of this analysis:</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbIiIsIiIsIiMgSUktIFJ1biB0aGUgZGV2ZWxvcG1lbnQgdmVyc2lvbi0tLS0iLCIiLCIjIFNwZWNpZXMgb2YgaW50ZXJlc3QiLCIuU3BjIDwtYygiLCIgIFwiU05PV19jcmFiXCIiLCIpIiwiIiwiIyBOYW1lcyBvZiB0aGUgR01BQ1MgdmVyc2lvbiB0byBjb25zaWRlciIsIi5HTUFDU192ZXJzaW9uIDwtIGMoIiwiICBcIkR2cHRfVmVyc2lvblwiIiwiKSIsIiIsIiMgRGVmaW5lIGRpcmVjdG9yaWVzIiwiLlZFUlNJT05ESVIgPC0gYygiLCIgIHBhc3RlMChnZXR3ZCgpLCBcIi9EdnB0X1ZlcnNpb24vXCIpIiwiKSIsIiIsIiMgVXNlIExhc3QgQXNzZXNzbWVudCBmb3IgY29tcGFyaXNvbj8iLCIjIElmIHllcywgeW91IG11c3QgcHJvdmlkZSB0aGUgbmFtZXMgb2YgdGhlIG1vZGVsIGZvciBlYWNoIHNwZWNpZXMgaW4gdGhlIHZhcmlhYmxlIC5BU1NNT0RfTkFNRVMiLCIjIFRob3NlIG1vZGVsIGZvbGRlciBtdXN0IGhhdmUgdG8gYmUgaG9sZCBpbiB0aGUgZm9sZGVyIEFzc2Vzc21lbnRzIiwiLkFTUyA8LSBGQUxTRSIsIiIsIiMgTmVlZCB0byBjb25waWxlIHRoZSBtb2RlbD8iLCIjIHZlY3RvciBvZiBsZW5ndGgoLkdNQUNTX3ZlcnNpb24pIiwiIyAwOiBHTUFDUyBpcyBub3QgY29tcGlsZWQuIFRoaXMgYXNzdW1lcyB0aGF0IGFuIGV4ZWN1dGFibGUgZXhpc3RzIGluIHRoZSBkaXJlY3Rvcnkgb2YgdGhlIGNvbmNlcm5lZCB2ZXJzaW9uLiIsIiMgMTogR01BQ1MgaXMgY29tcGlsZXMiLCIuQ09NUElMRSA8LSAwICAgICAgICMgWW91IGFscmVhZHkgY29tcGlsZSBhbmQgYnVpbGQgdGhlIGV4ZWN1dGFibGUiLCIiLCIjIFJ1biBHTUFDUyIsIi5SVU5fR01BQ1MgPC0gVFJVRSIsIiIsIiMgVXNlIGxhdGVzdCBhdmFpbGFibGUgZGF0YSBmb3IgdGhlIGFzc2Vzc21lbnQ/IiwiLkxhc3RBc3NEYXQgPC0gVFJVRSIsIiIsIiMgRGVmaW5lIHRoZSBkaXJlY3RvcmllcyBmb3IgQURNQiIsIi5BRE1CcGF0aHMgPC0gXCJBRHBhdGhzLnR4dFwiIiwiIiwiIyBTaG93IFJ0ZXJtaW5hbCIsIi5WRVJCT1NFIDwtIFRSVUUiLCIiLCIjIERvIGNvbXBhcmlzb24/IiwiLk1BS0VfQ29tcCA8LSBGQUxTRSIsIiIsIiJdfQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5cbiMgSUktIFJ1biB0aGUgZGV2ZWxvcG1lbnQgdmVyc2lvbi0tLS1cblxuIyBTcGVjaWVzIG9mIGludGVyZXN0XG4uU3BjIDwtYyhcbiAgXCJTTk9XX2NyYWJcIlxuKVxuXG4jIE5hbWVzIG9mIHRoZSBHTUFDUyB2ZXJzaW9uIHRvIGNvbnNpZGVyXG4uR01BQ1NfdmVyc2lvbiA8LSBjKFxuICBcIkR2cHRfVmVyc2lvblwiXG4pXG5cbiMgRGVmaW5lIGRpcmVjdG9yaWVzXG4uVkVSU0lPTkRJUiA8LSBjKFxuICBwYXN0ZTAoZ2V0d2QoKSwgXCIvRHZwdF9WZXJzaW9uL1wiKVxuKVxuXG4jIFVzZSBMYXN0IEFzc2Vzc21lbnQgZm9yIGNvbXBhcmlzb24/XG4jIElmIHllcywgeW91IG11c3QgcHJvdmlkZSB0aGUgbmFtZXMgb2YgdGhlIG1vZGVsIGZvciBlYWNoIHNwZWNpZXMgaW4gdGhlIHZhcmlhYmxlIC5BU1NNT0RfTkFNRVNcbiMgVGhvc2UgbW9kZWwgZm9sZGVyIG11c3QgaGF2ZSB0byBiZSBob2xkIGluIHRoZSBmb2xkZXIgQXNzZXNzbWVudHNcbi5BU1MgPC0gRkFMU0VcblxuIyBOZWVkIHRvIGNvbnBpbGUgdGhlIG1vZGVsP1xuIyB2ZWN0b3Igb2YgbGVuZ3RoKC5HTUFDU192ZXJzaW9uKVxuIyAwOiBHTUFDUyBpcyBub3QgY29tcGlsZWQuIFRoaXMgYXNzdW1lcyB0aGF0IGFuIGV4ZWN1dGFibGUgZXhpc3RzIGluIHRoZSBkaXJlY3Rvcnkgb2YgdGhlIGNvbmNlcm5lZCB2ZXJzaW9uLlxuIyAxOiBHTUFDUyBpcyBjb21waWxlc1xuLkNPTVBJTEUgPC0gMCAgICAgICAjIFlvdSBhbHJlYWR5IGNvbXBpbGUgYW5kIGJ1aWxkIHRoZSBleGVjdXRhYmxlXG5cbiMgUnVuIEdNQUNTXG4uUlVOX0dNQUNTIDwtIFRSVUVcblxuIyBVc2UgbGF0ZXN0IGF2YWlsYWJsZSBkYXRhIGZvciB0aGUgYXNzZXNzbWVudD9cbi5MYXN0QXNzRGF0IDwtIFRSVUVcblxuIyBEZWZpbmUgdGhlIGRpcmVjdG9yaWVzIGZvciBBRE1CXG4uQURNQnBhdGhzIDwtIFwiQURwYXRocy50eHRcIlxuXG4jIFNob3cgUnRlcm1pbmFsXG4uVkVSQk9TRSA8LSBUUlVFXG5cbiMgRG8gY29tcGFyaXNvbj9cbi5NQUtFX0NvbXAgPC0gRkFMU0VcblxuXG5gYGAifQ== -->
 <pre class="r"><code>
 
 # II- Run the development version----
@@ -452,7 +427,7 @@ library(gmr)</code></pre>
 <p>Then, run the model:</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbInJlcyA8LSBHTUFDUygiLCIgIFNwYyA9IC5TcGMsIiwiICBHTUFDU192ZXJzaW9uID0gLkdNQUNTX3ZlcnNpb24sIiwiICBEaXIgPSAuVkVSU0lPTkRJUiwiLCIgIEFTUyA9IC5BU1MsIiwiICBjb21waWxlID0gLkNPTVBJTEUsIiwiICBydW4gPSAuUlVOX0dNQUNTLCIsIiAgTGFzdEFzc0RhdCA9IC5MYXN0QXNzRGF0LCIsIiAgQURNQnBhdGhzID0gLkFETUJwYXRocywiLCIgIG1ha2UuY29tcCA9IC5NQUtFX0NvbXAsIiwiICB2ZXJib3NlID0gLlZFUkJPU0UiLCIpIl19 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVzIDwtIEdNQUNTKFxuICBTcGMgPSAuU3BjLFxuICBHTUFDU192ZXJzaW9uID0gLkdNQUNTX3ZlcnNpb24sXG4gIERpciA9IC5WRVJTSU9ORElSLFxuICBBU1MgPSAuQVNTLFxuICBjb21waWxlID0gLkNPTVBJTEUsXG4gIHJ1biA9IC5SVU5fR01BQ1MsXG4gIExhc3RBc3NEYXQgPSAuTGFzdEFzc0RhdCxcbiAgQURNQnBhdGhzID0gLkFETUJwYXRocyxcbiAgbWFrZS5jb21wID0gLk1BS0VfQ29tcCxcbiAgdmVyYm9zZSA9IC5WRVJCT1NFXG4pXG5gYGAifQ== -->
 <pre class="r"><code>res &lt;- GMACS(
   Spc = .Spc,
   GMACS_version = .GMACS_version,
@@ -477,7 +452,7 @@ library(gmr)</code></pre>
 <p>Changes the parameters for the comparison:</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbIiIsIiMgTmFtZXMgb2YgdGhlIEdNQUNTIHZlcnNpb24gdG8gY29uc2lkZXIgZm9yIHJ1biIsIi5HTUFDU192ZXJzaW9uIDwtIGMoIiwiICBcIkxhc3RfQXNzZXNzbWVudFwiLCIsIiAgXCJEdnB0X1ZlcnNpb25cIiIsIikiLCIiLCIjIERlZmluZSBkaXJlY3RvcnkiLCIuVkVSU0lPTkRJUiA8LSBjKCIsIiAgcGFzdGUwKGRpcm5hbWUoZ2V0d2QoKSksIFwiL0Fzc2Vzc21lbnRzL1wiKSwiLCIgIHBhc3RlMChnZXR3ZCgpLCBcIi9EdnB0X1ZlcnNpb24vXCIpIiwiKSIsIiIsIiMgTmVlZCB0byBjb25waWxlIHRoZSBtb2RlbD8iLCIjIHZlY3RvciBvZiBsZW5ndGgoLkdNQUNTX3ZlcnNpb24pIiwiIyAwOiBHTUFDUyBpcyBub3QgY29tcGlsZWQuIFRoaXMgYXNzdW1lcyB0aGF0IGFuIGV4ZWN1dGFibGUgZXhpc3RzIGluIHRoZSBkaXJlY3Rvcnkgb2YgdGhlIGNvbmNlcm5lZCB2ZXJzaW9uLiIsIiMgMTogR01BQ1MgaXMgY29tcGlsZXMiLCIuQ09NUElMRSA8LSBjKDAsMCkgICAgICAgIyBZb3UgYWxyZWFkeSBjb21waWxlIGFuZCBidWlsZCB0aGUgZXhlY3V0YWJsZSIsIiIsIiMgUnVuIEdNQUNTIiwiLlJVTl9HTUFDUyA8LSBGQUxTRSIsIiIsIiMgU3BlY2llcyIsIi5TcGMgPC0gYygiLCIgICAgICAgICAgJ1NOT1dfY3JhYiciLCIgICAgICAgICAgKSIsIiIsIiMgVXNlIExhc3QgQXNzZXNzbWVudCBmb3IgY29tcGFyaXNvbj8iLCIjIElmIHllcywgeW91IG11c3QgcHJvdmlkZSB0aGUgbmFtZXMgb2YgdGhlIG1vZGVsIGZvciBlYWNoIHNwZWNpZXMgaW4gdGhlIHZhcmlhYmxlIC5BU1NNT0RfTkFNRVMiLCIjIFRob3NlIG1vZGVsIGZvbGRlciBtdXN0IGhhdmUgdG8gYmUgaG9sZCBpbiB0aGUgZm9sZGVyIEFzc2Vzc21lbnRzIiwiLkFTUyA8LSBUUlVFIiwiIiwiIyBuYW1lcyBvZiB0aGUgbW9kZWwgZm9yIHRoZSBsYXN0IGFzc2Vzc21lbnQgLSBPbmx5IHVzZWZ1bCBpZiBjb21wYXJpc29uIGlzIG1hZGUuIiwiIyBpZiBhbGwgc3RvY2tzIGFyZSBjb25zaWRlcmVkIHRoZXkgaGF2ZSB0byBiZSBvcmRlcmVkIGFzIGZvbGxvdzoiLCIjIFwiQUlHS0MvRUFHXCIgLyBcIkFJR0tDL1dBR1wiIC8gXCJCQlJLQ1wiIC8gXCJTTUJLQ1wiIC8gXCJTTk9XXCIiLCIuQVNTTU9EX05BTUVTIDwtIGMoIiwiICAgICAgICAgICAgICAgICAgICdtb2RlbF8yMV9nJyIsIiAgICAgICAgICAgICAgICAgICApIiwiIiwiIyBEbyBjb21wYXJpc29uPyIsIi5NQUtFX0NvbXAgPC0gVFJVRSIsIiJdfQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIE5hbWVzIG9mIHRoZSBHTUFDUyB2ZXJzaW9uIHRvIGNvbnNpZGVyIGZvciBydW5cbi5HTUFDU192ZXJzaW9uIDwtIGMoXG4gIFwiTGFzdF9Bc3Nlc3NtZW50XCIsXG4gIFwiRHZwdF9WZXJzaW9uXCJcbilcblxuIyBEZWZpbmUgZGlyZWN0b3J5XG4uVkVSU0lPTkRJUiA8LSBjKFxuICBwYXN0ZTAoZGlybmFtZShnZXR3ZCgpKSwgXCIvQXNzZXNzbWVudHMvXCIpLFxuICBwYXN0ZTAoZ2V0d2QoKSwgXCIvRHZwdF9WZXJzaW9uL1wiKVxuKVxuXG4jIE5lZWQgdG8gY29ucGlsZSB0aGUgbW9kZWw/XG4jIHZlY3RvciBvZiBsZW5ndGgoLkdNQUNTX3ZlcnNpb24pXG4jIDA6IEdNQUNTIGlzIG5vdCBjb21waWxlZC4gVGhpcyBhc3N1bWVzIHRoYXQgYW4gZXhlY3V0YWJsZSBleGlzdHMgaW4gdGhlIGRpcmVjdG9yeSBvZiB0aGUgY29uY2VybmVkIHZlcnNpb24uXG4jIDE6IEdNQUNTIGlzIGNvbXBpbGVzXG4uQ09NUElMRSA8LSBjKDAsMCkgICAgICAgIyBZb3UgYWxyZWFkeSBjb21waWxlIGFuZCBidWlsZCB0aGUgZXhlY3V0YWJsZVxuXG4jIFJ1biBHTUFDU1xuLlJVTl9HTUFDUyA8LSBGQUxTRVxuXG4jIFNwZWNpZXNcbi5TcGMgPC0gYyhcbiAgICAgICAgICAnU05PV19jcmFiJ1xuICAgICAgICAgIClcblxuIyBVc2UgTGFzdCBBc3Nlc3NtZW50IGZvciBjb21wYXJpc29uP1xuIyBJZiB5ZXMsIHlvdSBtdXN0IHByb3ZpZGUgdGhlIG5hbWVzIG9mIHRoZSBtb2RlbCBmb3IgZWFjaCBzcGVjaWVzIGluIHRoZSB2YXJpYWJsZSAuQVNTTU9EX05BTUVTXG4jIFRob3NlIG1vZGVsIGZvbGRlciBtdXN0IGhhdmUgdG8gYmUgaG9sZCBpbiB0aGUgZm9sZGVyIEFzc2Vzc21lbnRzXG4uQVNTIDwtIFRSVUVcblxuIyBuYW1lcyBvZiB0aGUgbW9kZWwgZm9yIHRoZSBsYXN0IGFzc2Vzc21lbnQgLSBPbmx5IHVzZWZ1bCBpZiBjb21wYXJpc29uIGlzIG1hZGUuXG4jIGlmIGFsbCBzdG9ja3MgYXJlIGNvbnNpZGVyZWQgdGhleSBoYXZlIHRvIGJlIG9yZGVyZWQgYXMgZm9sbG93OlxuIyBcIkFJR0tDL0VBR1wiIC8gXCJBSUdLQy9XQUdcIiAvIFwiQkJSS0NcIiAvIFwiU01CS0NcIiAvIFwiU05PV1wiXG4uQVNTTU9EX05BTUVTIDwtIGMoXG4gICAgICAgICAgICAgICAgICAgJ21vZGVsXzIxX2cnXG4gICAgICAgICAgICAgICAgICAgKVxuXG4jIERvIGNvbXBhcmlzb24/XG4uTUFLRV9Db21wIDwtIFRSVUVcblxuYGBgIn0= -->
 <pre class="r"><code>
 # Names of the GMACS version to consider for run
 .GMACS_version &lt;- c(
@@ -526,16 +501,48 @@ library(gmr)</code></pre>
 <p>Call the GMACS() function:</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbIiMgQ2FsbCB0aGUgR01BQ1MoKSBmdW5jdGlvbjoiLCIiLCJ0YWJsZXMgPC0gR01BQ1MoU3BjID0gLlNwYywgR01BQ1NfdmVyc2lvbiA9IC5HTUFDU192ZXJzaW9uLCIsIiAgICAgICAgICAgICAgICBEaXIgPSAuVkVSU0lPTkRJUiwiLCIgICAgICAgICAgICAgICAgY29tcGlsZSA9IC5DT01QSUxFLCIsIiAgICAgICAgICAgICAgICBBU1MgPSAuQVNTLCIsIiAgICAgICAgICAgICAgICBBc3NNb2RfbmFtZXMgPSAuQVNTTU9EX05BTUVTLCIsIiAgICAgICAgICAgICAgICBydW4gPSAuUlVOX0dNQUNTLCIsIiAgICAgICAgICAgICAgICBtYWtlLmNvbXAgPSAuTUFLRV9Db21wKSIsIiJdfQ== -->
-<pre class="r"><code># Call the GMACS() function:
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIE5hbWVzIG9mIHRoZSBHTUFDUyB2ZXJzaW9uIHRvIGNvbnNpZGVyIGZvciBydW5cbi5HTUFDU192ZXJzaW9uIDwtIGMoXG4gIFwiTGFzdF9Bc3Nlc3NtZW50XCIsXG4gIFwiRHZwdF9WZXJzaW9uXCJcbilcblxuIyBEZWZpbmUgZGlyZWN0b3J5XG4uVkVSU0lPTkRJUiA8LSBjKFxuICBwYXN0ZTAoZGlybmFtZShnZXR3ZCgpKSwgXCIvQXNzZXNzbWVudHMvXCIpLFxuICBwYXN0ZTAoZ2V0d2QoKSwgXCIvRHZwdF9WZXJzaW9uL1wiKVxuKVxuXG4jIE5lZWQgdG8gY29ucGlsZSB0aGUgbW9kZWw/XG4jIHZlY3RvciBvZiBsZW5ndGgoLkdNQUNTX3ZlcnNpb24pXG4jIDA6IEdNQUNTIGlzIG5vdCBjb21waWxlZC4gVGhpcyBhc3N1bWVzIHRoYXQgYW4gZXhlY3V0YWJsZSBleGlzdHMgaW4gdGhlIGRpcmVjdG9yeSBvZiB0aGUgY29uY2VybmVkIHZlcnNpb24uXG4jIDE6IEdNQUNTIGlzIGNvbXBpbGVzXG4uQ09NUElMRSA8LSBjKDAsMCkgICAgICAgIyBZb3UgYWxyZWFkeSBjb21waWxlIGFuZCBidWlsZCB0aGUgZXhlY3V0YWJsZVxuXG4jIFJ1biBHTUFDU1xuLlJVTl9HTUFDUyA8LSBGQUxTRVxuXG4jIFNwZWNpZXNcbi5TcGMgPC0gYyhcbiAgICAgICAgICAnU05PV19jcmFiJ1xuICAgICAgICAgIClcblxuIyBVc2UgTGFzdCBBc3Nlc3NtZW50IGZvciBjb21wYXJpc29uP1xuIyBJZiB5ZXMsIHlvdSBtdXN0IHByb3ZpZGUgdGhlIG5hbWVzIG9mIHRoZSBtb2RlbCBmb3IgZWFjaCBzcGVjaWVzIGluIHRoZSB2YXJpYWJsZSAuQVNTTU9EX05BTUVTXG4jIFRob3NlIG1vZGVsIGZvbGRlciBtdXN0IGhhdmUgdG8gYmUgaG9sZCBpbiB0aGUgZm9sZGVyIEFzc2Vzc21lbnRzXG4uQVNTIDwtIFRSVUVcblxuIyBuYW1lcyBvZiB0aGUgbW9kZWwgZm9yIHRoZSBsYXN0IGFzc2Vzc21lbnQgLSBPbmx5IHVzZWZ1bCBpZiBjb21wYXJpc29uIGlzIG1hZGUuXG4jIGlmIGFsbCBzdG9ja3MgYXJlIGNvbnNpZGVyZWQgdGhleSBoYXZlIHRvIGJlIG9yZGVyZWQgYXMgZm9sbG93OlxuIyBcIkFJR0tDL0VBR1wiIC8gXCJBSUdLQy9XQUdcIiAvIFwiQkJSS0NcIiAvIFwiU01CS0NcIiAvIFwiU05PV1wiXG4uQVNTTU9EX05BTUVTIDwtIGMoXG4gICAgICAgICAgICAgICAgICAgJ21vZGVsXzIxX2cnXG4gICAgICAgICAgICAgICAgICAgKVxuXG4jIERvIGNvbXBhcmlzb24/XG4uTUFLRV9Db21wIDwtIFRSVUVcblxuYGBgIn0= -->
+<pre class="r"><code>
+# Names of the GMACS version to consider for run
+.GMACS_version &lt;- c(
+  &quot;Last_Assessment&quot;,
+  &quot;Dvpt_Version&quot;
+)
 
-tables &lt;- GMACS(Spc = .Spc, GMACS_version = .GMACS_version,
-                Dir = .VERSIONDIR,
-                compile = .COMPILE,
-                ASS = .ASS,
-                AssMod_names = .ASSMOD_NAMES,
-                run = .RUN_GMACS,
-                make.comp = .MAKE_Comp)
+# Define directory
+.VERSIONDIR &lt;- c(
+  paste0(dirname(getwd()), &quot;/Assessments/&quot;),
+  paste0(getwd(), &quot;/Dvpt_Version/&quot;)
+)
+
+# Need to conpile the model?
+# vector of length(.GMACS_version)
+# 0: GMACS is not compiled. This assumes that an executable exists in the directory of the concerned version.
+# 1: GMACS is compiles
+.COMPILE &lt;- c(0,0)       # You already compile and build the executable
+
+# Run GMACS
+.RUN_GMACS &lt;- FALSE
+
+# Species
+.Spc &lt;- c(
+          &#39;SNOW_crab&#39;
+          )
+
+# Use Last Assessment for comparison?
+# If yes, you must provide the names of the model for each species in the variable .ASSMOD_NAMES
+# Those model folder must have to be hold in the folder Assessments
+.ASS &lt;- TRUE
+
+# names of the model for the last assessment - Only useful if comparison is made.
+# if all stocks are considered they have to be ordered as follow:
+# &quot;AIGKC/EAG&quot; / &quot;AIGKC/WAG&quot; / &quot;BBRKC&quot; / &quot;SMBKC&quot; / &quot;SNOW&quot;
+.ASSMOD_NAMES &lt;- c(
+                   &#39;model_21_g&#39;
+                   )
+
+# Do comparison?
+.MAKE_Comp &lt;- TRUE
 </code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
@@ -555,7 +562,7 @@ tables &lt;- GMACS(Spc = .Spc, GMACS_version = .GMACS_version,
 </ol>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbIiMgVXNlIHRoZSBVcGRhdGVHTUFDUyBmdW5jdGlvbiB0byBjb3B5IGFuZCBwYXN0ZSB0aGUgbGFzdCBmaWxlcyBpbiB0aGUgTGF0ZXN0X1ZlcnNpb24iLCIjIGRpcmVjdG9yeSIsIlVwZGF0ZUdNQUNTKCkiXX0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBVc2UgdGhlIFVwZGF0ZUdNQUNTIGZ1bmN0aW9uIHRvIGNvcHkgYW5kIHBhc3RlIHRoZSBsYXN0IGZpbGVzIGluIHRoZSBMYXRlc3RfVmVyc2lvblxuIyBkaXJlY3RvcnlcblVwZGF0ZUdNQUNTKClcbmBgYCJ9 -->
 <pre class="r"><code># Use the UpdateGMACS function to copy and paste the last files in the Latest_Version
 # directory
 UpdateGMACS()</code></pre>

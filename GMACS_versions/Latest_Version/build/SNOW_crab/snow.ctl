@@ -129,7 +129,7 @@
 ## ———————————————————————————————————————————————————————————————————————————————————— ##																					
 # Use growth transition matrix option (1=read in growth-increment matrix; 2=read in size-transition; 3=gamma distribution for size-increment; 4=gamma distribution for size after increment)																					
 4																					
-# growth increment model (1=alpha/beta; 2=estimated by size-class;3=pre-specified/emprical)																					
+# growth increment model (0=prespecified; 1=alpha/beta; 2=estimated by size-class;3=pre-specified/emprical)																					
 1																					
 # molt probability function (0=pre-specified; 1=flat;2=declining logistic; 3=free parameters)																					
 3																					

@@ -53,14 +53,43 @@
 // Label 506: project_one_year
 // Label 600: CreateOutput
 // Label 700: write_eval
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+//Revision Notes
+//2022-10-31: 1.Update GMACS version to 2.01.WTS
+//            2. Added Revision Notes section
+//            3. Added commandline input flag "testingflag" to turn on sandbox 
+//            4. Added alternative data file reader (TCSAM02 format)
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 DATA_SECTION
 
- !! TheHeader =  adstring("## GMACS Version 2.01.L; Compiled 2022-06-27 15:48:41");
+ !! TheHeader =  adstring("## GMACS Version 2.01.L.WTS; Compiled 2022-10-31");
 
 //-------------------------------
 // Sandbox for testing functions |
 //-------------------------------
  LOCAL_CALCS
+  /**
+   * @brief command line option for sandbox.
+  **/
+  int testingflag = 0;
+  if ( (on=option_match(ad_comm::argc,ad_comm::argv,"-testing",opt))>-1 )
+   {
+    testingflag = 1;
+   }
+  if (testing==1){
+     //Testing alternative dat file reader
+    cout<<"|---------------------------------------|"<<endl;
+    cout<<"| Testing with alternative dat file     |"<<endl;
+    cout<<"|---------------------------------------|"<<endl;
+    DatFileReader* pDFR = new DatFileReader();
+    cifstream is("TannerCrab_NewDatFile.dat",ios::in);
+    is>>(*pDFR);
+    is.close();
+    cout<<(*pDFR)<<endl;
+    exit(1);
+  } 
   if (0){
      //Testing selectivity using "constant" values
     cout<<"|---------------------------------------|"<<endl;

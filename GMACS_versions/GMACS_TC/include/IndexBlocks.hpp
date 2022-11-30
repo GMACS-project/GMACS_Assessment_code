@@ -207,6 +207,20 @@ public:
   ~TimeBlocks();
   
   /**
+   * Return alias of TimeBlock identified by id_
+   * @param id_ - integer used to identify TimeBlock
+   * @return alias (adstring) identifying TimeBlock (or empty adstring)
+   */
+  adstring getBlockAlias(int id_);
+  
+  /**
+   * Return id of TimeBlock identified by alias_
+   * @param alias_ - adstring used to identify TimeBlock
+   * @return id (integer) identifying TimeBlock (or -1)
+   */
+  int getBlockIndex(adstring alias_);
+  
+  /**
    * Return pointer to TimeBlock identified by id_
    * @param id_ - integer used to identify SizeBlock
    * @return pointer to SizeBlock (or nullptr)
@@ -314,6 +328,20 @@ public:
    * Class destructor
    */
   ~SizeBlocks();
+  
+  /**
+   * Return alias of SizeBlock identified by id_
+   * @param id_ - integer used to identify SizeBlock
+   * @return alias (adstring) identifying SizeBlock (or empty adstring)
+   */
+  adstring getBlockAlias(int id_);
+  
+  /**
+   * Return id of SizeBlock identified by alias_
+   * @param alias_ - adstring used to identify SizeBlock
+   * @return id (integer) identifying SizeBlock (or -1)
+   */
+  int getBlockIndex(adstring alias_);
   
   /**
    * Return pointer to SizeBlock identified by id_

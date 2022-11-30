@@ -17,22 +17,22 @@ class CatDim {
         int n;
         ivector fi;
         ivector ri;
-        adstring_array sht;
+        adstring_array als;
         adstring_array lng;
     public:
         CatDim(adstring name_){dimname=name_;n=0;}
         ~CatDim(){}
         /**
          * Find index corresponding to a string
-         * @param str - short name of index to find 
+         * @param als_ - alias of index to find 
          * @return - (int) index corresponding to string (or -1 if not found)
          */
         int getIndex(adstring& str){
-            for (int i=0;i<=n;i++) if (str==sht[i]) return i;
+            for (int i=0;i<=n;i++) if (str==als[i]) return i;
             return -1;//--if str not found
         }
         adstring getDimName(){return dimname;}
-        adstring getShortName(int i_){return sht[i_];}
+        adstring getAlias(int i_){return als[i_];}
         adstring getLongName(int i_) {return lng[i_];}
         /**
          * Read from input file stream in ADMB format.
@@ -48,10 +48,10 @@ class CatDim {
           is>>n;
           if (fi.allocated()) fi.deallocate();
           fi.allocate(0,n);
-          sht.allocate(0,n); sht[0] = "ANY";
+          als.allocate(0,n); als[0] = "any";
           lng.allocate(0,n); lng[0] = "any_"+dimname;
           for (int i=1;i<=n;i++){
-              is>>fi[i]; is>>sht[i]; is>>lng[i];
+              is>>fi[i]; is>>als[i]; is>>lng[i];
           }
         }
         /**
@@ -62,10 +62,9 @@ class CatDim {
         void write(std::ostream & os){
             os<<dimname<<"\t#------------------------"<<endl;
             os<<n<<"\t#--number of "<<dimname<<endl;
-            os<<"#      short   long"<<endl;
-            os<<"#id    name    name"<<endl;
+            os<<"#id    alias    long name"<<endl;
             for (int i=1;i<=n;i++)
-                os<<fi[i]<<"\t"<<sht[i]<<"\t"<<lng[i]<<endl;
+                os<<fi[i]<<"\t"<<als[i]<<"\t"<<lng[i]<<endl;
         }
         /**
          * Operator to read from input filestream in ADMB format
@@ -271,6 +270,56 @@ class ModelConfiguration {
             if (pTBlks)  delete(pTBlks);  pTBlks=nullptr;
             if (pZBlks)  delete(pZBlks);  pZBlks=nullptr;
         }
+        /**
+         * Get the index for the categorical dimension indicated by the input string
+         * 
+         * @param als - alias (adstring) indicating categorical dimension index
+         * @param pCD - pointer to appropriate categorical dimension info
+         * @return - dimension index as an int (0=any/all values; -1: not found)
+         */
+        int getCatIndex(adstring als,CatDim* pCD);
+        /**
+         * Get region index corresponding to input string 
+         * 
+         * @param als - alias (adstring) indicating region(s)
+         * @return region index (int)
+         */
+        int getRegionIndex(adstring als){return(getCatIndex(als,pRegs));}
+        /**
+         * Get sex dimension index corresponding to input string 
+         * 
+         * @param als - alias (adstring) indicating sex(s)
+         * @return corresponding sex dimension index as int
+         */
+        int getSexIndex(adstring als){return(getCatIndex(als,pSXs));}
+        /**
+         * Get maturity state dimension index corresponding to input string 
+         * 
+         * @param als - alias (adstring) indicating maturity state(s)
+         * @return corresponding maturity state dimension index as int
+         */
+        int getMatStateIndex(adstring als){return(getCatIndex(als,pMSs));}
+        /**
+         * Get shell condition dimension id corresponding to input string 
+         * 
+         * @param als - alias (adstring) indicating shell condition(s)
+         * @return corresponding shell condition dimension index as int
+         */
+        int getShellCondIndex(adstring als){return(getCatIndex(als,pSCs));}
+        /**
+         * Get time block id corresponding to input string 
+         * 
+         * @param als - alias (adstring) indicating time block
+         * @return time block integer idex
+         */
+        int getTimeBlockIndex(adstring als);
+        /**
+         * Get size block id corresponding to input string 
+         * 
+         * @param als - alias (adstring) indicating size block
+         * @return size block integer index
+         */
+        int getSizeBlockIndex(adstring als);
         
         /**
          * Set number of retrospective years to peel off.
@@ -286,6 +335,7 @@ class ModelConfiguration {
          */
         int isModelYear(int yr){if ((stYr<=yr)&&(yr<=(fnYr-yRetro))) return 1; return 0;}
         /**
+         * Read a categorical dimension definition from an input file stream.
          * 
          * @param dimname
          * @param is
@@ -298,6 +348,7 @@ class ModelConfiguration {
             return(p);
         }
         /**
+         * Read a numerical (decimal) dimension definition from an input file stream.
          * 
          * @param dimname
          * @param is
@@ -310,6 +361,7 @@ class ModelConfiguration {
             return(p);
         }
         /**
+         * Read an integer dimension definition from an input file stream.
          * 
          * @param dimname
          * @param is

@@ -524,6 +524,32 @@ dvector gmacs::parseRangeStr(adstring& str, double dummy){
   }
   
 /**
+ * Return alias of TimeBlock identified by id_
+ * @param id_ - integer used to identify TimeBlock
+ * @return alias (adstring) identifying TimeBlock (or empty adstring)
+ */
+adstring TimeBlocks::getBlockAlias(int id_){
+  adstring als = "";
+  for (int i=0;i<nBs;i++){
+    if (ppBs[i]->id==id_) als = ppBs[i]->alias;
+  }
+  return als;
+}
+
+/**
+ * Return id of TimeBlock identified by alias_
+ * @param alias_ - adstring used to identify TimeBlock
+ * @return id (integer) identifying TimeBlock (or -1)
+ */
+int TimeBlocks::getBlockIndex(adstring alias_){
+  int id_ = -1;
+  for (int i=0;i<nBs;i++){
+    if (ppBs[i]->alias==alias_) id_ = ppBs[i]->id;
+  }
+  return id_;
+}
+
+/**
  * Return pointer to TimeBlock identified by id_
  * @param id_ - integer used to identify TimeBlock
  * @return pointer to TimeBlock (or nullptr)
@@ -661,6 +687,32 @@ TimeBlock* TimeBlocks::getBlock(adstring alias_){
     }
   }
   
+/**
+ * Return alias of SizeBlock identified by id_
+ * @param id_ - integer used to identify SizeBlock
+ * @return alias (adstring) identifying SizeBlock (or empty adstring)
+ */
+adstring SizeBlocks::getBlockAlias(int id_){
+  adstring als = "";
+  for (int i=0;i<nBs;i++){
+    if (ppBs[i]->id==id_) als = ppBs[i]->alias;
+  }
+  return als;
+}
+
+/**
+ * Return id of SizeBlock identified by alias_
+ * @param alias_ - adstring used to identify SizeBlock
+ * @return id (integer) identifying SizeBlock (or -1)
+ */
+int SizeBlocks::getBlockIndex(adstring alias_){
+  int id_ = -1;
+  for (int i=0;i<nBs;i++){
+    if (ppBs[i]->alias==alias_) id_ = ppBs[i]->id;
+  }
+  return id_;
+}
+
 /**
  * Return pointer to SizeBlock identified by id_
  * @param id_ - integer used to identify SizeBlock

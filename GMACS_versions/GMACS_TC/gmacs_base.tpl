@@ -46,6 +46,7 @@
 //                 generalize a bit.
 //2022-11-28: 1. Implemented ModelConfiguration, IndexBlock and related classes. 
 //            2. Implemented Sandbox in DATA_SECTION.
+//            3. Working on implementing ModelCTL class.
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
@@ -68,7 +69,8 @@ GLOBALS_SECTION
   double elapsed_time;
   
   //model pointers
-  ModelConfiguration*  ptrMC; //ptr to model configuration object
+  ModelConfiguration*  ptrMC;  //ptr to model configuration object
+  ModelCTL*            ptrCTL; //ptr to model control file object
 
 
 // ================================================================================================
@@ -86,19 +88,55 @@ DATA_SECTION
             
   //read from gmacs.dat file
   init_adstring fn_mc;
+  init_adstring fn_ctl;
  LOCAL_CALCS
-    ECHOSTR("#-----------------------------------")
-    ECHOSTR("#--------Model Configuration--------")
-    adstring str = "#--Reading configuration file "+fn_mc;
-    ad_comm::change_datafile_name(fn_mc);
-    ptrMC = new ModelConfiguration();
-    ptrMC->read(*(ad_comm::global_datafile));
-    ofstream os("gmacs_in_MCI.dat");
-    os<<(*ptrMC);
-    ECHOSTR("#--Finished reading configuration file")
-    echo::out<<(*ptrMC);
-    ECHOSTR("#--------Model Control--------")
+    {
+      ECHOSTR("#-----------------------------------")
+      ECHOSTR("#--------reading gmacs.dat--------")
+      adstring str;
+      str = "#--model configuration file:\n\t"+fn_mc;
+      ECHOSTR(str)
+      str = "#--model ctl file:\n\t"+fn_ctl;
+      ECHOSTR(str)
+      ECHOSTR("#--------finished gmacs.dat-------")
+    }
+ END_CALCS
+ LOCAL_CALCS
+    {
+      ECHOSTR("#-----------------------------------")
+      ECHOSTR("#--------Model Configuration--------")
+      adstring str = "#--Reading configuration file "+fn_mc;
+      ECHOSTR(str)
+      ad_comm::change_datafile_name(fn_mc);
+      ptrMC = new ModelConfiguration();
+      ptrMC->read(*(ad_comm::global_datafile));
+      ECHOSTR("#--Finished reading configuration file")
+      ofstream os("gmacs_in_MCI.dat");
+      os<<(*ptrMC);
+      echo::out<<(*ptrMC);
+    }
+    {
+      ECHOSTR("#--------Model Control--------")
+      adstring str = "#--Reading ctl file "+fn_ctl;
+      ECHOSTR(str)
+      ad_comm::change_datafile_name(fn_ctl);
+      ptrCTL = new ModelCTL(ptrMC);
+      ptrCTL->read(*(ad_comm::global_datafile));
+      ECHOSTR("#--Finished reading ctl file")
+      ofstream os("gmacs_in_CTL.dat");
+      os<<(*ptrCTL);
+      echo::out<<(*ptrCTL);
+    }
  END_CALCS  
+    
+// //determine parameter information
+// //--count parameters
+// int nparams = 0;
+// //--create vectors with initial values, upper and lower bounds
+// dvector init_vals(1,nparams);
+// dvector params_lb(1,nparams);
+// dvector params_ub(1,nparams);
+// ivector params_phs(1,nparams);
             
  int nFunCalls;
  !!nFunCalls = 0;
@@ -116,6 +154,7 @@ PARAMETER_SECTION
   !! ECHOSTR("| Parameter Section    |");
   !! ECHOSTR("+----------------------+");
   init_number dummy;
+//  init_bounded_number_vector params(1,nparams,params_lb,params_ub,params_phs);
   
   //objective function value
   objective_function_value objFun;

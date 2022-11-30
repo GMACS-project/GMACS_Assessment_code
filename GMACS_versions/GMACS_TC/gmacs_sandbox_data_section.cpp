@@ -5,6 +5,17 @@
     ECHOSTR("#--------SANDBOX TESTING------------")
     int i=0; double d=0;
 //    {
+//      cout<<"testing ::atoi with adstring '10':"<<endl;
+//      adstring s1 = "10";
+//      cout<<"atoi(10) = "<<::atoi(s1)<<endl<<endl;
+//      cout<<"testing ::atoi with adstring 'fred':"<<endl;
+//      adstring s2 = "fred";
+//      cout<<"atoi(fred) = "<<::atoi(s2)<<" = "<<str(::atoi(s2))<<endl<<endl;
+//      cout<<"check round trips"<<endl;
+//      cout<<"s1: "<<(s1==str(::atoi(s1)))<<endl;
+//      cout<<"s2: "<<(s2==str(::atoi(s2)))<<endl;
+//    }
+//    {
 //      cout<<"#--testing dbl_to_str"<<endl;
 //      double dbl;
 //      dbl = 10; cout<<"dbl = 10: "<<gmacs::dbl_to_str(dbl)<<endl;

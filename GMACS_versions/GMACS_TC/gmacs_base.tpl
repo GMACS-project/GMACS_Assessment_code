@@ -47,6 +47,8 @@
 //2022-11-28: 1. Implemented ModelConfiguration, IndexBlock and related classes. 
 //            2. Implemented Sandbox in DATA_SECTION.
 //            3. Working on implementing ModelCTL class.
+//2022-12-01: 1. Revised SizeBlocks and TimeBlocks to use maps, added utilities to gmacs_utilities.h/cpp. 
+//            2. Completed working version of WeightAtSize class for ModelCTL.
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
@@ -58,19 +60,18 @@ GLOBALS_SECTION
   #include <time.h>
   #include <limits>
   #include <iostream>
+  #include <map>
   #include <string>
+  #include <cstring>
   #include <admodel.h>
   #include "gmacs.hpp"
-  #include "IndexBlocks.hpp"
-  #include "ModelCTL.hpp"
 
   time_t start,finish;
   long hour,minute,second;
   double elapsed_time;
   
-  //model pointers
-  ModelConfiguration*  ptrMC;  //ptr to model configuration object
-  ModelCTL*            ptrCTL; //ptr to model control file object
+  //pointers to model objects
+  ModelCTL* ptrCTL; //ptr to model control file object
 
 
 // ================================================================================================
@@ -83,6 +84,13 @@ DATA_SECTION
 //  !! TheHeader =  adstring("## GMACS TC Version 0.0; Compiled 2022-11-16");
   
  LOCAL_CALCS
+  adstring t1 = "test1";
+  adstring t2 = "test23";
+  adstring t3 = "a45";
+  gmacs::compare_strings cs;
+  cout<<t1<<" < "<<t2<<"? "<<cs(t1,t2)<<endl;
+  cout<<t2<<" < "<<t3<<"? "<<cs(t2,t3)<<endl;
+  cout<<"a1123"<<" < "<<"z"<<"? "<<cs("a1123","z")<<endl;
    #include "gmacs_sandbox_data_section.cpp"
  END_CALCS  
             
@@ -108,7 +116,7 @@ DATA_SECTION
       adstring str = "#--Reading configuration file "+fn_mc;
       ECHOSTR(str)
       ad_comm::change_datafile_name(fn_mc);
-      ptrMC = new ModelConfiguration();
+      ModelConfiguration* ptrMC = ModelConfiguration::getInstance();
       ptrMC->read(*(ad_comm::global_datafile));
       ECHOSTR("#--Finished reading configuration file")
       ofstream os("gmacs_in_MCI.dat");
@@ -120,7 +128,7 @@ DATA_SECTION
       adstring str = "#--Reading ctl file "+fn_ctl;
       ECHOSTR(str)
       ad_comm::change_datafile_name(fn_ctl);
-      ptrCTL = new ModelCTL(ptrMC);
+      ptrCTL = new ModelCTL();
       ptrCTL->read(*(ad_comm::global_datafile));
       ECHOSTR("#--Finished reading ctl file")
       ofstream os("gmacs_in_CTL.dat");

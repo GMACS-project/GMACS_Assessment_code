@@ -22,6 +22,16 @@ int gmacs::isTrue(const adstring& str_){
 }
 
 /**
+ * Convert int to "TRUE" or "FALSE"
+ * @param i - int to convert
+ * @return "FALSE" if i==0, "TRUE" otherwise
+ * 
+ * @details The test does not depend on the case of the input string. 
+ * Will also return 1 if ::atoi(str) evaluates to an integer that != 0.
+ */
+adstring gmacs::isTrue(int i){if (i) return "TRUE"; return "FALSE";}
+  
+/**
  * Check that a string equals a keyword
  * 
  * @param str_ - string (adstring) to be tested against keyword

@@ -37,7 +37,7 @@ int ModelConfiguration::getTimeBlockIndex(adstring als){
   int idx = -1;
   if (::str(::atoi(als))==als) //als is not an integer as a string
     idx = pTBlks->getBlockIndex(als);
-  if (debug) cout<<"starting ModelConfiguration::getTimeBlockIndex("<<als<<")"<<endl;
+  if (debug) cout<<"finished ModelConfiguration::getTimeBlockIndex("<<als<<")"<<endl;
   return idx;
 }
 /**

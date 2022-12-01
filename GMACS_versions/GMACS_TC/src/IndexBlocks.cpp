@@ -4,6 +4,7 @@
  */
 
 #include <clist.h>
+#include <map>
 #include <adstring.hpp>
 
 #include "IndexBlocks.hpp"
@@ -511,70 +512,13 @@ dvector gmacs::parseRangeStr(adstring& str, double dummy){
    */
   TimeBlocks::TimeBlocks(ivector dimTime){
     modDim = dimTime;
-    ppBs = nullptr;
   }
   /** 
    * Class destructor
    */
   TimeBlocks::~TimeBlocks(){
-    if (ppBs){
-        for (int i=0;i<nBs;i++) delete ppBs[i]; 
-        delete ppBs;
-    }
   }
   
-/**
- * Return alias of TimeBlock identified by id_
- * @param id_ - integer used to identify TimeBlock
- * @return alias (adstring) identifying TimeBlock (or empty adstring)
- */
-adstring TimeBlocks::getBlockAlias(int id_){
-  adstring als = "";
-  for (int i=0;i<nBs;i++){
-    if (ppBs[i]->id==id_) als = ppBs[i]->alias;
-  }
-  return als;
-}
-
-/**
- * Return id of TimeBlock identified by alias_
- * @param alias_ - adstring used to identify TimeBlock
- * @return id (integer) identifying TimeBlock (or -1)
- */
-int TimeBlocks::getBlockIndex(adstring alias_){
-  int id_ = -1;
-  for (int i=0;i<nBs;i++){
-    if (ppBs[i]->alias==alias_) id_ = ppBs[i]->id;
-  }
-  return id_;
-}
-
-/**
- * Return pointer to TimeBlock identified by id_
- * @param id_ - integer used to identify TimeBlock
- * @return pointer to TimeBlock (or nullptr)
- */
-TimeBlock* TimeBlocks::getBlock(int id_){
-  TimeBlock* pB = nullptr; 
-  for (int i=0;i<nBs;i++) {
-    if (id_==ppBs[i]->id) pB = ppBs[i];
-  }
-  return pB;
-}
-    
-/**
- * Return pointer to TimeBlock identified by alias_
- * @param id_ - integer used to identify TimeBlock
- * @return pointer to TimeBlock (or nullptr)
- */
-TimeBlock* TimeBlocks::getBlock(adstring alias_){
-  TimeBlock* pB = nullptr; 
-  for (int i=0;i<nBs;i++) {
-    if (alias_==ppBs[i]->alias) pB = ppBs[i];
-  }
-  return pB;
-}
-    
   /**
    * Read object from input stream in ADMB format.
    * 
@@ -582,21 +526,18 @@ TimeBlock* TimeBlocks::getBlock(adstring alias_){
    */
   void TimeBlocks::read(cifstream & is){
     if (debug) cout<<"starting TimeBlocks::read"<<endl;
-    if (ppBs){
-        for (int i=0;i<nBs;i++) delete ppBs[i]; 
-        delete ppBs;
-    }
     adstring str;
     is>>str;
     if (debug) cout<<"keyword is '"<<str<<"'"<<endl;
     gmacs::checkKeyWord(str,KEYWORD,"In TimeBlocks::read");
     is>>nBs;
-    if (debug) cout<<"nTBs = "<<nBs<<endl;
-    ppBs = new TimeBlock*[nBs];
+    if (debug) cout<<"nBs = "<<nBs<<endl;
+    mapAtoBs.clear();
     for (int i=0;i<nBs;i++) {
-      ppBs[i] = new TimeBlock(modDim);
-      is>>(*ppBs[i]);
-      if (debug) cout<<(*ppBs[i])<<endl;
+      TimeBlock* pB = new TimeBlock(modDim);
+      is>>(*pB);
+      mapAtoBs[pB->alias] = pB;
+      if (debug) cout<<(*mapAtoBs[pB->alias])<<endl;
     }
     if (debug) cout<<"finished TimeBlocks::read"<<endl;
   }
@@ -610,12 +551,9 @@ TimeBlock* TimeBlocks::getBlock(adstring alias_){
     os<<nBs<<"    #--number of time blocks"<<endl;
     os<<"#id  alias   block    description"<<endl;
     if (nBs){
-      for (int i=0;i<(nBs-1);i++){
-        TimeBlock* pTB = ppBs[i];
-        os<<(*pTB)<<endl;
+      for (std::map<const char*,TimeBlock*>::iterator it=mapAtoBs.begin(); it!=mapAtoBs.end(); ++it){
+        os<<(*(it->second))<<endl;
       }
-      TimeBlock* pTB = ppBs[nBs-1];
-      os<<(*pTB)<<endl;
     }
   }
 
@@ -675,70 +613,13 @@ TimeBlock* TimeBlocks::getBlock(adstring alias_){
    */
   SizeBlocks::SizeBlocks(ivector dimSize){
     modDim = dimSize;
-    ppBs = nullptr;
   }
   /** 
    * Class destructor
    */
   SizeBlocks::~SizeBlocks(){
-    if (ppBs){
-        for (int i=0;i<nBs;i++) delete ppBs[i]; 
-        delete ppBs;
-    }
   }
   
-/**
- * Return alias of SizeBlock identified by id_
- * @param id_ - integer used to identify SizeBlock
- * @return alias (adstring) identifying SizeBlock (or empty adstring)
- */
-adstring SizeBlocks::getBlockAlias(int id_){
-  adstring als = "";
-  for (int i=0;i<nBs;i++){
-    if (ppBs[i]->id==id_) als = ppBs[i]->alias;
-  }
-  return als;
-}
-
-/**
- * Return id of SizeBlock identified by alias_
- * @param alias_ - adstring used to identify SizeBlock
- * @return id (integer) identifying SizeBlock (or -1)
- */
-int SizeBlocks::getBlockIndex(adstring alias_){
-  int id_ = -1;
-  for (int i=0;i<nBs;i++){
-    if (ppBs[i]->alias==alias_) id_ = ppBs[i]->id;
-  }
-  return id_;
-}
-
-/**
- * Return pointer to SizeBlock identified by id_
- * @param id_ - integer used to identify SizeBlock
- * @return pointer to SizeBlock (or nullptr)
- */
-SizeBlock* SizeBlocks::getBlock(int id_){
-  SizeBlock* pB = nullptr; 
-  for (int i=0;i<nBs;i++) {
-    if (id_==ppBs[i]->id) pB = ppBs[i];
-  }
-  return pB;
-}
-    
-/**
- * Return pointer to SizeBlock identified by alias_
- * @param id_ - integer used to identify SizeBlock
- * @return pointer to SizeBlock (or nullptr)
- */
-SizeBlock* SizeBlocks::getBlock(adstring alias_){
-  SizeBlock* pB = nullptr; 
-  for (int i=0;i<nBs;i++) {
-    if (alias_==ppBs[i]->alias) pB = ppBs[i];
-  }
-  return pB;
-}
-    
   /**
    * Read object from input stream in ADMB format.
    * 
@@ -746,21 +627,18 @@ SizeBlock* SizeBlocks::getBlock(adstring alias_){
    */
   void SizeBlocks::read(cifstream & is){
     if (debug) cout<<"starting SizeBlocks::read"<<endl;
-    if (ppBs){
-        for (int i=0;i<nBs;i++) delete ppBs[i]; 
-        delete ppBs;
-    }
     adstring str;
     is>>str;
     if (debug) cout<<"keyword is '"<<str<<"'"<<endl;
     gmacs::checkKeyWord(str,KEYWORD,"In SizeBlocks::read");
     is>>nBs;
-    if (debug) cout<<"nTBs = "<<nBs<<endl;
-    ppBs = new SizeBlock*[nBs];
+    if (debug) cout<<"nBs = "<<nBs<<endl;
+    mapAtoBs.clear();
     for (int i=0;i<nBs;i++) {
-      ppBs[i] = new SizeBlock(modDim);
-      is>>(*ppBs[i]);
-      if (debug) cout<<(*ppBs[i])<<endl;
+      SizeBlock* pB = new SizeBlock(modDim);
+      is>>(*pB);
+      mapAtoBs[pB->alias] = pB;
+      if (debug) cout<<(*mapAtoBs[pB->alias])<<endl;
     }
     if (debug) cout<<"finished SizeBlocks::read"<<endl;
   }
@@ -774,12 +652,9 @@ SizeBlock* SizeBlocks::getBlock(adstring alias_){
     os<<nBs<<"    #--number of time blocks"<<endl;
     os<<"#id  alias   block    description"<<endl;
     if (nBs){
-      for (int i=0;i<(nBs-1);i++){
-        SizeBlock* pTB = ppBs[i];
-        os<<(*pTB)<<endl;
+      for (std::map<const char*,SizeBlock*>::iterator it=mapAtoBs.begin(); it!=mapAtoBs.end(); ++it){
+        os<<(*(it->second))<<endl;
       }
-      SizeBlock* pTB = ppBs[nBs-1];
-      os<<(*pTB)<<endl;
     }
   }
 

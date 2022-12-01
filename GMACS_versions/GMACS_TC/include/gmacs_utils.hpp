@@ -41,7 +41,7 @@ namespace gmacs {
    * @details The test does not depend on the case of the input string. 
    * Will also return 1 if ::atoi(str) evaluates to an integer that != 0.
    */
-  adstring isTrue(int i){if (i) return "TRUE"; return "FALSE";}
+  adstring isTrue(int i);
 
   /**
    * Check that a string equals a keyword

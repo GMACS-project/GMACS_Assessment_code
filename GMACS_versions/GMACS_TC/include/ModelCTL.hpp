@@ -13,10 +13,38 @@
 #pragma once
 #ifndef MODELCTL_HPP
 #define MODELCTL_HPP
+#include <map>
 #include <admodel.h>
+#include "../include/ModelConfiguration.hpp"
 
-class ModelConfiguration;//--forward definition
+class ParamMultiKey {
+  public:
+    /* factor combination */
+    int fc;
+    /* function name */
+    adstring fcn;
+    /* parameter name */
+    adstring par;
+    
+    ParamMultiKey(long fc_, adstring fcn_, adstring par_){
+      fc  = fc_;
+      fcn = fcn_;
+      par = par_;
+    }  
 
+    bool operator<(const ParamMultiKey &right) const 
+    {
+        if ( fc == right.fc ) {
+            if ( fcn == right.fcn ) {
+                return (const char*) par < (const char*) right.par;
+            } else {
+                return (const char*) fcn < (const char*) right.fcn;
+            }
+        } else {
+            return fc < right.fc;
+        }
+    }    
+};
 ///////////////////////////////////BasicParamInfo////////////////////////////
 class BasicParamInfo{
 public:
@@ -60,11 +88,11 @@ public:
   /**
    * Operator to write to output stream in ADMB format
    */
-  friend std::ostream& operator <<(std::ostream & os,   BasicParamInfo & obj){obj.write(os);;return os;}
+  friend std::ostream& operator <<(std::ostream & os,   BasicParamInfo & obj){obj.write(os);return os;}
   
 };
 ///////////////////////////////////StdParamInfo////////////////////////////
-class StdParamInfo: BasicParamInfo {
+class StdParamInfo: public BasicParamInfo {
 public:
   /* flag to print debugging info */
   static int debug;
@@ -94,103 +122,84 @@ public:
   /**
    * Operator to write to output stream in ADMB format
    */
-  friend std::ostream& operator <<(std::ostream & os,   StdParamInfo & obj){obj.write(os);;return os;}
+  friend std::ostream& operator <<(std::ostream & os,   StdParamInfo & obj){obj.write(os);return os;}
   
 };
-/////////////////////////////////////FunctionInfo////////////////////////////
-//class FunctionInfo{
-//public:
-//  /* flag to print debugging info */
-//  static int debug;
-//  /* factor combination index */
-//  int fc;
-//  /* function name */
-//  adstring s_function;
-//  /* parameter name */
-//  adstring s_param;
-//  /* index of factor combination mirror */
-//  int mirror;
-//  /* initial value */
-//  double init_val;
-//  /* lower bound */
-//  double lwr_bnd;
-//  /* upper bound */
-//  double upr_bnd;
-//  /* estimation phase */
-//  int phase;
-//  /* flag to jitter initial value */
-//  int jitter;
-//  /* name of prior pdf */
-//  adstring s_prior;
-//  /* leading parameter for prior */
-//  double p1;
-//  /* secondary parameter for prior */
-//  double p2;
-//  /* parameter label */
-//  adstring s_label;
-//  
-//  FunctionInfo(){}
-//  ~FunctionInfo(){}
-//   /**
-//   * Read object from input stream in ADMB format.
-//   * 
-//   * @param is - file input stream
-//   */
-//  void read(cifstream & is);
-//  /**
-//   * Write object to output stream in ADMB format.
-//   * 
-//   * @param os - output stream
-//   */
-//  void write(std::ostream & os);
-//  /**
-//   * Operator to read from input filestream in ADMB format
-//   */
-//  friend cifstream&    operator >>(cifstream & is, FunctionInfo & obj){obj.read(is);return is;}
-//  /**
-//   * Operator to write to output stream in ADMB format
-//   */
-//  friend std::ostream& operator <<(std::ostream & os,   FunctionInfo & obj){obj.write(os);;return os;}
-//  
-//};
-/////////////////////////////////////FunctionsInfo////////////////////////////
-//class FunctionsInfo{
-//public:
-//  /* flag to print debugging info */
-//  static int debug;
-//  /* array of pointers to FunctionInfo objects */
-//  FunctionInfo** ppFPI;
-//  
-//  /** 
-//   * Class constructor
-//   */
-//  FunctionsInfo();
-//  /** 
-//   * Class destructor
-//   */
-//  ~FunctionsInfo();
-//   /**
-//   * Read object from input stream in ADMB format.
-//   * 
-//   * @param is - file input stream
-//   */
-//  void read(cifstream & is);
-//  /**
-//   * Write object to output stream in ADMB format.
-//   * 
-//   * @param os - output stream
-//   */
-//  void write(std::ostream & os);
-//  /**
-//   * Operator to read from input filestream in ADMB format
-//   */
-//  friend cifstream&    operator >>(cifstream & is, FunctionsInfo & obj){obj.read(is);return is;}
-//  /**
-//   * Operator to write to output stream in ADMB format
-//   */
-//  friend std::ostream& operator <<(std::ostream & os,   FunctionsInfo & obj){obj.write(os);;return os;}
-//  
-//};
+///////////////////////////////////WatZFunctionInfo////////////////////////////
+class WatZFunctionInfo{
+public:
+  /* flag to print debugging info */
+  static int debug;
+  /* factor combination index */
+  int fc;
+  /* function name */
+  adstring s_function;
+  /* pointer to StdParamInfo object */
+  StdParamInfo* ptrStdPI;
+  
+  WatZFunctionInfo(int fc_,adstring& function_);
+  ~WatZFunctionInfo();
+   /**
+   * Read object from input stream in ADMB format.
+   * 
+   * @param is - file input stream
+   */
+  void read(cifstream & is);
+  /**
+   * Write object to output stream in ADMB format.
+   * 
+   * @param os - output stream
+   */
+  void write(std::ostream & os);
+  /**
+   * Operator to read from input filestream in ADMB format
+   */
+  friend cifstream&    operator >>(cifstream & is, WatZFunctionInfo & obj){obj.read(is);return is;}
+  /**
+   * Operator to write to output stream in ADMB format
+   */
+  friend std::ostream& operator <<(std::ostream & os,   WatZFunctionInfo & obj){obj.write(os);return os;}
+  
+};
+///////////////////////////////////FunctionsInfo////////////////////////////
+class WatZFunctionsInfo{
+public:
+  /* flag to print debugging info */
+  static int debug;
+  static const adstring keyword;
+  /* map to WatZFunctionInfo* objects */
+  std::map<ParamMultiKey,WatZFunctionInfo*> mapFIs;
+  
+  /** 
+   * Class constructor
+   */
+  WatZFunctionsInfo();
+  /** 
+   * Class destructor
+   */
+  ~WatZFunctionsInfo();
+   /**
+   * Read object from input stream in ADMB format.
+   * 
+   * @param is - file input stream
+   */
+  void read(cifstream & is);
+  /**
+   * Write object to output stream in ADMB format.
+   * 
+   * @param os - output stream
+   */
+  void write(std::ostream & os);
+  /**
+   * Operator to read from input filestream in ADMB format
+   */
+  friend cifstream&    operator >>(cifstream & is, WatZFunctionsInfo & obj){obj.read(is);return is;}
+  /**
+   * Operator to write to output stream in ADMB format
+   */
+  friend std::ostream& operator <<(std::ostream & os,   WatZFunctionsInfo & obj){obj.write(os);return os;}
+  
+};
 ///////////////////////////////////FactorCombination///////////////////////////
 class FactorCombination{
 public:
@@ -267,7 +276,7 @@ public:
   /**
    * Operator to write to output stream in ADMB format
    */
-  friend std::ostream& operator <<(std::ostream & os,   FactorCombination & obj){obj.write(os);;return os;}
+  friend std::ostream& operator <<(std::ostream & os,   FactorCombination & obj){obj.write(os);return os;}
 };
 
 
@@ -280,8 +289,8 @@ public:
   static ModelConfiguration* ptrMC;
   /* number of factor combinations */
   int nFCs;
-  /* pointer to array of factor combinations */
-  FactorCombination** ppFCs;
+  /* map to factor combinations, with the factor combination as the key */
+  std::map<int,FactorCombination*> mapFCs;
   
   /**
    * Class constructor
@@ -324,9 +333,82 @@ public:
   /**
    * Operator to write to output stream in ADMB format
    */
-  friend std::ostream& operator <<(std::ostream & os,   FactorCombinations & obj){obj.write(os);;return os;}
+  friend std::ostream& operator <<(std::ostream & os,   FactorCombinations & obj){obj.write(os);return os;}
 };
 
+///////////////////////////////////WatZVectorInfo////////////////////////////
+class WatZVectorInfo{
+public:
+  /* flag to print debugging info */
+  static int debug;
+  /* factor combination index */
+  int fc;
+  /* dvector */
+  dvector values;
+  
+  WatZVectorInfo(int fc_,ModelConfiguration);
+  ~WatZVectorInfo();
+   /**
+   * Read object from input stream in ADMB format.
+   * 
+   * @param is - file input stream
+   */
+  void read(cifstream & is);
+  /**
+   * Write object to output stream in ADMB format.
+   * 
+   * @param os - output stream
+   */
+  void write(std::ostream & os);
+  /**
+   * Operator to read from input filestream in ADMB format
+   */
+  friend cifstream&    operator >>(cifstream & is, WatZVectorInfo & obj){obj.read(is);return is;}
+  /**
+   * Operator to write to output stream in ADMB format
+   */
+  friend std::ostream& operator <<(std::ostream & os,   WatZVectorInfo & obj){obj.write(os);return os;}
+  
+};
+///////////////////////////////////WatZVectorsInfo////////////////////////////
+class WatZVectorsInfo{
+public:
+  /* flag to print debugging info */
+  static int debug;
+  static const adstring keyword;
+  /* map to WatZVectorInfo* objects */
+  std::map<ParamMultiKey,WatZVectorInfo*> mapVIs;
+  
+  /** 
+   * Class constructor
+   */
+  WatZVectorsInfo();
+  /** 
+   * Class destructor
+   */
+  ~WatZVectorsInfo();
+   /**
+   * Read object from input stream in ADMB format.
+   * 
+   * @param is - file input stream
+   */
+  void read(cifstream & is);
+  /**
+   * Write object to output stream in ADMB format.
+   * 
+   * @param os - output stream
+   */
+  void write(std::ostream & os);
+  /**
+   * Operator to read from input filestream in ADMB format
+   */
+  friend cifstream&    operator >>(cifstream & is, WatZVectorsInfo & obj){obj.read(is);return is;}
+  /**
+   * Operator to write to output stream in ADMB format
+   */
+  friend std::ostream& operator <<(std::ostream & os,   WatZVectorsInfo & obj){obj.write(os);return os;}
+  
+};
 ///////////////////////////////////WeightAtSize/////////////////////////////////
 class WeightAtSize{
 public:
@@ -336,12 +418,16 @@ public:
   static const adstring keyword;
   /* pointer to ModelConfiguration object */
   static ModelConfiguration* ptrMC;
-  /* pointer to FactorCombinations object*/
+  /* pointer to FactorCombinations object */
   FactorCombinations* ptrFCs;
   /* number of factor combinations using the allometry type*/
-  int nAllometryTypes;
+  int nFunctionTypes;
+  /* pointer to WatZFunctionsInfo object */
+  WatZFunctionsInfo* ptrFIs;
   /* number of factor combinations using the vector type*/
   int nVectorTypes;
+  /* pointer to WatZVectorsInfo object */
+  WatZFunctionsInfo* ptrVIs;
   
   /**
    * Class constructor
@@ -376,7 +462,7 @@ public:
   /**
    * Operator to write to output stream in ADMB format
    */
-  friend std::ostream& operator <<(std::ostream & os,   WeightAtSize & obj){obj.write(os);;return os;}
+  friend std::ostream& operator <<(std::ostream & os,   WeightAtSize & obj){obj.write(os);return os;}
 };
 
 class ModelCTL{
@@ -423,7 +509,7 @@ public:
   /**
    * Operator to write to output stream in ADMB format
    */
-  friend std::ostream& operator <<(std::ostream & os,   ModelCTL & obj){obj.write(os);;return os;}
+  friend std::ostream& operator <<(std::ostream & os,   ModelCTL & obj){obj.write(os);return os;}
 };
 
 #endif /* MODELCTL_HPP */

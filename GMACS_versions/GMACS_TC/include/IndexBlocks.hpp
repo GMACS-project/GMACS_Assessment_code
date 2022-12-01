@@ -133,6 +133,7 @@ template <typename Tdim, typename Tval> class IndexBlock{
 template<typename Tdim,typename Tval> 
 int IndexBlock<Tdim,Tval>::debug = 0;
 
+////////////////////////////////////--TimeBlock--///////////////////////////////
 class TimeBlock{
 public:
   /* model time dimension vector */
@@ -183,6 +184,7 @@ public:
   friend std::ostream& operator <<(std::ostream & os,   TimeBlock & obj){obj.write(os);;return os;}
 };//--TimeBlock
 
+////////////////////////////////////--TimeBlocks--//////////////////////////////
 class TimeBlocks{
 public:
   /* keyword for input/output*/
@@ -193,8 +195,8 @@ public:
   ivector modDim;
   /* number of time blocks */
   int nBs;
-  /* array of pointers to individual time blocks */
-  TimeBlock** ppBs;
+  /* map from aliases to pointers to TimeBlocks */
+  std::map<const char*, TimeBlock*> mapAtoBs;
   /**
    * Class constructor
    * 
@@ -207,32 +209,11 @@ public:
   ~TimeBlocks();
   
   /**
-   * Return alias of TimeBlock identified by id_
-   * @param id_ - integer used to identify TimeBlock
-   * @return alias (adstring) identifying TimeBlock (or empty adstring)
-   */
-  adstring getBlockAlias(int id_);
-  
-  /**
-   * Return id of TimeBlock identified by alias_
-   * @param alias_ - adstring used to identify TimeBlock
-   * @return id (integer) identifying TimeBlock (or -1)
-   */
-  int getBlockIndex(adstring alias_);
-  
-  /**
-   * Return pointer to TimeBlock identified by id_
-   * @param id_ - integer used to identify SizeBlock
-   * @return pointer to SizeBlock (or nullptr)
-   */
-  TimeBlock* getBlock(int id_);
-  
-  /**
    * Return pointer to TimeBlock identified by alias_
-   * @param alias_ - adstring used to identify SizeBlock
-   * @return pointer to SizeBlock (or nullptr)
+   * @param alias_ - adstring used to identify TimeBlock
+   * @return pointer to TimeBlock (or nullptr)
    */
-  TimeBlock* getBlock(adstring alias_);
+  TimeBlock* getBlock(adstring& alias_){return mapAtoBs[alias_];}
   
   /**
    * Read object from input stream in ADMB format.
@@ -255,7 +236,7 @@ public:
    */
   friend std::ostream& operator <<(std::ostream & os,   TimeBlocks & obj){obj.write(os);;return os;}
 };//--TimeBlocks
-
+////////////////////////////////////--SizeBlock--///////////////////////////////
 class SizeBlock{
 public:
   /* model size dimension vector */
@@ -305,7 +286,7 @@ public:
    */
   friend std::ostream& operator <<(std::ostream & os,   SizeBlock & obj){obj.write(os);;return os;}
 };//--SizeBlock
-
+////////////////////////////////////--SizeBlocks--//////////////////////////////
 class SizeBlocks{
 public:
   /* keyword for input/output*/
@@ -316,46 +297,25 @@ public:
   dvector modDim;
   /* number of time blocks */
   int nBs;
-  /* array of pointers to individual time blocks */
-  SizeBlock** ppBs;
+  /* map of aliases to SizeBlocks */
+  std::map<const char*, SizeBlock*> mapAtoBs;
   /**
    * Class constructor
    * 
-   * @param dimTime - (ivector) 0-based model dimension for model years
+   * @param dimSize - (ivector) 0-based model dimension for model years
    */
-  SizeBlocks(ivector dimTime);
+  SizeBlocks(ivector dimSize);
   /** 
    * Class destructor
    */
   ~SizeBlocks();
   
   /**
-   * Return alias of SizeBlock identified by id_
-   * @param id_ - integer used to identify SizeBlock
-   * @return alias (adstring) identifying SizeBlock (or empty adstring)
-   */
-  adstring getBlockAlias(int id_);
-  
-  /**
-   * Return id of SizeBlock identified by alias_
-   * @param alias_ - adstring used to identify SizeBlock
-   * @return id (integer) identifying SizeBlock (or -1)
-   */
-  int getBlockIndex(adstring alias_);
-  
-  /**
-   * Return pointer to SizeBlock identified by id_
-   * @param id_ - integer used to identify SizeBlock
-   * @return pointer to SizeBlock (or nullptr)
-   */
-  SizeBlock* getBlock(int id_);
-  
-  /**
    * Return pointer to SizeBlock identified by alias_
    * @param alias_ - adstring used to identify SizeBlock
    * @return pointer to SizeBlock (or nullptr)
    */
-  SizeBlock* getBlock(adstring alias_);
+  SizeBlock* getBlock(adstring& alias_){return mapAtoBs[alias_];}
   
   /**
    * Read object from input stream in ADMB format.

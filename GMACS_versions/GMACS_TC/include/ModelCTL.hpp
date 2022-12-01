@@ -17,7 +17,10 @@
 #include <admodel.h>
 #include "../include/ModelConfiguration.hpp"
 
-class ParamMultiKey {
+/**
+ * Class defining a "multi-key" for a map with int, adstring, and adstring keys 
+ */
+class ParamMultiKey_IAA {
   public:
     /* factor combination */
     int fc;
@@ -25,20 +28,23 @@ class ParamMultiKey {
     adstring fcn;
     /* parameter name */
     adstring par;
+    /* adstring comparator */
+    gmacs::compare_strings cs;
     
-    ParamMultiKey(long fc_, adstring fcn_, adstring par_){
+    ParamMultiKey_IAA(int fc_, adstring fcn_, adstring par_){
       fc  = fc_;
       fcn = fcn_;
       par = par_;
+      cs = gmacs::compare_strings();
     }  
 
-    bool operator<(const ParamMultiKey &right) const 
+    bool operator<(const ParamMultiKey_IAA &right) const 
     {
         if ( fc == right.fc ) {
             if ( fcn == right.fcn ) {
-                return (const char*) par < (const char*) right.par;
+                return cs(par,right.par);
             } else {
-                return (const char*) fcn < (const char*) right.fcn;
+                return cs(fcn,right.fcn);
             }
         } else {
             return fc < right.fc;
@@ -166,9 +172,9 @@ class WatZFunctionsInfo{
 public:
   /* flag to print debugging info */
   static int debug;
-  static const adstring keyword;
+  static const adstring KEYWORD;
   /* map to WatZFunctionInfo* objects */
-  std::map<ParamMultiKey,WatZFunctionInfo*> mapFIs;
+  std::map<ParamMultiKey_IAA,WatZFunctionInfo*> mapFIs;
   
   /** 
    * Class constructor
@@ -205,8 +211,6 @@ class FactorCombination{
 public:
   /* flag to print debugging info */
   static int debug;
-  /* ModelConfiguration object */
-  static ModelConfiguration* ptrMC;
   
   /* factor combination index */
   int fc;
@@ -238,22 +242,14 @@ public:
   int s;
   /* integer index indicating applicable maturity state */
   int m;
-  /* integer indicating applicable time block */
-  int tb;
-  /* integer indicating applicable size block */
-  int zb;
   
   /**
    * Class constructor
-   * 
-   * @param ptrMC_ - pointer to ModelConfiguration object
    */
-  FactorCombination(ModelConfiguration* ptrMC_);
+  FactorCombination();
   
   /**
-   * Class constructor
-   * 
-   * @param ptrMC_ - pointer to ModelConfiguration object
+   * Class destructor
    */
   ~FactorCombination();
   
@@ -285,8 +281,6 @@ class FactorCombinations{
 public:
   /* flag to print debugging info */
   static int debug;
-  /* pointer to ModelConfiguration object */
-  static ModelConfiguration* ptrMC;
   /* number of factor combinations */
   int nFCs;
   /* map to factor combinations, with the factor combination as the key */
@@ -294,15 +288,11 @@ public:
   
   /**
    * Class constructor
-   * 
-   * @param ptrMC_ - pointer to ModelConfiguration object
    */
-  FactorCombinations(ModelConfiguration* ptrMC_);
+  FactorCombinations();
   
   /**
-   * Class constructor
-   * 
-   * @param ptrMC_ - pointer to ModelConfiguration object
+   * Class destructor
    */
   ~FactorCombinations();
   
@@ -343,10 +333,12 @@ public:
   static int debug;
   /* factor combination index */
   int fc;
+  /* alias for SizeBlock defining bins for values */
+  adstring alsZB;
   /* dvector */
   dvector values;
   
-  WatZVectorInfo(int fc_,ModelConfiguration);
+  WatZVectorInfo(int fc_,adstring& alsZB_);
   ~WatZVectorInfo();
    /**
    * Read object from input stream in ADMB format.
@@ -375,9 +367,9 @@ class WatZVectorsInfo{
 public:
   /* flag to print debugging info */
   static int debug;
-  static const adstring keyword;
+  static const adstring KEYWORD;
   /* map to WatZVectorInfo* objects */
-  std::map<ParamMultiKey,WatZVectorInfo*> mapVIs;
+  std::map<int,WatZVectorInfo*> mapVIs;
   
   /** 
    * Class constructor
@@ -416,8 +408,6 @@ public:
   static int debug;
   /* keyword */
   static const adstring keyword;
-  /* pointer to ModelConfiguration object */
-  static ModelConfiguration* ptrMC;
   /* pointer to FactorCombinations object */
   FactorCombinations* ptrFCs;
   /* number of factor combinations using the allometry type*/
@@ -427,19 +417,15 @@ public:
   /* number of factor combinations using the vector type*/
   int nVectorTypes;
   /* pointer to WatZVectorsInfo object */
-  WatZFunctionsInfo* ptrVIs;
+  WatZVectorsInfo* ptrVIs;
   
   /**
    * Class constructor
-   * 
-   * @param ptrMC_ - pointer to ModelConfiguration object
    */
-  WeightAtSize(ModelConfiguration* ptrMC_);
+  WeightAtSize();
   
   /**
-   * Class constructor
-   * 
-   * @param ptrMC_ - pointer to ModelConfiguration object
+   * Class destructor
    */
   ~WeightAtSize();
   
@@ -464,30 +450,24 @@ public:
    */
   friend std::ostream& operator <<(std::ostream & os,   WeightAtSize & obj){obj.write(os);return os;}
 };
-
+////////////////////////////////////--ModeCTL--/////////////////////////////////
 class ModelCTL{
 public:
   /* flag to print debugging info */
   static int debug;
   /* ctl file version */
   static const adstring version;
-  /* pointer to ModelConfiguration object */
-  static ModelConfiguration* ptrMC;
   
   /* pointer to WeightAtSize object */
   WeightAtSize* ptrWatZ;
   
   /**
    * Class constructor
-   * 
-   * @param ptrMC_ - pointer to ModelConfiguration object
    */
-  ModelCTL(ModelConfiguration* ptrMC_);
+  ModelCTL();
   
   /**
-   * Class constructor
-   * 
-   * @param ptrMC_ - pointer to ModelConfiguration object
+   * Class destructor
    */
   ~ModelCTL();
   /**

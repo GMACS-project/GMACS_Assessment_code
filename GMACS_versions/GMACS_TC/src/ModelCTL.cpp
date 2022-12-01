@@ -137,7 +137,7 @@ void WatZFunctionInfo::write(std::ostream & os){
 ///////////////////////////////////FunctionsInfo////////////////////////////
 /* flag to print debugging info */
 int WatZFunctionsInfo::debug = 1;
-const adstring WatZFunctionsInfo::keyword = "functions";
+const adstring WatZFunctionsInfo::KEYWORD = "functions";
 /** 
  * Class constructor
  */
@@ -158,7 +158,7 @@ WatZFunctionsInfo::~WatZFunctionsInfo(){
 void WatZFunctionsInfo::read(cifstream & is){
   if (debug) cout<<"starting WatZFunctionsInfo::read"<<endl;
   adstring kw_;
-  is>>kw_; gmacs::checkKeyWord(kw_,keyword,"");
+  is>>kw_; gmacs::checkKeyWord(kw_,KEYWORD,"");
   int fc_; adstring fcn_; 
   is>>fc_;
   while (fc_>0){
@@ -166,7 +166,7 @@ void WatZFunctionsInfo::read(cifstream & is){
     WatZFunctionInfo* p = new WatZFunctionInfo(fc_,fcn_);
     is>>(*p);
     if (debug) cout<<(*p)<<endl;
-    ParamMultiKey* pmk = new ParamMultiKey(fc_,fcn_,p->ptrStdPI->s_param);
+    ParamMultiKey_IAA* pmk = new ParamMultiKey_IAA(fc_,fcn_,p->ptrStdPI->s_param);
     mapFIs[(*pmk)] = p;
     is>>fc_;
   }  
@@ -179,26 +179,24 @@ void WatZFunctionsInfo::read(cifstream & is){
  */
 void WatZFunctionsInfo::write(std::ostream & os){
   if (debug) cout<<"starting WatZFunctionsInfo::write"<<endl;
-  os<<keyword<<"  #--information type"<<endl;
+  os<<KEYWORD<<"  #--information type"<<endl;
   os<<"#fc function  par mir   ival    lb   ub   phz  jtr?  prior p1 p2"<<endl;
   if (debug) cout<<"number of rows defining functions: "<<mapFIs.size()<<endl;
-  for (std::map<ParamMultiKey,WatZFunctionInfo*>::iterator it=mapFIs.begin(); it!=mapFIs.end(); ++it) {
+  for (std::map<ParamMultiKey_IAA,WatZFunctionInfo*>::iterator it=mapFIs.begin(); it!=mapFIs.end(); ++it) {
     if (debug) cout<<(it->first).fc<<" "<<(it->first).fcn<<" "<<(it->first).par<<endl;
     os<<(*(it->second))<<endl;
   }
-  
+  os<<EOF<<"   #--end of function information section"<<endl;
   if (debug) cout<<"finished WatZFunctionsInfo::write"<<endl;
 }
 ///////////////////////////////////FactorCombination////////////////////////////
 int FactorCombination::debug = 1;
-ModelConfiguration* FactorCombination::ptrMC = nullptr;
 
 /** 
  * Class constructor.
  */
-FactorCombination::FactorCombination(ModelConfiguration* ptrMC_){
+FactorCombination::FactorCombination(){
   if (debug) cout<<"Starting FactorCombination::FactorCombination"<<endl;
-  ptrMC = ptrMC_;
   if (debug) cout<<"Finished FactorCombination::FactorCombination"<<endl;
 }
 /** 
@@ -215,14 +213,15 @@ FactorCombination::~FactorCombination(){
  */
 void FactorCombination::read(cifstream & is){
   if (debug) cout<<"Starting FactorCombination::read for '"<<is.get_file_name()<<"'"<<endl;
+  ModelConfiguration* ptrMC = ModelConfiguration::getInstance();
   is>>fc;  //--factor combination
   is>>fcm; //--factor combination mirror
   is>>s_r;  r  = ptrMC->getRegionIndex(s_r);    //--region info
   is>>s_x;  x  = ptrMC->getSexIndex(s_x);       //--sex info
   is>>s_m;  m  = ptrMC->getMatStateIndex(s_m);  //--maturity state info
   is>>s_s;  s  = ptrMC->getShellCondIndex(s_s); //--shell condition info
-  is>>s_tb; tb = ptrMC->getTimeBlockIndex(s_tb);//--time block info
-  is>>s_zb; zb = ptrMC->getSizeBlockIndex(s_zb);//--size block info
+  is>>s_tb;
+  is>>s_zb;
   is>>s_type;
   is>>s_units;
   is>>label;
@@ -235,14 +234,14 @@ void FactorCombination::read(cifstream & is){
  */
 void FactorCombination::write(std::ostream & os){
   if (debug) cout<<"Starting FactorCombination::write"<<endl;
-  os<<fc  <<"\t";  //--factor combination
-  os<<fcm <<"\t"; //--factor combination mirror
-  os<<s_r <<"\t"; //--region info
-  os<<s_x <<"\t"; //--sex info
-  os<<s_m <<"\t"; //--maturity state info
-  os<<s_s <<"\t"; //--shell condition info
-  os<<s_tb<<"\t"; //--time block info
-  os<<s_zb<<"\t"; //--size block info
+  os<<fc  <<"\t";  //--factor combination index
+  os<<fcm <<"\t";  //--factor combination mirror
+  os<<s_r <<"\t";  //--region alias
+  os<<s_x <<"\t";  //--sex alias
+  os<<s_m <<"\t";  //--maturity state alias
+  os<<s_s <<"\t";  //--shell condition alias
+  os<<s_tb<<"\t";  //--time block alias
+  os<<s_zb<<"\t";  //--size block alias
   os<<s_type<<"\t";  //process type for factor combination
   os<<s_units<<"\t"; //units for process type
   os<<label; //factor combination label 
@@ -250,23 +249,17 @@ void FactorCombination::write(std::ostream & os){
 }
 ///////////////////////////////////FactorCombinations///////////////////////////
 int FactorCombinations::debug = 1;
-ModelConfiguration* FactorCombinations::ptrMC = nullptr;
 
 /**
  * Class constructor
- * 
- * @param ptrMC_ - pointer to ModelConfiguration object
  */
-FactorCombinations::FactorCombinations(ModelConfiguration* ptrMC_){
+FactorCombinations::FactorCombinations(){
   if (debug) cout<<"Starting FactorCombinations::FactorCombinations"<<endl;
-  ptrMC = ptrMC_;
   if (debug) cout<<"Finished FactorCombinations::FactorCombinations"<<endl;
 }
 
 /**
- * Class constructor
- * 
- * @param ptrMC_ - pointer to ModelConfiguration object
+ * Class destructor
  */
 FactorCombinations::~FactorCombinations(){
   if (!mapFCs.empty()) {
@@ -302,7 +295,7 @@ void FactorCombinations::read(cifstream & is){
   if (debug) cout<<"nFCs = "<<nFCs<<endl;
   mapFCs.clear();
   for (int i=0;i<nFCs;i++) {
-    FactorCombination* pFC = new FactorCombination(ptrMC);
+    FactorCombination* pFC = new FactorCombination();
     is>>(*pFC);
     int fc = pFC->fc; mapFCs[fc] = pFC;
     if (debug) cout<<"\ti = "<<i<<endl<<(*mapFCs[fc])<<endl;
@@ -329,17 +322,14 @@ int WatZVectorInfo::debug = 1;
 /**
  * Constructor
  */
-WatZVectorInfo::WatZVectorInfo(int fc_,adstring& function_){
+WatZVectorInfo::WatZVectorInfo(int fc_,adstring& alsZB_){
   fc = fc_;
-  s_size_block = function_;
-  ptrStdPI = nullptr;
+  alsZB = alsZB_;
 }
 /**
  * Destructor
  */
-WatZVectorInfo::~WatZVectorInfo(){
-  if (ptrStdPI) delete ptrStdPI;
-}
+WatZVectorInfo::~WatZVectorInfo(){}
  /**
  * Read object from input stream in ADMB format.
  * 
@@ -347,9 +337,15 @@ WatZVectorInfo::~WatZVectorInfo(){
  */
 void WatZVectorInfo::read(cifstream & is){
   if (debug) cout<<"starting WatZVectorInfo::read"<<endl;
-  if (ptrStdPI) delete ptrStdPI;
-  ptrStdPI = new StdParamInfo();
-  is>>(*ptrStdPI);
+  if (debug) cout<<"fc = "<<fc<<".  alias = "<<alsZB<<endl;
+  values.deallocate();
+  if (debug) cout<<"deallocated vector. "<<endl;
+  SizeBlock* ptrZB = ModelConfiguration::getInstance()->getSizeBlock(alsZB);
+  if (debug) cout<<"SizeBlock "<<ptrZB<<": "<<ptrZB->pIB->mdv<<endl;
+  if (debug) cout<<"index min: "<<ptrZB->pIB->iv.indexmin()<<". index max: "<<ptrZB->pIB->iv.indexmax()<<endl;
+  values.allocate(ptrZB->pIB->iv.indexmin(),ptrZB->pIB->iv.indexmax());
+  is>>values;
+  if (debug) cout<<"values: "<<values<<endl;
   if (debug) cout<<"finished WatZVectorInfo::read"<<endl;
 }
 /**
@@ -359,15 +355,17 @@ void WatZVectorInfo::read(cifstream & is){
  */
 void WatZVectorInfo::write(std::ostream & os){
   if (debug) cout<<"starting WatZVectorInfo::write"<<endl;
+  SizeBlock* ptrZB = ModelConfiguration::getInstance()->getSizeBlock(alsZB);
+  os<<"#fc  size_block  zBs: "<<gmacs::getMidpoints(ptrZB->pIB->getValues())<<endl;
   os<<fc<<"  ";
-  os<<s_size_block<<"  ";
-  os<<(*ptrStdPI);
+  os<<alsZB<<"  ";
+  os<<values;
   if (debug) cout<<"finished WatZVectorInfo::write"<<endl;
 }
 ///////////////////////////////////FunctionsInfo////////////////////////////
 /* flag to print debugging info */
 int WatZVectorsInfo::debug = 1;
-const adstring WatZVectorsInfo::keyword = "functions";
+const adstring WatZVectorsInfo::KEYWORD = "fixed_vectors";
 /** 
  * Class constructor
  */
@@ -388,16 +386,15 @@ WatZVectorsInfo::~WatZVectorsInfo(){
 void WatZVectorsInfo::read(cifstream & is){
   if (debug) cout<<"starting WatZVectorsInfo::read"<<endl;
   adstring kw_;
-  is>>kw_; gmacs::checkKeyWord(kw_,keyword,"");
-  int fc_; adstring fcn_; 
+  is>>kw_; gmacs::checkKeyWord(kw_,KEYWORD,"");
+  int fc_; adstring alsZB_; 
   is>>fc_;
   while (fc_>0){
-    is>>fcn_;
-    WatZVectorInfo* p = new WatZVectorInfo(fc_,fcn_);
+    is>>alsZB_;
+    WatZVectorInfo* p = new WatZVectorInfo(fc_,alsZB_);
     is>>(*p);
     if (debug) cout<<(*p)<<endl;
-    ParamMultiKey* pmk = new ParamMultiKey(fc_,fcn_,p->ptrStdPI->s_param);
-    mapVIs[(*pmk)] = p;
+    mapVIs[fc_] = p;
     is>>fc_;
   }  
   if (debug) cout<<"finished WatZVectorsInfo::read"<<endl;
@@ -409,29 +406,25 @@ void WatZVectorsInfo::read(cifstream & is){
  */
 void WatZVectorsInfo::write(std::ostream & os){
   if (debug) cout<<"starting WatZVectorsInfo::write"<<endl;
-  os<<keyword<<"  #--information type"<<endl;
-  os<<"#fc function  par mir   ival    lb   ub   phz  jtr?  prior p1 p2"<<endl;
+  os<<KEYWORD<<"  #--information type"<<endl;
+  os<<"#fc size_block zBs:"<<endl;
   if (debug) cout<<"number of rows defining functions: "<<mapVIs.size()<<endl;
-  for (std::map<ParamMultiKey,WatZVectorInfo*>::iterator it=mapVIs.begin(); it!=mapVIs.end(); ++it) {
-    if (debug) cout<<(it->first).fc<<" "<<(it->first).fcn<<" "<<(it->first).par<<endl;
+  for (std::map<int,WatZVectorInfo*>::iterator it=mapVIs.begin(); it!=mapVIs.end(); ++it) {
+    if (debug) cout<<(it->first)<<endl;
     os<<(*(it->second))<<endl;
   }
-  
+  os<<EOF<<"  #--end of vector information type"<<endl;
   if (debug) cout<<"finished WatZVectorsInfo::write"<<endl;
 }
 ///////////////////////////////////WeightAtSize/////////////////////////////////
 int WeightAtSize::debug=1;
 const adstring WeightAtSize::keyword="WatZ";
-ModelConfiguration* WeightAtSize::ptrMC=nullptr;
 
 /**
  * Class constructor
- * 
- * @param ptrMC_ - pointer to ModelConfiguration object
  */
-WeightAtSize::WeightAtSize(ModelConfiguration* ptrMC_){
+WeightAtSize::WeightAtSize(){
   if (debug) cout<<"starting WeightAtSize::WeightAtSize"<<endl;
-  ptrMC = ptrMC_;
   ptrFCs = nullptr;
   ptrFIs = nullptr;
   ptrVIs = nullptr;
@@ -460,7 +453,7 @@ void WeightAtSize::read(cifstream & is){
   is>>str; gmacs::checkKeyWord(str,keyword,"WeightAtSize::read");
 //  if (debug) FactorCombinations::debug=1;
   if (ptrFCs) delete ptrFCs;
-  ptrFCs = new FactorCombinations(ptrMC);
+  ptrFCs = new FactorCombinations();
   is>>(*ptrFCs);
 //  if (debug) FactorCombinations::debug=0;
   
@@ -505,17 +498,12 @@ void WeightAtSize::write(std::ostream & os){
 int ModelCTL::debug = 1;
 /* model ctl file version */
 const adstring ModelCTL::version = "2022.11.29";
-/* pointer to ModelConfiguration object */
-ModelConfiguration* ModelCTL::ptrMC = nullptr;
 
 /**
  * Class constructor
- * 
- * @param ptrMC_ - pointer to ModelConfiguration object
  */
-ModelCTL::ModelCTL(ModelConfiguration* ptrMC_){
+ModelCTL::ModelCTL(){
   if (debug) cout<<"starting ModelCTL::ModelCTL"<<endl;
-  ptrMC = ptrMC_;
   ptrWatZ = nullptr;
   if (debug) cout<<"finished ModelCTL::ModelCTL"<<endl;
 }
@@ -536,7 +524,7 @@ void ModelCTL::read(cifstream & is){
   adstring str;
   is>>str; gmacs::checkKeyWord(str,version,"Reading ctl file. Incorrect version given.");
 //  if (debug) WeightAtSize::debug = 1;
-  ptrWatZ = new WeightAtSize(ptrMC);
+  ptrWatZ = new WeightAtSize();
   is>>(*ptrWatZ);
 //  if (debug) WeightAtSize::debug = 0;
   if (debug) cout<<"finished ModelCTL::read"<<endl;

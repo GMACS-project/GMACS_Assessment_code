@@ -532,12 +532,13 @@ dvector gmacs::parseRangeStr(adstring& str, double dummy){
     gmacs::checkKeyWord(str,KEYWORD,"In TimeBlocks::read");
     is>>nBs;
     if (debug) cout<<"nBs = "<<nBs<<endl;
-    mapAtoBs.clear();
+    mapAliasesToBlocks.clear();
     for (int i=0;i<nBs;i++) {
       TimeBlock* pB = new TimeBlock(modDim);
       is>>(*pB);
-      mapAtoBs[pB->alias] = pB;
-      if (debug) cout<<(*mapAtoBs[pB->alias])<<endl;
+      mapAliasesToBlocks[(const char*) (pB->alias)] = pB;
+      mapIDsToBlocks[pB->id] = pB;
+      if (debug) cout<<(*mapAliasesToBlocks[(const char*)(pB->alias)])<<endl;
     }
     if (debug) cout<<"finished TimeBlocks::read"<<endl;
   }
@@ -551,7 +552,7 @@ dvector gmacs::parseRangeStr(adstring& str, double dummy){
     os<<nBs<<"    #--number of time blocks"<<endl;
     os<<"#id  alias   block    description"<<endl;
     if (nBs){
-      for (std::map<const char*,TimeBlock*>::iterator it=mapAtoBs.begin(); it!=mapAtoBs.end(); ++it){
+      for (std::map<int,TimeBlock*>::iterator it=mapIDsToBlocks.begin(); it!=mapIDsToBlocks.end(); ++it){
         os<<(*(it->second))<<endl;
       }
     }
@@ -605,7 +606,7 @@ dvector gmacs::parseRangeStr(adstring& str, double dummy){
 
 ////////////////////////////--SizeBlocks--//////////////////////////////////////
   adstring SizeBlocks::KEYWORD = "size_blocks";
-  int SizeBlocks::debug = 0;
+  int SizeBlocks::debug = 1;
   /**
    * Class constructor
    * 
@@ -621,6 +622,27 @@ dvector gmacs::parseRangeStr(adstring& str, double dummy){
   }
   
   /**
+   * Return pointer to SizeBlock identified by alias_
+   * @param alias_ - adstring used to identify SizeBlock
+   * @return pointer to SizeBlock (or nullptr)
+   */
+  SizeBlock* SizeBlocks::getBlock(adstring& alias_){
+    if (debug) {
+      cout<<"starting SizeBlocks::getBlock with key '"<<(const char*)alias_<<"'"<<endl;
+      cout<<"map size is "<<mapAliasesToBlocks.size()<<". Keys are "<<endl;
+      for (std::map<const char*,SizeBlock*>::iterator it=mapAliasesToBlocks.begin(); it!=mapAliasesToBlocks.end(); ++it){
+        cout<<"'"<<it->first<<"'. ";
+        gmacs::compare_strings cs;
+        bool res = (!cs(it->first,(const char*)alias_))&&(!cs((const char*)alias_,it->first));
+        cout<<"Equals key? "<<res<<endl;
+      }
+    }
+    SizeBlock* ptrZB = mapAliasesToBlocks[(const char*)alias_];
+    if (!ptrZB) cout<<"Did not find key '"<<(const char*)alias_<<"' in SizeBlocks"<<endl;
+    return ptrZB;
+  }
+  
+  /**
    * Read object from input stream in ADMB format.
    * 
    * @param is - file input stream
@@ -633,12 +655,13 @@ dvector gmacs::parseRangeStr(adstring& str, double dummy){
     gmacs::checkKeyWord(str,KEYWORD,"In SizeBlocks::read");
     is>>nBs;
     if (debug) cout<<"nBs = "<<nBs<<endl;
-    mapAtoBs.clear();
+    mapAliasesToBlocks.clear();
     for (int i=0;i<nBs;i++) {
       SizeBlock* pB = new SizeBlock(modDim);
       is>>(*pB);
-      mapAtoBs[pB->alias] = pB;
-      if (debug) cout<<(*mapAtoBs[pB->alias])<<endl;
+      mapAliasesToBlocks[(const char*)(pB->alias)] = pB;
+      mapIDsToBlocks[pB->id] = pB;
+      if (debug) cout<<(*mapAliasesToBlocks[(const char*)(pB->alias)])<<endl;
     }
     if (debug) cout<<"finished SizeBlocks::read"<<endl;
   }
@@ -652,7 +675,7 @@ dvector gmacs::parseRangeStr(adstring& str, double dummy){
     os<<nBs<<"    #--number of time blocks"<<endl;
     os<<"#id  alias   block    description"<<endl;
     if (nBs){
-      for (std::map<const char*,SizeBlock*>::iterator it=mapAtoBs.begin(); it!=mapAtoBs.end(); ++it){
+      for (std::map<int,SizeBlock*>::iterator it=mapIDsToBlocks.begin(); it!=mapIDsToBlocks.end(); ++it){
         os<<(*(it->second))<<endl;
       }
     }

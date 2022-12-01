@@ -2,6 +2,7 @@
 * macros.cpp
 */
 
+#include <cstring>
 #include <admodel.h>
 #include "../include/gmacs_utils.hpp"
 
@@ -50,4 +51,41 @@ int gmacs::checkKeyWord(const adstring& str_,const adstring& kw_,const adstring&
       exit(-1);
   }
   return 1;
+}
+
+/**
+ * Determine ordering of two (convertible to) adstring objects
+ * 
+ * @param lhs - "lefthand side" of comparison
+ * @param rhs - "righthand side" of comparison
+ * @return -1 if lhs< rhs, 0 if lhs==rhs, and 1 if lhs> rhs
+ * 
+ * @details Also works with const char* inputs.
+ * 
+ * @usage (pseudocode)\n
+ *   gmacs::compare_strings cs();//instantiate struct
+ *   int res = cs(lhs,rhs);      //make comparison
+ *   //do something with res
+ */
+bool gmacs::compare_strings::operator()(const adstring& lhs, const adstring& rhs) const {
+  int res = strcmp(lhs,rhs);
+  return (res<0);
+}
+
+/**
+ * Get the midpoints of a vector of cutpoints as a dvector
+ * 
+ * @param cutpts - dvector of "bin" cutpoints
+ * @return - dvector of midpoints
+ * 
+ * @details The returned vector will have the same minimum index as cutpts.
+ */
+dvector gmacs::getMidpoints(const dvector& _cutpts) {
+  ADUNCONST(dvector,cutpts);
+  // cout<<"cutpts imin = "<<cutpts.indexmin()<<". imax = "<<cutpts.indexmax()<<endl;
+  dvector midpts(cutpts.indexmin(),cutpts.indexmax()-1);
+  // cout<<"midpts imin = "<<midpts.indexmin()<<". imax = "<<midpts.indexmax()<<endl;
+  midpts = 0.5*(cutpts(cutpts.indexmin()+1,cutpts.indexmax()).shift(cutpts.indexmin())+
+                cutpts(cutpts.indexmin(),  cutpts.indexmax()-1));
+  return midpts;
 }

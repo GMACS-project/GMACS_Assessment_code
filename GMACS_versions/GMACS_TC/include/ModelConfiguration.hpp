@@ -224,7 +224,7 @@ class IntDim {
          */
         friend std::ostream& operator <<(std::ostream & os,IntDim & obj){obj.write(os);;return os;}       
 };//--IntDim
-
+////////////////////////////////--ModelConfiguration--//////////////////////////
 /**
  * @title ModelConfiguration
  * @description 
@@ -235,6 +235,8 @@ class ModelConfiguration {
         const static adstring VERSION;
         /* flag to print debug info */
         static int debug;  
+        /* static getter to obtain pointer to singleton instance */
+        static ModelConfiguration* getInstance();
     public:
         CatDim* pRegs;
         CatDim* pSXs;
@@ -251,11 +253,15 @@ class ModelConfiguration {
         ivector years;
         int nSzns;
         dvector szns;
-    public:
+    private:
+        /* static singleton instance */
+        static ModelConfiguration* ptrMC;
         /**
          * Constructor
          */
         ModelConfiguration(){yRetro=0; pSXs=pMSs=pSCs=pRegs=pFlts=nullptr;pTBlks=nullptr;pZBlks=nullptr;};
+        ModelConfiguration(const ModelConfiguration&);     //not allowed
+        ModelConfiguration& operator=(ModelConfiguration&);//not allowed
         /**
          * Destructor
          */
@@ -270,7 +276,8 @@ class ModelConfiguration {
             if (pTBlks)  delete(pTBlks);  pTBlks=nullptr;
             if (pZBlks)  delete(pZBlks);  pZBlks=nullptr;
         }
-        /**
+     public:
+       /**
          * Get the index for the categorical dimension indicated by the input string
          * 
          * @param als - alias (adstring) indicating categorical dimension index
@@ -307,19 +314,19 @@ class ModelConfiguration {
          */
         int getShellCondIndex(adstring als){return(getCatIndex(als,pSCs));}
         /**
-         * Get time block id corresponding to input string 
+         * Get time block corresponding to input string 
          * 
          * @param als - alias (adstring) indicating time block
          * @return time block integer idex
          */
-        int getTimeBlockIndex(adstring als);
+        TimeBlock* getTimeBlock(adstring& als){return pTBlks->getBlock(als);}
         /**
          * Get size block id corresponding to input string 
          * 
          * @param als - alias (adstring) indicating size block
-         * @return size block integer index
+         * @return pointer to SizeBlock
          */
-        int getSizeBlockIndex(adstring als);
+        SizeBlock* getSizeBlock(adstring als){return pZBlks->getBlock(als);}
         
         /**
          * Set number of retrospective years to peel off.

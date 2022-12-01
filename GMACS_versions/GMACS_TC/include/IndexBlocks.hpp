@@ -13,7 +13,10 @@
 #pragma once
 #ifndef INDEXBLOCKS_HPP
 #define INDEXBLOCKS_HPP
+#include <map>
 #include <admodel.h>
+
+#include "gmacs_utils.hpp"
 
 namespace gmacs{
   /**
@@ -181,7 +184,7 @@ public:
   /**
    * Operator to write to output stream in ADMB format
    */
-  friend std::ostream& operator <<(std::ostream & os,   TimeBlock & obj){obj.write(os);;return os;}
+  friend std::ostream& operator <<(std::ostream & os,   TimeBlock & obj){obj.write(os);return os;}
 };//--TimeBlock
 
 ////////////////////////////////////--TimeBlocks--//////////////////////////////
@@ -196,7 +199,9 @@ public:
   /* number of time blocks */
   int nBs;
   /* map from aliases to pointers to TimeBlocks */
-  std::map<const char*, TimeBlock*> mapAtoBs;
+  std::map<const char*, TimeBlock*, gmacs::compare_strings> mapAliasesToBlocks;
+  /* map from ids to pointers to TimeBlocks */
+  std::map<int, TimeBlock*> mapIDsToBlocks;
   /**
    * Class constructor
    * 
@@ -213,7 +218,14 @@ public:
    * @param alias_ - adstring used to identify TimeBlock
    * @return pointer to TimeBlock (or nullptr)
    */
-  TimeBlock* getBlock(adstring& alias_){return mapAtoBs[alias_];}
+  TimeBlock* getBlock(adstring& alias_){return mapAliasesToBlocks[alias_];}
+  
+  /**
+   * Return pointer to TimeBlock identified by id_
+   * @param id_ - int used to identify TimeBlock
+   * @return pointer to TimeBlock (or nullptr)
+   */
+  TimeBlock* getBlock(int id_){return mapIDsToBlocks[id_];}
   
   /**
    * Read object from input stream in ADMB format.
@@ -234,7 +246,7 @@ public:
   /**
    * Operator to write to output stream in ADMB format
    */
-  friend std::ostream& operator <<(std::ostream & os,   TimeBlocks & obj){obj.write(os);;return os;}
+  friend std::ostream& operator <<(std::ostream & os,   TimeBlocks & obj){obj.write(os);return os;}
 };//--TimeBlocks
 ////////////////////////////////////--SizeBlock--///////////////////////////////
 class SizeBlock{
@@ -256,7 +268,7 @@ public:
    * 
    * @dimSize - model size cutpoints dimension dvector
    */
-  SizeBlock(dvector dimTime);
+  SizeBlock(dvector dimSize);
   /** 
    * Class destructor
    */
@@ -284,7 +296,7 @@ public:
   /**
    * Operator to write to output stream in ADMB format
    */
-  friend std::ostream& operator <<(std::ostream & os,   SizeBlock & obj){obj.write(os);;return os;}
+  friend std::ostream& operator <<(std::ostream & os,   SizeBlock & obj){obj.write(os);return os;}
 };//--SizeBlock
 ////////////////////////////////////--SizeBlocks--//////////////////////////////
 class SizeBlocks{
@@ -298,7 +310,9 @@ public:
   /* number of time blocks */
   int nBs;
   /* map of aliases to SizeBlocks */
-  std::map<const char*, SizeBlock*> mapAtoBs;
+  std::map<const char*, SizeBlock*, gmacs::compare_strings> mapAliasesToBlocks;
+  /* map from ids to pointers to TimeBlocks */
+  std::map<int, SizeBlock*> mapIDsToBlocks;
   /**
    * Class constructor
    * 
@@ -315,7 +329,14 @@ public:
    * @param alias_ - adstring used to identify SizeBlock
    * @return pointer to SizeBlock (or nullptr)
    */
-  SizeBlock* getBlock(adstring& alias_){return mapAtoBs[alias_];}
+  SizeBlock* getBlock(adstring& alias_);
+  
+  /**
+   * Return pointer to SizeBlock identified by id_
+   * @param id_ - int used to identify SizeBlock
+   * @return pointer to SizeBlock (or nullptr)
+   */
+  SizeBlock* getBlock(int id_){return mapIDsToBlocks[id_];}
   
   /**
    * Read object from input stream in ADMB format.
@@ -336,7 +357,7 @@ public:
   /**
    * Operator to write to output stream in ADMB format
    */
-  friend std::ostream& operator <<(std::ostream & os,   SizeBlocks & obj){obj.write(os);;return os;}
+  friend std::ostream& operator <<(std::ostream & os,   SizeBlocks & obj){obj.write(os);return os;}
 };//--SizeBlocks
 
 

@@ -20,18 +20,6 @@
 
 namespace gmacs{
   /**
-   * Convert adstring to double value
-   * 
-   * _str - adstring to convert to double value
-   */
-  double str_to_dbl(const adstring & _str);
-  /**
-   * Convert double to string value
-   * 
-   * _dbl - double to convert to double value
-   */
-  adstring dbl_to_str(const double & _dbl);
-  /**
    * Parse an integer range string
    * 
    * @param str - adstring representing the range
@@ -199,7 +187,7 @@ public:
   /* number of time blocks */
   int nBs;
   /* map from aliases to pointers to TimeBlocks */
-  std::map<const char*, TimeBlock*, gmacs::compare_strings> mapAliasesToBlocks;
+  std::map<const char*, TimeBlock*, compare> mapAliasesToBlocks;
   /* map from ids to pointers to TimeBlocks */
   std::map<int, TimeBlock*> mapIDsToBlocks;
   /**
@@ -310,7 +298,7 @@ public:
   /* number of time blocks */
   int nBs;
   /* map of aliases to SizeBlocks */
-  std::map<const char*, SizeBlock*, gmacs::compare_strings> mapAliasesToBlocks;
+  std::map<const char*, SizeBlock*, compare> mapAliasesToBlocks;
   /* map from ids to pointers to TimeBlocks */
   std::map<int, SizeBlock*> mapIDsToBlocks;
   /**

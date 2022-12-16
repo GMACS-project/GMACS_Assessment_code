@@ -12,36 +12,6 @@
 
 
 /**
- * Convert adstring to double value
- * 
- * _str - adstring to convert to double value
- */
-double gmacs::str_to_dbl(const adstring & _str){
-  ADUNCONST(adstring,str);//converts from const _str to non-const str
-  istringstream is((char*)str);
-  double d = 0;
-  is >> d;
-  return d;
-}
-/**
- * Convert double to string value
- * 
- * _dbl - double to convert to double value
- */
-adstring gmacs::dbl_to_str(const double & _dbl){
-  int debug = 0;
-  ADUNCONST(double,dbl);//converts from const _dbl to non-const dbl
-  if (debug) cout<<"_dbl = "<<_dbl<<endl;
-  char buffer[50];
-  int n = sprintf(buffer,"%g",dbl);
-  if (debug) cout<<"buffer = "<<buffer<<". n = "<<n<<endl;
-  
-  adstring str = "";
-  for (int i=0;i<n;i++) str += buffer[i];
-  if (debug) cout<<"str = "<<str<<endl;
-  return str;
-}
-/**
  * Parse an integer range string
  * 
  * @param str - adstring representing the range
@@ -632,7 +602,7 @@ dvector gmacs::parseRangeStr(adstring& str, double dummy){
       cout<<"map size is "<<mapAliasesToBlocks.size()<<". Keys are "<<endl;
       for (std::map<const char*,SizeBlock*>::iterator it=mapAliasesToBlocks.begin(); it!=mapAliasesToBlocks.end(); ++it){
         cout<<"'"<<it->first<<"'. ";
-        gmacs::compare_strings cs;
+        compare cs;
         bool res = (!cs(it->first,(const char*)alias_))&&(!cs((const char*)alias_,it->first));
         cout<<"Equals key? "<<res<<endl;
       }

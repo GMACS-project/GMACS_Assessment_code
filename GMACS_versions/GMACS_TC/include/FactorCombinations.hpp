@@ -58,7 +58,7 @@ public:
   /**
    * Class constructor
    */
-  FactorCombination();
+  FactorCombination(int fc_);
   
   /**
    * Class destructor
@@ -93,6 +93,9 @@ class FactorCombinations{
 public:
   /* flag to print debugging info */
   static int debug;
+  /* max number of factor combinations to read before throwing an error */
+  static const int maxNumFCs = 100;
+  
   /* number of factor combinations */
   int nFCs;
   /* map to factor combinations, with the factor combination as the key */

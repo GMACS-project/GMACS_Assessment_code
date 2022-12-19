@@ -12,8 +12,9 @@ int FactorCombination::debug = 0;
 /** 
  * Class constructor.
  */
-FactorCombination::FactorCombination(){
+FactorCombination::FactorCombination(int fc_){
   if (debug) cout<<"Starting FactorCombination::FactorCombination"<<endl;
+  fc = fc_;
   if (debug) cout<<"Finished FactorCombination::FactorCombination"<<endl;
 }
 /** 
@@ -31,7 +32,6 @@ FactorCombination::~FactorCombination(){
 void FactorCombination::read(cifstream & is){
   if (debug) cout<<"Starting FactorCombination::read for '"<<is.get_file_name()<<"'"<<endl;
   ModelConfiguration* ptrMC = ModelConfiguration::getInstance();
-  is>>fc;  //--factor combination
   is>>fcm; //--factor combination mirror
   is>>s_r;  r  = ptrMC->getRegionIndex(s_r);    //--region info
   is>>s_x;  x  = ptrMC->getSexIndex(s_x);       //--sex info
@@ -81,7 +81,7 @@ FactorCombinations::FactorCombinations(){
 FactorCombinations::~FactorCombinations(){
   if (!mapFCs.empty()) {
     for (std::map<int,FactorCombination*>::iterator it=mapFCs.begin(); it!=mapFCs.end(); ++it) 
-      delete it->second;//delete pointer
+      delete it->second;//delete pointer to FactorCombination instance
   }
 }
 
@@ -107,17 +107,32 @@ int FactorCombinations::countType(adstring type_){
  * @param is - file input stream
  */
 void FactorCombinations::read(cifstream & is){
+  debug=1;
   if (debug) cout<<"Starting FactorCombinations::read"<<endl;
-  is>>nFCs;
-  if (debug) cout<<"nFCs = "<<nFCs<<endl;
+  nFCs = 0;
   mapFCs.clear();
-  for (int i=0;i<nFCs;i++) {
-    FactorCombination* pFC = new FactorCombination();
+  int fc_;
+  is>>fc_;
+  if (debug) cout<<"fc_ = "<<fc_<<endl;
+  while (fc_>0) {
+    nFCs++;
+    FactorCombination* pFC = new FactorCombination(fc_);
     is>>(*pFC);
-    int fc = pFC->fc; mapFCs[fc] = pFC;
-    if (debug) cout<<"\ti = "<<i<<endl<<(*mapFCs[fc])<<endl;
+    mapFCs[fc_] = pFC;
+    if (debug) cout<<"\tctr = "<<nFCs<<endl<<(*mapFCs[fc_])<<endl;
+    if (nFCs>100) {
+      cout<<"#---------------------#"<<endl;
+      cout<<"Number of factor combinations read exceeds "<<FactorCombinations::maxNumFCs<<"."<<endl;
+      cout<<"This probably indicates an error in the ctl file, possibly a missing EOF"<<endl;
+      cout<<"after the set of factor combinations."<<endl;
+      cout<<"If this is NOT an error, increase FactorCombinations::maxNumFCs in FactorCombinations.hpp."<<endl;
+      cout<<"#---------------------#"<<endl;
+      exit(-1);
+    }
+    is>>fc_;
   }
   if (debug) cout<<"Finished FactorCombinations::read"<<endl;
+  debug=0;
 }
 /**
  * Write object to output stream in ADMB format.
@@ -126,9 +141,10 @@ void FactorCombinations::read(cifstream & is){
  */
 void FactorCombinations::write(std::ostream & os){
   if (debug) cout<<"Starting FactorCombinations::write"<<endl;
-  os<<nFCs<<"    #--number of factor combinations"<<endl;
+  os<<"#----number of factor combinations: "<<nFCs<<endl;
   os<<"fc mir  region sex   mat shell time_block  size_block   type     units  label"<<endl;
   for (std::map<int,FactorCombination*>::iterator it=mapFCs.begin(); it!=mapFCs.end(); ++it) 
     os<<(*(it->second))<<endl;
+  os<<EOF<<endl;
   if (debug) cout<<"Finished FactorCombinations::write"<<endl;
 }

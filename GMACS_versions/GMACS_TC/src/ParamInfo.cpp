@@ -11,7 +11,7 @@
 
 ///////////////////////////////////BasicParamInfo////////////////////////////
 /* flag to print debugging info */
-int BasicParamInfo::debug = 1;
+int BasicParamInfo::debug = 0;
 
 /**
  * Constructor
@@ -59,7 +59,7 @@ void BasicParamInfo::write(std::ostream & os){
 
 ///////////////////////////////////StdParamInfo////////////////////////////
 /* flag to print debugging info */
-int StdParamInfo::debug = 1;
+int StdParamInfo::debug = 0;
 
 /**
  * Constructor
@@ -89,15 +89,17 @@ void StdParamInfo::read(cifstream & is){
  */
 void StdParamInfo::write(std::ostream & os){
   if (debug) cout<<"starting StdParamInfo::write"<<endl;
-  os<<s_param<<"  "<<mirror;
+  os<<s_param<<"  "<<mirror<<"  ";
   if (0==mirror)
     os<<(*(BasicParamInfo*) (this));//write BasicParamInfo elements;
+  else 
+    os<<"#--see mirrored parameter for further details"<<endl;
   if (debug) cout<<"finished StdParamInfo::write"<<endl;
 }
 
 ///////////////////////////////////VectorParamInfo////////////////////////////
 /* flag to print debugging info */
-int VectorParamInfo::debug = 1;
+int VectorParamInfo::debug = 0;
 
 /**
  * Constructor
@@ -132,7 +134,7 @@ void VectorParamInfo::write(std::ostream & os){
 
 ///////////////////////////////////MatrixParamInfo////////////////////////////
 /* flag to print debugging info */
-int MatrixParamInfo::debug = 1;
+int MatrixParamInfo::debug = 0;
 
 /**
  * Constructor
@@ -167,7 +169,7 @@ void MatrixParamInfo::write(std::ostream & os){
 
 ///////////////////////////////////StdParamFunctionInfo/////////////////////////
 /* flag to print debugging info */
-int StdParamFunctionInfo::debug = 1;
+int StdParamFunctionInfo::debug = 0;
 
 /**
  * Constructor
@@ -210,7 +212,7 @@ void StdParamFunctionInfo::write(std::ostream & os){
 
 ///////////////////////////////////StdParamFunctionsInfo////////////////////////////
 /* flag to print debugging info */
-int StdParamFunctionsInfo::debug = 1;
+int StdParamFunctionsInfo::debug = 0;
 const adstring StdParamFunctionsInfo::KEYWORD = "functions";
 /** 
  * Class constructor
@@ -232,7 +234,7 @@ StdParamFunctionsInfo::~StdParamFunctionsInfo(){
 void StdParamFunctionsInfo::read(cifstream & is){
   if (debug) cout<<"starting StdParamFunctionsInfo::read"<<endl;
   adstring kw_;
-  is>>kw_; gmacs::checkKeyWord(kw_,KEYWORD,"");
+  is>>kw_; gmacs::checkKeyWord(kw_,KEYWORD,"StdParamFunctionsInfo::read");
   int fc_; adstring fcn_; 
   is>>fc_;
   while (fc_>0){
@@ -240,8 +242,10 @@ void StdParamFunctionsInfo::read(cifstream & is){
     StdParamFunctionInfo* p = new StdParamFunctionInfo(fc_,fcn_);
     is>>(*p);
     if (debug) cout<<(*p)<<endl;
-    ParamMultiKey_IAA* pmk = new ParamMultiKey_IAA(fc_,fcn_,p->ptrPI->s_param);
-    mapFIs[(*pmk)] = p;
+//    ParamMultiKey_IAA* pmk = new ParamMultiKey_IAA(fc_,fcn_,p->ptrPI->s_param);
+//    mapFIs[(*pmk)] = p;
+    MultiKey* mk = new MultiKey(gmacs::asa3(str(fc_),fcn_,p->ptrPI->s_param));
+    mapFIs[(*mk)] = p;
     is>>fc_;
   }  
   if (debug) cout<<"finished StdParamFunctionsInfo::read"<<endl;
@@ -256,17 +260,17 @@ void StdParamFunctionsInfo::write(std::ostream & os){
   os<<KEYWORD<<"  #--information type"<<endl;
   os<<"#fc function  par mir   ival    lb   ub   phz  jtr?  prior p1 p2"<<endl;
   if (debug) cout<<"number of rows defining functions: "<<mapFIs.size()<<endl;
-  for (std::map<ParamMultiKey_IAA,StdParamFunctionInfo*>::iterator it=mapFIs.begin(); it!=mapFIs.end(); ++it) {
-    if (debug) cout<<(it->first).id<<" "<<(it->first).str1<<" "<<(it->first).str2<<endl;
+  for (std::map<MultiKey,StdParamFunctionInfo*>::iterator it=mapFIs.begin(); it!=mapFIs.end(); ++it) {
+    if (debug) cout<<(it->first)<<endl;
     os<<(*(it->second))<<endl;
   }
-  os<<EOF<<"   #--end of function information section"<<endl;
+  os<<EOF<<"   #--end of functions information section"<<endl;
   if (debug) cout<<"finished StdParamFunctionsInfo::write"<<endl;
 }
 
 ///////////////////////////////////ParamVectorFunctionInfo/////////////////////////
 /* flag to print debugging info */
-int ParamVectorFunctionInfo::debug = 1;
+int ParamVectorFunctionInfo::debug = 0;
 
 /**
  * Constructor
@@ -309,8 +313,8 @@ void ParamVectorFunctionInfo::write(std::ostream & os){
 
 ///////////////////////////////////ParamVectorFunctionsInfo////////////////////////////
 /* flag to print debugging info */
-int ParamVectorFunctionsInfo::debug = 1;
-const adstring ParamVectorFunctionsInfo::KEYWORD = "functions";
+int ParamVectorFunctionsInfo::debug = 0;
+const adstring ParamVectorFunctionsInfo::KEYWORD = "param_vectors";
 /** 
  * Class constructor
  */
@@ -339,8 +343,8 @@ void ParamVectorFunctionsInfo::read(cifstream & is){
     ParamVectorFunctionInfo* p = new ParamVectorFunctionInfo(fc_,fcn_);
     is>>(*p);
     if (debug) cout<<(*p)<<endl;
-//    ParamMultiKey_IAAA* pmk = new ParamMultiKey_IAA(fc_,fcn_,p->ptrPI->s_param,p->ptrPI->s_vi);
-//    mapFIs[(*pmk)] = p;
+    MultiKey* mk = new MultiKey(gmacs::asa4(str(fc_),fcn_,p->ptrPI->s_param,p->ptrPI->s_vi));
+    mapFIs[(*mk)] = p;
     is>>fc_;
   }  
   if (debug) cout<<"finished ParamVectorFunctionsInfo::read"<<endl;
@@ -355,17 +359,17 @@ void ParamVectorFunctionsInfo::write(std::ostream & os){
   os<<KEYWORD<<"  #--information type"<<endl;
   os<<"#fc function  par mir   ival    lb   ub   phz  jtr?  prior p1 p2"<<endl;
   if (debug) cout<<"number of rows defining functions: "<<mapFIs.size()<<endl;
-//  for (std::map<ParamMultiKey_IAAA,ParamVectorFunctionInfo*>::iterator it=mapFIs.begin(); it!=mapFIs.end(); ++it) {
-//    if (debug) cout<<(it->first).id<<" "<<(it->first).str1<<" "<<(it->first).str2<<endl;
-//    os<<(*(it->second))<<endl;
-//  }
-  os<<EOF<<"   #--end of function information section"<<endl;
+  for (std::map<MultiKey,ParamVectorFunctionInfo*>::iterator it=mapFIs.begin(); it!=mapFIs.end(); ++it) {
+    if (debug) cout<<(it->first)<<endl;
+    os<<(it->second)<<endl;
+  }
+  os<<EOF<<"   #--end of param_vectors information section"<<endl;
   if (debug) cout<<"finished ParamVectorFunctionsInfo::write"<<endl;
 }
 
 ///////////////////////////////////ParamMatrixFunctionInfo/////////////////////////
 /* flag to print debugging info */
-int ParamMatrixFunctionInfo::debug = 1;
+int ParamMatrixFunctionInfo::debug = 0;
 
 /**
  * Constructor
@@ -408,8 +412,8 @@ void ParamMatrixFunctionInfo::write(std::ostream & os){
 
 ///////////////////////////////////ParamMatrixFunctionsInfo////////////////////////////
 /* flag to print debugging info */
-int ParamMatrixFunctionsInfo::debug = 1;
-const adstring ParamMatrixFunctionsInfo::KEYWORD = "functions";
+int ParamMatrixFunctionsInfo::debug = 0;
+const adstring ParamMatrixFunctionsInfo::KEYWORD = "param_matrices";
 /** 
  * Class constructor
  */
@@ -430,7 +434,7 @@ ParamMatrixFunctionsInfo::~ParamMatrixFunctionsInfo(){
 void ParamMatrixFunctionsInfo::read(cifstream & is){
   if (debug) cout<<"starting ParamMatrixFunctionsInfo::read"<<endl;
   adstring kw_;
-  is>>kw_; gmacs::checkKeyWord(kw_,KEYWORD,"");
+  is>>kw_; gmacs::checkKeyWord(kw_,KEYWORD,"ParamMatrixFunctionsInfo::read");
   int fc_; adstring fcn_; 
   is>>fc_;
   while (fc_>0){
@@ -438,8 +442,8 @@ void ParamMatrixFunctionsInfo::read(cifstream & is){
     ParamMatrixFunctionInfo* p = new ParamMatrixFunctionInfo(fc_,fcn_);
     is>>(*p);
     if (debug) cout<<(*p)<<endl;
-    ParamMultiKey_IAA* pmk = new ParamMultiKey_IAA(fc_,fcn_,p->ptrPI->s_param);
-    mapFIs[(*pmk)] = p;
+    MultiKey* mk = new MultiKey(gmacs::asa5(str(fc_),fcn_,p->ptrPI->s_param,p->ptrPI->s_ri,p->ptrPI->s_vi));
+    mapFIs[(*mk)] = p;
     is>>fc_;
   }  
   if (debug) cout<<"finished ParamMatrixFunctionsInfo::read"<<endl;
@@ -452,13 +456,13 @@ void ParamMatrixFunctionsInfo::read(cifstream & is){
 void ParamMatrixFunctionsInfo::write(std::ostream & os){
   if (debug) cout<<"starting ParamMatrixFunctionsInfo::write"<<endl;
   os<<KEYWORD<<"  #--information type"<<endl;
-  os<<"#fc function  par mir   ival    lb   ub   phz  jtr?  prior p1 p2"<<endl;
+  os<<"#fc function  par  row_index  col_index  mir   ival    lb   ub   phz  jtr?  prior p1 p2"<<endl;
   if (debug) cout<<"number of rows defining functions: "<<mapFIs.size()<<endl;
-  for (std::map<ParamMultiKey_IAA,ParamMatrixFunctionInfo*>::iterator it=mapFIs.begin(); it!=mapFIs.end(); ++it) {
-    if (debug) cout<<(it->first).id<<" "<<(it->first).str1<<" "<<(it->first).str2<<endl;
+  for (std::map<MultiKey,ParamMatrixFunctionInfo*>::iterator it=mapFIs.begin(); it!=mapFIs.end(); ++it) {
+    if (debug) cout<<(it->first)<<endl;
     os<<(*(it->second))<<endl;
   }
-  os<<EOF<<"   #--end of function information section"<<endl;
+  os<<EOF<<"   #--end of param_matrices information section"<<endl;
   if (debug) cout<<"finished ParamMatrixFunctionsInfo::write"<<endl;
 }
 

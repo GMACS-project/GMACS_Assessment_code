@@ -7,7 +7,7 @@
 #include "../include/FactorCombinations.hpp"
 
 ///////////////////////////////////FactorCombination////////////////////////////
-int FactorCombination::debug = 1;
+int FactorCombination::debug = 0;
 
 /** 
  * Class constructor.
@@ -65,7 +65,7 @@ void FactorCombination::write(std::ostream & os){
   if (debug) cout<<endl<<"Finished FactorCombination::write"<<endl;
 }
 ///////////////////////////////////FactorCombinations///////////////////////////
-int FactorCombinations::debug = 1;
+int FactorCombinations::debug = 0;
 
 /**
  * Class constructor

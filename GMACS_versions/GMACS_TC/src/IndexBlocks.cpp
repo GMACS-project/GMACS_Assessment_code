@@ -545,6 +545,23 @@ dvector gmacs::parseRangeStr(adstring& str, double dummy){
     if (pIB) delete pIB;
   }
   
+  /**
+   * Get the index of the bin in which a value falls.
+   * 
+   * @param val_ - (double) the value
+   * @return - (int) the index corresponding to the bin in which the value falls
+   */
+  int SizeBlock::getBinIndex(double val_){
+    for (int i=pIB->iv.indexmin();i<=pIB->iv.indexmax();i++){
+      if ((pIB->mdv[pIB->iv[i]]<=val_)&&(val_<pIB->mdv[pIB->iv[i]+1]))
+        return i;
+    }
+    cout<<"In SizeBlock::getBinIndex("<<val_<<"). Did not find appropriate bin."<<endl;
+    cout<<"iv =  "<<pIB->iv<<endl;
+    cout<<"mdv = "<<pIB->mdv<<endl;
+    return -1;
+  }
+  
   void SizeBlock::setIndexBlockString(adstring str){
     indxBlkStr = str;
     if (pIB) delete pIB;
@@ -576,7 +593,7 @@ dvector gmacs::parseRangeStr(adstring& str, double dummy){
 
 ////////////////////////////--SizeBlocks--//////////////////////////////////////
   adstring SizeBlocks::KEYWORD = "size_blocks";
-  int SizeBlocks::debug = 1;
+  int SizeBlocks::debug = 0;
   /**
    * Class constructor
    * 
@@ -599,16 +616,26 @@ dvector gmacs::parseRangeStr(adstring& str, double dummy){
   SizeBlock* SizeBlocks::getBlock(adstring& alias_){
     if (debug) {
       cout<<"starting SizeBlocks::getBlock with key '"<<(const char*)alias_<<"'"<<endl;
-      cout<<"map size is "<<mapAliasesToBlocks.size()<<". Keys are "<<endl;
-      for (std::map<const char*,SizeBlock*>::iterator it=mapAliasesToBlocks.begin(); it!=mapAliasesToBlocks.end(); ++it){
-        cout<<"'"<<it->first<<"'. ";
-        compare cs;
-        bool res = (!cs(it->first,(const char*)alias_))&&(!cs((const char*)alias_,it->first));
-        cout<<"Equals key? "<<res<<endl;
-      }
+      cout<<"map size is "<<mapAliasesToBlocks.size()<<". Keys are :";
+      for (std::map<const char*,SizeBlock*>::iterator it=mapAliasesToBlocks.begin(); it!=mapAliasesToBlocks.end(); ++it)
+        cout<<"'"<<it->first<<"' ";
+      cout<<endl;
     }
-    SizeBlock* ptrZB = mapAliasesToBlocks[(const char*)alias_];
-    if (!ptrZB) cout<<"Did not find key '"<<(const char*)alias_<<"' in SizeBlocks"<<endl;
+    SizeBlock* ptrZB = nullptr;
+    for (std::map<const char*,SizeBlock*>::iterator it=mapAliasesToBlocks.begin(); it!=mapAliasesToBlocks.end(); ++it){
+      if (debug) cout<<"'"<<it->first<<"'. ";
+      compare cs;
+      bool res = (!cs(it->first,(const char*)alias_))&&(!cs((const char*)alias_,it->first));
+      if (debug) cout<<"Equals key '"<<alias_<<"'? "<<gmacs::isTrue(res)<<endl;
+      if (res) {ptrZB = it->second; break;}
+    }
+    if (!ptrZB) {
+      cout<<"--Did not find key '"<<(const char*)alias_<<"' in SizeBlocks"<<endl;
+      cout<<"--Available keys are: ";
+      for (std::map<const char*,SizeBlock*>::iterator it=mapAliasesToBlocks.begin(); it!=mapAliasesToBlocks.end(); ++it)
+        cout<<"'"<<it->first<<"'  ";
+      cout<<endl<<endl;
+    }
     return ptrZB;
   }
   

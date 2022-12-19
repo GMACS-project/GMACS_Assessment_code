@@ -90,6 +90,7 @@ namespace gmacs {
   adstring_array asa2(const adstring& a1,const adstring& a2);
   adstring_array asa3(const adstring& a1,const adstring& a2,const adstring& a3);
   adstring_array asa4(const adstring& a1,const adstring& a2,const adstring& a3,const adstring& a4);
+  adstring_array asa5(const adstring& a1,const adstring& a2,const adstring& a3,const adstring& a4,const adstring& a5);
 }//--end of gmacs namespace
 
 /**
@@ -221,7 +222,7 @@ class MultiKey {
    * 
    * @param os - output stream
    */
-  void write(std::ostream & os);
+  void write(std::ostream & os) const;
   /**
    * Operator to read from input filestream in ADMB format
    */
@@ -229,6 +230,6 @@ class MultiKey {
   /**
    * Operator to write to output stream in ADMB format
    */
-  friend std::ostream& operator <<(std::ostream & os,   MultiKey & obj){obj.write(os);return os;}
+  friend std::ostream& operator <<(std::ostream & os, const MultiKey & obj) {obj.write(os);return os;}
 };//--MultiKey
 #endif /* GMACS_UTILS_HPP */

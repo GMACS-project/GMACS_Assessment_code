@@ -103,14 +103,14 @@ public:
   static int debug;
   /* factor combination index */
   int fc;
-  /* size bin midpoint corresponding to the matrix row */
-  double zB;
-  /* alias for SizeBlock defining bins for values */
-  adstring alsZB;
-  /* dvector */
-  dvector values;
+  /* alias for SizeBlock defining bins for matrix rows */
+  adstring alsZBrows;
+  /* alias for SizeBlock defining bins for matrix columns */
+  adstring alsZBcols;
+  /* dmatrix for values */
+  dmatrix values;
   
-  FixedMatrixInfo(int fc_,double zB_,adstring& alsZB_);
+  FixedMatrixInfo(int fc_,adstring& alsZBrows_,adstring& alsZBcols_);
   ~FixedMatrixInfo();
    /**
    * Read object from input stream in ADMB format.

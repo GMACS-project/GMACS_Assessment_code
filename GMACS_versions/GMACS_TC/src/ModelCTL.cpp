@@ -5,7 +5,7 @@
 #include "../include/ModelCTL.hpp"
 
 ///////////////////////////////////WeightAtSize/////////////////////////////////
-int WeightAtSize::debug=1;
+int WeightAtSize::debug=0;
 const adstring WeightAtSize::KEYWORD="WatZ";
 
 /**
@@ -203,29 +203,31 @@ void Growth::read(cifstream & is){
   adstring str;
   is>>str; gmacs::checkKeyWord(str,KEYWORD,"Growth::read");
   
-//  if (debug) FactorCombinations::debug=1;
   if (ptrFCs) delete ptrFCs;
   ptrFCs = new FactorCombinations();
   is>>(*ptrFCs);
-//  if (debug) FactorCombinations::debug=0;
+  if (debug) cout<<(*ptrFCs)<<endl;
 
   nFunctionTypes = ptrFCs->countType("function"); 
   if (debug) cout<<"nFunctionTypes = "<<nFunctionTypes<<endl;
   if (ptrFIs) delete ptrFIs;
   ptrFIs = new StdParamFunctionsInfo();
   is>>(*ptrFIs);
+  if (debug) cout<<(*ptrFIs)<<endl;
 
   nParamMatrixFunctionTypes = ptrFCs->countType("param_matrix");
   if (debug) cout<<"nParamMatrixTypes = "<<nParamMatrixFunctionTypes<<endl;
   if (ptrPMIs) delete ptrPMIs;
   ptrPMIs = new ParamMatrixFunctionsInfo();
   is>>(*ptrPMIs);
+  if (debug) cout<<(*ptrPMIs)<<endl;
   
   nFixedMatrixTypes = ptrFCs->countType("fixed_matrix");
   if (debug) cout<<"nFixedMatrixTypes = "<<nFixedMatrixTypes<<endl;
   if (ptrFMIs) delete ptrFMIs;
   ptrFMIs = new FixedMatrixsInfo();
   is>>(*ptrFMIs);
+  if (debug) cout<<(*ptrFMIs)<<endl;
   
   if (debug) cout<<"finished Growth::read from '"<<is.get_file_name()<<"'"<<endl;
 }
@@ -293,24 +295,27 @@ void MoltToMaturity::read(cifstream & is){
   adstring str;
   is>>str; gmacs::checkKeyWord(str,KEYWORD,"MoltToMaturity::read");
   is>>str; hasTM = gmacs::isTrue(str);
+  if (debug) cout<<"has terminal molt: "<<hasTM<<endl;
   if (hasTM){
   //  if (debug) FactorCombinations::debug=1;
     if (ptrFCs) delete ptrFCs;
     ptrFCs = new FactorCombinations();
     is>>(*ptrFCs);
-  //  if (debug) FactorCombinations::debug=0;
+    if (debug) cout<<(*ptrFCs)<<endl;
 
     nFunctionTypes = ptrFCs->countType("function"); 
     if (debug) cout<<"nFunctionTypes = "<<nFunctionTypes<<endl;
     if (ptrFIs) delete ptrFIs;
     ptrFIs = new StdParamFunctionsInfo();
     is>>(*ptrFIs);
+    if (debug) cout<<(*ptrFIs)<<endl;
 
     nVectorTypes = ptrFCs->countType("vector");
     if (debug) cout<<"nVectorTypes = "<<nVectorTypes<<endl;
     if (ptrVIs) delete ptrVIs;
     ptrVIs = new FixedVectorsInfo();
     is>>(*ptrVIs);
+    if (debug) cout<<(*ptrVIs)<<endl;
   }
   
   if (debug) cout<<"finished MoltToMaturity::read from '"<<is.get_file_name()<<"'"<<endl;
@@ -354,8 +359,9 @@ const adstring ModelCTL::version = "2022.11.29";
 ModelCTL::ModelCTL(){
   if (debug) cout<<"starting ModelCTL::ModelCTL"<<endl;
   ptrWatZ = nullptr;
-  ptrM2M = nullptr;
   ptrMP = nullptr;
+  ptrM2M = nullptr;
+  ptrGrw = nullptr;
   if (debug) cout<<"finished ModelCTL::ModelCTL"<<endl;
 }
 
@@ -364,8 +370,9 @@ ModelCTL::ModelCTL(){
  */
 ModelCTL::~ModelCTL(){
   if (ptrWatZ) delete ptrWatZ; ptrWatZ = nullptr;
-  if (ptrM2M)   delete ptrM2M;   ptrM2M   = nullptr;
   if (ptrMP)   delete ptrMP;   ptrMP   = nullptr;
+  if (ptrM2M)  delete ptrM2M;  ptrM2M   = nullptr;
+  if (ptrGrw)  delete ptrGrw;  ptrGrw   = nullptr;
 }
 /**
  * Read object from input stream in ADMB format.
@@ -377,13 +384,19 @@ void ModelCTL::read(cifstream & is){
   adstring str;
   is>>str; gmacs::checkKeyWord(str,version,"Reading ctl file. Incorrect version given.");
 //  if (debug) WeightAtSize::debug = 1;
+  if (debug) cout<<"\n\n--ModelCTL::read: creating and reading WeightAtSize object"<<endl;
   ptrWatZ = new WeightAtSize();
   is>>(*ptrWatZ);
 //  if (debug) WeightAtSize::debug = 0;
-  ptrM2M = new MoltToMaturity();
-  is>>(*ptrM2M);
+  if (debug) cout<<"\n\n--ModelCTL::read: creating and reading MoltProbability object"<<endl;
   ptrMP = new MoltProbability();
   is>>(*ptrMP);
+  if (debug) cout<<"\n\n--ModelCTL::read: creating and reading MoltToMaturity object"<<endl;
+  ptrM2M = new MoltToMaturity();
+  is>>(*ptrM2M);
+  if (debug) cout<<"\n\n--ModelCTL::read: creating and reading Growth object"<<endl;
+  ptrGrw = new Growth();
+  is>>(*ptrGrw);
   if (debug) cout<<"finished ModelCTL::read"<<endl;
 }
 /**
@@ -398,8 +411,9 @@ void ModelCTL::write(std::ostream & os){
   os<<"##------------------------------------------------"<<endl;
   os<<"##--Population"<<endl;
   os<<(*ptrWatZ)<<endl;
-  os<<(*ptrM2M)<<endl;
   os<<(*ptrMP)<<endl;
+  os<<(*ptrM2M)<<endl;
+  os<<(*ptrGrw)<<endl;
   if (debug) cout<<"finished ModelCTL::write"<<endl;
 }
 

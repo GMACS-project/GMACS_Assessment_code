@@ -171,7 +171,7 @@ public:
    */
   friend std::ostream& operator <<(std::ostream & os,   Growth & obj){obj.write(os);return os;}
 };
-///////////////////////////////////TerminalMolt/////////////////////////////////
+///////////////////////////////////MoltToMaturity///////////////////////////////
 class MoltToMaturity{
 public:
   /* flag to print debugging info */
@@ -236,6 +236,8 @@ public:
   MoltProbability* ptrMP;
   /* pointer to MoltToMaturity object */
   MoltToMaturity* ptrM2M;
+  /* pointer to Growth object */
+  Growth* ptrGrw;
   
   /**
    * Class constructor

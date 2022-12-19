@@ -7,7 +7,7 @@ using namespace std;
 
 //static (class) variables
 const adstring ModelConfiguration::VERSION = "2022.11.16";
-int ModelConfiguration::debug=1;
+int ModelConfiguration::debug=0;
 /* pointer to singleton instance */
 ModelConfiguration* ModelConfiguration::ptrMC = nullptr;
 

@@ -45,9 +45,10 @@ adstring gmacs::dbl_to_str(const double & _dbl){
  * @return 0 if false, 1 if true
  */
 bool gmacs::isDouble(const adstring& str_){
+  int debug = 0;
   double d = gmacs::str_to_dbl(str_);
   adstring str = gmacs::dbl_to_str(d);
-  cout<<"d = "<<str<<"; str_ = "<<str_<<"; =? "<<(str==str_)<<endl;
+  if (debug) cout<<"d = "<<str<<"; str_ = "<<str_<<"; =? "<<(str==str_)<<endl;
   return (str==str_);
 }
 /**
@@ -139,6 +140,16 @@ adstring_array gmacs::asa4(const adstring& a1,const adstring& a2,const adstring&
   aa[k++] = a2;
   aa[k++] = a3;
   aa[k++] = a4;
+  return(aa);
+}
+
+adstring_array gmacs::asa5(const adstring& a1,const adstring& a2,const adstring& a3,const adstring& a4,const adstring& a5){
+  adstring_array aa(1,5); int k=1;
+  aa[k++] = a1;
+  aa[k++] = a2;
+  aa[k++] = a3;
+  aa[k++] = a4;
+  aa[k++] = a5;
   return(aa);
 }
 
@@ -320,7 +331,7 @@ bool MultiKey::operator<(const MultiKey &right) const
   * 
   * @param os - output stream
   */
- void MultiKey::write(std::ostream & os){
+ void MultiKey::write(std::ostream & os) const {
    for (int i=isrt.indexmin();i<=isrt.indexmax();i++)
      os<<keys[isrt[i]]<<"  ";
  }

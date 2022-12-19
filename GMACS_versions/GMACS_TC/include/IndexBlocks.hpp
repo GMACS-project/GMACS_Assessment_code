@@ -260,7 +260,14 @@ public:
   /** 
    * Class destructor
    */
-  ~SizeBlock();  
+  ~SizeBlock(); 
+  /**
+   * Get the index of the bin in which a value falls.
+   * 
+   * @param val_ - (double) the value
+   * @return - (int) the index corresponding to the bin in which the value falls
+   */
+  int getBinIndex(double val_);
   void setID(int id_){id=id_;}
   void setAlias(adstring alias_){alias=alias_;}
   void setIndexBlockString(adstring str);

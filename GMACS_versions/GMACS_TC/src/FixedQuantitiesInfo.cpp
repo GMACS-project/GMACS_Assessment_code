@@ -30,7 +30,9 @@ void FixedVectorInfo::read(cifstream & is){
   if (debug) cout<<"fc = "<<fc<<".  alias = "<<alsZB<<endl;
   values.deallocate();
   if (debug) cout<<"deallocated vector. "<<endl;
+  SizeBlocks::debug = 1;
   SizeBlock* ptrZB = ModelConfiguration::getInstance()->getSizeBlock(alsZB);
+  SizeBlocks::debug = 0;
   if (debug) cout<<"SizeBlock "<<ptrZB<<": "<<ptrZB->pIB->mdv<<endl;
   if (debug) cout<<"index min: "<<ptrZB->pIB->iv.indexmin()<<". index max: "<<ptrZB->pIB->iv.indexmax()<<endl;
   values.allocate(ptrZB->pIB->iv.indexmin(),ptrZB->pIB->iv.indexmax());
@@ -50,7 +52,7 @@ void FixedVectorInfo::write(std::ostream & os){
   os<<fc<<"  ";
   os<<alsZB<<"  ";
   os<<values;
-  if (debug) cout<<"finished FixedVectorInfo::write"<<endl;
+  if (debug) cout<<endl<<"finished FixedVectorInfo::write"<<endl;
 }
 ///////////////////////////////////FixedVectorsInfo////////////////////////////
 /* flag to print debugging info */
@@ -114,10 +116,10 @@ int FixedMatrixInfo::debug = 1;
 /**
  * Constructor
  */
-FixedMatrixInfo::FixedMatrixInfo(int fc_,double zB_,adstring& alsZB_){
+FixedMatrixInfo::FixedMatrixInfo(int fc_,adstring& alsZBrows_,adstring& alsZBcols_){
   fc = fc_;
-  zB = zB_;
-  alsZB = alsZB_;
+  alsZBrows = alsZBrows_;
+  alsZBcols = alsZBcols_;
 }
 /**
  * Destructor
@@ -130,15 +132,22 @@ FixedMatrixInfo::~FixedMatrixInfo(){}
  */
 void FixedMatrixInfo::read(cifstream & is){
   if (debug) cout<<"starting FixedMatrixInfo::read"<<endl;
-  if (debug) cout<<"fc = "<<fc<<".  alias = "<<alsZB<<endl;
+  if (debug) cout<<"fc = "<<fc<<".  rows alias = "<<alsZBrows<<".  columns alias = "<<alsZBcols<<endl;
   values.deallocate();
-  if (debug) cout<<"deallocated vector. "<<endl;
-  SizeBlock* ptrZB = ModelConfiguration::getInstance()->getSizeBlock(alsZB);
-  if (debug) cout<<"SizeBlock "<<ptrZB<<": "<<ptrZB->pIB->mdv<<endl;
-  if (debug) cout<<"index min: "<<ptrZB->pIB->iv.indexmin()<<". index max: "<<ptrZB->pIB->iv.indexmax()<<endl;
-  values.allocate(ptrZB->pIB->iv.indexmin(),ptrZB->pIB->iv.indexmax());
-  is>>values;
-  if (debug) cout<<"values: "<<values<<endl;
+  if (debug) cout<<"deallocated matrix. "<<endl;
+  SizeBlock* ptrZBrows = ModelConfiguration::getInstance()->getSizeBlock(alsZBrows);
+  SizeBlock* ptrZBcols = ModelConfiguration::getInstance()->getSizeBlock(alsZBcols);
+  if (debug) cout<<"rows SizeBlock "<<ptrZBrows<<": "<<ptrZBrows->pIB->mdv<<endl;
+  if (debug) cout<<"cols SizeBlock "<<ptrZBcols<<": "<<ptrZBcols->pIB->mdv<<endl;
+  values.allocate(ptrZBrows->pIB->iv.indexmin(),ptrZBrows->pIB->iv.indexmax(),
+                  ptrZBcols->pIB->iv.indexmin(),ptrZBcols->pIB->iv.indexmax());
+  double zBrow; is>>zBrow; 
+  while (zBrow>=0){
+    int izr = ptrZBrows->getBinIndex(zBrow);
+    is>>values(izr);
+    if (debug) cout<<"row zB = "<<zBrow<<", row index = "<<izr<<". column values =  "<<values(izr)<<endl;
+    is>>zBrow;
+  }
   if (debug) cout<<"finished FixedMatrixInfo::read"<<endl;
 }
 /**
@@ -148,12 +157,15 @@ void FixedMatrixInfo::read(cifstream & is){
  */
 void FixedMatrixInfo::write(std::ostream & os){
   if (debug) cout<<"starting FixedMatrixInfo::write"<<endl;
-  SizeBlock* ptrZB = ModelConfiguration::getInstance()->getSizeBlock(alsZB);
-  os<<"#fc  zB   size_block  zBs: "<<gmacs::getMidpoints(ptrZB->pIB->getValues())<<endl;
-  os<<fc<<"  ";
-  os<<zB<<"  ";
-  os<<alsZB<<"  ";
-  os<<values;
+  os<<fc<<"  #--factor combination"<<endl;
+  os<<alsZBrows<<"  #--alias for size block defining rows"<<endl;
+  os<<alsZBcols<<"  #--alias for size block defining columns"<<endl;
+  SizeBlock* ptrZBrows = ModelConfiguration::getInstance()->getSizeBlock(alsZBrows);
+  SizeBlock* ptrZBcols = ModelConfiguration::getInstance()->getSizeBlock(alsZBcols);
+  os<<"#preZB   zBs: "<<gmacs::getMidpoints(ptrZBcols->pIB->getValues())<<endl;
+  for (int ir=ptrZBrows->pIB->iv.indexmin();ir<=ptrZBrows->pIB->iv.indexmax();ir++)
+    os<<ptrZBrows->pIB->getValue(ir)<<"  "<<values(ir)<<endl;
+  os<<EOF<<"  #--end of fixed matrix"<<endl;
   if (debug) cout<<"finished FixedMatrixInfo::write"<<endl;
 }
 ///////////////////////////////////FixedMatrixsInfo////////////////////////////
@@ -181,12 +193,12 @@ void FixedMatrixsInfo::read(cifstream & is){
   if (debug) cout<<"starting FixedMatrixsInfo::read"<<endl;
   adstring kw_;
   is>>kw_; gmacs::checkKeyWord(kw_,KEYWORD,"");
-  int fc_; double zB_; adstring alsZB_;
+  int fc_; adstring alsZBrows_; adstring alsZBcols_;
   is>>fc_;
   while (fc_>0){
-    is>>zB_;
-    is>>alsZB_;
-    FixedMatrixInfo* p = new FixedMatrixInfo(fc_,zB_,alsZB_);
+    is>>alsZBrows_;
+    is>>alsZBcols_;
+    FixedMatrixInfo* p = new FixedMatrixInfo(fc_,alsZBrows_,alsZBcols_);
     is>>(*p);
     if (debug) cout<<(*p)<<endl;
     mapMIs[fc_] = p;
@@ -202,12 +214,13 @@ void FixedMatrixsInfo::read(cifstream & is){
 void FixedMatrixsInfo::write(std::ostream & os){
   if (debug) cout<<"starting FixedMatrixsInfo::write"<<endl;
   os<<KEYWORD<<"  #--information type"<<endl;
-  os<<"#fc size_block zBs:"<<endl;
   if (debug) cout<<"number of rows defining functions: "<<mapMIs.size()<<endl;
+  int ctr = 1;
   for (std::map<int,FixedMatrixInfo*>::iterator it=mapMIs.begin(); it!=mapMIs.end(); ++it) {
     if (debug) cout<<(it->first)<<endl;
-    os<<(*(it->second))<<endl;
+    os<<"#--matrix "<<ctr++<<endl;
+    os<<(*(it->second));
   }
-  os<<EOF<<"  #--end of vector information type"<<endl;
+  os<<EOF<<"  #--end of fixed_matrices information type"<<endl;
   if (debug) cout<<"finished FixedMatrixsInfo::write"<<endl;
 }

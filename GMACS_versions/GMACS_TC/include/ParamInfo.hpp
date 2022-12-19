@@ -205,7 +205,7 @@ public:
   static int debug;
   static const adstring KEYWORD;
   /* map to StdFunctionInfo* objects */
-  std::map<ParamMultiKey_IAA,StdParamFunctionInfo*> mapFIs;
+  std::map<MultiKey,StdParamFunctionInfo*> mapFIs;
   
   /** 
    * Class constructor
@@ -282,7 +282,7 @@ public:
   static int debug;
   static const adstring KEYWORD;
   /* map to StdFunctionInfo* objects */
-  std::map<ParamMultiKey_IAA,ParamVectorFunctionInfo*> mapFIs;
+  std::map<MultiKey,ParamVectorFunctionInfo*> mapFIs;
   
   /** 
    * Class constructor
@@ -358,7 +358,7 @@ public:
   static int debug;
   static const adstring KEYWORD;
   /* map to StdFunctionInfo* objects */
-  std::map<ParamMultiKey_IAA,ParamMatrixFunctionInfo*> mapFIs;
+  std::map<MultiKey,ParamMatrixFunctionInfo*> mapFIs;
   
   /** 
    * Class constructor

@@ -49,6 +49,10 @@
 //            3. Working on implementing ModelCTL class.
 //2022-12-01: 1. Revised SizeBlocks and TimeBlocks to use maps, added utilities to gmacs_utilities.h/cpp. 
 //            2. Completed working version of WeightAtSize class for ModelCTL.
+//2022-12-19: 1. Added MoltProbability, MoltToMaturity, and Growth classes to ModelCTL.
+//            2. Revised CTL-related classes to use MultiKey class.
+//            3. Changed FactorCombinations input to drop reading nFCs (number of 
+//                 factor combinations); instead reading info until reaching an EOF (fc\<0)
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
@@ -87,11 +91,26 @@ DATA_SECTION
   adstring t1 = "test1";
   adstring t2 = "test23";
   adstring t3 = "a45";
-  gmacs::compare_strings cs;
-  cout<<t1<<" < "<<t2<<"? "<<cs(t1,t2)<<endl;
-  cout<<t2<<" < "<<t3<<"? "<<cs(t2,t3)<<endl;
-  cout<<"a1123"<<" < "<<"z"<<"? "<<cs("a1123","z")<<endl;
-   #include "gmacs_sandbox_data_section.cpp"
+  compare cmpr;
+  cout<<t1<<" < "<<t2<<"? "<<cmpr(t1,t2)<<endl;
+  cout<<t2<<" < "<<t3<<"? "<<cmpr(t2,t3)<<endl;
+  cout<<"a1123"<<" < "<<"z"<<"? "<<cmpr("a1123","z")<<endl;
+  cout<<123<<" < "<<"z"<<"? "<<cmpr(123,"z")<<endl;
+  cout<<"123"<<" < "<<"14"<<"? "<<cmpr("123","14")<<endl;
+  cout<<"6"<<" < "<<"14"<<"? "<<cmpr("6","14")<<endl;
+  cout<<"str_to_dbl('fred'): "<<gmacs::str_to_dbl("fred");
+  
+  cout<<endl<<endl<<"TESTING MultiKey class"<<endl;
+  ivector ia(1,3); ia.fill_seqadd(1,1);
+  adstring_array aa3a = gmacs::asa3("fred","9","100");  
+  adstring_array aa3b = gmacs::asa3("fred","80","100");  
+  MultiKey* pMK3a = new MultiKey(aa3a);
+  MultiKey* pMK3b = new MultiKey(aa3b);
+  cout<<"pMK3a = "<<(*pMK3a)<<endl;
+  cout<<"pMK3b = "<<(*pMK3b)<<endl;
+  cout<<"((*pMK3a)<(*pMK3b)) = "<<gmacs::isTrue(((*pMK3a)<(*pMK3b)))<<endl;
+  // #include "gmacs_sandbox_data_section.cpp"
+//  exit(-1);
  END_CALCS  
             
   //read from gmacs.dat file

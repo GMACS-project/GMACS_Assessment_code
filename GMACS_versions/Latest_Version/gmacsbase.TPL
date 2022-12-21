@@ -4429,7 +4429,7 @@ switch( bInitializeUnfished )
           recruits(h,i) = mfexp(logRbar)*float(nsex);
      // This splits recruitment out proportionately into males and females
         if (nsex == 1) recruits(h)(i) *= mfexp(rec_dev(i));
-        if (nsex == 2 & h ==    ) recruits(h)(i) *= mfexp(rec_dev(i)) * 1.0 / (1.0 + mfexp(-logit_rec_prop(i)));
+        if (nsex == 2 & h == MALESANDCOMBINED) recruits(h)(i) *= mfexp(rec_dev(i)) * 1.0 / (1.0 + mfexp(-logit_rec_prop(i)));
      // if (h == MALESANDCOMBINED) recruits(h)(i) *= mfexp(rec_dev(i)) * 1.0 / (1.0 + mfexp(-logit_rec_prop(i)));
         if (h == FEMALES) recruits(h)(i) *= mfexp(rec_dev(i)) * (1.0 - 1.0 / (1.0 + mfexp(-logit_rec_prop(i))));
       }

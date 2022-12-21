@@ -67,7 +67,7 @@ public:
   static int debug;
   /* parameter name */
   adstring s_param;
-  /* factor combination mirror index */
+  /* parameter mirror index */
   int mirror;
   
   StdParamInfo();
@@ -391,4 +391,5 @@ public:
   
 };//--ParamMatrixFunctionsInfo
 #endif /* PARAMINFO_HPP */
+
 

@@ -107,13 +107,11 @@ int FactorCombinations::countType(adstring type_){
  * @param is - file input stream
  */
 void FactorCombinations::read(cifstream & is){
-  debug=1;
   if (debug) cout<<"Starting FactorCombinations::read"<<endl;
   nFCs = 0;
   mapFCs.clear();
   int fc_;
-  is>>fc_;
-  if (debug) cout<<"fc_ = "<<fc_<<endl;
+  is>>fc_; if (debug) cout<<"fc_ = "<<fc_<<endl;
   while (fc_>0) {
     nFCs++;
     FactorCombination* pFC = new FactorCombination(fc_);
@@ -129,10 +127,9 @@ void FactorCombinations::read(cifstream & is){
       cout<<"#---------------------#"<<endl;
       exit(-1);
     }
-    is>>fc_;
+    is>>fc_;  if (debug) cout<<"fc = "<<fc_<<endl;
   }
   if (debug) cout<<"Finished FactorCombinations::read"<<endl;
-  debug=0;
 }
 /**
  * Write object to output stream in ADMB format.
@@ -145,6 +142,35 @@ void FactorCombinations::write(std::ostream & os){
   os<<"fc mir  region sex   mat shell time_block  size_block   type     units  label"<<endl;
   for (std::map<int,FactorCombination*>::iterator it=mapFCs.begin(); it!=mapFCs.end(); ++it) 
     os<<(*(it->second))<<endl;
-  os<<EOF<<endl;
+  os<<EOF<<"  #--EOI for factor combinations"<<endl;
   if (debug) cout<<"Finished FactorCombinations::write"<<endl;
 }
+
+/////////////////////////////////////AllParamsInfo////////////////////////////
+///**
+// * Calculate number of parameters
+// * 
+// * @return - (int) number of parameters
+// */
+//int AllParamsInfo::calcNumParams(){
+//  if (numParams){
+//    for (std::map<MultiKey,StdParamFunctionInfo*>::iterator it=ptrFIs->mapFIs.begin(); it!=ptrFIs->mapFIs.end(); ++it) {
+//      if (debug) cout<<(it->first)<<endl;
+//      StdParamFunctionInfo* ptrFI = it->second;
+//      if (ptrFI->ptrPI->mirror) numParams++;//if not mirrored, ptrPI represents a single parameter
+//    }
+//    
+//  }
+//  return numParams;
+//}
+///**
+// * Create a matrix with initial value, lower bound, upper bound, phase, and jitter flag 
+// * for all parameters.
+// * 
+// * @return - dmatrix with initial value, lower bound, upper bound, phase, 
+// * and jitter flag for all parameters
+// */
+//dmatrix AllParamsInfo::calcILUPJs(){
+//  
+//}
+

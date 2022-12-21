@@ -141,5 +141,90 @@ public:
   friend std::ostream& operator <<(std::ostream & os,   FactorCombinations & obj){obj.write(os);return os;}
 };
 
+/////////////////////////////////////AllParamsInfo////////////////////////////
+//class AllParamsInfo{
+//public:
+//  /* flag to print debugging info */
+//  static int debug;
+//  
+//  /* pointer to FactorCombinations object */
+//  FactorCombinations* ptrFCs;
+//  
+//  /* number of factor combinations using the std param function type */
+//  int nStdParamFunctionTypes;
+//  /* pointer to StdParamFunctionsInfo object */
+//  StdParamFunctionsInfo* ptrFIs;
+//  /* number of factor combinations using the param matrix type */
+//  int nParamMatrixFunctionTypes;
+//  /* pointer to ParamMatrixsInfo object */
+//  ParamMatrixFunctionsInfo* ptrPMIs;
+//  
+//  /* number of factor combinations using the fixed vector type */
+//  int nFixedVectorTypes;
+//  /* pointer to FixedVectorsInfo object */
+//  FixedVectorsInfo* ptrFVIs;
+//  /* number of factor combinations using the fixed matrix type */
+//  int nFixedMatrixTypes;
+//  /* pointer to FixedMatrixsInfo object */
+//  FixedMatrixsInfo* ptrFMIs;
+//  
+//  /* number of factor combinations using the var_function type */
+//  int nVarParamFunctionTypes;
+//  /* pointer to VarParamFunctionsInfo object */
+//  VarParamFunctionsInfo* ptrVPFIs;
+//  /* pointer to AllVarParamsInfo object */
+//  AllVarParamsVariationInfo* ptrVPVIs;
+//  
+//  /* number of parameters */
+//  int numParams;
+//  /* matrix with init val, lower bound, upper bound, phase, and jitter flag for all params */
+//  dmatrix matILUPJs;
+//  
+//  
+//  /** 
+//   * Class constructor
+//   */
+//  AllParamsInfo();
+//  /** 
+//   * Class destructor
+//   */
+//  virtual ~AllParamsInfo();
+//  /**
+//   * Calculate number of parameters
+//   * 
+//   * @return - (int) number of parameters
+//   */
+//  int calcNumParams();
+//  /**
+//   * Create a matrix with initial value, lower bound, upper bound, phase, and jitter flag 
+//   * for all parameters.
+//   * 
+//   * @return - dmatrix with initial value, lower bound, upper bound, phase, 
+//   * and jitter flag for all parameters
+//   */
+//  dmatrix calcILUPJs();
+//   /**
+//   * Read object from input stream in ADMB format.
+//   * 
+//   * @param is - file input stream
+//   */
+//  virtual void read(cifstream & is)=0;//=0 makes this class abstract!
+//  /**
+//   * Write object to output stream in ADMB format.
+//   * 
+//   * @param os - output stream
+//   */
+//  virtual void write(std::ostream & os)=0;//=0 makes this class abstract!
+//  /**
+//   * Operator to read from input filestream in ADMB format
+//   */
+//  friend cifstream&    operator >>(cifstream & is, AllParamsInfo & obj){obj.read(is);return is;}
+//  /**
+//   * Operator to write to output stream in ADMB format
+//   */
+//  friend std::ostream& operator <<(std::ostream & os,   AllParamsInfo & obj){obj.write(os);return os;}
+//  
+//};//--AllParamsInfo
+//
 #endif /* FACTORCOMBINATIONS_HPP */
 

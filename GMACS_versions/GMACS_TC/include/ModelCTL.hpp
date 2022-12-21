@@ -1,8 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/cppFiles/file.h to edit this template
- */
-
 /* 
  * File:   ModelCTL.hpp
  * Author: williamstockhausen
@@ -16,9 +11,10 @@
 #include <map>
 #include <admodel.h>
 #include "ModelConfiguration.hpp"
-#include "ParamInfo.hpp"
-#include "FixedQuantitiesInfo.hpp"
 #include "FactorCombinations.hpp"
+#include "ParamInfo.hpp"
+#include "VarParamInfo.hpp"
+#include "FixedQuantitiesInfo.hpp"
 
 ///////////////////////////////////WeightAtSize/////////////////////////////////
 class WeightAtSize{
@@ -27,13 +23,14 @@ public:
   static int debug;
   /* keyword */
   static const adstring KEYWORD;
+  
   /* pointer to FactorCombinations object */
   FactorCombinations* ptrFCs;
-  /* number of factor combinations using the allometry type*/
+  /* number of factor combinations using the function type */
   int nFunctionTypes;
   /* pointer to StdParamFunctionsInfo object */
   StdParamFunctionsInfo* ptrFIs;
-  /* number of factor combinations using the vector type*/
+  /* number of factor combinations using the vector type */
   int nVectorTypes;
   /* pointer to FixedVectorsInfo object */
   FixedVectorsInfo* ptrVIs;
@@ -69,6 +66,56 @@ public:
    */
   friend std::ostream& operator <<(std::ostream & os,   WeightAtSize & obj){obj.write(os);return os;}
 };
+
+///////////////////////////////////NatMort/////////////////////////////////
+class NatMort{
+public:
+  /* flag to print debugging info */
+  static int debug;
+  /* keyword */
+  static const adstring KEYWORD;
+  
+  /* pointer to FactorCombinations object */
+  FactorCombinations* ptrFCs;
+  /* number of factor combinations using the var_function type */
+  int nFunctionTypes;
+  /* pointer to VarParamFunctionsInfo object */
+  VarParamFunctionsInfo* ptrVPFIs;
+  /* pointer to AllVarParamsInfo object */
+  AllVarParamsVariationInfo* ptrVPVIs;
+  
+  /**
+   * Class constructor
+   */
+  NatMort();
+  
+  /**
+   * Class destructor
+   */
+  ~NatMort();
+  
+  /**
+   * Read object from input stream in ADMB format.
+   * 
+   * @param is - file input stream
+   */
+  void read(cifstream & is);
+  /**
+   * Write object to output stream in ADMB format.
+   * 
+   * @param os - output stream
+   */
+  void write(std::ostream & os);
+  /**
+   * Operator to read from input filestream in ADMB format
+   */
+  friend cifstream&    operator >>(cifstream & is, NatMort & obj){obj.read(is);return is;}
+  /**
+   * Operator to write to output stream in ADMB format
+   */
+  friend std::ostream& operator <<(std::ostream & os,   NatMort & obj){obj.write(os);return os;}
+};
+
 ///////////////////////////////////MoltProbability/////////////////////////////////
 class MoltProbability{
 public:
@@ -118,6 +165,59 @@ public:
    */
   friend std::ostream& operator <<(std::ostream & os,   MoltProbability & obj){obj.write(os);return os;}
 };
+
+///////////////////////////////////MoltToMaturity///////////////////////////////
+class MoltToMaturity{
+public:
+  /* flag to print debugging info */
+  static int debug;
+  /* keyword */
+  static const adstring KEYWORD;
+  /* integer flag indicating whether or not terminal molt occurs */
+  int hasTM; 
+  /* pointer to FactorCombinations object */
+  FactorCombinations* ptrFCs;
+  /* number of factor combinations using the function type */
+  int nFunctionTypes;
+  /* pointer to StdParamFunctionsInfo object */
+  StdParamFunctionsInfo* ptrFIs;
+  /* number of factor combinations using the vector type*/
+  int nVectorTypes;
+  /* pointer to FixedVectorsInfo object */
+  FixedVectorsInfo* ptrVIs;
+  
+  /**
+   * Class constructor
+   */
+  MoltToMaturity();
+  
+  /**
+   * Class destructor
+   */
+  ~MoltToMaturity();
+  
+  /**
+   * Read object from input stream in ADMB format.
+   * 
+   * @param is - file input stream
+   */
+  void read(cifstream & is);
+  /**
+   * Write object to output stream in ADMB format.
+   * 
+   * @param os - output stream
+   */
+  void write(std::ostream & os);
+  /**
+   * Operator to read from input filestream in ADMB format
+   */
+  friend cifstream&    operator >>(cifstream & is, MoltToMaturity & obj){obj.read(is);return is;}
+  /**
+   * Operator to write to output stream in ADMB format
+   */
+  friend std::ostream& operator <<(std::ostream & os,   MoltToMaturity & obj){obj.write(os);return os;}
+};
+
 ///////////////////////////////////Growth/////////////////////////////////
 class Growth{
 public:
@@ -171,35 +271,33 @@ public:
    */
   friend std::ostream& operator <<(std::ostream & os,   Growth & obj){obj.write(os);return os;}
 };
-///////////////////////////////////MoltToMaturity///////////////////////////////
-class MoltToMaturity{
+
+///////////////////////////////////AnnualRecruitment/////////////////////////////////
+class AnnualRecruitment{
 public:
   /* flag to print debugging info */
   static int debug;
   /* keyword */
   static const adstring KEYWORD;
-  /* integer flag indicating whether or not terminal molt occurs */
-  int hasTM; 
+  
   /* pointer to FactorCombinations object */
   FactorCombinations* ptrFCs;
-  /* number of factor combinations using the function type */
+  /* number of factor combinations using the var_function type */
   int nFunctionTypes;
-  /* pointer to StdParamFunctionsInfo object */
-  StdParamFunctionsInfo* ptrFIs;
-  /* number of factor combinations using the vector type*/
-  int nVectorTypes;
-  /* pointer to FixedVectorsInfo object */
-  FixedVectorsInfo* ptrVIs;
+  /* pointer to VarParamFunctionsInfo object */
+  VarParamFunctionsInfo* ptrVPFIs;
+  /* pointer to AllVarParamsInfo object */
+  AllVarParamsVariationInfo* ptrVPVIs;
   
   /**
    * Class constructor
    */
-  MoltToMaturity();
+  AnnualRecruitment();
   
   /**
    * Class destructor
    */
-  ~MoltToMaturity();
+  ~AnnualRecruitment();
   
   /**
    * Read object from input stream in ADMB format.
@@ -216,12 +314,62 @@ public:
   /**
    * Operator to read from input filestream in ADMB format
    */
-  friend cifstream&    operator >>(cifstream & is, MoltToMaturity & obj){obj.read(is);return is;}
+  friend cifstream&    operator >>(cifstream & is, AnnualRecruitment & obj){obj.read(is);return is;}
   /**
    * Operator to write to output stream in ADMB format
    */
-  friend std::ostream& operator <<(std::ostream & os,   MoltToMaturity & obj){obj.write(os);return os;}
+  friend std::ostream& operator <<(std::ostream & os,   AnnualRecruitment & obj){obj.write(os);return os;}
 };
+
+///////////////////////////////////RecruitmentAtSize/////////////////////////////////
+class RecruitmentAtSize{
+public:
+  /* flag to print debugging info */
+  static int debug;
+  /* keyword */
+  static const adstring KEYWORD;
+  
+  /* pointer to FactorCombinations object */
+  FactorCombinations* ptrFCs;
+  /* number of factor combinations using the var_function type */
+  int nFunctionTypes;
+  /* pointer to VarParamFunctionsInfo object */
+  VarParamFunctionsInfo* ptrVPFIs;
+  /* pointer to AllVarParamsInfo object */
+  AllVarParamsVariationInfo* ptrVPVIs;
+  
+  /**
+   * Class constructor
+   */
+  RecruitmentAtSize();
+  
+  /**
+   * Class destructor
+   */
+  ~RecruitmentAtSize();
+  
+  /**
+   * Read object from input stream in ADMB format.
+   * 
+   * @param is - file input stream
+   */
+  void read(cifstream & is);
+  /**
+   * Write object to output stream in ADMB format.
+   * 
+   * @param os - output stream
+   */
+  void write(std::ostream & os);
+/**
+   * Operator to read from input filestream in ADMB format
+   */
+  friend cifstream&    operator >>(cifstream & is, RecruitmentAtSize & obj){obj.read(is);return is;}
+  /**
+   * Operator to write to output stream in ADMB format
+   */
+  friend std::ostream& operator <<(std::ostream & os,   RecruitmentAtSize & obj){obj.write(os);return os;}
+};
+
 ////////////////////////////////////--ModeCTL--/////////////////////////////////
 class ModelCTL{
 public:
@@ -232,12 +380,18 @@ public:
   
   /* pointer to WeightAtSize object */
   WeightAtSize* ptrWatZ;
+  /* pointer to NatMort object */
+  NatMort* ptrNM;
   /* pointer to MoltProbability object */
   MoltProbability* ptrMP;
   /* pointer to MoltToMaturity object */
   MoltToMaturity* ptrM2M;
   /* pointer to Growth object */
   Growth* ptrGrw;
+  /* pointer to AnnualRecruitment object */
+  AnnualRecruitment* ptrAnnRec;
+  /* pointer to RecruitmentAtSize object */
+  RecruitmentAtSize* ptrRecAtZ;
   
   /**
    * Class constructor

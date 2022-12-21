@@ -84,6 +84,84 @@ void WeightAtSize::write(std::ostream & os){
   if (debug) cout<<"finished WeightAtSize::write"<<endl;
 }
 
+///////////////////////////////////NatMort/////////////////////////////////
+int NatMort::debug=1;
+const adstring NatMort::KEYWORD="natural_mortality";
+
+/**
+ * Class constructor
+ */
+NatMort::NatMort(){
+  if (debug) cout<<"starting NatMort::NatMort"<<endl;
+  ptrFCs = nullptr;
+  ptrVPFIs = nullptr;
+  nFunctionTypes = 0;
+  ptrVPVIs = nullptr;
+  if (debug) cout<<"finished NatMort::NatMort"<<endl;
+}
+
+/**
+ * Class destructor
+ */
+NatMort::~NatMort(){
+  if (ptrFCs)   delete ptrFCs;   ptrFCs=nullptr;
+  if (ptrVPFIs) delete ptrVPFIs; ptrVPFIs=nullptr;
+  if (ptrVPVIs) delete ptrVPVIs; ptrVPVIs=nullptr;
+}
+
+/**
+ * Read object from input stream in ADMB format.
+ * 
+ * @param is - file input stream
+ */
+void NatMort::read(cifstream & is){
+  if (debug) cout<<"starting NatMort::read from '"<<is.get_file_name()<<"'"<<endl;
+  adstring str;
+  is>>str; gmacs::checkKeyWord(str,KEYWORD,"NatMort::read");
+//  if (debug) FactorCombinations::debug=1;
+  if (ptrFCs) delete ptrFCs;
+  ptrFCs = new FactorCombinations();
+  is>>(*ptrFCs);
+//  if (debug) FactorCombinations::debug=0;
+  
+  nFunctionTypes = ptrFCs->countType("var_function"); 
+  if (debug) cout<<"nFunctionTypes = "<<nFunctionTypes<<endl;
+  if (ptrVPFIs) delete ptrVPFIs;
+  ptrVPFIs = new VarParamFunctionsInfo();
+  is>>(*ptrVPFIs);
+  if (debug) cout<<(*ptrVPFIs)<<endl;
+  
+  if (ptrVPVIs) delete ptrVPVIs;
+  ptrVPVIs = new AllVarParamsVariationInfo();
+  is>>(*ptrVPVIs);
+  if (debug) cout<<(*ptrVPVIs)<<endl;
+  
+  if (debug) cout<<"finished NatMort::read from '"<<is.get_file_name()<<"'"<<endl;
+}
+/**
+ * Write object to output stream in ADMB format.
+ * 
+ * @param os - output stream
+ */
+void NatMort::write(std::ostream & os){
+  if (debug) cout<<"starting NatMort::write"<<endl;
+  os<<KEYWORD<<"       #--keyword-----------------------------------"<<endl;
+  os<<"#--Factor combinations--------------"<<endl;
+  os<<"#----Type options--------------"<<endl;
+  os<<"# 'var_function': function with estimable parameters w/ variation (specified in 'var_functions' information section)"<<endl;
+  os<<(*ptrFCs);
+  
+  os<<"#--Parameter info---------------"<<endl;
+  
+  os<<"#----var_functions info---------------"<<endl;
+  os<<(*ptrVPFIs);
+  
+  os<<"#----var_params info---------------"<<endl;
+  os<<(*ptrVPVIs);
+  
+  if (debug) cout<<"finished NatMort::write"<<endl;
+}
+
 ///////////////////////////////////MoltProbability/////////////////////////////////
 int MoltProbability::debug=1;
 const adstring MoltProbability::KEYWORD="molt_probability";
@@ -348,6 +426,162 @@ void MoltToMaturity::write(std::ostream & os){
   if (debug) cout<<"finished MoltToMaturity::write"<<endl;
 }
 
+///////////////////////////////////AnnualRecruitment/////////////////////////////////
+int AnnualRecruitment::debug=1;
+const adstring AnnualRecruitment::KEYWORD="annual_recruitment";
+
+/**
+ * Class constructor
+ */
+AnnualRecruitment::AnnualRecruitment(){
+  if (debug) cout<<"starting AnnualRecruitment::AnnualRecruitment"<<endl;
+  ptrFCs = nullptr;
+  ptrVPFIs = nullptr;
+  nFunctionTypes = 0;
+  ptrVPVIs = nullptr;
+  if (debug) cout<<"finished AnnualRecruitment::AnnualRecruitment"<<endl;
+}
+
+/**
+ * Class destructor
+ */
+AnnualRecruitment::~AnnualRecruitment(){
+  if (ptrFCs)   delete ptrFCs;   ptrFCs=nullptr;
+  if (ptrVPFIs) delete ptrVPFIs; ptrVPFIs=nullptr;
+  if (ptrVPVIs) delete ptrVPVIs; ptrVPVIs=nullptr;
+}
+
+/**
+ * Read object from input stream in ADMB format.
+ * 
+ * @param is - file input stream
+ */
+void AnnualRecruitment::read(cifstream & is){
+  if (debug) cout<<"starting AnnualRecruitment::read from '"<<is.get_file_name()<<"'"<<endl;
+  adstring str;
+  is>>str; gmacs::checkKeyWord(str,KEYWORD,"AnnualRecruitment::read");
+//  if (debug) FactorCombinations::debug=1;
+  if (ptrFCs) delete ptrFCs;
+  ptrFCs = new FactorCombinations();
+  is>>(*ptrFCs);
+//  if (debug) FactorCombinations::debug=0;
+  
+  nFunctionTypes = ptrFCs->countType("var_function"); 
+  if (debug) cout<<"nFunctionTypes = "<<nFunctionTypes<<endl;
+  if (ptrVPFIs) delete ptrVPFIs;
+  ptrVPFIs = new VarParamFunctionsInfo();
+  is>>(*ptrVPFIs);
+  if (debug) cout<<(*ptrVPFIs)<<endl;
+  
+  if (ptrVPVIs) delete ptrVPVIs;
+  ptrVPVIs = new AllVarParamsVariationInfo();
+  is>>(*ptrVPVIs);
+  if (debug) cout<<(*ptrVPVIs)<<endl;
+  
+  if (debug) cout<<"finished AnnualRecruitment::read from '"<<is.get_file_name()<<"'"<<endl;
+}
+/**
+ * Write object to output stream in ADMB format.
+ * 
+ * @param os - output stream
+ */
+void AnnualRecruitment::write(std::ostream & os){
+  if (debug) cout<<"starting AnnualRecruitment::write"<<endl;
+  os<<KEYWORD<<"       #--keyword-----------------------------------"<<endl;
+  os<<"#--Factor combinations--------------"<<endl;
+  os<<"#----Type options--------------"<<endl;
+  os<<"# 'var_function': function with estimable parameters w/ variation (specified in 'var_functions' information section)"<<endl;
+  os<<(*ptrFCs);
+  
+  os<<"#--Parameter info---------------"<<endl;
+  
+  os<<"#----var_functions info---------------"<<endl;
+  os<<(*ptrVPFIs);
+  
+  os<<"#----var_params info---------------"<<endl;
+  os<<(*ptrVPVIs);
+  
+  if (debug) cout<<"finished AnnualRecruitment::write"<<endl;
+}
+
+///////////////////////////////////RecruitmentAtSize/////////////////////////////////
+int RecruitmentAtSize::debug=1;
+const adstring RecruitmentAtSize::KEYWORD="recruitment_at_size";
+
+/**
+ * Class constructor
+ */
+RecruitmentAtSize::RecruitmentAtSize(){
+  if (debug) cout<<"starting RecruitmentAtSize::RecruitmentAtSize"<<endl;
+  ptrFCs = nullptr;
+  ptrVPFIs = nullptr;
+  nFunctionTypes = 0;
+  ptrVPVIs = nullptr;
+  if (debug) cout<<"finished RecruitmentAtSize::RecruitmentAtSize"<<endl;
+}
+
+/**
+ * Class destructor
+ */
+RecruitmentAtSize::~RecruitmentAtSize(){
+  if (ptrFCs)   delete ptrFCs;   ptrFCs=nullptr;
+  if (ptrVPFIs) delete ptrVPFIs; ptrVPFIs=nullptr;
+  if (ptrVPVIs) delete ptrVPVIs; ptrVPVIs=nullptr;
+}
+
+/**
+ * Read object from input stream in ADMB format.
+ * 
+ * @param is - file input stream
+ */
+void RecruitmentAtSize::read(cifstream & is){
+  if (debug) cout<<"starting RecruitmentAtSize::read from '"<<is.get_file_name()<<"'"<<endl;
+  adstring str;
+  is>>str; gmacs::checkKeyWord(str,KEYWORD,"RecruitmentAtSize::read");
+//  if (debug) FactorCombinations::debug=1;
+  if (ptrFCs) delete ptrFCs;
+  ptrFCs = new FactorCombinations();
+  is>>(*ptrFCs);
+//  if (debug) FactorCombinations::debug=0;
+  
+  nFunctionTypes = ptrFCs->countType("var_function"); 
+  if (debug) cout<<"nFunctionTypes = "<<nFunctionTypes<<endl;
+  if (ptrVPFIs) delete ptrVPFIs;
+  ptrVPFIs = new VarParamFunctionsInfo();
+  is>>(*ptrVPFIs);
+  if (debug) cout<<(*ptrVPFIs)<<endl;
+  
+  if (ptrVPVIs) delete ptrVPVIs;
+  ptrVPVIs = new AllVarParamsVariationInfo();
+  is>>(*ptrVPVIs);
+  if (debug) cout<<(*ptrVPVIs)<<endl;
+  
+  if (debug) cout<<"finished RecruitmentAtSize::read from '"<<is.get_file_name()<<"'"<<endl;
+}
+/**
+ * Write object to output stream in ADMB format.
+ * 
+ * @param os - output stream
+ */
+void RecruitmentAtSize::write(std::ostream & os){
+  if (debug) cout<<"starting RecruitmentAtSize::write"<<endl;
+  os<<KEYWORD<<"       #--keyword-----------------------------------"<<endl;
+  os<<"#--Factor combinations--------------"<<endl;
+  os<<"#----Type options--------------"<<endl;
+  os<<"# 'var_function': function with estimable parameters w/ variation (specified in 'var_functions' information section)"<<endl;
+  os<<(*ptrFCs);
+  
+  os<<"#--Parameter info---------------"<<endl;
+  
+  os<<"#----var_functions info---------------"<<endl;
+  os<<(*ptrVPFIs);
+  
+  os<<"#----var_params info---------------"<<endl;
+  os<<(*ptrVPVIs);
+  
+  if (debug) cout<<"finished RecruitmentAtSize::write"<<endl;
+}
+
 ///////////////////////////////////ModelCTL/////////////////////////////////////
 int ModelCTL::debug = 1;
 /* model ctl file version */
@@ -359,9 +593,12 @@ const adstring ModelCTL::version = "2022.11.29";
 ModelCTL::ModelCTL(){
   if (debug) cout<<"starting ModelCTL::ModelCTL"<<endl;
   ptrWatZ = nullptr;
-  ptrMP = nullptr;
-  ptrM2M = nullptr;
-  ptrGrw = nullptr;
+  ptrNM   = nullptr;
+  ptrMP   = nullptr;
+  ptrM2M  = nullptr;
+  ptrGrw  = nullptr;
+  ptrAnnRec = nullptr;
+  ptrRecAtZ = nullptr;
   if (debug) cout<<"finished ModelCTL::ModelCTL"<<endl;
 }
 
@@ -370,9 +607,12 @@ ModelCTL::ModelCTL(){
  */
 ModelCTL::~ModelCTL(){
   if (ptrWatZ) delete ptrWatZ; ptrWatZ = nullptr;
+  if (ptrNM)   delete ptrNM;   ptrNM   = nullptr;
   if (ptrMP)   delete ptrMP;   ptrMP   = nullptr;
-  if (ptrM2M)  delete ptrM2M;  ptrM2M   = nullptr;
-  if (ptrGrw)  delete ptrGrw;  ptrGrw   = nullptr;
+  if (ptrM2M)  delete ptrM2M;  ptrM2M  = nullptr;
+  if (ptrGrw)  delete ptrGrw;  ptrGrw  = nullptr;
+  if (ptrAnnRec)  delete ptrAnnRec;  ptrAnnRec  = nullptr;
+  if (ptrRecAtZ)  delete ptrRecAtZ;  ptrRecAtZ  = nullptr;
 }
 /**
  * Read object from input stream in ADMB format.
@@ -388,6 +628,11 @@ void ModelCTL::read(cifstream & is){
   ptrWatZ = new WeightAtSize();
   is>>(*ptrWatZ);
 //  if (debug) WeightAtSize::debug = 0;
+//  if (debug) NatMort::debug = 1;
+  if (debug) cout<<"\n\n--ModelCTL::read: creating and reading NatMort object"<<endl;
+  ptrNM = new NatMort();
+  is>>(*ptrNM);
+//  if (debug) NatMort::debug = 0;
   if (debug) cout<<"\n\n--ModelCTL::read: creating and reading MoltProbability object"<<endl;
   ptrMP = new MoltProbability();
   is>>(*ptrMP);
@@ -397,6 +642,12 @@ void ModelCTL::read(cifstream & is){
   if (debug) cout<<"\n\n--ModelCTL::read: creating and reading Growth object"<<endl;
   ptrGrw = new Growth();
   is>>(*ptrGrw);
+  if (debug) cout<<"\n\n--ModelCTL::read: creating and reading AnnualRecruitment object"<<endl;
+  ptrAnnRec = new AnnualRecruitment();
+  is>>(*ptrAnnRec);
+  if (debug) cout<<"\n\n--ModelCTL::read: creating and reading RecruitmentAtSize object"<<endl;
+  ptrRecAtZ = new RecruitmentAtSize();
+  is>>(*ptrRecAtZ);
   if (debug) cout<<"finished ModelCTL::read"<<endl;
 }
 /**
@@ -411,9 +662,12 @@ void ModelCTL::write(std::ostream & os){
   os<<"##------------------------------------------------"<<endl;
   os<<"##--Population"<<endl;
   os<<(*ptrWatZ)<<endl;
+  os<<(*ptrNM)<<endl;
   os<<(*ptrMP)<<endl;
   os<<(*ptrM2M)<<endl;
   os<<(*ptrGrw)<<endl;
+  os<<(*ptrAnnRec)<<endl;
+  os<<(*ptrRecAtZ)<<endl;
   if (debug) cout<<"finished ModelCTL::write"<<endl;
 }
 

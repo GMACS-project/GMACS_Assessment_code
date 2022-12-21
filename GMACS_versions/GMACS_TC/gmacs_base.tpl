@@ -53,6 +53,8 @@
 //            2. Revised CTL-related classes to use MultiKey class.
 //            3. Changed FactorCombinations input to drop reading nFCs (number of 
 //                 factor combinations); instead reading info until reaching an EOF (fc\<0)
+//2022-12-20: 1. Developed VarParam classes and added NatMort class to ModelCTL.
+//2022-12-21: 1. Added AnnualRecruitment and RecuitmentAtSize classes to ModelCTL.
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 

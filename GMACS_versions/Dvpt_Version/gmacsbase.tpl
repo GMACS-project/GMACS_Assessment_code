@@ -55,7 +55,7 @@
 // Label 700: write_eval
 DATA_SECTION
 
- !! TheHeader =  adstring("## GMACS Version 2.01.L; Compiled 2022-07-13 12:52:57");
+ !! TheHeader =  adstring("## GMACS Version 2.01.L01; Compiled 2022-12-22 13:08:09");
 
 //-------------------------------
 // Sandbox for testing functions |
@@ -3756,7 +3756,7 @@ FUNCTION calc_natural_mortality
     case M_TIME_BLOCKS3: // time blocks
      for ( int idev = 1; idev <= nMdev_par_cnt(h); idev++ ) delta(m_nodeyear_sex(h,idev)) = m_dev_sex(1,idev);
      for ( int i = syr+1; i <= nyrRetro; i++ )
-       M(h,m)(h) = M(h,m)(syr) * mfexp(delta(i)); // Deltas are devs from base value (not a walk)
+       M(h,m)(i) = M(h,m)(syr) * mfexp(delta(i)); // Deltas are devs from base value (not a walk)
      break;
 
 	case M_TIME_BLOCKS2: // time blocks

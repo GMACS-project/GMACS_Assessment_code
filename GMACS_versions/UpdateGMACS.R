@@ -75,15 +75,16 @@ library(gmr)
 .ADMBpaths <- "ADpaths.txt"
 
 # Run the GetGmacsExe function
-.GetGmacsExe()
-
+.GetGmacsExe(ADMBpaths = .ADMBpaths)
+createGmacsExe(vv = 1, Dir = file.path(getwd(),"Dvpt_Version/"))
 
 
 # II- Run the development version----
 
 # Species of interest
 .Spc <-c(
-  "SNOW_crab"
+  # "SNOW_crab"
+  "EAG"
 )
 
 # Names of the GMACS version to consider
@@ -137,7 +138,8 @@ res <- GMACS(
   verbose = .VERBOSE
 )
 
-
+# Clean gmacs output files
+clean_bat(path = file.path(getwd(),"Dvpt_Version/build/AIGKC/EAG/"))
 
 
 

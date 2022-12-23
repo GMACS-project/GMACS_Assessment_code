@@ -2,13 +2,15 @@
 title: "A basic workflow for using the GMACS repository for developpers"
 author: "Matthieu VERON"
 date: "Last compiled on `r format(Sys.time(), '%d %B, %Y')`"
-output:  
+output:
+  pdf_document:
+    number_sections: yes
   html_notebook:
     number_sections: yes
   word_document:
     number_section: yes
-  pdf_document:
-    number_sections: yes
+  html_document:
+    df_print: paged
 ---
 
 ```{r, include=FALSE, echo=FALSE}
@@ -306,8 +308,7 @@ res <- GMACS(
 )
 ```
 
-All the output files resulting from this run are stored in the *GMACS\Dvpt_Version\build\SNOW_M_time_varying* directory.
-You are now ready to compare the outputs of this GMACS development version with the ones coming from the latest assessment.
+All the output files resulting from this run are stored in the **SNOW_M_time_varying** directory. You are now ready to compare the outputs of this GMACS development version with the ones coming from the latest assessment.
 
 
 

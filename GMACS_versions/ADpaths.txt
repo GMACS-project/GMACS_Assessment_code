@@ -1,4 +1,0 @@
-admbpath "C:/ADMB-12.3"
-gccpath "C:/ADMB-12.3/utilities/mingw64"
-msysbin "C:/ADMB-12.3/utilities/"
-editor "C:/Program Files/Notepad++/Notepad++.exe"

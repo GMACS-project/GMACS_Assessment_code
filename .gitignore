@@ -3,3 +3,20 @@
 .RData
 .Ruserdata
 **/plots/
+#--ignore the tpl created from gmacsbase.tpl and personal.tpl
+GMACS_versions/Dvpt_Version/gmacs.tpl
+#--ignore compile-related files (gmacs and copied cpp files on a windows platform)
+GMACS_versions/Dvpt_Version/*.cpp
+GMACS_versions/Dvpt_Version/*.htp
+GMACS_versions/Dvpt_Version/*.obj
+GMACS_versions/Dvpt_Version/*.log
+#--ignore windows-like executables
+GMACS_versions/Dvpt_Version/gmacs.exe
+#--ignores linux-like executables
+GMACS_versions/Dvpt_Version/gmacs
+#--ignore compile-related files (created on a linux-like platform)
+GMACS_versions/Dvpt_Version/lib/*.log
+GMACS_versions/Dvpt_Version/lib/*.obj
+#--the following does not ignore all files
+GMACS_versions/Dvpt_Version/build
+

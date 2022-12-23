@@ -1,0 +1,7 @@
+admbpath "/Users/WilliamStockhausen/Work/Programming/admb_MyFork/admb/build/admb"
+admbver 13.0
+editor   "/Applications/Sublime Text.app/Contents/MacOS/sublime_text"
+win_admbpath "C:/ADMB-12.3"
+win_gccpath "C:/ADMB-12.3/utilities/mingw64"
+win_msysbin "C:/ADMB-12.3/utilities/"
+win_editor "C:/Program Files/Notepad++/Notepad++.exe"

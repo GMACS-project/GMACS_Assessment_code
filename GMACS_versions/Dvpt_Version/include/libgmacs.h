@@ -5,6 +5,7 @@
 #include "spr.h"
 #include "nloglike.h"
 #include "selex.hpp"
+#include "DatFileReader.hpp"
 
 
 #undef COUT

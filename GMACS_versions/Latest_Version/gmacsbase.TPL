@@ -36,6 +36,21 @@
 //
 // ==================================================================================== //
 
+
+// ************************************************************************************ //
+// Developers
+// ************************************************************************************ //
+// AEP: Andre E. Punt
+// CS:  Cody Szuwalski
+// JI:  Jim Ianelli
+// WTS: William T. Stockhausen
+// AW:  Athol Whitten
+// DW:  Darcey Webber  
+// MV:  Matthieu Veron
+// ************************************************************************************ //
+
+// Submodels labeling
+// ************************************************************************************ //
 // Label 130: Projection inputs
 // Label 200: INITIALIZATION_SECTION
 // Label 400: calc_objective_function
@@ -53,109 +68,104 @@
 // Label 506: project_one_year
 // Label 600: CreateOutput
 // Label 700: write_eval
-//------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
-//Revision Notes
-//2022-10-31: 1.Update GMACS version to 2.01.WTS
-//            2. Added Revision Notes section
-//            3. Added commandline input flag "testingflag" to turn on sandbox 
-//            4. Added alternative data file reader (TCSAM02 format)
-//------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
+// ************************************************************************************ //
 DATA_SECTION
 
- !! TheHeader =  adstring("## GMACS Version 2.01.L.WTS; Compiled 2022-10-31");
+ !! TheHeader =  adstring("## GMACS Version 2.01.L02; Compiled 2022-12-22 16:30:22");
 
 //-------------------------------
 // Sandbox for testing functions |
 //-------------------------------
  LOCAL_CALCS
-  /**
-   * @brief command line option for sandbox.
-  **/
-  int testingflag = 0;
-  if ( (on=option_match(ad_comm::argc,ad_comm::argv,"-testing",opt))>-1 )
-   {
-    testingflag = 1;
-   }
-  if (testing==1){
-     //Testing alternative dat file reader
-    cout<<"|---------------------------------------|"<<endl;
-    cout<<"| Testing with alternative dat file     |"<<endl;
-    cout<<"|---------------------------------------|"<<endl;
-    DatFileReader* pDFR = new DatFileReader();
-    cifstream is("TannerCrab_NewDatFile.dat",ios::in);
-    is>>(*pDFR);
-    is.close();
-    cout<<(*pDFR)<<endl;
-    exit(1);
-  } 
-  if (0){
-     //Testing selectivity using "constant" values
-    cout<<"|---------------------------------------|"<<endl;
-    cout<<"| Testing sandbox using constant values |"<<endl;
-    cout<<"|---------------------------------------|"<<endl;
-    class gsm::Selex<dvector> *pSLX;
-    dvector z(1,32);
-    for (int i=z.indexmin();i<=z.indexmax();i++) z(i) = 27.5+(i-1)*5.0;
-    cout<<"--Cubic Spline"<<endl;
-    dvector x_knts(1,5);
-    x_knts[1]=z[1]; for (int i=1;i<=4;i++) x_knts[i+1] = z[8*i];
-    dvector y_vals = 1.0/(1.0+exp(-(x_knts-100.0)/30.0));
-    cout<<"x_knts = "<<x_knts<<endl;
-    cout<<"y_vals = "<<y_vals<<endl;
-    pSLX = new class gsm::SelectivitySpline<dvector,dvector>(y_vals,x_knts);
-    cout<<"z        = "<<x_knts<<endl;
-    cout<<"sel      = "<<pSLX->Selectivity(x_knts)<<endl;
-    cout<<"z        = "<<z<<endl;
-    cout<<"sel      = "<<pSLX->Selectivity(z)<<endl;
-    cout<<"logsel   = "<<pSLX->logSelectivity(z)<<endl;
-    cout<<"logselM1 = "<<pSLX->logSelexMeanOne(z)<<endl;
-    cout<<"--change knots and y_vals to check reallocation"<<endl;
-    dvector x_knts1(1,9);
-    x_knts1[1]=z[1]; for (int i=1;i<=8;i++) x_knts1[i+1] = z[4*i];
-    dvector y_vals1 = 1.0/(1.0+exp(-(x_knts1-100.0)/30.0));
-    ((gsm::SelectivitySpline<dvector,dvector>*)pSLX)->initSpline(y_vals1,x_knts1);
-    cout<<"z        = "<<x_knts1<<endl;
-    cout<<"sel      = "<<pSLX->Selectivity(x_knts1)<<endl;
-    cout<<"z        = "<<z<<endl;
-    cout<<"sel      = "<<pSLX->Selectivity(z)<<endl;
-    cout<<"logsel   = "<<pSLX->logSelectivity(z)<<endl;
-    cout<<"logselM1 = "<<pSLX->logSelexMeanOne(z)<<endl;
-    //exit(1);
-    cout<<"--DoubleNormal"<<endl;
-    double p1 = 30.0;
-    double p2 = 100.0;
-    double p3 = 50.0;
-    pSLX = new class gsm::DoubleNormal<dvector,double>(p1,p2,p3);
-    cout<<z<<endl;
-    cout<<pSLX->Selectivity(z)<<endl;
-    cout<<pSLX->logSelectivity(z)<<endl;
-    cout<<pSLX->logSelexMeanOne(z)<<endl;
-    cout<<"--DoubleNormal4"<<endl;
-    p1 = 30.0;
-    p2 = 100.0;
-    p3 = 50.0;
-    double p4 = 130.0;
-    pSLX = new class gsm::DoubleNormal4<dvector,double>(p1,p2,p3,p4);
-    cout<<z<<endl;
-    cout<<pSLX->Selectivity(z)<<endl;
-    cout<<pSLX->logSelectivity(z)<<endl;
-    cout<<pSLX->logSelexMeanOne(z)<<endl;
-    cout<<"--Uniform"<<endl;
-    pSLX = new class gsm::UniformCurve<dvector>();
-    cout<<z<<endl;
-    cout<<pSLX->Selectivity(z)<<endl;
-    cout<<pSLX->logSelectivity(z)<<endl;
-    cout<<pSLX->logSelexMeanOne(z)<<endl;
-    cout<<"--Uniform0"<<endl;
-    pSLX = new class gsm::Uniform0Curve<dvector>();
-    cout<<z<<endl;
-    cout<<pSLX->Selectivity(z)<<endl;
-    cout<<pSLX->logSelectivity(z)<<endl;
-    cout<<pSLX->logSelexMeanOne(z)<<endl;
-    exit(1);
-  }
+  {
+    /**
+     * @brief command line option for sandbox.
+    **/
+    int on = 0; int opt;//defined for local scope only here
+    int testingflag = 0;
+    if ( (on=option_match(ad_comm::argc,ad_comm::argv,"-testing",opt))>-1 )
+     {
+      testingflag = 1;
+     }
+    if (testingflag==1){
+       //Testing alternative dat file reader
+      cout<<"|---------------------------------------|"<<endl;
+      cout<<"| Testing with alternative dat file     |"<<endl;
+      cout<<"|---------------------------------------|"<<endl;
+      DatFileReader* pDFR = new DatFileReader();
+      cifstream is("TannerCrab_NewDatFile.dat",ios::in);
+      is>>(*pDFR);
+      is.close();
+      cout<<(*pDFR)<<endl;
+      exit(1);
+    } 
+    if (0){
+       //Testing selectivity using "constant" values
+      cout<<"|---------------------------------------|"<<endl;
+      cout<<"| Testing sandbox using constant values |"<<endl;
+      cout<<"|---------------------------------------|"<<endl;
+      class gsm::Selex<dvector> *pSLX;
+      dvector z(1,32);
+      for (int i=z.indexmin();i<=z.indexmax();i++) z(i) = 27.5+(i-1)*5.0;
+      cout<<"--Cubic Spline"<<endl;
+      dvector x_knts(1,5);
+      x_knts[1]=z[1]; for (int i=1;i<=4;i++) x_knts[i+1] = z[8*i];
+      dvector y_vals = 1.0/(1.0+exp(-(x_knts-100.0)/30.0));
+      cout<<"x_knts = "<<x_knts<<endl;
+      cout<<"y_vals = "<<y_vals<<endl;
+      pSLX = new class gsm::SelectivitySpline<dvector,dvector>(y_vals,x_knts);
+      cout<<"z        = "<<x_knts<<endl;
+      cout<<"sel      = "<<pSLX->Selectivity(x_knts)<<endl;
+      cout<<"z        = "<<z<<endl;
+      cout<<"sel      = "<<pSLX->Selectivity(z)<<endl;
+      cout<<"logsel   = "<<pSLX->logSelectivity(z)<<endl;
+      cout<<"logselM1 = "<<pSLX->logSelexMeanOne(z)<<endl;
+      cout<<"--change knots and y_vals to check reallocation"<<endl;
+      dvector x_knts1(1,9);
+      x_knts1[1]=z[1]; for (int i=1;i<=8;i++) x_knts1[i+1] = z[4*i];
+      dvector y_vals1 = 1.0/(1.0+exp(-(x_knts1-100.0)/30.0));
+      ((gsm::SelectivitySpline<dvector,dvector>*)pSLX)->initSpline(y_vals1,x_knts1);
+      cout<<"z        = "<<x_knts1<<endl;
+      cout<<"sel      = "<<pSLX->Selectivity(x_knts1)<<endl;
+      cout<<"z        = "<<z<<endl;
+      cout<<"sel      = "<<pSLX->Selectivity(z)<<endl;
+      cout<<"logsel   = "<<pSLX->logSelectivity(z)<<endl;
+      cout<<"logselM1 = "<<pSLX->logSelexMeanOne(z)<<endl;
+      //exit(1);
+      cout<<"--DoubleNormal"<<endl;
+      double p1 = 30.0;
+      double p2 = 100.0;
+      double p3 = 50.0;
+      pSLX = new class gsm::DoubleNormal<dvector,double>(p1,p2,p3);
+      cout<<z<<endl;
+      cout<<pSLX->Selectivity(z)<<endl;
+      cout<<pSLX->logSelectivity(z)<<endl;
+      cout<<pSLX->logSelexMeanOne(z)<<endl;
+      cout<<"--DoubleNormal4"<<endl;
+      p1 = 30.0;
+      p2 = 100.0;
+      p3 = 50.0;
+      double p4 = 130.0;
+      pSLX = new class gsm::DoubleNormal4<dvector,double>(p1,p2,p3,p4);
+      cout<<z<<endl;
+      cout<<pSLX->Selectivity(z)<<endl;
+      cout<<pSLX->logSelectivity(z)<<endl;
+      cout<<pSLX->logSelexMeanOne(z)<<endl;
+      cout<<"--Uniform"<<endl;
+      pSLX = new class gsm::UniformCurve<dvector>();
+      cout<<z<<endl;
+      cout<<pSLX->Selectivity(z)<<endl;
+      cout<<pSLX->logSelectivity(z)<<endl;
+      cout<<pSLX->logSelexMeanOne(z)<<endl;
+      cout<<"--Uniform0"<<endl;
+      pSLX = new class gsm::Uniform0Curve<dvector>();
+      cout<<z<<endl;
+      cout<<pSLX->Selectivity(z)<<endl;
+      cout<<pSLX->logSelectivity(z)<<endl;
+      cout<<pSLX->logSelexMeanOne(z)<<endl;
+      exit(1);
+    }
+   }//--end local scope
  END_CALCS
 
   //friend_class gmacs_comm;
@@ -237,6 +247,7 @@ DATA_SECTION
   // |------------------------|
   // | DATA AND CONTROL FILES |
   // |------------------------|
+  //--read gmacs.dat file
   !!WriteFileName(TheHeader);
   init_adstring datafile;
   init_adstring controlfile;
@@ -264,7 +275,9 @@ DATA_SECTION
   !! WriteFileName(dataeof);
   !! if ( dataeof != 9999 ) {cout << "Error reading GMACS.DAT" << endl; exit(1);}
   !! cout << "end of GMACS.DAT" << endl;
+  //----------------------------------------------------------------------------
   
+  //--read data file
   !! ad_comm::change_datafile_name(datafile);
   !! cout << "+----------------------+" << endl;
   !! cout << "| Reading data file    |" << endl;
@@ -405,15 +418,17 @@ DATA_SECTION
   // | CATCH SERIES |
   // |--------------|
   !! cout << " * Catch data" << endl;
+  !! gmacs_data << "#\n\n--CATCH DATA----"<<endl;
   init_int nCatchDF;
+  !! gmacs_data << "# Number of catch data frames" << endl;
+  !! gmacs_data << nCatchDF << endl;
   init_ivector nCatchRows(1,nCatchDF);
+  !! gmacs_data << "# Number of lines for each dataframe (this is not correct for retrospective analyses)" << endl;
+  !! gmacs_data << nCatchRows << endl;
   init_3darray dCatchData(1,nCatchDF,1,nCatchRows,1,11); // array of catch data
 
-  !! WRITEDAT(nCatchDF);
   !! float TempW;
   !! float SDlogD;
-  !! gmacs_data << "# Number of lines for each group (this is not correct for retrospective analyses)" << endl;
-  !! gmacs_data << nCatchRows << endl;
   !! gmacs_data << "## Sex: 1 = male, 2 = female, 0 = both" << endl;
   !! gmacs_data << "## Type of catch: 1 = retained, 2 = discard, 0 = total" << endl;
   !! gmacs_data << "## Units of catch: 1 = biomass, 2 = numbers" << endl;
@@ -424,7 +439,14 @@ DATA_SECTION
   !!   {
   !!    if (dCatchData(iCatOut,irow,1) <= nyrRetro)
   !!     {
-  !!      gmacs_data << dCatchData(iCatOut,irow) << " ";
+  !!      gmacs_data << (int) dCatchData(iCatOut,irow)(1) << " ";
+  !!      gmacs_data << (int) dCatchData(iCatOut,irow)(2) << " ";
+  !!      gmacs_data << (int) dCatchData(iCatOut,irow)(3) << " ";
+  !!      gmacs_data << (int) dCatchData(iCatOut,irow)(4) << " ";
+  !!      gmacs_data << dCatchData(iCatOut,irow)(5,6) << " ";
+  !!      gmacs_data << (int) dCatchData(iCatOut,irow)(7) << " ";
+  !!      gmacs_data << (int) dCatchData(iCatOut,irow)(8) << " ";
+  !!      gmacs_data << dCatchData(iCatOut,irow)(9,11) << " ";
   !!      anystring = "# " + fleetname(dCatchData(iCatOut,irow,3));
   !!      if (dCatchData(iCatOut,irow,4)==1) anystring = anystring +"_male";
   !!      if (dCatchData(iCatOut,irow,4)==2) anystring = anystring +"_female";
@@ -469,13 +491,14 @@ DATA_SECTION
   ECHO(catch_cv);
  END_CALCS
 
-  // From the catch series determine the number of fishing mortality rate parameters that need to be estimated. Note that there is a number of combinations which require an F to be estimated.
-  ivector nFparams(1,nfleet);                              ///> The number of deviations required for each fleet
-  ivector nYparams(1,nfleet);                              ///> The number of deviations for female Fs
-  3darray fhit(syr,nyrRetro,1,nseason,1,nfleet);           ///> set to 1 for present; 0 for absent
-  3darray yhit(syr,nyrRetro,1,nseason,1,nfleet);           ///> set to 1 for present; 0 for absent
-  matrix dmr(syr,nyrRetro,1,nfleet);                       ///> discard mortality - has to be the same for all catch series for eac fleet
-  matrix fhitfut(1,nseason,1,nfleet);                      ///> set to 1 for present in any year; 0 for absent
+  // From the catch series determine the number of fishing mortality rate parameters that need to be estimated. 
+  // Note that there are a number of combinations which require an F to be estimated.
+  ivector nFparams(1,nfleet);                     ///> The number of deviations required for each fleet
+  ivector nYparams(1,nfleet);                     ///> The number of deviations for female Fs
+  3darray fhit(syr,nyrRetro,1,nseason,1,nfleet);  ///> set to 1 for present; 0 for absent
+  3darray yhit(syr,nyrRetro,1,nseason,1,nfleet);  ///> set to 1 for present; 0 for absent
+  matrix dmr(syr,nyrRetro,1,nfleet);              ///> discard mortality - has to be the same for all catch series for each fleet
+  matrix fhitfut(1,nseason,1,nfleet);             ///> set to 1 for present in any year; 0 for absent
 
  LOC_CALCS
   nFparams.initialize();
@@ -483,8 +506,10 @@ DATA_SECTION
   fhit.initialize();
   yhit.initialize();
   dmr.initialize();
+  echoinput<<"\n\nDetermining number of fishing rate parameters to be estimated."<<endl;
   for ( int k = 1; k <= nCatchDF; k++ )
    {
+      echoinput<<"catchDF (k) = "<<k<<endl;
     for ( int i = 1; i <= nCatchRows(k); i++ )
      if (dCatchData(k)(i,1) <= nyrRetro)
       {
@@ -492,11 +517,13 @@ DATA_SECTION
        int j = dCatchData(k)(i,2);                          ///> season
        int g = dCatchData(k)(i,3);                          ///> fleet
        int h = dCatchData(k)(i,4);                          ///> sex
+       echoinput<<"Processing i,y,j,g,h (row,year, season, fleet, sex): "<<i<<" "<<y<<" "<<j<<" "<<g<<" "<<h<<endl;
 
        // Check whether the fleet is instantaneous but natural mortality in the relevant period is not zero!
        if (season_type(j) == INSTANT_F & m_prop(y,j) > 0)
         {
-         cout << "The proportion of M should be zero for season " << j << " in year " << y << endl;
+         cout      << "The proportion of M should be zero for season " << j << " in year " << y << endl;
+         echoinput << "The proportion of M should be zero for season " << j << " in year " << y << endl;
          exit(1);
         }
 
@@ -504,7 +531,7 @@ DATA_SECTION
         {
          fhit(y,j,g) ++;
          nFparams(g) ++;
-         dmr(y,g) = catch_dm(k)(i);
+         dmr(y,g) = catch_dm(k)(i);//TODO: presumably dmr could depend on season and sex, as well as year and gear/fleet
         }
        if ( !yhit(y,j,g) && h == 2 )
         {
@@ -518,6 +545,7 @@ DATA_SECTION
   for (int g=1;g<=nfleet; g++) { if (nYparams(g) == 0) nYparams(g) = 1; }
   ECHO(nFparams); ECHO(nYparams); // ECHO(fhit); ECHO(yhit); ECHO(dmr);
   echoinput << "fhit" << endl;
+  echoinput << "iy(yr)  j(season)  hit_for_fleet " <<endl;
   fhitfut.initialize();
   for (int iy=syr;iy<=nyrRetro;iy++)
    for (int j=1;j<=nseason;j++)
@@ -528,6 +556,7 @@ DATA_SECTION
      echoinput << endl;
     }
   echoinput << "fhitfut" << endl;
+  echoinput << "j(season)  hit_for_fleet? " <<endl;
   for (int j=1;j<=nseason;j++)
    {
     echoinput << " " << j << " ";
@@ -535,6 +564,7 @@ DATA_SECTION
     echoinput << endl;
    }
   echoinput << "yhit" << endl;
+  echoinput << "iy(yr)  j(season)  hit_for_fleet? " <<endl;
   for (int iy=syr;iy<=nyrRetro;iy++)
    for (int j=1;j<=nseason;j++)
     {
@@ -543,6 +573,10 @@ DATA_SECTION
      echoinput << endl;
     }
   ECHO(dmr);
+  echoinput<<"dmr:"<<endl;
+  echoinput<<"year   fleet   dmr"<<endl;
+  for (int iy=syr;iy<=nyrRetro;iy++)
+    for (int g=1;g<=nfleet;g++) echoinput<<iy<<" "<<g<<" "<<dmr(iy,g)<<endl;
 
   // Check for errors in discard rate assumptions
   for ( int k = 1; k <= nCatchDF; k++ )
@@ -552,7 +586,11 @@ DATA_SECTION
       int y = dCatchData(k)(i,1);                           ///> year
       int g = dCatchData(k)(i,3);                           ///> fleet
       if (catch_dm(k)(i) != dmr(y,g))
-       { cout << "ERROR: discard rates do not match: year " << y << " " << endl; exit(1); }
+       { cout       << "ERROR: discard rates do not match: year " << y << " and fleet " << g << " in CatchDF " << k<< endl; 
+         gmacs_data << "ERROR: discard rates do not match: year " << y << " and fleet " << g << " in CatchDF " << k<< endl; 
+         gmacs_data << "k = "<<k<<" i = "<<i<<" y = "<<y<<" g = "<<g<<endl;
+         gmacs_data << "catch_dm(k)(i) = " <<catch_dm(k)(i) << "  dmr(y,g) = " << dmr(y,g) << endl;
+         exit(1); }
      }
 
   // Create the dCatchData_out object for output and plotting in R, this object simply fills in the years that don't have data with zero catch
@@ -589,10 +627,20 @@ DATA_SECTION
   // | RELATIVE ABUNDANCE INDICES |
   // |----------------------------|
   !! cout << " * Abundance data" << endl;
+  !! gmacs_data << "#\n\n--RELATIVE ABUNDANCE DATA----"<<endl;
+  !! gmacs_data << "# Number of relative abundance (survey) data frames" << endl;
   init_int nSurveys;                                                 ///> Number of survey series
+  !! gmacs_data << nSurveys << endl; //TODO: change name to nSurveyDFs
+  !!gmacs_data << "# Type of 'survey' catchability (1=Selectivity; 2=Selectivity+Retention), by data frame" << endl;
   init_ivector SurveyType(1,nSurveys);                               ///> Type of survey
+  !!gmacs_data << SurveyType << endl;
+  !!gmacs_data << "# Number of data rows, by data frame" << endl;
   init_int nSurveyRows;
+  !!gmacs_data << "#   NOTE: this is not correct for retrospective analyses" << endl;
+  !!gmacs_data << nSurveyRows << endl;;
   init_matrix dSurveyData(1,nSurveyRows,0,9);
+  !!gmacs_data << "Survey data:"<<endl;
+  !!gmacs_data << dSurveyData <<endl;
   vector obs_cpue(1,nSurveyRows);
   vector cpue_cv(1,nSurveyRows);
   vector cpue_sd(1,nSurveyRows);
@@ -603,20 +651,23 @@ DATA_SECTION
   cpue_cv  = column(dSurveyData,7);
   cpue_sd  = sqrt(log(1.0 + square(cpue_cv)));
   cpue_time  = column(dSurveyData,9);
-  WRITEDAT(nSurveys);
-  gmacs_data << "# Type of survey (1=Selectivity; 2=Selectivity+Retention)" << endl;
-  gmacs_data << SurveyType << endl;
-  gmacs_data << "# Number of lines for each index (this is not correct for retrospective analyses)" << endl;
-  gmacs_data << nSurveyRows << endl;;
   gmacs_data << "## Index: One q is estimated for each index (the number of index values should match nSurveys" << endl;
   gmacs_data << "## Sex: 1 = male, 2 = female, 0 = both" << endl;
   gmacs_data << "## Maturity: 1 = mature, 2 = immature, 0 = both" << endl;
   gmacs_data << "## Units of survey: 1 = biomass, 2 = numbers" << endl;
-  gmacs_data << "# Index Year Season Fleet Sex Maurity Obs CV Units CPUE_time" << endl;
+  gmacs_data << "# row Index Year Season Fleet Sex Maturity Obs CV Units CPUE_time" << endl;
   for (int irow=1;irow<=nSurveyRows; irow++)
-   if (dSurveyData(irow,1) <= nyrRetro || (dSurveyData(irow,1) == nyrRetro+1 & dSurveyData(irow,2) == 1))
+   if ((dSurveyData(irow,1) <= nyrRetro) || ((dSurveyData(irow,1) == nyrRetro+1) & (dSurveyData(irow,2) == 1)))
     {
-     gmacs_data << dSurveyData(irow) << " ";
+     gmacs_data << irow << " " << (int) dSurveyData(irow,0) << " ";
+     gmacs_data << (int) dSurveyData(irow,1) << " ";//year
+     gmacs_data << (int) dSurveyData(irow,2) << " ";//season
+     gmacs_data << (int) dSurveyData(irow,3) << " ";//fleet
+     gmacs_data << (int) dSurveyData(irow,4) << " ";//sex
+     gmacs_data << (int) dSurveyData(irow,5) << " ";//sex
+     gmacs_data << dSurveyData(irow)(6,7) << " ";//obs, cv
+     gmacs_data << (int) dSurveyData(irow,8) << " ";//data type
+     gmacs_data << dSurveyData(irow,9) << " ";//CPUE time
      anystring = "# " + fleetname(dSurveyData(irow,3));
      if (dSurveyData(irow,4)==BOTHSEX)          anystring = anystring +"_male+female";
      if (dSurveyData(irow,4)==MALESANDCOMBINED) anystring = anystring +"_male";
@@ -857,7 +908,7 @@ DATA_SECTION
 
 // ================================================================================================
 // ================================================================================================
-
+  //--read control file
   // |----------------------------|
   // | LEADING PARAMETER CONTROLS |
   // |----------------------------|
@@ -865,11 +916,15 @@ DATA_SECTION
   !! cout << "+----------------------+" << endl;
   !! cout << "| Reading control file |" << endl;
   !! cout << "+----------------------+" << endl;
+  !! ECHOSTR("+----------------------+");
+  !! ECHOSTR("| Reading control file |");
+  !! ECHOSTR("+----------------------+");
 
-  !! cout << " * Key parameter controls" << endl;
   !! WriteCtl(TheHeader);
+  !! cout << " * Key parameter controls" << endl;
+  !! ECHOSTR(" * Key parameter controls");
   init_int ntheta;                                         ///> Number of leading parameters (guestimated)
-  init_matrix theta_control(1,ntheta,1,7);                 ///> The speciciations for the controls
+  init_matrix theta_control(1,ntheta,1,7);                 ///> The specifications for the controls
   !! WriteCtl(ntheta)
   !! gmacs_ctl << "# Core parameters" << endl;
   !! gmacs_ctl << "## Initial: Initial value for the parameter (must lie between lower and upper)" << endl;
@@ -879,10 +934,18 @@ DATA_SECTION
   !! gmacs_ctl << "## 0: Uniform   - parameters are the range of the uniform prior"  << endl;
   !! gmacs_ctl << "## 1: Normal    - parameters are the mean and sd" << endl;
   !! gmacs_ctl << "## 2: Lognormal - parameters are the mean and sd of the log" << endl;
-  !! gmacs_ctl << "## 3: Beta      - parameetrs are the two beta parameters [see dbeta]" << endl;
-  !! gmacs_ctl << "## 4: Gamma     - parameetrs are the two gamma parameters [see dgamma]" << endl;
+  !! gmacs_ctl << "## 3: Beta      - parameters are the two beta parameters [see dbeta]" << endl;
+  !! gmacs_ctl << "## 4: Gamma     - parameters are the two gamma parameters [see dgamma]" << endl;
   !! gmacs_ctl << "# Initial_value Lower_bound Upper_bound Phase Prior_type Prior_1 Prior_2" << endl;
-  !! gmacs_ctl << theta_control << endl;
+  !! for (int i=1;i<=ntheta;i++) {
+  !!    gmacs_ctl << theta_control(i,1) << " ";
+  !!    gmacs_ctl << theta_control(i,2) << " ";
+  !!    gmacs_ctl << theta_control(i,3) << " ";
+  !!    gmacs_ctl << (int) theta_control(i,4) << " ";
+  !!    gmacs_ctl << (int) theta_control(i,5) << " ";
+  !!    gmacs_ctl << theta_control(i,6) << " ";
+  !!    gmacs_ctl << theta_control(i,7) << endl;
+  !! }
   vector theta_ival(1,ntheta);
   vector theta_lb(1,ntheta);
   vector theta_ub(1,ntheta);
@@ -902,17 +965,22 @@ DATA_SECTION
   // | ALLOMETRY |
   // |-----------|
   !! cout << " * Allometry" << endl;
-  init_int lw_type;                                        ///> length-weight type/method (i.e. provide parameters or a vector)
+  !! ECHOSTR(" * Allometry");
+  init_int lw_type;               ///> length-weight type/method (i.e. provide parameters or a vector)
   !! WriteCtl(lw_type);
   !! if (lw_type < 1 | lw_type > 3)
-  !!  { cout << "length-weight type can only be 1,2 or 3; STOPPING" << endl; exit(1); }
+  !!  { cout << "length-weight type can only be 1,2 or 3; STOPPING" << endl; 
+  !!    gmacs_ctl <<  "length-weight type can only be 1,2 or 3; STOPPING" << endl;
+  !!    exit(1); }
   int lw_dim;
   int lw_dim2;
  LOC_CALCS
   lw_dim = nsex;
   if ( lw_type == LW_MATRIX ) lw_dim = nsex * (nyr+1 - syr + 1);
+  ECHO(lw_dim);
   lw_dim2 = nsex;
   if ( lw_type == LW_MATRIX ) lw_dim2 = nsex * (nyrRetro+1 - syr + 1);
+  ECHO(lw_dim2);
  END_CALCS
   vector lw_alfa(1,nsex);
   vector lw_beta(1,nsex);
@@ -922,17 +990,19 @@ DATA_SECTION
  LOC_CALCS
   if (lw_type==LW_RELATIONSHIP)
    {
+    WriteCtlStr("Using LW_RELATIONSHIP. Parameters are:");
     for (int h=1;h<=nsex;h++) *(ad_comm::global_datafile) >> lw_alfa(h);
     for (int h=1;h<=nsex;h++) *(ad_comm::global_datafile) >> lw_beta(h);
+    ECHO(lw_alfa); ECHO(lw_beta);
     WriteCtl(lw_alfa); WriteCtl(lw_beta);
    }
   if (lw_type==LW_VECTOR || lw_type==LW_MATRIX)
    {
     for (int I=1;I<=lw_dim;I++)
      for ( int l = 1; l <= nclass; l++ ) *(ad_comm::global_datafile) >> mean_wt_in(I,l);
-    gmacs_ctl << "# mean_wt_inv" << endl;
+    ECHOSTR("# Using LW_VECTOR or LW_MATRIX. mean_wt_in:");
     for (int I=1;I<=lw_dim2;I++)
-     gmacs_ctl << mean_wt_in(I) << endl;
+     echoinput << mean_wt_in(I) << endl;
    }
   mid_points = size_breaks(1,nclass) + 0.5 * first_difference(size_breaks);
   switch ( lw_type )
@@ -979,15 +1049,17 @@ DATA_SECTION
   !! gmacs_ctl << "## 1: Fixed growth transition matrix (requires molt probability)" << endl;
   !! gmacs_ctl << "## 2: Fixed size transition matrix (molt probability is ignored)" << endl;
   !! gmacs_ctl << "## 3: Growth increment is gamma distributed" << endl;
-  !! gmacs_ctl << "## 4: Size after growth is gamma distributed" << endl;
-  !! gmacs_ctl << "## 5: kappa varies among individuals" << endl;
-  !! gmacs_ctl << "## 6: Linf varies among individuals" << endl;
-  !! gmacs_ctl << "## 7: kappa and Ling varies among individuals" << endl;
+  !! gmacs_ctl << "## 4: Post-molt size is gamma distributed" << endl;
+  !! gmacs_ctl << "## 5: Von Bert.: kappa varies among individuals" << endl;
+  !! gmacs_ctl << "## 6: Von Bert.: Linf varies among individuals" << endl;
+  !! gmacs_ctl << "## 7: Von Bert.: kappa and Linf varies among individuals" << endl;
   !! gmacs_ctl << "## 8: Growth increment is normally distributed" << endl;
   init_int bUseCustomGrowthMatrix;
   !! WriteCtl(bUseCustomGrowthMatrix);
   !! if (bUseCustomGrowthMatrix < 1 | bUseCustomGrowthMatrix > 8)
-  !!  { cout << "growth matrix type can only be 1-8; STOPPING" << endl; exit(1); }
+  !!  { cout << "growth matrix type can only be 1-8; STOPPING" << endl; 
+  !!    WriteCtlStr("growth matrix type can only be 1-8; STOPPING");
+  !!    exit(1); }
 
   !! gmacs_ctl << "## Options for the growth increment model matrix" << endl;
   !! gmacs_ctl << "## 1: Linear" << endl;
@@ -999,8 +1071,8 @@ DATA_SECTION
   !! if (bUseCustomGrowthMatrix == GROWTH_VARYKLINF) bUseGrowthIncrementModel = GROWTH_VARYKLINF;
   !! WriteCtl(bUseGrowthIncrementModel);
 
-  init_int bUseCustomMoltProbility;
-  !! WriteCtl(bUseCustomMoltProbility);
+  init_int bUseCustomMoltProbability;
+  !! WriteCtl(bUseCustomMoltProbability);
   !! if (bUseCustomGrowthMatrix == GROWTH_FIXEDSIZETRANS & bUseGrowthIncrementModel != FIXED_PROB_MOLT)
   !!  {
   !!   cout << "If the custom growth model = 1 molt probability must be 1; STOPPING" << endl; exit(1);
@@ -1028,6 +1100,7 @@ DATA_SECTION
   init_imatrix iYrsMoltChanges(1,nsex,1,nMoltChanges);     ///> Years with changes in molt probability
   !! gmacs_ctl << "# Start of the blocks in which molt probability changes (one row for each sex) - the first block starts in " << syr << endl;
   !! gmacs_ctl << "# Note: there is one less year than there are blocks" << endl;
+  !! gmacs_ctl << "# iYrsMoltChanges:" << endl;
   !! for (int isex=1;isex<=nsex;isex++)
   !!  gmacs_ctl << iYrsMoltChanges(isex) << " # " << sexes(isex)  << endl;
 
@@ -1051,8 +1124,8 @@ DATA_SECTION
  !! if (GrowthObsType==GROWTHCLASS_DATA)
  !!  for (int i=1;i<=nGrowthObs;i++)
  !!   {
- !!    int h = iMoltIncSex(i);
- !!    int k = iMoltTrans(i);
+ !!    int h = iMoltIncSex(i); //--sex
+ !!    int k = iMoltTrans(i);  //
  !!    if (k < 0 || k > nSizeIncChanges(h)+1)
  !!     {
  !!      cout << "Error: a specified size-transition matrix in the DAT file is out of range (line: " << i << ")" << endl;
@@ -1065,14 +1138,14 @@ DATA_SECTION
   !! nGrwth = 0; nSizeIncPar = 0;
   !! for (int h=1;h<=nsex;h++)
   !!  {
-  !!   if (bUseGrowthIncrementModel==LINEAR_GROWTHMODEL) nSizeIncPar += nSizeIncVaries(h) * 3;
+  !!   if (bUseGrowthIncrementModel==LINEAR_GROWTHMODEL)      nSizeIncPar += nSizeIncVaries(h) * 3;
   !!   if (bUseGrowthIncrementModel==INDIVIDUAL_GROWTHMODEL1) nSizeIncPar += nSizeIncVaries(h) * (nclass+1);
   !!   if (bUseGrowthIncrementModel==INDIVIDUAL_GROWTHMODEL2) nSizeIncPar += nSizeIncVaries(h) * (nclass+1);
-  !!   if (bUseGrowthIncrementModel==GROWTH_VARYK) nSizeIncPar += nSizeIncVaries(h) * 3;
-  !!   if (bUseGrowthIncrementModel==GROWTH_VARYLINF) nSizeIncPar += nSizeIncVaries(h) * 3;
-  !!   if (bUseGrowthIncrementModel==GROWTH_VARYKLINF) nSizeIncPar += nSizeIncVaries(h) * 4;
-  !!   if (bUseCustomMoltProbility==LOGISTIC_PROB_MOLT) nGrwth += nMoltVaries(h) * 2;
-  !!   if (bUseCustomMoltProbility==FREE_PROB_MOLT) nGrwth += nMoltVaries(h) * (nclass);
+  !!   if (bUseGrowthIncrementModel==GROWTH_VARYK)            nSizeIncPar += nSizeIncVaries(h) * 3;
+  !!   if (bUseGrowthIncrementModel==GROWTH_VARYLINF)         nSizeIncPar += nSizeIncVaries(h) * 3;
+  !!   if (bUseGrowthIncrementModel==GROWTH_VARYKLINF)        nSizeIncPar += nSizeIncVaries(h) * 4;
+  !!   if (bUseCustomMoltProbability==LOGISTIC_PROB_MOLT)       nGrwth += nMoltVaries(h) * 2;
+  !!   if (bUseCustomMoltProbability==FREE_PROB_MOLT)           nGrwth += nMoltVaries(h) * (nclass);
   !!  }
   !! nGrwth += nSizeIncPar;
   !! ECHO(nGrwth);
@@ -1096,6 +1169,8 @@ DATA_SECTION
   4darray CustomGrowthMatrix(1,nsex,1,maxSizeIncVaries,1,nclass,1,nclass);     ///> Custom growth matrix or size-transition matrix (read in)
   !!if (bUseCustomGrowthMatrix==GROWTH_FIXEDGROWTHTRANS || bUseCustomGrowthMatrix==GROWTH_FIXEDSIZETRANS)
   !! {
+  !!  if (bUseCustomGrowthMatrix==GROWTH_FIXEDGROWTHTRANS) WriteCtlStr("Using custom growth matrix");
+  !!  if (bUseCustomGrowthMatrix==GROWTH_FIXEDSIZETRANS)   WriteCtlStr("Using custom size transition matrix");
   !!  for (int h=1;h<=nsex;h++)
   !!   for (int i=1;i<=nSizeIncVaries(h);i++)
   !!    {
@@ -1106,9 +1181,10 @@ DATA_SECTION
   !!    }
   !! }
 
-  3darray CustomMoltProbabilityMatrix(1,nsex,1,nMoltVaries,1,nclass);          ///> Custom molt probaility (read in)
-  !!if (bUseCustomMoltProbility==FIXED_PROB_MOLT)
+  3darray CustomMoltProbabilityMatrix(1,nsex,1,nMoltVaries,1,nclass);          ///> Custom molt probability (read in)
+  !!if (bUseCustomMoltProbability==FIXED_PROB_MOLT)
   !! {
+  !!  WriteCtlStr("Using custom molt probability");
   !!  for (int h=1;h<=nsex;h++)
   !!   for (int i=1;i<=nSizeIncVaries(h);i++)
   !!    for (int l=1;l<= nSizeSex(h);l++)
@@ -1125,6 +1201,7 @@ DATA_SECTION
   // | SELECTIVITY PARAMETER CONTROLS |
   // |--------------------------------|
   !! cout << " * Selectivity parameter controls" << endl;
+  !! WriteCtlStr(" * Selectivity parameter controls");
   int nslx;                                                //> number of selectivities (gears x blocks selectivity + gears * blocks retained)
   int nslx_pars;                                           //> number of selectivity parameters in total
   int nslx_rows_in;                                        //> number of selectivity rows
@@ -1132,50 +1209,62 @@ DATA_SECTION
   !! nslx_cols_in = 13;                                    //> number of columns in the control file to be read in
 
   init_ivector slx_nsel_period_in(1,nfleet);               //> number of selex time periods
-  init_ivector slx_bsex_in(1,nfleet);                      //> boolian for sex-specific selex
+  init_ivector slx_bsex_in(1,nfleet);                      //> boolean for sex-specific selex
   init_imatrix slx_type_in(1,nsex,1,nfleet);               //> integer for selectivity type (e.g. logistic, double normal)
   init_ivector slx_include_in(1,nfleet);                   //> insertion of fleet in another
   init_imatrix slx_extra_in(1,nsex,1,nfleet);              //> extra parameters for each pattern
 
   init_ivector ret_nret_period_in(1,nfleet);               //> number of retention time periods
-  init_ivector ret_bsex_in(1,nfleet);                      //> boolian for sex-specific retention
+  init_ivector ret_bsex_in(1,nfleet);                      //> boolean for sex-specific retention
   init_imatrix ret_type_in(1,nsex,1,nfleet);               //> integer for retention type (e.g. logistic, double normal)
-  init_imatrix slx_nret(1,nsex,1,nfleet);                  //> boolian for rentention/discard
+  init_imatrix slx_nret(1,nsex,1,nfleet);                  //> boolean for retention/discard
   init_imatrix ret_extra_in(1,nsex,1,nfleet);              //> extra parameters for each pattern
-  init_ivector slx_max_at_1_in(1,nfleet);				   //> determines if selectivity for the maximum size class is forced to be 1
+  init_ivector slx_max_at_1_in(1,nfleet);	           //> determines if selectivity for the maximum size class is forced to be 1
 
  LOC_CALCS
-  gmacs_ctl << endl << "## Selectivity parameter controls" << endl;
-  gmacs_ctl << "## Selectivity (and retention) types" << endl;
-  gmacs_ctl << "##  <0: Mirror selectivity" << endl;
-  gmacs_ctl << "##   0: Nonparameric selectivity (one parameter per class)" << endl;
-  gmacs_ctl << "##   1: Nonparameric selectivity (one parameter per class, constant from last specified class)" << endl;
-  gmacs_ctl << "##   2: Logistic selectivity (inflection point and slope)" << endl;
-  gmacs_ctl << "##   3: Logistic selectivity (50% and 95% selection)" << endl;
-  gmacs_ctl << "##   4: Double normal selectivity (3 parameters)" << endl;
-  gmacs_ctl << "##   5: Flat equal to zero (1 parameter; phase must be negative)" << endl;
-  gmacs_ctl << "##   6: Flat equal to one (1 parameter; phase must be negative)" << endl;
-  gmacs_ctl << "##   7: Flat-topped double normal selectivity (4 parameters)" << endl;
-  gmacs_ctl << "##   8: Decling logistic selectivity with initial values (50% and 95% selection plus extra)" << endl;
-  gmacs_ctl << "##   9: Cubic-spline (specified with knots and values at knots)" << endl;
-  gmacs_ctl << "##  10: One parameter logistic selectivity (inflection point and slope)" << endl;
-  gmacs_ctl << "## Extra (type 1): number of selectivity parameters to estimated" << endl;
+  anystring = "";
+  WriteCtlStr("\n## Selectivity parameter controls");
+  WriteCtlStr("## Selectivity (and retention) types");
+  WriteCtlStr("##  <0: Mirror selectivity");
+  WriteCtlStr("##   0: Nonparametric selectivity (one parameter per class)");
+  WriteCtlStr("##   1: Nonparametric selectivity (one parameter per class, constant from last specified class)");
+  WriteCtlStr("##   2: Logistic selectivity (inflection point and slope)");
+  WriteCtlStr("##   3: Logistic selectivity (50% and 95% selection)");
+  WriteCtlStr("##   4: Double normal selectivity (3 parameters)");
+  WriteCtlStr("##   5: Flat equal to zero (1 parameter; phase must be negative)");
+  WriteCtlStr("##   6: Flat equal to one (1 parameter; phase must be negative)");
+  WriteCtlStr("##   7: Flat-topped double normal selectivity (4 parameters)");
+  WriteCtlStr("##   8: Declining logistic selectivity with initial values (50% and 95% selection plus extra)");
+  WriteCtlStr("##   9: Cubic-spline (specified with knots and values at knots)");
+  WriteCtlStr("##  10: One parameter logistic selectivity (inflection point and slope)");
+  WriteCtlStr("## Extra (type 1): number of selectivity parameters to estimated");
   anystring = "# ";
   for ( int kk = 1; kk <= nfleet; kk++ ) anystring = anystring + " " + fleetname(kk);
-  gmacs_ctl << anystring << endl;
+  WriteCtlStr(anystring);
   
-  gmacs_ctl << slx_nsel_period_in << " # selectivity periods" << endl;
-  gmacs_ctl << slx_bsex_in << " # sex specific selectivity (1=Yes, 0=No)" << endl;
-  gmacs_ctl << slx_type_in << " # selectivity type (by sex)" << endl;
-  gmacs_ctl << slx_include_in << " # selectivity within another gear" << endl;
-  gmacs_ctl << slx_extra_in << " # extra parameters for each pattern" << endl;
-  gmacs_ctl << ret_nret_period_in << " # retention periods " << endl;
-  gmacs_ctl << ret_bsex_in << " # sex specific retention (1=Yes, 0=No)" << endl;
-  gmacs_ctl << ret_type_in << " # retention type (by sex)" << endl;
-  gmacs_ctl << slx_nret  << " # retention flag" << endl;
-  gmacs_ctl << ret_extra_in << " # extra parameters for each pattern" << endl;
-  gmacs_ctl << slx_max_at_1_in << " # determines if maximum selectivity at size is forced to equal 1 or not" << endl;
-  gmacs_ctl << endl;
+  WriteCtlStr(" # selectivity periods");
+  WriteCtl(slx_nsel_period_in);
+  WriteCtlStr(" # sex specific selectivity (1=Yes, 0=No)");
+  WriteCtl(slx_bsex_in);
+  WriteCtlStr(" # selectivity type (by sex)");
+  WriteCtl(slx_type_in);
+  WriteCtlStr(" # selectivity within another gear");
+  WriteCtl(slx_include_in);
+  WriteCtlStr(" # extra parameters for each pattern");
+  WriteCtl(slx_extra_in);
+  WriteCtlStr(" # retention periods ");
+  WriteCtl(ret_nret_period_in);
+  WriteCtlStr(" # sex specific retention (1=Yes, 0=No)");
+  WriteCtl(ret_bsex_in);
+  WriteCtlStr(" # retention type (by sex)");
+  WriteCtl(ret_type_in);
+  WriteCtlStr(" # retention flag");
+  WriteCtl(slx_nret);
+  WriteCtlStr(" # extra parameters for each pattern");
+  WriteCtl(ret_extra_in);
+  WriteCtlStr(" # Is maximum selectivity at size is forced to equal 1 or not");
+  WriteCtl(slx_max_at_1_in);
+  WriteCtlStr(" ");
   
   // Work out how many selectivities we are dealing with, nfleet * nsex, plus any additonal sex-specific or time period selectivities
   nslx = 0;
@@ -1184,123 +1273,139 @@ DATA_SECTION
     nslx += slx_nsel_period_in(k) * (1 + slx_bsex_in(k));
     nslx += ret_nret_period_in(k) * (1 + ret_bsex_in(k));
    }
+  ECHO(nslx);
 
-  // Work out how many rows are in the selectivity/retention control inputs matrix based on the type of each selectivity and the number of blocks
+  // Work out how many rows are in the selectivity/retention control inputs matrix 
+  // based on the type of each selectivity and the number of blocks
   nslx_rows_in = 0;
   for ( int k = 1; k <= nfleet; k++ )
    {
+    echoinput << "fleet = " << k << endl;
+    int inc = 0;
+    int tmp_nslx = nslx_rows_in;
     // Selectivity
+    ECHOSTR("selectivity function parameters");
     for ( int h = 1; h <= slx_bsex_in(k)+1; h++ )
      {
       if( slx_type_in(h,k) == SELEX_PARAMETRIC)             ///> parametric
        {
-        nslx_rows_in += nclass * slx_nsel_period_in(k);
+        inc = nclass * slx_nsel_period_in(k);
        }
       if( slx_type_in(h,k) == SELEX_COEFFICIENTS)           ///> coefficients
        {
-        nslx_rows_in += slx_extra_in(h,k) * slx_nsel_period_in(k);
+        inc = slx_extra_in(h,k) * slx_nsel_period_in(k);
        }
       if( slx_type_in(h,k) == SELEX_STANLOGISTIC)           ///> logistic has 2 parameters
        {
-        nslx_rows_in += 2 * slx_nsel_period_in(k);
+        inc = 2 * slx_nsel_period_in(k);
        }
       if( slx_type_in(h,k) == SELEX_5095LOGISTIC)           ///> logistic95 has 2 parameters
        {
-        nslx_rows_in += 2 * slx_nsel_period_in(k);
+        inc = 2 * slx_nsel_period_in(k);
        }
       if( slx_type_in(h,k) == SELEX_ONE_PAR_LOGISTIC)       ///> logisticOne has 1 parameters
        {
-        nslx_rows_in += 1 * slx_nsel_period_in(k);
+        inc = 1 * slx_nsel_period_in(k);
        }
       if( slx_type_in(h,k) == SELEX_DECLLOGISTIC)           ///> declining logistic has 2 + extra parameters
        {
-        nslx_rows_in += (2+slx_extra_in(h,k)) * slx_nsel_period_in(k);
+        inc = (2+slx_extra_in(h,k)) * slx_nsel_period_in(k);
        }
       if( slx_type_in(h,k) == SELEX_DOUBLENORM)             ///> double normal has 3 parameters
        {
-        nslx_rows_in += 3 * slx_nsel_period_in(k);
+        inc = 3 * slx_nsel_period_in(k);
        }
       if( slx_type_in(h,k) == SELEX_DOUBLENORM4)            ///> double normal has 4 parameters
        {
-        nslx_rows_in += 4 * slx_nsel_period_in(k);
+        inc = 4 * slx_nsel_period_in(k);
        }
       if( slx_type_in(h,k) == SELEX_UNIFORM1)               ///> uniform has 1 parameter
        {
-        nslx_rows_in += 1 * slx_nsel_period_in(k);
+        inc = 1 * slx_nsel_period_in(k);
        }
       if( slx_type_in(h,k) == SELEX_UNIFORM0)               ///> uniform has 1 parameter
        {
-        nslx_rows_in += 1 * slx_nsel_period_in(k);
+        inc = 1 * slx_nsel_period_in(k);
        }
       if( slx_type_in(h,k) == SELEX_CUBIC_SPLINE)          ///> spline has parameters for knots and values
        {
-        nslx_rows_in += 2 * slx_extra_in(h,k) * slx_nsel_period_in(k);
+        inc = 2 * slx_extra_in(h,k) * slx_nsel_period_in(k);
        }
       if( slx_type_in(h,k) <0)                            ///> mirror has 1 parameter
        {
-        nslx_rows_in += 1 * slx_nsel_period_in(k);
+        inc = 1 * slx_nsel_period_in(k);
        }
+       echoinput << "h = "<<h<<"  "<<"num pars = "<<inc<<endl;
+       nslx_rows_in += inc;//add in increment
      }
+    tmp_nslx = nslx_rows_in-tmp_nslx;
     // Retention
+    int tmp_nret = nslx_rows_in;
+    ECHOSTR("--retention function parameters");
     for ( int h = 1; h <= ret_bsex_in(k)+1; h++ )
      {
       if( ret_type_in(h,k) == SELEX_PARAMETRIC)             ///> parametric
        {
-        nslx_rows_in += nclass * ret_nret_period_in(k);
+        inc = nclass * ret_nret_period_in(k);
        }
       if( ret_type_in(h,k) == SELEX_COEFFICIENTS)           ///> coefficients
        {
-         nslx_rows_in += ret_extra_in(h,k) * ret_nret_period_in(k);
+         inc = ret_extra_in(h,k) * ret_nret_period_in(k);
        }
       if( ret_type_in(h,k) == SELEX_STANLOGISTIC)           ///> logistic has 2 parameters
        {
-        nslx_rows_in += 2 * ret_nret_period_in(k);
+        inc = 2 * ret_nret_period_in(k);
        }
       if( ret_type_in(h,k) == SELEX_5095LOGISTIC)           ///> logistic95 has 2 parameters
        {
-        nslx_rows_in += 2 * ret_nret_period_in(k);
+        inc = 2 * ret_nret_period_in(k);
        }
       if( ret_type_in(h,k) == SELEX_ONE_PAR_LOGISTIC)       ///> logisticOne has 1 parameters
        {
-        nslx_rows_in += 1 * ret_nret_period_in(k);
+        inc = 1 * ret_nret_period_in(k);
        }
       if( ret_type_in(h,k) == SELEX_DECLLOGISTIC)           ///> declining logistic has 2 + extra parameters
        {
-        nslx_rows_in += (2+ret_extra_in(h,k)) * ret_nret_period_in(k);
+        inc = (2+ret_extra_in(h,k)) * ret_nret_period_in(k);
        }
       if( ret_type_in(h,k) == SELEX_DOUBLENORM)             ///> double normal has 3 parameters
        {
-        nslx_rows_in += 3 * ret_nret_period_in(k);
+        inc = 3 * ret_nret_period_in(k);
        }
       if( ret_type_in(h,k) == SELEX_DOUBLENORM4)            ///> double normal has 4 parameters
        {
-        nslx_rows_in += 4 * ret_nret_period_in(k);
+        inc = 4 * ret_nret_period_in(k);
        }
       if( ret_type_in(h,k) == SELEX_UNIFORM1)               ///> uniform has 1 parameter
        {
-        nslx_rows_in += 1 * ret_nret_period_in(k);
+        inc = 1 * ret_nret_period_in(k);
        }
       if( ret_type_in(h,k) == SELEX_UNIFORM0)               ///> uniform has 1 parameter
        {
-        nslx_rows_in += 1 * ret_nret_period_in(k);
+        inc = 1 * ret_nret_period_in(k);
        }
       if( ret_type_in(h,k) == SELEX_CUBIC_SPLINE)            ///> spline has parameters for knots and values
        {
-        nslx_rows_in += 2 * ret_extra_in(h,k) * ret_nret_period_in(k);
+        inc = 2 * ret_extra_in(h,k) * ret_nret_period_in(k);
        }
       if( ret_type_in(h,k) <0)                             ///> mirror has 1 parameter
        {
-        nslx_rows_in += 1 * ret_nret_period_in(k);
+        inc = 1 * ret_nret_period_in(k);
        }
+       echoinput << "h = "<<h<<"  "<<"num pars = "<<inc<<endl;
+       nslx_rows_in += inc;//add in increment
      }
+    tmp_nret = nslx_rows_in - tmp_nret;
+    echoinput << "numbers of selectivity, retention rows: " << tmp_nslx << "  " << tmp_nret << endl;
    }
+  ECHO(nslx_rows_in);
  END_CALCS
 
   init_matrix slx_control_in(1,nslx_rows_in,1,nslx_cols_in);
   !! gmacs_ctl  << "# Selectivity parameters" << endl;
   !! gmacs_ctl << "## Fleet: The index of the fleet  (positive for capture selectivity; negative for retention)" << endl;
   !! gmacs_ctl << "## Index: Parameter count (not used)" << endl;
-  !! gmacs_ctl << "## Paramter_no: Parameter count within the current pattern (not used)" << endl;
+  !! gmacs_ctl << "## Parameter_no: Parameter count within the current pattern (not used)" << endl;
   !! gmacs_ctl << "## Sex: Sex (not used)" << endl;
   !! gmacs_ctl << "## Initial: Initial value for the parameter (must lie between lower and upper)" << endl;
   !! gmacs_ctl << "## Lower & Upper: Range for the parameter" << endl;
@@ -1333,7 +1438,7 @@ DATA_SECTION
   ivector slx_edyr(1,nslx);                                ///> period end year
   ivector slx_cols(1,nslx);
   ivector slx_npar(1,nslx);                                ///> parameters by pattern
-  ivector slx_incl(1,nslx);								   ///> is the selectivity in another gear
+  ivector slx_incl(1,nslx);				   ///> is the selectivity in another gear
   ivector slx_extra(1,nslx);
   ivector slx_max_at_1(1,nslx);
 
@@ -1414,12 +1519,12 @@ DATA_SECTION
     slx_isex(k) = slx_control_in(kk,4);
     slx_styr(k) = slx_control_in(kk,12);
     slx_edyr(k) = slx_control_in(kk,13);
-    if (slx_styr(k) < syr)
+    if (slx_styr(k) < syr)  //logic here is possibly wrong: should test if slx_edyr < syr
      {
-      cout << "Error: The end year selex block for fleet " << abs(slx_gear(k)) << " is before the start year" << endl;
+      cout << "Error: The start year selex block for fleet " << abs(slx_gear(k)) << " is before the start year" << endl;
       exit(1);
      }
-    if (slx_edyr(k) > nyr+1)
+    if (slx_edyr(k) > nyr+1)  //logic here is possibly wrong: should test if slx_styr < nyr+1
      {
       cout << "Error: The end year selex block for fleet " << abs(slx_gear(k)) << " is beyond the end year+1" << endl;
       exit(1);
@@ -1478,10 +1583,10 @@ DATA_SECTION
      for ( int j = 1; j <= slx_cols(k); j++ )               ///> mirror special
       {
        int jj = kk + (j - 1);
-       slx_par(k,j)      = slx_control_in(jj,5);            ///> init
-       slx_lb(jj) = log(slx_control_in(jj,6));
-       slx_ub(jj) = log(slx_control_in(jj,7));
-	   slx_phzm(jj) = slx_control_in(jj,11);
+       slx_par(k,j) = slx_control_in(jj,5);            ///> init
+       slx_lb(jj)   = log(slx_control_in(jj,6));
+       slx_ub(jj)   = log(slx_control_in(jj,7));
+       slx_phzm(jj) = slx_control_in(jj,11);
       }
    }
   ECHO(slx_priors);
@@ -1513,6 +1618,8 @@ DATA_SECTION
  LOC_CALCS
   gmacs_ctl << "#Number of asymptotic selectivity parameters" << endl;
   gmacs_ctl << NumAsympRet << endl;
+  echoinput << "#Number of asymptotic selectivity parameters" << endl;
+  echoinput << NumAsympRet << endl;
   if (NumAsympRet > 0)
    {
     AsympSel_fleet = ivector(column(AsympSel_control,1));
@@ -1525,12 +1632,16 @@ DATA_SECTION
    }
   gmacs_ctl << "# Fleet Sex Year Initial lower_bound upper_bound phase" << endl;
   gmacs_ctl << AsympSel_control << endl;
+  echoinput << "# Fleet Sex Year Initial lower_bound upper_bound phase" << endl;
+  echoinput << AsympSel_control << endl;
  END_CALCS
 
   // |---------------------------------------------------------|
   // | PRIORS FOR CATCHABILITIES OF SURVEYS/INDICES            |
   // |---------------------------------------------------------|
   !! cout << " * Catchability parameter controls" << endl;
+  !! ECHOSTR(" * Catchability parameter controls");
+  !! ECHO(nSurveys);
   init_matrix q_controls(1,nSurveys,1,10);
 
   vector q_ival(1,nSurveys);
@@ -1547,6 +1658,9 @@ DATA_SECTION
   gmacs_ctl << "#Catchability" << endl;
   gmacs_ctl << "# Initial Lower_bound Upper_bound Phase Prior_type Prior_1 Prior_2 Index_lambda Index_lambda" << endl;
   gmacs_ctl << q_controls << endl;
+  echoinput << "#Catchability" << endl;
+  echoinput << "# ivl lb ub phs Prior_type Prior_1 Prior_2 Index_lambda Index_lambda" << endl;
+  echoinput << q_controls << endl;
   q_ival        = column(q_controls,1);
   q_lb          = column(q_controls,2);
   q_ub          = column(q_controls,3);
@@ -1574,7 +1688,7 @@ DATA_SECTION
         cout << "       you can either specify a uniform or lognormal prior for q or switch analytic q off." << endl;
         exit(1);
        }
-      // If we are using analytic q then turn off estimating this parameter by changing the estimation phase to be -ve.
+      // If we are using analytic q then turn off estimating this parameter by changing the estimation phase to be negative.
       q_phz(k) = -1;
      }
    }
@@ -1585,14 +1699,21 @@ DATA_SECTION
   // | ADDITIONAL SURVEY CV CONTROLS                           |
   // |---------------------------------------------------------|
   !! cout << " * Additional CV controls" << endl;
+  !! ECHOSTR(" * Additional CV controls");
   init_matrix add_cv_controls(1,nSurveys,1,7);
   !! gmacs_ctl << "# Index CV" << endl;
   !! gmacs_ctl << "# Initial Lower_bound Upper_bound Phase Prior_type Prior_1 Prior_2" << endl;
   !! gmacs_ctl << add_cv_controls << endl;
+  !! echoinput << "# Index CV" << endl;
+  !! echoinput << "# Initial Lower_bound Upper_bound Phase Prior_type Prior_1 Prior_2" << endl;
+  !! echoinput << add_cv_controls << endl;
   init_ivector add_cv_links(1,nSurveys);
   !! gmacs_ctl << "# Additional variance controls" << endl;
   !! gmacs_ctl << "# 0 ignore; >0 use" << endl;
   !! gmacs_ctl << add_cv_links << endl;
+  !! echoinput << "# Additional variance controls" << endl;
+  !! echoinput << "# 0 ignore; >0 use" << endl;
+  !! echoinput << add_cv_links << endl;
 
   vector add_cv_ival(1,nSurveys);
   vector add_cv_lb(1,nSurveys);
@@ -1649,6 +1770,7 @@ DATA_SECTION
   // | PENALTIES FOR MEAN FISHING MORTALITY RATE FOR EACH GEAR |
   // |---------------------------------------------------------|
   !! cout << " * Fishing mortality controls" << endl;
+  !! ECHOSTR(" * Fishing mortality controls");
   init_matrix f_controls(1,nfleet,1,12);
   ivector f_phz(1,nfleet);
   ivector foff_phz(1,nfleet);
@@ -1666,11 +1788,14 @@ DATA_SECTION
    gmacs_ctl << "# Controls on F" << endl;
    gmacs_ctl << "# Initial_male_f Initial_female_F Penalty_SD (early phase) Penalty_SD (later Phase) Phase_mean_F_male Phase_mean_F_female Lower_bound_mean_F Upper_bound_mean_F Lower_bound_annual_male_F Upper_bound_annual_male_F Lower_bound_annual_female_F Upper_bound_annual_female_F" << endl;
    gmacs_ctl << f_controls << endl;
+   echoinput << "# Controls on F" << endl;
+   echoinput << "# Initial_male_f Initial_female_F Penalty_SD (early phase) Penalty_SD (later Phase) Phase_mean_F_male Phase_mean_F_female Lower_bound_mean_F Upper_bound_mean_F Lower_bound_annual_male_F Upper_bound_annual_male_F Lower_bound_annual_female_F Upper_bound_annual_female_F" << endl;
+   echoinput << f_controls << endl;
    pen_fbar = column(f_controls,1);
    log_pen_fbar = log(pen_fbar + 1.0e-14);
    log_pen_fbar_foff = column(f_controls,2);
    log_pen_fbar_foff = log(log_pen_fbar_foff + 1.0e-14);
-   for ( int i = 1; i <= 2; i++ ) pen_fstd(i) = trans(f_controls)(i+2);
+   for ( int i = 1; i <= 2; i++ ) pen_fstd(i) = trans(f_controls)(i+2);//TODO: use column extractor here
    f_phz = ivector(column(f_controls,5));
    foff_phz = ivector(column(f_controls,6));
    ECHO(f_phz);
@@ -1693,10 +1818,15 @@ DATA_SECTION
   // | OPTIONS FOR SIZE COMPOSITION DATA |
   // |-----------------------------------|
   !! cout << " * Size composition controls" << endl;
+  !! ECHOSTR(" * Size composition controls");
   init_ivector nAgeCompType_in(1,nSizeComps_in);                     ///> Size-comp likelihood
   !! for (int k =1; k<=nSizeComps_in; k++)
   !!  if (nAgeCompType_in(k) != 0 & nAgeCompType_in(k) != 1 & nAgeCompType_in(k) != 2 & nAgeCompType_in(k) != 5)
-  !!   { cout << "Size comp type must be 0, 1, 2 or 5" << endl; exit(1); }
+  !!   { cout << "Size comp type must be 0, 1, 2 or 5" << endl; 
+  !!       ECHOSTR("Size comp type must be 0, 1, 2 or 5"); 
+  !!       echoinput<<"k = "<<k<<" nAgeCompType_in(k) = "<<nAgeCompType_in(k)<<endl;
+  !!       exit(1); 
+  !!   }
   init_ivector bTailCompression_in(1,nSizeComps_in);                 ///> option for tail compression
   init_vector nvn_ival_in(1,nSizeComps_in);                          ///> initial value for effective sample size
   init_ivector nvn_phz_in(1,nSizeComps_in);                          ///> Phase for effective sample size
@@ -1706,7 +1836,7 @@ DATA_SECTION
   init_vector lf_emphasis_in(1,nSizeComps_in);                       ///> Overall lambda
 
   int nSizeComps;
-  !! nSizeComps = max(iCompAggregator);                              ///> Number of length comps after compression
+  !! nSizeComps = max(iCompAggregator);                              ///> Number of length comps after aggregation
   ivector nSizeCompRows(1,nSizeComps);
   ivector nSizeCompCols(1,nSizeComps);
   ivector nAgeCompType(1,nSizeComps);
@@ -1761,15 +1891,16 @@ DATA_SECTION
     if (d3_SizeComps_in(kk,1,-1)==MATURE)           anystring = anystring +" mature";
    }
   gmacs_ctl << anystring << endl;
+  ECHOSTR(anystring);
 
-  gmacs_ctl << nAgeCompType_in << " # Type of likelihood" <<  endl;
+  gmacs_ctl << nAgeCompType_in     << " # Type of likelihood" <<  endl;
   gmacs_ctl << bTailCompression_in << " # Auto tail compression (pmin)" <<  endl;
-  gmacs_ctl << nvn_ival_in << " # Initial value for effective sample size multiplier" << endl;
-  gmacs_ctl << nvn_phz_in << " # Phz for estimating effective sample size (if appl.)" << endl;
-  gmacs_ctl << iCompAggregator << " # Composition appender" << endl;
-  gmacs_ctl << lf_catch_in << " # Set to 1 for catch-based predictions; 2 for survey or total catch predictions" << endl;
-  gmacs_ctl << lf_lambda_in << " # Lambda for effective sample size" << endl;
-  gmacs_ctl << lf_emphasis_in << " # Lambda for overall likelihood" << endl;
+  gmacs_ctl << nvn_ival_in         << " # Initial value for effective sample size multiplier" << endl;
+  gmacs_ctl << nvn_phz_in          << " # Phz for estimating effective sample size (if appl.)" << endl;
+  gmacs_ctl << iCompAggregator     << " # Composition aggregator codes" << endl;
+  gmacs_ctl << lf_catch_in         << " # Set to 1 for catch-based predictions; 2 for survey or total catch predictions" << endl;
+  gmacs_ctl << lf_lambda_in        << " # Lambda for effective sample size" << endl;
+  gmacs_ctl << lf_emphasis_in      << " # Lambda for overall likelihood" << endl;
   nSizeCompCols.initialize();
   for ( int kk = 1; kk <= nSizeComps_in; kk++ )
    {
@@ -1915,39 +2046,45 @@ DATA_SECTION
   !! gmacs_ctl << "## 6: Blocked changes in  M (returns to default)" << endl;
   init_int m_type;
   !! WriteCtl(m_type);
-  int MrelFem;
+  int MrelFem;//TODO: should be initialized even if nsex==1
   !! if (nsex>1)
   !!  {
   !!   *(ad_comm::global_datafile) >> MrelFem;
   !!   if (MrelFem != YES & MrelFem != NO)
   !!    { cout << "MrelFem can only be 0[No; absolute] or 1[Relative]; STOPPING" << endl; exit(1); }
+  !!   gmacs_ctl << "# How does M for females relate to that for males (0 absolute; 1 relative)"<< endl << MrelFem << endl;
   !!  }
 
   init_int Mdev_phz_def;
+  !! WriteCtl(Mdev_phz_def);
   init_number m_stdev;
-  init_ivector m_nNodes_sex(1,nsex)
+  !! WriteCtl(m_stdev);
+  init_ivector m_nNodes_sex(1,nsex);
+  !! gmacs_ctl << "# m_nNode_sex" << endl;
+  !! for (int isex=1;isex<=nsex;isex++) gmacs_ctl << m_nNodes_sex(isex) << " # " << sexes(isex)  << endl;
+  !! echoinput << "# m_nNode_sex" << endl;
+  !! for (int isex=1;isex<=nsex;isex++) echoinput << m_nNodes_sex(isex) << " # " << sexes(isex)  << endl;
   init_imatrix m_nodeyear_sex(1,nsex,1,m_nNodes_sex);
+  !! gmacs_ctl << "# Start of the blocks in which M changes (one row for each sex) - the first block starts in " << syr << endl;
+  !! gmacs_ctl << "# Note: there is one less year than there are blocks" << endl;
+  !! for (int isex=1;isex<=nsex;isex++) gmacs_ctl << m_nodeyear_sex(isex) << " # " << sexes(isex)  << endl;
+  !! echoinput << "# Start of the blocks in which M changes (one row for each sex) - the first block starts in " << syr << endl;
+  !! echoinput << "# Note: there is one less year than there are blocks" << endl;
+  !! for (int isex=1;isex<=nsex;isex++) echoinput << m_nodeyear_sex(isex) << " # " << sexes(isex)  << endl;
   init_int nSizeDevs;
+  !! WriteCtl(nSizeDevs);
   init_ivector m_size_nodeyear(1,nSizeDevs);
+  !! gmacs_ctl << "# Start of the size-class blocks in which M changes (one row for each sex) - the first block start at size-class 1" << endl;
+  !! gmacs_ctl << "# Note: there is one less size-class than there are blocks (no input implies M is independent of size" << endl;
+  !! echoinput << "# Start of the size-class blocks in which M changes (one row for each sex) - the first block start at size-class 1" << endl;
+  !! echoinput << "# Note: there is one less size-class than there are blocks (no input implies M is independent of size" << endl;
+  !! WriteCtl(m_size_nodeyear);
   init_int Init_Mdev;
+  !! WriteCtl(Init_Mdev);
+  
   ivector nMdev_par_cnt(1,nsex);
 
  LOC_CALCS
-
-  if (nsex > 1)  gmacs_ctl << "# How does M for females relate to that for males (0 absolute; 1 relative)"<< endl << MrelFem << endl;
-  WriteCtl(Mdev_phz_def);
-  WriteCtl(m_stdev);
-  WriteCtl(m_nNodes_sex);
-  gmacs_ctl << "# Start of the blocks in which M changes (one row for each sex) - the first block starts in " << syr << endl;
-  gmacs_ctl << "# Note: there is one less year than there are blocks" << endl;
-  for (int isex=1;isex<=nsex;isex++)
-   gmacs_ctl << m_nodeyear_sex(isex) << " # " << sexes(isex)  << endl;
-  WriteCtl(nSizeDevs);
-  gmacs_ctl << "# Start of the size-class blocks in which M changes (one row for each sex) - the first block start at size-class 1" << endl;
-  gmacs_ctl << "# Note: there is one less size-class than there are blocks (no input implies M is independent of size" << endl;
-  gmacs_ctl << m_size_nodeyear << endl;
-  WriteCtl(Init_Mdev);
-
   nMdev_par_cnt.initialize();
   switch ( m_type )
    {
@@ -1997,15 +2134,18 @@ DATA_SECTION
  LOC_CALCS
   if (Init_Mdev==YES)
    {
+      WriteCtlStr("# Init_MDev==YES");
     for (int I = 1; I <=nMdev; I++)
      {
       *(ad_comm::global_datafile) >> Mdev_ival(I) >> Mdev_lb(I)>> Mdev_ub(I) >> Mdev_phz(I)  >> Mdev_spec(I);
-      gmacs_ctl << "# " << "#Mparameters" << "\n" << " " << Mdev_ival(I) << " " << Mdev_lb(I) << " " << Mdev_ub(I) << " " << Mdev_phz(I)  << " " << Mdev_spec(I) << endl;
+      gmacs_ctl << "# " << "M parameters" << "\n" << " " << Mdev_ival(I) << " " << Mdev_lb(I) << " " << Mdev_ub(I) << " " << Mdev_phz(I)  << " " << Mdev_spec(I) << endl;
+      echoinput << "# " << "M parameters" << "\n" << " " << Mdev_ival(I) << " " << Mdev_lb(I) << " " << Mdev_ub(I) << " " << Mdev_phz(I)  << " " << Mdev_spec(I) << endl;
       if (Mdev_spec(I) < 0) Mdev_phz(I) = -1;
      }
    }
   else
    {
+    WriteCtlStr("# Init_MDev==NO");
     for (int I = 1; I <=nMdev; I++)
     { Mdev_ival(I) = 0; Mdev_lb(I) = -3; Mdev_ub(I) = 3; Mdev_phz(I) = Mdev_phz_def; }
    }
@@ -2015,23 +2155,26 @@ DATA_SECTION
   // | TAGGING CONTROLS                                        |
   // |---------------------------------------------------------|
   !! cout << " * Tagging controls" << endl;
+  !! ECHOSTR(" * Tagging controls");
   init_int tag_emphasis
   !! gmacs_ctl << tag_emphasis << " # tag_emphasis" << endl;
+  !! echoinput << tag_emphasis << " # tag_emphasis" << endl;
   
   // |---------------------------------------------------------|
   // | Immature/mature natural mortality                        |
   // |---------------------------------------------------------|
   !! cout << " * Immature/mature M controls" << endl;
+  !! ECHOSTR(" * Immature/mature M controls");
   init_int m_maturity;
   int n_mat_m;
   !! n_mat_m = nsex;
   
-  init_matrix m_mat_controls(1,nsex,1,7);
-  !! gmacs_ctl <<"# maturity specific natural mortality? (yes = 1; no = 0; only for use if nmature > 1)" << endl;
-  !! gmacs_ctl << "# maturity M" << endl;
-  !! gmacs_ctl << m_maturity << endl;
-  !! gmacs_ctl << "# Initial Lower_bound Upper_bound Phase Prior_type Prior_1 Prior_2" << endl;
+  init_matrix m_mat_controls(1,nsex,1,7);//TODO: should probably be dim'd by n_mat_m, not nsex
+  !! WriteCtlStr("# maturity specific natural mortality? (yes = 1; no = 0; only for use if nmature > 1)");
+  !! WriteCtl(m_maturity);
+  !! WriteCtlStr("# Initial Lower_bound Upper_bound Phase Prior_type Prior_1 Prior_2");
   !! gmacs_ctl << m_mat_controls << endl;
+  !! echoinput << m_mat_controls << endl;
 
   vector m_mat_ival(1,nsex);
   vector m_mat_lb(1,nsex);
@@ -2093,10 +2236,11 @@ DATA_SECTION
   // | OTHER CONTROLS                                          |
   // |---------------------------------------------------------|
   !! cout << " * Other controls" << endl;
+  !! ECHOSTR(" * Other controls");
   init_vector model_controls(1,16);
   int rdv_syr;                                             ///> First year of estimates devs
   int rdv_eyr;                                             ///> First year of estimates devs
-  int Term_molt;										   ///> Consider terminal molting?
+  int Term_molt;					   ///> Consider terminal molting?
   int rdv_phz;                                             ///> Estimated rec_dev phase
   int rec_ini_phz;                                         ///> Estimated rec_ini phase
   int verbose;                                             ///> Flag to print to screen
@@ -2111,25 +2255,25 @@ DATA_SECTION
   int nthetatest;                                          ///> Checking that the number of thetas is correct
   number init_sex_ratio;                                   ///> Sex ratio input
   int CalcRefPoints;                                       ///> Set this to zero not to compute reference points
-  int BRP_rec_sexR;										   ///> Way average recruitment for reference points is calculated (0= used the End year - 1=Use an average sex ratio) 
+  int BRP_rec_sexR;					   ///> Way average recruitment for reference points is calculated (0= used the End year - 1=Use an average sex ratio) 
   int NyrEquil;                                            ///> NUmber of years to project when computing equilbria
  LOC_CALCS
   rdv_syr             = int(model_controls(1));
   if ( rdv_syr < syr )
    {
-     cout << "Error: recruitment cannot be estimated before start year" << endl;
+     cout << "Error: recruitment cannot be estimated before start year" << endl;//NOTE: could set phases to -1
      exit(1);
    }
   model_controls(2) -= (nyr-nyrRetro);
   rdv_eyr             = int(model_controls(2));
   if ( rdv_eyr < rdv_syr )
    {
-     cout << "Error: end recruitment year must be before start recruitment year" << endl;
+     cout << "Error: end recruitment year must be AFTER start recruitment year" << endl;
      exit(1);
    }
   if ( rdv_eyr > nyr )
    {
-     cout << "Error: recruitment cannot be estimated after end year" << endl;
+     cout << "Error: recruitment cannot be estimated after end year" << endl;//NOTE: could set phases to -1
      exit(1);
    }
   Term_molt           = int(model_controls(3));			 
@@ -2164,8 +2308,26 @@ DATA_SECTION
   gmacs_ctl << model_controls(13) << " # Maximum number of function calls" << endl;
   gmacs_ctl << model_controls(14) << " # Calculate reference points (0=no)" << endl;
   gmacs_ctl << model_controls(15) << " # Use years specified to computed average sex ratio in the calculation of average recruitment for reference points (0 = off -i.e. Rec based on End year, 1 = on)" << endl;
-  gmacs_ctl << model_controls(16) << " # Year to compute equilibria" << endl;
+  gmacs_ctl << model_controls(16) << " # Years to compute equilibria" << endl;
   gmacs_ctl << endl;
+  echoinput << endl << "# Extra controls" << endl;
+  echoinput << model_controls(1) << " # First year of recruitment estimation" << endl;
+  echoinput << model_controls(2) << " # Last year of recruitment estimation" << endl;
+  echoinput << model_controls(3) << " # Consider terminal molting (0 = off, 1 = on). If on, the calc_stock_recruitment_relationship() isn't called in the procedure" << endl;
+  echoinput << model_controls(4) << " # Phase for recruitment estimation" << endl;
+  echoinput << model_controls(5) << " # Phase for recruitment sex-ratio estimation" << endl;
+  echoinput << model_controls(6) << " # Initial value for recruitment sex-ratio" << endl;
+  echoinput << model_controls(7) << " # Phase for initial recruitment estimation" << endl;
+  echoinput << model_controls(8) << " # VERBOSE FLAG (0 = off, 1 = on, 2 = objective func; 3 diagnostics)" << endl;
+  echoinput << model_controls(9) << " # Initial conditions (0 = Unfished, 1 = Steady-state fished, 2 = Free parameters, 3 = Free parameters (revised))" << endl;
+  echoinput << model_controls(10) << " # Lambda (proportion of mature male biomass for SPR reference points)" << endl;
+  echoinput << model_controls(11) << " # Stock-Recruit-Relationship (0 = none, 1 = Beverton-Holt)" << endl;
+  echoinput << model_controls(12) << " # Maximum phase (stop the estimation after this phase)" << endl;
+  echoinput << model_controls(13) << " # Maximum number of function calls" << endl;
+  echoinput << model_controls(14) << " # Calculate reference points (0=no)" << endl;
+  echoinput << model_controls(15) << " # Use years specified to computed average sex ratio in the calculation of average recruitment for reference points (0 = off -i.e. Rec based on End year, 1 = on)" << endl;
+  echoinput << model_controls(16) << " # Years to compute equilibria" << endl;
+  echoinput << endl;
 
   // Some combinations of options don't work
   if ( bInitializeUnfished == UNFISHEDEQN & theta_phz(nsex+2) > 0 )
@@ -2190,22 +2352,53 @@ DATA_SECTION
 
   // Default number of parameters
   nthetatest = nsex+3 + 2*nsex + 3;
-  if (bInitializeUnfished == FISHEDEQN) nthetatest += nfleet;
-  if (bInitializeUnfished == FREEPARS) nthetatest += nclass*nsex*nmature*nshell;
+  if (bInitializeUnfished == FISHEDEQN)      nthetatest += nfleet;
+  if (bInitializeUnfished == FREEPARS)       nthetatest += nclass*nsex*nmature*nshell;
   if (bInitializeUnfished == FREEPARSSCALED) nthetatest += (nclass*nsex*nmature*nshell-1);
   if (nthetatest != ntheta)
    {
-    cout << "Error: the specified number of theta parameters does not match the expected value of " << nthetatest << endl;
+    cout      << "Error: the specified number of theta parameters ("<<ntheta<<") does not match the expected value of " << nthetatest << endl;
+    gmacs_ctl << "Error: the specified number of theta parameters ("<<ntheta<<") does not match the expected value of " << nthetatest << endl;
+    echoinput << "Error: the specified number of theta parameters ("<<ntheta<<") does not match the expected value of " << nthetatest << endl;
+    echoinput << "nclass  = "<< nclass  <<endl;
+    echoinput << "nsex    = "<< nsex    <<endl;
+    echoinput << "nmature = "<< nmature <<endl;
+    echoinput << "nshell  = "<< nshell  <<endl;
+    echoinput << "base = "<<nsex+3 + 2*nsex + 3 <<endl;
+    if (bInitializeUnfished == FISHEDEQN)      echoinput<<"bInitializeUnfished == FISHEDEQN. additional = "<<nfleet<<endl;
+    if (bInitializeUnfished == FREEPARS)       echoinput<<"bInitializeUnfished == FREEPARS.  additional = "<<nclass*nsex*nmature*nshell<<endl;
+    if (bInitializeUnfished == FREEPARSSCALED) echoinput<<"bInitializeUnfished == FREEPARSSCALED.  additional = "<<nclass*nsex*nmature*nshell-1<<endl;
     exit(1);
    }
  END_CALCS
+          
+  !! cout << "## Emphasis Factors (Catch) ##" << endl;
+  !! WriteCtlStr("## Emphasis Factors (Catch: number of catch dataframes) ##");
+  !! WriteCtl(nCatchDF);
   init_vector catch_emphasis(1,nCatchDF);                  ///> Weights on catches
   !! WriteCtl(catch_emphasis);
+  !! cout << "## Emphasis Factors (Fdev Penalties) ##" << endl;
+  !! WriteCtlStr("## Emphasis Factors (Fdev Penalties; number of fleets) ##");
+  !! WriteCtl(nfleet);
   init_matrix Penalty_fdevs(1,nfleet,1,4);                 ///> Fleet-species weights
   !! WriteCtl(Penalty_fdevs);
-//  init_vector Penalty_emphasis(1,10);                       ///> Weights on penalties
+  !! cout << "## Emphasis Factors (Priors/Penalties) ##" << endl;
+  !! WriteCtlStr("## Emphasis Factors (Priors/Penalties: 12 values) ##");
   init_vector Penalty_emphasis(1,12);                       ///> Weights on penalties
-  !! WriteCtl(Penalty_emphasis);
+ LOCAL_CALCS
+  gmacs_ctl<<Penalty_emphasis(1)<<"\t#--Log_fdevs"<<endl;
+  gmacs_ctl<<Penalty_emphasis(2)<<"\t#--MeanF"<<endl;
+  gmacs_ctl<<Penalty_emphasis(3)<<"\t#--Mdevs"<<endl;
+  gmacs_ctl<<Penalty_emphasis(4)<<"\t#--Rec_devs"<<endl;
+  gmacs_ctl<<Penalty_emphasis(5)<<"\t#--Initial_devs"<<endl;
+  gmacs_ctl<<Penalty_emphasis(6)<<"\t#--Fst_dif_dev"<<endl;
+  gmacs_ctl<<Penalty_emphasis(7)<<"\t#--Mean_sex_ratio"<<endl;
+  gmacs_ctl<<Penalty_emphasis(8)<<"\t#--Molt_prob"<<endl;
+  gmacs_ctl<<Penalty_emphasis(9)<<"\t#--free selectivity"<<endl;
+  gmacs_ctl<<Penalty_emphasis(10)<<"\t#--Init_n_at_len"<<endl;
+  gmacs_ctl<<Penalty_emphasis(11)<<"\t#--Fvecs"<<endl;
+  gmacs_ctl<<Penalty_emphasis(12)<<"\t#--Fdovss"<<endl;
+ END_CALCS
 
   init_int eof_ctl;
   !! WriteCtl(eof_ctl);
@@ -2219,6 +2412,9 @@ DATA_SECTION
   !! cout << "+-------------------------+" << endl;
   !! cout << "| Reading projection file |" << endl;
   !! cout << "+-------------------------+" << endl;
+  !! ECHOSTR("+-------------------------+");
+  !! ECHOSTR("| Reading projection file |");
+  !! ECHOSTR("+-------------------------+");
   !! WRITEPRJ(TheHeader);
   init_int Calc_MSY;
   !! WRITEPRJ(Calc_MSY);
@@ -2326,7 +2522,7 @@ DATA_SECTION
   int nproj;                                               ///> number of projection years
   init_int pyr;                                            ///> terminal projection year
   !! WRITEPRJ(pyr);
-  init_int prj_Nstrat;                                     ///> Account for state stragey
+  init_int prj_Nstrat;                                     ///> Account for state strategy
   !! WRITEPRJ(prj_Nstrat);
   !!  nproj = pyr - nyr;
   !! if (nproj < 0) { cout << "Terminal year for project must be later tha nyr: STOPPING" << endl; exit(1); }
@@ -3282,13 +3478,13 @@ FUNCTION initialize_model_parameters
    for ( int h = 1; h <= nsex; h++ )
     for (int igrow=1;igrow<=nMoltVaries(h);igrow++)
 	{
-     if (bUseCustomMoltProbility == LOGISTIC_PROB_MOLT)
+     if (bUseCustomMoltProbability == LOGISTIC_PROB_MOLT)
       {
        molt_mu(h,igrow) = Grwth(icnt);
        molt_cv(h,igrow) = Grwth(icnt+1);
        icnt = icnt + 2;
       }
-	 if (bUseCustomMoltProbility == FREE_PROB_MOLT  )
+	 if (bUseCustomMoltProbability == FREE_PROB_MOLT  )
       {
 		for (int l=1; l<=nclass;l++) 
 		 molt_probability_in(h,igrow,l) = Grwth(icnt+l-1);
@@ -3785,7 +3981,7 @@ FUNCTION calc_natural_mortality
     case M_TIME_BLOCKS3: // time blocks
      for ( int idev = 1; idev <= nMdev_par_cnt(h); idev++ ) delta(m_nodeyear_sex(h,idev)) = m_dev_sex(1,idev);
      for ( int i = syr+1; i <= nyrRetro; i++ )
-       M(h,m)(h) = M(h,m)(syr) * mfexp(delta(i)); // Deltas are devs from base value (not a walk)
+       M(h,m)(i) = M(h,m)(syr) * mfexp(delta(i)); // Deltas are devs from base value (not a walk)
      break;
 
 	case M_TIME_BLOCKS2: // time blocks
@@ -3863,7 +4059,7 @@ FUNCTION calc_molting_probability
    for ( int igrow=1;igrow<=nMoltVaries(h);igrow++)
     {
      // Pre-specified molt probability
-     if (bUseCustomMoltProbility==FIXED_PROB_MOLT)
+     if (bUseCustomMoltProbability==FIXED_PROB_MOLT)
       {
        for ( int i = syr; i <= nyrRetro; i++ )
         {
@@ -3877,14 +4073,14 @@ FUNCTION calc_molting_probability
         }
       }
      // Uniform selectivity
-     if (bUseCustomMoltProbility == CONSTANT_PROB_MOLT)
+     if (bUseCustomMoltProbability == CONSTANT_PROB_MOLT)
       {
        for ( int i = syr; i <= nyrRetro; i++ )
         for ( int l = 1; l <= nclass; l++ )
           molt_probability(h,i,l) = 1;
       }
      // Estimated logistic selectivity
-     if (bUseCustomMoltProbility == LOGISTIC_PROB_MOLT)
+     if (bUseCustomMoltProbability == LOGISTIC_PROB_MOLT)
       {
        dvariable mu = molt_mu(h,1);
        dvariable sd = mu * molt_cv(h,1);
@@ -3900,7 +4096,7 @@ FUNCTION calc_molting_probability
       }
 
 	  // Estimated free probability of molting
-	  if (bUseCustomMoltProbility==FREE_PROB_MOLT)
+	  if (bUseCustomMoltProbability==FREE_PROB_MOLT)
       {
        for ( int i = syr; i <= nyr; i++ )
         {
@@ -4940,9 +5136,14 @@ FUNCTION calc_predicted_catch_out
    * @brief Calculate predicted relative abundance and residuals
    * @author Steve Martell, D'Arcy Webber
    *
-   * @details This function uses the conditional mle for q to scale the population to the relative abundance index. Assumed errors in relative abundance are lognormal.  Currently assumes that the CPUE index is made up of both retained and discarded crabs.
+   * @details This function uses the conditional mle for q to scale the population to the relative abundance index. 
+   * Assumed errors in relative abundance are lognormal.  
+   * Currently assumes that the CPUE index is made up of both retained and discarded crabs.
    *
-   * Question regarding use of shell condition in the relative abundance index. Currenlty there is no shell condition information in the CPUE data, should there be? Similarly, there is no mature immature information, should there be?
+   * Question regarding use of shell condition in the relative abundance index. 
+   * Currently there is no shell condition information in the CPUE data, should there be? 
+   * Similarly, there is no mature immature information, should there be?
+   * 
   **/
 FUNCTION calc_relative_abundance
   int unit;
@@ -4953,224 +5154,233 @@ FUNCTION calc_relative_abundance
 
   dvar_vector V(1,nSurveyRows);
   V.initialize();
-  for ( int k = 1; k <= nSurveys; k++ )
-   {
-    for ( int jj = 1; jj <= nSurveyRows; jj++ )
-     if (dSurveyData(jj,0) == k)
-      if (dSurveyData(jj,1) <= nyrRetro || (dSurveyData(jj,1) == nyrRetro+1 & dSurveyData(jj,2) == 1))
-       {
-        nal.initialize();
-        int i = dSurveyData(jj,1);                                     ///> year index
-        int j = dSurveyData(jj,2);                                     ///> season index
-        int g = dSurveyData(jj,3);                                     ///> fleet/gear index
-        int h1 = dSurveyData(jj,4);                                    ///> sex index
-        int m1 = dSurveyData(jj,5);                                    ///> maturity index
-        int unit = dSurveyData(jj,8);                                  ///> units 1 = biomass 2 = numbers
+  for ( int k = 1; k <= nSurveys; k++ ){
+    for ( int jj = 1; jj <= nSurveyRows; jj++ ){
+      if (dSurveyData(jj,0) == k) {
+        if (dSurveyData(jj,1) <= nyrRetro || (dSurveyData(jj,1) == nyrRetro+1 & dSurveyData(jj,2) == 1)) {
+          nal.initialize();
+          int i = dSurveyData(jj,1);                                     ///> year index
+          int j = dSurveyData(jj,2);                                     ///> season index
+          int g = dSurveyData(jj,3);                                     ///> fleet/gear index
+          int h1 = dSurveyData(jj,4);                                    ///> sex index
+          int m1 = dSurveyData(jj,5);                                    ///> maturity index
+          int unit = dSurveyData(jj,8);                                  ///> units 1 = biomass 2 = numbers
 
-		// ANDRES original code
-        // for (int h = 1; h <= nsex; h++ )                               ///> Select sex
-         // if (h==h1 || h== BOTHSEX)
-          // for (int m = 1; m <= nmature; m++ )                          ///> Select maturity
-           // if (m==m1 || m1 == BOTHMATURE)
-            // {
-             // sel = mfexp(log_slx_capture(g)(h)(i));
-             // for ( int o = 1; o <= nshell; o++ )
+          // ANDRES original code
+          // for (int h = 1; h <= nsex; h++ )                               ///> Select sex
+            // if (h==h1 || h== BOTHSEX)
+              // for (int m = 1; m <= nmature; m++ )                          ///> Select maturity
+              // if (m==m1 || m1 == BOTHMATURE)
               // {
-               // int ig = pntr_hmo(h,m,o);
-               // nal += ( unit == 1 ) ? elem_prod(d4_N(ig,i,j), mean_wt(h,i)) : d4_N(ig,i,j);
+                // sel = mfexp(log_slx_capture(g)(h)(i));
+                // for ( int o = 1; o <= nshell; o++ )
+                // {
+                  // int ig = pntr_hmo(h,m,o);
+                  // nal += ( unit == 1 ) ? elem_prod(d4_N(ig,i,j), mean_wt(h,i)) : d4_N(ig,i,j);
+                // }
+                // V(jj) = nal * sel;
               // }
-             // V(jj) = nal * sel;
-            // }
-        // }  // nSurveyRows
-		
-		//=========================================================================
-		//==============Calculate index for NO TERMINAL MOLT cases=================
-		if(nmature == 1)
-		{
-		//=========maturity state is summed over in index============
-		 if(m1 == 0)
-          for (int h = 1; h <= nsex; h++ )                               ///> Select sex
-           if (h==h1 || h== BOTHSEX)
-            {
-             sel = mfexp(log_slx_capture(g)(h)(i));
-			 ret = mfexp(log_slx_retaind(g)(h)(i));
-			 for ( int m = 1; m <= nmature; m++ ){		//this doesn't really need to be here
-              for ( int o = 1; o <= nshell; o++ )
-               {
-                int ig = pntr_hmo(h,m,o);
-                nal += ( unit == 1 ) ? elem_prod(d4_N(ig,i,j), mean_wt(h,i)) : d4_N(ig,i,j);
-               }
-			 }   
-			   // V(jj) = nal * sel;
-			   tempZ1.initialize();
-			   if (cpue_time(jj) > 0)
-				   if (season_type(j)==INSTANT_F) tempZ1 = Z2(h,1,i,j)*cpue_time(jj); else tempZ1 = Z(h,1,i,j)*cpue_time(jj)+1.0e-10;
-			   if (season_type(j)==INSTANT_F || season_type(j)==CONTINUOUS_F)
-			   {
-				   if (SurveyType(k)==1) V(jj) = sum(elem_prod(elem_prod(nal,sel),mfexp(-tempZ1)));
-				   if (SurveyType(k)==2) V(jj) = sum(elem_prod(elem_prod(elem_prod(nal,sel), ret),mfexp(-tempZ1)));
-			   }
-			   if (season_type(j)==EXPLOIT_F)
-			   {
-				   if (SurveyType(k)==1) V(jj) = sum(elem_prod(elem_prod(nal,sel),mfexp(-tempZ1)));
-				   if (SurveyType(k)==2) V(jj) = sum(elem_prod(elem_prod(elem_prod(nal,sel), ret),mfexp(-tempZ1)));
-				   cout << "not coded yet" << endl; exit(1);
-			   }
-			} /// end if(h==h1 || h== BOTHSEX)
+          // }  // nSurveyRows
 
-		   
-		//=========index is only MATURE crab============
-		//===this uses an input maturity at size vector 
-		 if(m1 == 1)
-          for (int h = 1; h <= nsex; h++ )                               
-           if (h==h1 || h== BOTHSEX)
-            {
-             sel = mfexp(log_slx_capture(g)(h)(i));
-			 ret = mfexp(log_slx_retaind(g)(h)(i));
-			 for ( int m = 1; m <= nmature; m++ ){		//this doesn't really need to be here
-              for ( int o = 1; o <= nshell; o++ )		//mature crab can be both old and new shell
-               {
-                int ig = pntr_hmo(h,m,o);
-                nal += ( unit == 1 ) ? elem_prod(maturity(h),elem_prod(d4_N(ig,i,j), mean_wt(h,i))) : elem_prod(d4_N(ig,i,j),maturity(h));
-               }
-			 }   
-			   // V(jj) = nal * sel;
-			   tempZ1.initialize();
-			   if (cpue_time(jj) > 0)
-				   if (season_type(j)==INSTANT_F) tempZ1 = Z2(h,1,i,j)*cpue_time(jj); else tempZ1 = Z(h,1,i,j)*cpue_time(jj)+1.0e-10;
-			   if (season_type(j)==INSTANT_F || season_type(j)==CONTINUOUS_F)
-			   {
-				   if (SurveyType(k)==1) V(jj) = sum(elem_prod(elem_prod(nal,sel),mfexp(-tempZ1)));
-				   if (SurveyType(k)==2) V(jj) = sum(elem_prod(elem_prod(elem_prod(nal,sel), ret),mfexp(-tempZ1)));
-			   }
-			   if (season_type(j)==EXPLOIT_F)
-			   {
-				   if (SurveyType(k)==1) V(jj) = sum(elem_prod(elem_prod(nal,sel),mfexp(-tempZ1)));
-				   if (SurveyType(k)==2) V(jj) = sum(elem_prod(elem_prod(elem_prod(nal,sel), ret),mfexp(-tempZ1)));
-				   cout << "not coded yet" << endl; exit(1);
-			   }
-			} /// end if(h==h1 || h== BOTHSEX)
+          if (nmature == 1) {
+            //=========================================================================
+            //==============Calculate index for NO TERMINAL MOLT cases=================
+            //=========maturity state is summed over in index============
+            if (m1 == 0){
+              for (int h = 1; h <= nsex; h++ ){                               ///> Select sex
+                if (h==h1 || h== BOTHSEX) {
+                sel = mfexp(log_slx_capture(g)(h)(i));
+                ret = mfexp(log_slx_retaind(g)(h)(i));
+                for ( int m = 1; m <= nmature; m++ ){        //this doesn't really need to be here
+                  for ( int o = 1; o <= nshell; o++ ) {
+                    int ig = pntr_hmo(h,m,o);
+                    nal += ( unit == 1 ) ? elem_prod(d4_N(ig,i,j), mean_wt(h,i)) : d4_N(ig,i,j);
+                  }//--o loop
+                }//--m loop
+                // V(jj) = nal * sel;
+                tempZ1.initialize();
+                if (cpue_time(jj) > 0){
+                  if (season_type(j)==INSTANT_F) 
+                    tempZ1 = Z2(h,1,i,j)*cpue_time(jj); 
+                  else 
+                    tempZ1 = Z(h,1,i,j)*cpue_time(jj)+1.0e-10;
+                }
+                if (season_type(j)==INSTANT_F || season_type(j)==CONTINUOUS_F) {
+                  if (SurveyType(k)==1) V(jj) = sum(elem_prod(elem_prod(nal,sel),mfexp(-tempZ1)));
+                  if (SurveyType(k)==2) V(jj) = sum(elem_prod(elem_prod(elem_prod(nal,sel), ret),mfexp(-tempZ1)));
+                }
+                if (season_type(j)==EXPLOIT_F) {
+                  if (SurveyType(k)==1) V(jj) = sum(elem_prod(elem_prod(nal,sel),mfexp(-tempZ1)));
+                  if (SurveyType(k)==2) V(jj) = sum(elem_prod(elem_prod(elem_prod(nal,sel), ret),mfexp(-tempZ1)));
+                  cout << "not coded yet" << endl; exit(1);
+                }
+                } /// end if(h==h1 || h== BOTHSEX)
+              }//--h loop
+            }// m1==0
 
-		//=========insert case for immature only crab...if anyone would actually do this============  
-         if(m1 ==2)
-	    	{
-				cout<<"there is no case for immature indices currently"<<endl;
-				exit(1);
-			}		
-		}
-		
-		//==============================================================================
-		//================calculate index for TERMINAL MOLT cases=======================
-	    if(nmature == 2)
-		{
-		 //=========maturity state is summed over in index============
-		 if(m1 == 0)
-          for (int h = 1; h <= nsex; h++ )                               
-           if (h==h1 || h== BOTHSEX)
-            {
-             sel = mfexp(log_slx_capture(g)(h)(i));
-			 ret = mfexp(log_slx_retaind(g)(h)(i));
-			 for ( int m = 1; m <= nmature; m++ ){
-              for ( int o = 1; o <= nshell; o++ )		
-               {
-                int ig = pntr_hmo(h,m,o);
-                nal += ( unit == 1 ) ? elem_prod(d4_N(ig,i,j), mean_wt(h,i)) : d4_N(ig,i,j);
-               }
-			 }   
-			   // V(jj) = nal * sel;
-			   tempZ1.initialize();
-			   if (cpue_time(jj) > 0)
-				   if (season_type(j)==INSTANT_F) tempZ1 = Z2(h,1,i,j)*cpue_time(jj); else tempZ1 = Z(h,1,i,j)*cpue_time(jj)+1.0e-10;
-			   if (season_type(j)==INSTANT_F || season_type(j)==CONTINUOUS_F)
-			   {
-				   if (SurveyType(k)==1) V(jj) = sum(elem_prod(elem_prod(nal,sel),mfexp(-tempZ1)));
-				   if (SurveyType(k)==2) V(jj) = sum(elem_prod(elem_prod(elem_prod(nal,sel), ret),mfexp(-tempZ1)));
-			   }
-			   if (season_type(j)==EXPLOIT_F)
-			   {
-				   if (SurveyType(k)==1) V(jj) = sum(elem_prod(elem_prod(nal,sel),mfexp(-tempZ1)));
-				   if (SurveyType(k)==2) V(jj) = sum(elem_prod(elem_prod(elem_prod(nal,sel), ret),mfexp(-tempZ1)));
-				   cout << "not coded yet" << endl; exit(1);
-			   }
-			} /// end if(h==h1 || h== BOTHSEX)
-	     //===only mature crab in index =================================
-		 //==this uses the separate arrays for immature and mature crab
-		 //==to calculate mature biomass--this is different than above
-		 if(m1 == 1)
-		  for (int h = 1; h <= nsex; h++ )                               
-           if (h==h1 || h== BOTHSEX)
-            {
-             sel = mfexp(log_slx_capture(g)(h)(i));
-			 ret = mfexp(log_slx_retaind(g)(h)(i));
-			 for ( int m = 1; m <= 1; m++ ){
-              for ( int o = 1; o <= nshell; o++ )		
-               {
-                int ig = pntr_hmo(h,m,o);
-                nal += ( unit == 1 ) ? elem_prod(d4_N(ig,i,j), mean_wt(h,i)) : d4_N(ig,i,j);
-               }
-			 }
-			   // V(jj) = nal * sel;
-			   tempZ1.initialize();
-			   if (cpue_time(jj) > 0)
-				   if (season_type(j)==INSTANT_F) tempZ1 = Z2(h,1,i,j)*cpue_time(jj); else tempZ1 = Z(h,1,i,j)*cpue_time(jj)+1.0e-10;
-			   if (season_type(j)==INSTANT_F || season_type(j)==CONTINUOUS_F)
-			   {
-				   if (SurveyType(k)==1) V(jj) = sum(elem_prod(elem_prod(nal,sel),mfexp(-tempZ1)));
-				   if (SurveyType(k)==2) V(jj) = sum(elem_prod(elem_prod(elem_prod(nal,sel), ret),mfexp(-tempZ1)));
-			   }
-			   if (season_type(j)==EXPLOIT_F)
-			   {
-				   if (SurveyType(k)==1) V(jj) = sum(elem_prod(elem_prod(nal,sel),mfexp(-tempZ1)));
-				   if (SurveyType(k)==2) V(jj) = sum(elem_prod(elem_prod(elem_prod(nal,sel), ret),mfexp(-tempZ1)));
-				   cout << "not coded yet" << endl; exit(1);
-			   }            
-			} /// end if(h==h1 || h== BOTHSEX)
-			
-	     //=========insert case for immature only crab...if anyone would actually do this============  
-         if(m1 ==2)
-		 {
-			cout<<"there is no case for immature indices currently"<<endl;
-			exit(1);
-		 }	
-			
-		}
-      }// nSurveyRows
-	   
+
+            if (m1 == 1){
+              //=========index is only MATURE crab============
+              //===this uses an input maturity at size vector 
+              for (int h = 1; h <= nsex; h++ ){                             
+                if (h==h1 || h== BOTHSEX) {
+                  sel = mfexp(log_slx_capture(g)(h)(i));
+                  ret = mfexp(log_slx_retaind(g)(h)(i));
+                  for ( int m = 1; m <= nmature; m++ ){        //this doesn't really need to be here
+                    for ( int o = 1; o <= nshell; o++ ){        //mature crab can be both old and new shell
+                      int ig = pntr_hmo(h,m,o);
+                      nal += ( unit == 1 ) ? elem_prod(maturity(h),elem_prod(d4_N(ig,i,j), mean_wt(h,i))) : elem_prod(d4_N(ig,i,j),maturity(h));
+                    }//--o loop
+                  }//--m loop
+                  // V(jj) = nal * sel;
+                  tempZ1.initialize();
+                  if (cpue_time(jj) > 0){
+                  if (season_type(j)==INSTANT_F) 
+                    tempZ1 = Z2(h,1,i,j)*cpue_time(jj); 
+                  else 
+                    tempZ1 = Z(h,1,i,j)*cpue_time(jj)+1.0e-10;
+                  }
+                  if (season_type(j)==INSTANT_F || season_type(j)==CONTINUOUS_F){
+                    if (SurveyType(k)==1) V(jj) = sum(elem_prod(elem_prod(nal,sel),mfexp(-tempZ1)));
+                    if (SurveyType(k)==2) V(jj) = sum(elem_prod(elem_prod(elem_prod(nal,sel), ret),mfexp(-tempZ1)));
+                  }
+                  if (season_type(j)==EXPLOIT_F) {
+                    if (SurveyType(k)==1) V(jj) = sum(elem_prod(elem_prod(nal,sel),mfexp(-tempZ1)));
+                    if (SurveyType(k)==2) V(jj) = sum(elem_prod(elem_prod(elem_prod(nal,sel), ret),mfexp(-tempZ1)));
+                    cout << "not coded yet" << endl; exit(1);
+                  }
+                } /// end if(h==h1 || h== BOTHSEX)
+              }//--h loop
+            }// m1 == 1
+
+            if(m1 ==2){
+              //=========insert case for immature only crab...if anyone would actually do this============  
+              cout<<"there is no case for immature indices currently"<<endl;
+              exit(1);
+            }        
+          }// nmature == 1
+
+          //==============================================================================
+          if (nmature == 2) {
+            //================calculate index for TERMINAL MOLT cases=======================
+            if (m1 == 0){
+              //=========maturity state is summed over in index============
+              for (int h = 1; h <= nsex; h++ ){                               
+                if (h==h1 || h== BOTHSEX) {
+                  sel = mfexp(log_slx_capture(g)(h)(i));
+                  ret = mfexp(log_slx_retaind(g)(h)(i));
+                  for ( int m = 1; m <= nmature; m++ ){
+                    for ( int o = 1; o <= nshell; o++ ) {
+                      int ig = pntr_hmo(h,m,o);
+                      nal += ( unit == 1 ) ? elem_prod(d4_N(ig,i,j), mean_wt(h,i)) : d4_N(ig,i,j);
+                      }//--o loop
+                  }//--m loop  
+                  // V(jj) = nal * sel;
+                  tempZ1.initialize();
+                  if (cpue_time(jj) > 0){
+                    if (season_type(j)==INSTANT_F) 
+                      tempZ1 = Z2(h,1,i,j)*cpue_time(jj); 
+                    else 
+                      tempZ1 = Z(h,1,i,j)*cpue_time(jj)+1.0e-10;
+                  }
+                  if (season_type(j)==INSTANT_F || season_type(j)==CONTINUOUS_F) {
+                    if (SurveyType(k)==1) V(jj) = sum(elem_prod(elem_prod(nal,sel),mfexp(-tempZ1)));
+                    if (SurveyType(k)==2) V(jj) = sum(elem_prod(elem_prod(elem_prod(nal,sel), ret),mfexp(-tempZ1)));
+                  }
+                  if (season_type(j)==EXPLOIT_F) {
+                    if (SurveyType(k)==1) V(jj) = sum(elem_prod(elem_prod(nal,sel),mfexp(-tempZ1)));
+                    if (SurveyType(k)==2) V(jj) = sum(elem_prod(elem_prod(elem_prod(nal,sel), ret),mfexp(-tempZ1)));
+                    cout << "not coded yet" << endl; exit(1);
+                  }
+                } /// end if(h==h1 || h== BOTHSEX)
+              }//--h loop
+            }// m1==0
+
+            if (m1 == 1) {
+              //===only mature crab in index =================================
+              //==this uses the separate arrays for immature and mature crab
+              //==to calculate mature biomass--this is different than above
+              for (int h = 1; h <= nsex; h++ ) {                               
+                if (h==h1 || h== BOTHSEX) {
+                  sel = mfexp(log_slx_capture(g)(h)(i));
+                  ret = mfexp(log_slx_retaind(g)(h)(i));
+                  for ( int m = 1; m <= 1; m++ ){
+                    for ( int o = 1; o <= nshell; o++ ) {
+                      int ig = pntr_hmo(h,m,o);
+                      nal += ( unit == 1 ) ? elem_prod(d4_N(ig,i,j), mean_wt(h,i)) : d4_N(ig,i,j);
+                    }//--o loop
+                  }//--m loop
+                  // V(jj) = nal * sel;
+                  tempZ1.initialize();
+                  if (cpue_time(jj) > 0){
+                    if (season_type(j)==INSTANT_F) 
+                     tempZ1 = Z2(h,1,i,j)*cpue_time(jj); 
+                    else 
+                     tempZ1 = Z(h,1,i,j)*cpue_time(jj)+1.0e-10;
+                  }
+                  if (season_type(j)==INSTANT_F || season_type(j)==CONTINUOUS_F) {
+                    if (SurveyType(k)==1) V(jj) = sum(elem_prod(elem_prod(nal,sel),mfexp(-tempZ1)));
+                    if (SurveyType(k)==2) V(jj) = sum(elem_prod(elem_prod(elem_prod(nal,sel), ret),mfexp(-tempZ1)));
+                  }
+                  if (season_type(j)==EXPLOIT_F) {
+                    if (SurveyType(k)==1) V(jj) = sum(elem_prod(elem_prod(nal,sel),mfexp(-tempZ1)));
+                    if (SurveyType(k)==2) V(jj) = sum(elem_prod(elem_prod(elem_prod(nal,sel), ret),mfexp(-tempZ1)));
+                    cout << "not coded yet" << endl; exit(1);
+                  }            
+                } /// end if(h==h1 || h== BOTHSEX)
+              }//--h loop
+            }// m1==1
+
+            if (m1 ==2) {
+              //=========insert case for immature only crab...if anyone would actually do this============  
+              cout<<"there is no case for immature indices currently"<<endl;
+              exit(1);
+            }// m1==2
+
+          }// nmature==2
+
+        }// dSurveyData(jj,1) <= nyrRetro || (dSurveyData(jj,1) == nyrRetro+1 & dSurveyData(jj,2) == 1)
+      }// dSurveyData(jj,0) == k
+    }//--jj loop
+
     // Do we need an analytical Q
-	if (q_anal(k) == 1)
-    {
+    if (q_anal(k) == 1) {
       dvariable zt; dvariable ztot1; dvariable ztot2; dvariable cvobs2; dvariable cvadd2;
       ztot1 = 0;
       ztot2 = 0;
-      if (prior_qtype(k)== LOGNORMAL_PRIOR)
-       {
+      if (prior_qtype(k)== LOGNORMAL_PRIOR) {
         ztot1 += log(prior_p1(k))/square(prior_p2(k)); ztot2 += 1.0/square(prior_p2(k));
-       }	  
-     cout << "QP  " << cvobs2 << " " << cvadd2 << " " << zt << " " << ztot1 << " " << ztot2 << endl;	  
-	  
-      for ( int jj = 1; jj <= nSurveyRows; jj++ )
-       if (dSurveyData(jj,0) == k)
-        if (dSurveyData(jj,1) <= nyrRetro || (dSurveyData(jj,1) == nyrRetro+1 & dSurveyData(jj,2) == 1))
-         {
-          zt = log(obs_cpue(jj)) - log(V(jj));
-         if (add_cv_links(k) > 0 )                                                              ///> Estimated additional variance
-          cvadd2 = log(1.0 + square(mfexp(log_add_cv(add_cv_links(k)))));
-         else
-          cvadd2 = 0;
-		 cvobs2 = log(1.0 + square(cpue_cv(jj)))/ cpue_lambda(k);
-         dvariable stdtmp = cvobs2 + cvadd2;
-         ztot1 += zt/stdtmp; ztot2 += 1.0/stdtmp;
-         }
+      }      
+      cout << "QP  " << cvobs2 << " " << cvadd2 << " " << zt << " " << ztot1 << " " << ztot2 << endl;      
+      
+      for ( int jj = 1; jj <= nSurveyRows; jj++ ){
+        if (dSurveyData(jj,0) == k){
+          if (dSurveyData(jj,1) <= nyrRetro || (dSurveyData(jj,1) == nyrRetro+1 & dSurveyData(jj,2) == 1)) {
+            zt = log(obs_cpue(jj)) - log(V(jj));
+            if (add_cv_links(k) > 0 ){                                                              ///> Estimated additional variance
+              cvadd2 = log(1.0 + square(mfexp(log_add_cv(add_cv_links(k)))));
+            } else {
+              cvadd2 = 0;
+            }
+           cvobs2 = log(1.0 + square(cpue_cv(jj)))/ cpue_lambda(k);
+           dvariable stdtmp = cvobs2 + cvadd2;
+           ztot1 += zt/stdtmp; ztot2 += 1.0/stdtmp;
+          }
+        }// dSurveyData(jj,0) == k
        survey_q(k) = mfexp(ztot1/ztot2);
-    }
-	for ( int jj = 1; jj <= nSurveyRows; jj++ )
-    if (dSurveyData(jj,0) == k)
-     if (dSurveyData(jj,1) <= nyrRetro || (dSurveyData(jj,1) == nyrRetro+1 & dSurveyData(jj,2) == 1))
-      {
-       pre_cpue(jj) = survey_q(k) * V(jj);
-       res_cpue(jj) = log(obs_cpue(jj)) - log(pre_cpue(jj));
-      }
-  } // surveys
+      }//--jj loop
+    }// q_anal(k) == 1
+
+    for ( int jj = 1; jj <= nSurveyRows; jj++ ){
+      if (dSurveyData(jj,0) == k){
+        if (dSurveyData(jj,1) <= nyrRetro || (dSurveyData(jj,1) == nyrRetro+1 & dSurveyData(jj,2) == 1)) {
+          pre_cpue(jj) = survey_q(k) * V(jj);
+          res_cpue(jj) = log(obs_cpue(jj)) - log(pre_cpue(jj));
+        }
+      }// dSurveyData(jj,0) == k
+    }//--jj loop
+
+  } //--k loop
 
 // =================================================================================================================================================
   /**
@@ -5927,7 +6137,7 @@ FUNCTION calc_objective_function
    }
 
    // 8) Smoothness penalty on molting probability
-   if (bUseCustomMoltProbility==FREE_PROB_MOLT)
+   if (bUseCustomMoltProbability==FREE_PROB_MOLT)
    {
      for (int igrow=1;igrow<=nMoltVaries(1);igrow++)
 	 {	 
@@ -8690,8 +8900,15 @@ GLOBALS_SECTION
   #define ECHO(object) echoinput << #object << "\n" << object << endl;
 
   /**
+  \def ECHOSTR(str)
+  Prints character string to echoinput %ofstream file.
+  */
+  #undef ECHOSTR
+  #define ECHOSTR(str) echoinput << (str) << endl;
+
+  /**
   \def WriteFileName(object)
-  Prints name and value of \a object on control %ofstream file.
+  Prints name and value of \a object to gmacs_files.in %ofstream.
   */
   #undef WriteFileName
   #define WriteFileName(object) ECHO(object); gmacs_files << "# " << #object << "\n" << object << endl;
@@ -8704,6 +8921,13 @@ GLOBALS_SECTION
   #define WriteCtl(object) ECHO(object); gmacs_ctl << "# " << #object << "\n" << object << endl;
 
   /**
+  \def WriteCtlStr(str)
+  Prints character string to echoinput and  control %ofstream files.
+  */
+  #undef WriteCtlStr
+  #define WriteCtlStr(str) ECHOSTR((str)); gmacs_ctl << "# " <<  (str) << endl;
+
+  /**
   \def WRITEDAT(object)
   Prints name and value of \a object on data %ofstream file.
   */
@@ -8711,11 +8935,25 @@ GLOBALS_SECTION
   #define WRITEDAT(object) ECHO(object); gmacs_data << "# " << #object << "\n" << object << endl;
 
   /**
+  \def WRITEDATSTR(str)
+  Prints character string to echoinput and  data %ofstream files.
+  */
+  #undef WRITEDATSTR
+  #define WRITEDATSTR(str) ECHOSTR((str)); gmacs_data << "# " <<  (str) << endl;
+
+  /**
   \def WRITEPRJ(object)
-  Prints name and value of \a object on projecton %ofstream file.
+  Prints name and value of \a object on projection %ofstream file.
   */
   #undef WRITEPRJ
   #define WRITEPRJ(object) ECHO(object); gmacs_prj << "# " << #object << "\n" << object << endl;
+
+  /**
+  \def WRITEPRJSTR(str)
+  Prints character string to echoinput and  prj %ofstream files.
+  */
+  #undef WRITEPRJSTR
+  #define WRITEPRJSTR(str) ECHOSTR((str)); gmacs_prj << "# " <<  (str) << endl;
 
   /**
   Define a bunch of constants
@@ -9139,3 +9377,6 @@ FINAL_SECTION
 // 2022-06-27; (Version 2.01.L); Update catch likelihood function to use dnorm(). Clean a bit the code and fix a small
 // bug in the calc_predicted_project function (inverse season_type in the computation of tempZ1)
 
+// 2022-10-31 ** WTS ** (Version to 2.01.WTS) - 1. Added commandline input flag "testingflag" to turn on sandbox - 2. Added alternative data file reader (TCSAM02 format)
+// 2022-11-16 ** WTS ** (Version to 2.01.WTS) - 1. Added lots of diagnostic output when reading input files - 2. Added ECHOSTR, WriteCtlStr, WriteProjStr macros for 1 - 3. Reformatted calc_relative_abundance in preparation for adding ability to handle immature data
+// 2022-12-22 ** MV ** (Version to 2.01.L01) - 1. Fix a small bug in calc_natural_mortality() - 2. Rename WTS's version - 3. Modify the DatFileReader.cpp to make it compatible with different OS - Fix a small bug in the control file section (MrelFem)

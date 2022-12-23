@@ -2,8 +2,17 @@
  * Source code for:
  *  DatFileReader
  */
+// Global headers
 #include <admodel.h>
-#include "DatFileReader.hpp"
+
+// Local headers
+// #include "DatFileReader.hpp"
+#if defined __APPLE__ || defined __linux
+    #include "../include/DatFileReader.hpp"
+#endif
+#if defined _WIN32 || defined _WIN64
+    #include "include\DatFileReader.hpp"
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 int DatFileReader::debug = 0;

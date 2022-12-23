@@ -36,6 +36,21 @@
 //
 // ==================================================================================== //
 
+
+// ************************************************************************************ //
+// Developers
+// ************************************************************************************ //
+// AEP: Andre E. Punt
+// CS:  Cody Szuwalski
+// JI:  Jim Ianelli
+// WTS: William T. Stockhausen
+// AW:  Athol Whitten
+// DW:  Darcey Webber  
+// MV:  Matthieu Veron
+// ************************************************************************************ //
+
+// Submodels labeling
+// ************************************************************************************ //
 // Label 130: Projection inputs
 // Label 200: INITIALIZATION_SECTION
 // Label 400: calc_objective_function
@@ -53,22 +68,10 @@
 // Label 506: project_one_year
 // Label 600: CreateOutput
 // Label 700: write_eval
-//------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
-//WTS Revision Notes
-//2022-10-31: 1.Update GMACS version to 2.01.WTS
-//            2. Added this Revision Notes section
-//            3. Added commandline input flag "testingflag" to turn on sandbox 
-//            4. Added alternative data file reader (TCSAM02 format)
-//2022-11-16: 1. Added lots of diagnostic output when reading input files
-//            2. Added ECHOSTR, WriteCtlStr, WriteProjStr macros for 1
-//            3. Reformatted calc_relative_abundance in preparation for adding ability 
-//                to handle immature data
-//------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
+// ************************************************************************************ //
 DATA_SECTION
 
- !! TheHeader =  adstring("## GMACS Version 2.01.L.WTS; Compiled 2022-10-31");
+ !! TheHeader =  adstring("## GMACS Version 2.01.L02; Compiled 2022-12-22 16:30:22");
 
 //-------------------------------
 // Sandbox for testing functions |
@@ -2051,7 +2054,6 @@ DATA_SECTION
   !!    { cout << "MrelFem can only be 0[No; absolute] or 1[Relative]; STOPPING" << endl; exit(1); }
   !!   gmacs_ctl << "# How does M for females relate to that for males (0 absolute; 1 relative)"<< endl << MrelFem << endl;
   !!  }
-  !! if (nsex > 1)  
 
   init_int Mdev_phz_def;
   !! WriteCtl(Mdev_phz_def);
@@ -3979,7 +3981,7 @@ FUNCTION calc_natural_mortality
     case M_TIME_BLOCKS3: // time blocks
      for ( int idev = 1; idev <= nMdev_par_cnt(h); idev++ ) delta(m_nodeyear_sex(h,idev)) = m_dev_sex(1,idev);
      for ( int i = syr+1; i <= nyrRetro; i++ )
-       M(h,m)(h) = M(h,m)(syr) * mfexp(delta(i)); // Deltas are devs from base value (not a walk)
+       M(h,m)(i) = M(h,m)(syr) * mfexp(delta(i)); // Deltas are devs from base value (not a walk)
      break;
 
 	case M_TIME_BLOCKS2: // time blocks
@@ -9375,3 +9377,6 @@ FINAL_SECTION
 // 2022-06-27; (Version 2.01.L); Update catch likelihood function to use dnorm(). Clean a bit the code and fix a small
 // bug in the calc_predicted_project function (inverse season_type in the computation of tempZ1)
 
+// 2022-10-31 ** WTS ** (Version to 2.01.WTS) - 1. Added commandline input flag "testingflag" to turn on sandbox - 2. Added alternative data file reader (TCSAM02 format)
+// 2022-11-16 ** WTS ** (Version to 2.01.WTS) - 1. Added lots of diagnostic output when reading input files - 2. Added ECHOSTR, WriteCtlStr, WriteProjStr macros for 1 - 3. Reformatted calc_relative_abundance in preparation for adding ability to handle immature data
+// 2022-12-22 ** MV ** (Version to 2.01.L01) - 1. Fix a small bug in calc_natural_mortality() - 2. Rename WTS's version - 3. Modify the DatFileReader.cpp to make it compatible with different OS - Fix a small bug in the control file section (MrelFem)

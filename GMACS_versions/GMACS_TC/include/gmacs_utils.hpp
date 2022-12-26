@@ -12,17 +12,35 @@ class echo {
 
 /**
 \def ECHOSTR(str)
-Prints character string to echo and std::cout ofstreams.
+Prints character string to echo and std::cout ostreams.
 */
 #undef ECHOSTR
-#define ECHOSTR(str) echo::out<<(str)<<endl; std::cout<<(str)<<std::endl;
+#define ECHOSTR(str) echo::out<<(str)<<endl; \
+                     std::cout<<(str)<<std::endl;
 
 /**
-\def ECHOVALS(obj)
-Prints values of obj to echo and std::cout ofstreams.
+\def ECHOOBJ(obj)
+Prints value of obj to echo and std::cout ostreams.
 */
-//  #undef ECHOVALS
-//  #define ECHOVALS(obj) writeObj(#obj,obj,echo::out); writeObj(#obj,obj,std::cout);
+#undef ECHOOBJ
+#define ECHOOBJ(str,obj) echo::out<<(str)<<(obj)<<endl; \
+                         std::cout<<(str)<<(obj)<<endl;
+
+/**
+\def ECHOPTR(str,ptr)
+Prints value of *ptr to echo and std::cout ostreams.
+*/
+#undef ECHOPTR
+#define ECHOPTR(str,ptr) if ((ptr)){echo::out<<(str)<<(*(ptr))<<endl;} else {echo::out<<(str)<<"nullptr"<<endl;} \
+                         if ((ptr)){std::cout<<(str)<<(*(ptr))<<endl;} else {std::cout<<(str)<<"nullptr"<<endl;}
+
+/**
+\def ECHOITER(str,itr)
+Prints value of std::map iterator (itr) to echo and std::cout ostreams.
+*/
+#undef ECHOITER
+#define ECHOITER(str,itr) echo::out<<(str)<<((itr)->first)<<":"<<endl<<"\t"<<(*((it)->second))<<endl;\
+                          std::cout<<(str)<<((itr)->first)<<":"<<endl<<"\t"<<(*((it)->second))<<endl;
 
 #undef EOF
 #define EOF -999

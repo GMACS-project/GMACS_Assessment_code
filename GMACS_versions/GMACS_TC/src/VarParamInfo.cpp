@@ -5,6 +5,55 @@
  */
 #include "../include/VarParamInfo.hpp"
 
+///////////////////////////////////BasicVarParamInfo////////////////////////////
+/* flag to print debugging info */
+int BasicVarParamInfo::debug = 0;
+
+/**
+ * Constructor
+ */
+BasicVarParamInfo::BasicVarParamInfo(){idx=-1;}
+/**
+ * Destructor
+ */
+BasicVarParamInfo::~BasicVarParamInfo(){}
+ /**
+ * Read object from input stream in ADMB format.
+ * 
+ * @param is - file input stream
+ */
+void BasicVarParamInfo::read(cifstream & is){
+  if (debug) cout<<"starting BasicVarParamInfo::read"<<endl;
+  adstring str;
+  is>>init_val;
+  is>>lwr_bnd;
+  is>>upr_bnd;
+  is>>phase;
+  is>>str; jitter = gmacs::isTrue(str);
+  is>>s_prior;
+  is>>p1;
+  is>>p2;
+  if (debug) cout<<"finished BasicVarParamInfo::read"<<endl;
+}
+/**
+ * Write object to output stream in ADMB format.
+ * 
+ * @param os - output stream
+ */
+void BasicVarParamInfo::write(std::ostream & os){
+  if (debug) cout<<"starting BasicVarParamInfo::write"<<endl;
+    os<<init_val<<"  ";
+    os<<lwr_bnd<<"  ";
+    os<<upr_bnd<<"  ";
+    os<<phase<<"  ";
+    os<<gmacs::isTrue(jitter)<<"  ";
+    os<<s_prior<<"  ";
+    os<<p1<<"  ";
+    os<<p2<<"  ";
+    os<<"#--param index: "<<idx;
+  if (debug) cout<<endl<<"finished BasicVarParamInfo::write"<<endl;
+}
+
 ///////////////////////////////////VarParamFunctionInfo/////////////////////////
 /* flag to print debugging info */
 int VarParamFunctionInfo::debug = 0;
@@ -12,20 +61,16 @@ int VarParamFunctionInfo::debug = 0;
 /**
  * Constructor
  */
-VarParamFunctionInfo::VarParamFunctionInfo(int fc_,adstring& function_,adstring& param_){
-  if (debug) cout<<"starting VarParamFunctionInfo::VarParamFunctionInfo("<<fc_<<","<<function_<<","<<param_<<")"<<endl;
+VarParamFunctionInfo::VarParamFunctionInfo(int fc_,adstring& param_){
+  if (debug) cout<<"starting VarParamFunctionInfo::VarParamFunctionInfo("<<fc_<<","<<param_<<")"<<endl;
   fc = fc_;
-  s_function = function_;
   s_param = param_;
-  ptrPI = nullptr;
-  if (debug) cout<<"finished VarParamFunctionInfo::VarParamFunctionInfo("<<fc_<<","<<function_<<","<<param_<<")"<<endl;
+  if (debug) cout<<"finished VarParamFunctionInfo::VarParamFunctionInfo("<<fc_<<","<<","<<param_<<")"<<endl;
 }
 /**
  * Destructor
  */
-VarParamFunctionInfo::~VarParamFunctionInfo(){
-  delete ptrPI; ptrPI = nullptr;
-}
+VarParamFunctionInfo::~VarParamFunctionInfo(){}
  /**
  * Read object from input stream in ADMB format.
  * 
@@ -45,8 +90,7 @@ void VarParamFunctionInfo::read(cifstream & is){
     } else {
       adstring dummy; is>>dummy;
     }
-    ptrPI = new BasicParamInfo();
-    is>>(*ptrPI);
+    is>>(*((BasicVarParamInfo*) (this)));//read BasicVarParamInfo elements
   }
   if (debug) cout<<"finished VarParamFunctionInfo::read"<<endl;
 }
@@ -57,14 +101,14 @@ void VarParamFunctionInfo::read(cifstream & is){
  */
 void VarParamFunctionInfo::write(std::ostream & os){
   if (debug) cout<<"starting VarParamFunctionInfo::write"<<endl;
-  os<<fc<<"  "<<s_function<<"  "<<s_param<<"  "<<mir<<"  ";
+  os<<fc<<"  "<<s_param<<"  "<<mir<<"  ";
   if (mir==0){
     os<<s_RV<<"  "<<s_TV<<"  "<<s_ZV<<"  "<<nECs<<"  ";
     if (nECs>0) 
       for (int i=sa_ECs.indexmin();i<=sa_ECs.indexmax();i++)
         os<<sa_ECs(i)<<"  ";
     else os<<"none"<<"  ";
-    os<<(*ptrPI);
+    os<<(*((BasicVarParamInfo*) (this)));//write BasicVarParamInfo elements
   } else {
     os<<"#--mirrors "<<s_param<<" in fc "<<mir;
   }
@@ -101,15 +145,14 @@ void VarParamFunctionsInfo::read(cifstream & is){
   adstring kw_;
   is>>kw_; gmacs::checkKeyWord(kw_,KEYWORD,"VarParamFunctionsInfo::read");
   mapFIs.clear();
-  int fc_; adstring fcn_; adstring param_;
+  int fc_; adstring param_;
   is>>fc_; if (debug) cout<<"fc_ = "<<fc_<<"  ";
   while (fc_>0){
-    is>>fcn_;    if (debug)cout<<"fcn_ = "<<fcn_<<"  ";
     is>>param_;  if (debug)cout<<"param_ = "<<param_<<endl;
-    VarParamFunctionInfo* p = new VarParamFunctionInfo(fc_,fcn_,param_);
+    VarParamFunctionInfo* p = new VarParamFunctionInfo(fc_,param_);
     is>>(*p);
     if (debug) cout<<(*p)<<endl;
-    MultiKey* mk = new MultiKey(gmacs::asa3(str(fc_),fcn_,param_));
+    MultiKey* mk = new MultiKey(gmacs::asa2(str(fc_),param_));
     mapFIs[(*mk)] = p;
     is>>fc_; if (debug)cout<<"fc_ = "<<fc_<<"  ";
   }  
@@ -124,7 +167,7 @@ void VarParamFunctionsInfo::read(cifstream & is){
 void VarParamFunctionsInfo::write(std::ostream & os){
   if (debug) cout<<"starting VarParamFunctionsInfo::write"<<endl;
   os<<KEYWORD<<"  #--information type"<<endl;
-  os<<"#fc function  param  mir  reg_var time_var size_var  numECs  ECs    ival    lb   ub   phz  jtr?  prior   p1    p2"<<endl;
+  os<<"#fc param  mir  reg_var time_var size_var  numECs  ECs    ival    lb   ub   phz  jtr?  prior   p1    p2"<<endl;
   if (debug) cout<<"number of rows defining functions: "<<mapFIs.size()<<endl;
   for (std::map<MultiKey,VarParamFunctionInfo*>::iterator it=mapFIs.begin(); it!=mapFIs.end(); ++it) {
     if (debug) cout<<(it->first)<<endl;
@@ -241,7 +284,7 @@ int VarParamInfo::debug = 0;
  * @param s_param - parameter name
  * @param var_idx_ - variation index value
  */
-VarParamInfo::VarParamInfo(int id_,adstring& param_,adstring& var_idx_):BasicParamInfo(){
+VarParamInfo::VarParamInfo(int id_,adstring& param_,adstring& var_idx_):BasicVarParamInfo(){
   var_id = id_;
   s_param = param_;
   s_var_idx = var_idx_;
@@ -257,7 +300,7 @@ VarParamInfo::~VarParamInfo(){}
  */
 void VarParamInfo::read(cifstream & is){
   if (debug) cout<<"starting VarParamInfo::read"<<endl;
-  is>>(*((BasicParamInfo*) (this)));//read BasicParamInfo elements
+  is>>(*((BasicVarParamInfo*) (this)));//read BasicParamInfo elements
   if (debug) cout<<"finished VarParamInfo::read"<<endl;
 }
 /**
@@ -268,7 +311,7 @@ void VarParamInfo::read(cifstream & is){
 void VarParamInfo::write(std::ostream & os){
   if (debug) cout<<"starting VarParamInfo::write"<<endl;
   os<<var_id<<"  "<<s_param<<"  "<<s_var_idx<<"  ";
-  os<<(*(BasicParamInfo*) (this));//write StdParamInfo elements;
+  os<<(*(BasicVarParamInfo*) (this));//write StdParamInfo elements;
   if (debug) cout<<"finished VarParamInfo::write"<<endl;
 }
 
@@ -388,15 +431,15 @@ void VarParamsCombinedInfo::write(std::ostream & os){
   if (debug) cout<<endl<<"Finished VarParamsCombinedInfo::write"<<endl;
 }
 
-//////////////////////////////AllVarParamTypesInfo//////////////////////////
+//////////////////////////////VarParamsVariationInfo//////////////////////////
 /* flag to print debugging info */
-int AllVarParamsVariationInfo::debug = 0;
+int VarParamsVariationInfo::debug = 0;
 /* key word identifying information section */
-const adstring AllVarParamsVariationInfo::KEYWORD = "var_params";
+const adstring VarParamsVariationInfo::KEYWORD = "var_params";
 /** 
  * Class constructor
  */
-AllVarParamsVariationInfo::AllVarParamsVariationInfo(){
+VarParamsVariationInfo::VarParamsVariationInfo(){
   if (debug) cout<<"Starting AllVarParamsVariationInfo::AllVarParamsVariationInfo"<<endl;
   ptrRVs = nullptr;
   ptrTVs = nullptr;
@@ -407,7 +450,7 @@ AllVarParamsVariationInfo::AllVarParamsVariationInfo(){
 /** 
  * Class destructor
  */
-AllVarParamsVariationInfo::~AllVarParamsVariationInfo(){
+VarParamsVariationInfo::~VarParamsVariationInfo(){
   if (debug) cout<<"Starting AllVarParamsVariationInfo::~AllVarParamsVariationInfo"<<endl;
   delete ptrRVs; ptrRVs = nullptr;
   delete ptrTVs; ptrTVs = nullptr;
@@ -420,7 +463,7 @@ AllVarParamsVariationInfo::~AllVarParamsVariationInfo(){
  * 
  * @param is - file input stream
  */
-void AllVarParamsVariationInfo::read(cifstream & is){
+void VarParamsVariationInfo::read(cifstream & is){
   if (debug) cout<<"Starting AllVarParamsVariationInfo::read"<<endl;
   adstring kw_; adstring type_;
   is>>kw_; gmacs::checkKeyWord(kw_,KEYWORD,"AllVarParamTypesInfo::read");
@@ -462,7 +505,7 @@ void AllVarParamsVariationInfo::read(cifstream & is){
  * 
  * @param os - output stream
  */
-void AllVarParamsVariationInfo::write(std::ostream & os){
+void VarParamsVariationInfo::write(std::ostream & os){
   if (debug) cout<<"Starting AllVarParamsVariationInfo::write"<<endl;
   os<<"#----parameter variation information "<<endl;
   os<<KEYWORD<<"  #--information type"<<endl;

@@ -40,6 +40,7 @@ void FactorCombination::read(cifstream & is){
   is>>s_tb;
   is>>s_zb;
   is>>s_type;
+  is>>s_fcn;
   is>>s_units;
   is>>label;
   if (debug) cout<<"Finished FactorCombination::read for '"<<is.get_file_name()<<"'"<<endl;
@@ -60,6 +61,7 @@ void FactorCombination::write(std::ostream & os){
   os<<s_tb<<"\t";  //--time block alias
   os<<s_zb<<"\t";  //--size block alias
   os<<s_type<<"\t";  //process type for factor combination
+  os<<s_fcn<<"\t";   //function name for factor combination
   os<<s_units<<"\t"; //units for process type
   os<<label; //factor combination label 
   if (debug) cout<<endl<<"Finished FactorCombination::write"<<endl;
@@ -139,38 +141,10 @@ void FactorCombinations::read(cifstream & is){
 void FactorCombinations::write(std::ostream & os){
   if (debug) cout<<"Starting FactorCombinations::write"<<endl;
   os<<"#----number of factor combinations: "<<nFCs<<endl;
-  os<<"fc mir  region sex   mat shell time_block  size_block   type     units  label"<<endl;
+  os<<"fc mir  region sex   mat shell time_block  size_block   type    function   units  label"<<endl;
   for (std::map<int,FactorCombination*>::iterator it=mapFCs.begin(); it!=mapFCs.end(); ++it) 
     os<<(*(it->second))<<endl;
-  os<<EOF<<"  #--EOI for factor combinations"<<endl;
-  if (debug) cout<<"Finished FactorCombinations::write"<<endl;
+  os<<EOF<<"  #--EOI for factor combinations";
+  if (debug) cout<<endl<<"Finished FactorCombinations::write"<<endl;
 }
-
-/////////////////////////////////////AllParamsInfo////////////////////////////
-///**
-// * Calculate number of parameters
-// * 
-// * @return - (int) number of parameters
-// */
-//int AllParamsInfo::calcNumParams(){
-//  if (numParams){
-//    for (std::map<MultiKey,StdParamFunctionInfo*>::iterator it=ptrFIs->mapFIs.begin(); it!=ptrFIs->mapFIs.end(); ++it) {
-//      if (debug) cout<<(it->first)<<endl;
-//      StdParamFunctionInfo* ptrFI = it->second;
-//      if (ptrFI->ptrPI->mirror) numParams++;//if not mirrored, ptrPI represents a single parameter
-//    }
-//    
-//  }
-//  return numParams;
-//}
-///**
-// * Create a matrix with initial value, lower bound, upper bound, phase, and jitter flag 
-// * for all parameters.
-// * 
-// * @return - dmatrix with initial value, lower bound, upper bound, phase, 
-// * and jitter flag for all parameters
-// */
-//dmatrix AllParamsInfo::calcILUPJs(){
-//  
-//}
 

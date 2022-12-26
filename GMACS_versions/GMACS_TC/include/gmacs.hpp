@@ -8,10 +8,11 @@
 
 #include "gmacs_utils.hpp"
 #include "IndexBlocks.hpp"
+#include "ModelConfiguration.hpp"
 #include "FactorCombinations.hpp"
 #include "ParamInfo.hpp"
+#include "VarParamInfo.hpp"
 #include "FixedQuantitiesInfo.hpp"
-#include "ModelConfiguration.hpp"
 #include "ModelCTL.hpp"
 
 #endif /* GMACS_HPP */

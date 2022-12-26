@@ -31,6 +31,12 @@ class CatDim {
             for (int i=0;i<=n;i++) if (str==als[i]) return i;
             return -1;//--if str not found
         }
+        /**
+         * Get dimension size (max index)
+         * 
+         * @return - (int) 
+         */
+        int getSize(){return n;}
         adstring getDimName(){return dimname;}
         adstring getAlias(int i_){return als[i_];}
         adstring getLongName(int i_) {return lng[i_];}
@@ -85,19 +91,39 @@ class NumDim {
         int n;
         int isLower;
         int isUpper;
-        /* bin cutpoints */
+        /* 0-based bin cutpoints */
         dvector cutpts;
-        /* bin midpoints */
+        /* 1-based bin midpoints */
         dvector midpts;
     public:
+      /**
+       * Class constructor
+       * 
+       * @param name_ - (adstring&) dimension name
+       */
         NumDim(adstring name_){dimname=name_;n=0;}
+        /**
+         * Class destructor
+         */
         ~NumDim(){}
+        /**
+         * Get dimension size (max index)
+         * 
+         * @return - (int) 
+         */
+        int getSize(){return n;}
         /**
          * Find index corresponding to a string
          * @param val_ - value to find enclosing bin 
          * @return - (int) index of bin corresponding to value (or -1 if not found)
          */
         adstring getDimName(){return dimname;}
+        /**
+         * Get index of bin in which value falls
+         * 
+         * @param val_ - (double) value to bin
+         * @return (int) index of bin (-1 if bin not found)
+         */
         int getIndex(double val_){
             if (val_<cutpts[cutpts.indexmin()]) {
                 if (isLower) return 1; else return -1;
@@ -109,7 +135,17 @@ class NumDim {
               if ((cutpts[i]<=val_)&(val_<cutpts[i+1])) return i;
             return -1;//--if str not found
         }
+        /**
+         * Get vector with lower and upper cutpoints of 0-based i_th bin
+         * @param i_ - (int) bin index
+         * @return - (dvector) vector with lower and upper cutpoints of i_th bin
+         */
         dvector getCutpoints(int i_){return cutpts(i_,i_+1);}
+        /**
+         * Get midpoint of 1-based i_th bin
+         * @param i_ - (int) bin index
+         * @return - value of the midpoint of i_th bin
+         */
         double  getMidpoint(int i_) {return midpts[i_];}
         /**
          * Read from input file stream in ADMB format.
@@ -127,8 +163,8 @@ class NumDim {
             is>>str; isUpper = gmacs::isTrue(str);
             cutpts.allocate(0,n);
             is>>cutpts;
-            midpts.allocate(0,n-1);
-            midpts = 0.5*(cutpts(1,n).shift(0)-cutpts(0,n-1));
+            midpts.allocate(1,n);
+            midpts = 0.5*(cutpts(1,n)-cutpts(0,n-1).shift(1));
         }
         /**
          * Write object to output stream in ADMB format.
@@ -166,6 +202,12 @@ class IntDim {
     public:
         IntDim(adstring name_){dimname=name_;}
         ~IntDim(){}
+        /**
+         * Get dimension size (max index)
+         * 
+         * @return - (int) 
+         */
+        int getSize(){return dim.size();}
         /**
          * Find index corresponding to a value
          * @param val_ - value to find
@@ -238,7 +280,7 @@ class ModelConfiguration {
         /* static getter to obtain pointer to singleton instance */
         static ModelConfiguration* getInstance();
     public:
-        CatDim* pRegs;
+        CatDim* pRGs;
         CatDim* pSXs;
         CatDim* pMSs;
         CatDim* pSCs;
@@ -250,6 +292,7 @@ class ModelConfiguration {
         int stYr;
         int fnYr;
         int yRetro;
+        /* 0-based ivector with model years stYr:fnYr. yRetro not accounted for. */
         ivector years;
         int nSzns;
         dvector szns;
@@ -259,14 +302,14 @@ class ModelConfiguration {
         /**
          * Constructor
          */
-        ModelConfiguration(){yRetro=0; pSXs=pMSs=pSCs=pRegs=pFlts=nullptr;pTBlks=nullptr;pZBlks=nullptr;};
-        ModelConfiguration(const ModelConfiguration&);     //not allowed
-        ModelConfiguration& operator=(ModelConfiguration&);//not allowed
+        ModelConfiguration(){yRetro=0; pSXs=pMSs=pSCs=pRGs=pFlts=nullptr;pTBlks=nullptr;pZBlks=nullptr;};
+        ModelConfiguration(const ModelConfiguration&);     //explicitly disallowing this
+        ModelConfiguration& operator=(ModelConfiguration&);//explicitly disallowing this
         /**
          * Destructor
          */
         ~ModelConfiguration(){
-            if (pRegs) delete(pRegs); pRegs=nullptr;
+            if (pRGs) delete(pRGs); pRGs=nullptr;
             if (pSXs)  delete(pSXs);  pSXs =nullptr;
             if (pMSs)  delete(pMSs);  pMSs =nullptr;
             if (pSCs)  delete(pSCs);  pSCs =nullptr;
@@ -291,7 +334,7 @@ class ModelConfiguration {
          * @param als - alias (adstring) indicating region(s)
          * @return region index (int)
          */
-        int getRegionIndex(adstring als){return(getCatIndex(als,pRegs));}
+        int getRegionIndex(adstring als){return(getCatIndex(als,pRGs));}
         /**
          * Get sex dimension index corresponding to input string 
          * 
@@ -317,7 +360,7 @@ class ModelConfiguration {
          * Get time block corresponding to input string 
          * 
          * @param als - alias (adstring) indicating time block
-         * @return time block integer idex
+         * @return pointer to the TimeBlock integer index
          */
         TimeBlock* getTimeBlock(adstring& als){return pTBlks->getBlock(als);}
         /**
@@ -329,16 +372,18 @@ class ModelConfiguration {
         SizeBlock* getSizeBlock(adstring als){return pZBlks->getBlock(als);}
         
         /**
-         * Set number of retrospective years to peel off.
+         * Set number of retrospective years to peel off when determining
+         * whether a year is a model year or not.
          * 
          * @param _yRetro - number of retrospective years to peel off
          */
         void setNumRetroYears(int _yRetro){yRetro = _yRetro;}
         /**
-         * Tests if stYr <= yr <= fnYr. 
+         * Tests if stYr \<= yr \<= fnYr-yRetro. 
          * 
-         * @param yr
-         * @return 1 if true, 0 if false
+         * @param yr - (int)
+         * 
+         * @return (int) 1 if true, 0 if false
          */
         int isModelYear(int yr){if ((stYr<=yr)&&(yr<=(fnYr-yRetro))) return 1; return 0;}
         /**
@@ -395,7 +440,7 @@ class ModelConfiguration {
                 std::cout<<"Please update '"<<is.get_file_name()<<"'"<<endl;
                 exit(-1);
             }
-            pRegs = readCatDim("regions",is);
+            pRGs  = readCatDim("regions",is);
             pSXs  = readCatDim("sexes",is);
             pMSs  = readCatDim("maturity_states",is);
             pSCs  = readCatDim("shell_conditions",is);
@@ -427,7 +472,7 @@ class ModelConfiguration {
           os<<"##############--Model Dimensions--#################"<<endl;
           os<<"##------------------------------------------------"<<endl;
           os<<"##--Population"<<endl;
-          os<<(*pRegs);
+          os<<(*pRGs);
           os<<(*pSXs)<<(*pMSs)<<(*pSCs);
           os<<(*pZBs);
           os<<"##------------------------------------------------"<<endl;
@@ -437,7 +482,7 @@ class ModelConfiguration {
           os<<"##--Time"<<endl;
           os<<"years"<<"\t#------------------------------------------"<<endl;
           os<<stYr<<"\t# start year"<<endl;
-          os<<fnYr<<"\t# final year (assuming no retrospective)"<<endl;
+          os<<fnYr<<"\t# final year (includes "<<yRetro<<"peels )"<<endl;
           os<<"seasons"<<"\t#----------------------------------------"<<endl;
           os<<nSzns<<"\t# number of seasons"<<endl;
           os<<"#id  fraction"<<endl;

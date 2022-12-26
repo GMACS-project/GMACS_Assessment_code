@@ -4,584 +4,6 @@
  */
 #include "../include/ModelCTL.hpp"
 
-///////////////////////////////////WeightAtSize/////////////////////////////////
-int WeightAtSize::debug=0;
-const adstring WeightAtSize::KEYWORD="WatZ";
-
-/**
- * Class constructor
- */
-WeightAtSize::WeightAtSize(){
-  if (debug) cout<<"starting WeightAtSize::WeightAtSize"<<endl;
-  ptrFCs = nullptr;
-  ptrFIs = nullptr;
-  ptrVIs = nullptr;
-  nFunctionTypes = 0;
-  nVectorTypes = 0;
-  if (debug) cout<<"finished WeightAtSize::WeightAtSize"<<endl;
-}
-
-/**
- * Class destructor
- */
-WeightAtSize::~WeightAtSize(){
-  if (ptrFCs) delete ptrFCs; ptrFCs=nullptr;
-  if (ptrFIs) delete ptrFIs; ptrFIs=nullptr;
-  if (ptrVIs) delete ptrVIs; ptrVIs=nullptr;
-}
-
-/**
- * Read object from input stream in ADMB format.
- * 
- * @param is - file input stream
- */
-void WeightAtSize::read(cifstream & is){
-  if (debug) cout<<"starting WeightAtSize::read from '"<<is.get_file_name()<<"'"<<endl;
-  adstring str;
-  is>>str; gmacs::checkKeyWord(str,KEYWORD,"WeightAtSize::read");
-//  if (debug) FactorCombinations::debug=1;
-  if (ptrFCs) delete ptrFCs;
-  ptrFCs = new FactorCombinations();
-  is>>(*ptrFCs);
-//  if (debug) FactorCombinations::debug=0;
-  
-  nFunctionTypes = ptrFCs->countType("function"); 
-  if (debug) cout<<"nFunctionTypes = "<<nFunctionTypes<<endl;
-  if (ptrFIs) delete ptrFIs;
-  ptrFIs = new StdParamFunctionsInfo();
-  is>>(*ptrFIs);
-  
-  
-  nVectorTypes = ptrFCs->countType("vector");
-  if (debug) cout<<"nVectorTypes = "<<nVectorTypes<<endl;
-  if (ptrVIs) delete ptrVIs;
-  ptrVIs = new FixedVectorsInfo();
-  is>>(*ptrVIs);
-  
-  if (debug) cout<<"finished WeightAtSize::read from '"<<is.get_file_name()<<"'"<<endl;
-}
-/**
- * Write object to output stream in ADMB format.
- * 
- * @param os - output stream
- */
-void WeightAtSize::write(std::ostream & os){
-  if (debug) cout<<"starting WeightAtSize::write"<<endl;
-  os<<KEYWORD<<"       #keyword-----------------------------------"<<endl;
-  os<<"#--Factor combinations--------------"<<endl;
-  os<<"#----Type options--------------"<<endl;
-  os<<"# 'function': input a, b parameters from W=a*L^b relationships (by region,sex, maturity, shell condition)"<<endl;
-  os<<"# 'vector'   : input weight-at-size vector for size bins        (by region,sex, maturity, shell condition)"<<endl;
-  os<<(*ptrFCs);
-  
-  os<<"#--Parameter info---------------"<<endl;
-  
-  os<<"#----Function info---------------"<<endl;
-  os<<(*ptrFIs);
-  
-  os<<"#----Fixed vector info-----------------"<<endl;
-  os<<(*ptrVIs);
-  if (debug) cout<<"finished WeightAtSize::write"<<endl;
-}
-
-///////////////////////////////////NatMort/////////////////////////////////
-int NatMort::debug=1;
-const adstring NatMort::KEYWORD="natural_mortality";
-
-/**
- * Class constructor
- */
-NatMort::NatMort(){
-  if (debug) cout<<"starting NatMort::NatMort"<<endl;
-  ptrFCs = nullptr;
-  ptrVPFIs = nullptr;
-  nFunctionTypes = 0;
-  ptrVPVIs = nullptr;
-  if (debug) cout<<"finished NatMort::NatMort"<<endl;
-}
-
-/**
- * Class destructor
- */
-NatMort::~NatMort(){
-  if (ptrFCs)   delete ptrFCs;   ptrFCs=nullptr;
-  if (ptrVPFIs) delete ptrVPFIs; ptrVPFIs=nullptr;
-  if (ptrVPVIs) delete ptrVPVIs; ptrVPVIs=nullptr;
-}
-
-/**
- * Read object from input stream in ADMB format.
- * 
- * @param is - file input stream
- */
-void NatMort::read(cifstream & is){
-  if (debug) cout<<"starting NatMort::read from '"<<is.get_file_name()<<"'"<<endl;
-  adstring str;
-  is>>str; gmacs::checkKeyWord(str,KEYWORD,"NatMort::read");
-//  if (debug) FactorCombinations::debug=1;
-  if (ptrFCs) delete ptrFCs;
-  ptrFCs = new FactorCombinations();
-  is>>(*ptrFCs);
-//  if (debug) FactorCombinations::debug=0;
-  
-  nFunctionTypes = ptrFCs->countType("var_function"); 
-  if (debug) cout<<"nFunctionTypes = "<<nFunctionTypes<<endl;
-  if (ptrVPFIs) delete ptrVPFIs;
-  ptrVPFIs = new VarParamFunctionsInfo();
-  is>>(*ptrVPFIs);
-  if (debug) cout<<(*ptrVPFIs)<<endl;
-  
-  if (ptrVPVIs) delete ptrVPVIs;
-  ptrVPVIs = new AllVarParamsVariationInfo();
-  is>>(*ptrVPVIs);
-  if (debug) cout<<(*ptrVPVIs)<<endl;
-  
-  if (debug) cout<<"finished NatMort::read from '"<<is.get_file_name()<<"'"<<endl;
-}
-/**
- * Write object to output stream in ADMB format.
- * 
- * @param os - output stream
- */
-void NatMort::write(std::ostream & os){
-  if (debug) cout<<"starting NatMort::write"<<endl;
-  os<<KEYWORD<<"       #--keyword-----------------------------------"<<endl;
-  os<<"#--Factor combinations--------------"<<endl;
-  os<<"#----Type options--------------"<<endl;
-  os<<"# 'var_function': function with estimable parameters w/ variation (specified in 'var_functions' information section)"<<endl;
-  os<<(*ptrFCs);
-  
-  os<<"#--Parameter info---------------"<<endl;
-  
-  os<<"#----var_functions info---------------"<<endl;
-  os<<(*ptrVPFIs);
-  
-  os<<"#----var_params info---------------"<<endl;
-  os<<(*ptrVPVIs);
-  
-  if (debug) cout<<"finished NatMort::write"<<endl;
-}
-
-///////////////////////////////////MoltProbability/////////////////////////////////
-int MoltProbability::debug=1;
-const adstring MoltProbability::KEYWORD="molt_probability";
-
-/**
- * Class constructor
- */
-MoltProbability::MoltProbability(){
-  if (debug) cout<<"starting MoltProbability::MoltProbability"<<endl;
-  ptrFCs = nullptr;
-  ptrFIs = nullptr;
-  ptrVIs = nullptr;
-  nFunctionTypes = 0;
-  nVectorTypes = 0;
-  if (debug) cout<<"finished MoltProbability::MoltProbability"<<endl;
-}
-
-/**
- * Class destructor
- */
-MoltProbability::~MoltProbability(){
-  if (ptrFCs) delete ptrFCs; ptrFCs=nullptr;
-  if (ptrFIs) delete ptrFIs; ptrFIs=nullptr;
-  if (ptrVIs) delete ptrVIs; ptrVIs=nullptr;
-}
-
-/**
- * Read object from input stream in ADMB format.
- * 
- * @param is - file input stream
- */
-void MoltProbability::read(cifstream & is){
-  if (debug) cout<<"starting MoltProbability::read from '"<<is.get_file_name()<<"'"<<endl;
-  adstring str;
-  is>>str; gmacs::checkKeyWord(str,KEYWORD,"MoltProbability::read");
-  
-//  if (debug) FactorCombinations::debug=1;
-  if (ptrFCs) delete ptrFCs;
-  ptrFCs = new FactorCombinations();
-  is>>(*ptrFCs);
-//  if (debug) FactorCombinations::debug=0;
-
-  nFunctionTypes = ptrFCs->countType("function"); 
-  if (debug) cout<<"nFunctionTypes = "<<nFunctionTypes<<endl;
-  if (ptrFIs) delete ptrFIs;
-  ptrFIs = new StdParamFunctionsInfo();
-  is>>(*ptrFIs);
-
-  nVectorTypes = ptrFCs->countType("vector");
-  if (debug) cout<<"nVectorTypes = "<<nVectorTypes<<endl;
-  if (ptrVIs) delete ptrVIs;
-  ptrVIs = new FixedVectorsInfo();
-  is>>(*ptrVIs);
-  
-  if (debug) cout<<"finished MoltProbability::read from '"<<is.get_file_name()<<"'"<<endl;
-}
-/**
- * Write object to output stream in ADMB format.
- * 
- * @param os - output stream
- */
-void MoltProbability::write(std::ostream & os){
-  if (debug) cout<<"starting MoltProbability::write"<<endl;
-  os<<KEYWORD<<"       #keyword-----------------------------------"<<endl;
-  os<<"#--Factor combinations--------------"<<endl;
-  os<<"#----Type options to specify terminal molt--------------"<<endl;
-  os<<"# 'function': function with estimable parameters (specified in the 'functions' information section)"<<endl;
-  os<<"# 'vector'  : fixed weight-at-size vector        (specified in the 'fixed_vectors' information section)"<<endl;
-  os<<(*ptrFCs);
-  
-  os<<"#--Parameter information"<<endl;
-  
-  os<<"#----Function info---------------"<<endl;
-  os<<(*ptrFIs);
-  
-  os<<"#----Fixed vector info-----------------"<<endl;
-  os<<(*ptrVIs);
-  if (debug) cout<<"finished MoltProbability::write"<<endl;
-}
-
-///////////////////////////////////Growth/////////////////////////////////
-int Growth::debug=1;
-const adstring Growth::KEYWORD="growth";
-
-/**
- * Class constructor
- */
-Growth::Growth(){
-  if (debug) cout<<"starting Growth::Growth"<<endl;
-  ptrFCs = nullptr;
-  ptrFIs = nullptr;
-  ptrPMIs = nullptr;
-  ptrFMIs = nullptr;
-  nFunctionTypes = 0;
-  nParamMatrixFunctionTypes = 0;
-  nFixedMatrixTypes = 0;
-  if (debug) cout<<"finished Growth::Growth"<<endl;
-}
-
-/**
- * Class destructor
- */
-Growth::~Growth(){
-  if (ptrFCs) delete ptrFCs; ptrFCs=nullptr;
-  if (ptrFIs) delete ptrFIs; ptrFIs=nullptr;
-  if (ptrPMIs) delete ptrPMIs; ptrPMIs=nullptr;
-  if (ptrFMIs) delete ptrFMIs; ptrFMIs=nullptr;
-}
-
-/**
- * Read object from input stream in ADMB format.
- * 
- * @param is - file input stream
- */
-void Growth::read(cifstream & is){
-  if (debug) cout<<"starting Growth::read from '"<<is.get_file_name()<<"'"<<endl;
-  adstring str;
-  is>>str; gmacs::checkKeyWord(str,KEYWORD,"Growth::read");
-  
-  if (ptrFCs) delete ptrFCs;
-  ptrFCs = new FactorCombinations();
-  is>>(*ptrFCs);
-  if (debug) cout<<(*ptrFCs)<<endl;
-
-  nFunctionTypes = ptrFCs->countType("function"); 
-  if (debug) cout<<"nFunctionTypes = "<<nFunctionTypes<<endl;
-  if (ptrFIs) delete ptrFIs;
-  ptrFIs = new StdParamFunctionsInfo();
-  is>>(*ptrFIs);
-  if (debug) cout<<(*ptrFIs)<<endl;
-
-  nParamMatrixFunctionTypes = ptrFCs->countType("param_matrix");
-  if (debug) cout<<"nParamMatrixTypes = "<<nParamMatrixFunctionTypes<<endl;
-  if (ptrPMIs) delete ptrPMIs;
-  ptrPMIs = new ParamMatrixFunctionsInfo();
-  is>>(*ptrPMIs);
-  if (debug) cout<<(*ptrPMIs)<<endl;
-  
-  nFixedMatrixTypes = ptrFCs->countType("fixed_matrix");
-  if (debug) cout<<"nFixedMatrixTypes = "<<nFixedMatrixTypes<<endl;
-  if (ptrFMIs) delete ptrFMIs;
-  ptrFMIs = new FixedMatrixsInfo();
-  is>>(*ptrFMIs);
-  if (debug) cout<<(*ptrFMIs)<<endl;
-  
-  if (debug) cout<<"finished Growth::read from '"<<is.get_file_name()<<"'"<<endl;
-}
-/**
- * Write object to output stream in ADMB format.
- * 
- * @param os - output stream
- */
-void Growth::write(std::ostream & os){
-  if (debug) cout<<"starting Growth::write"<<endl;
-  os<<KEYWORD<<"       #keyword-----------------------------------"<<endl;
-  os<<"#--Factor combinations--------------"<<endl;
-  os<<"#----Type options to specify terminal molt--------------"<<endl;
-  os<<"# 'function' : function with estimable parameters          (specified in the 'functions' information section)"<<endl;
-  os<<"# 'param_matrix'  : growth matrix w/ estimable parameters  (specified in the 'param_matrices' information section)"<<endl;
-  os<<"# 'fixed_matrix'  : fixed growth matrix                    (specified in the 'fixed_matrices' information section)"<<endl;
-  os<<(*ptrFCs);
-  
-  os<<"#--Parameter information"<<endl;
-  
-  os<<"#----Function info---------------"<<endl;
-  os<<(*ptrFIs);
-  
-  os<<"#----Param matrix info-----------------"<<endl;
-  os<<(*ptrPMIs);
-  
-  os<<"#----Fixed matrix info-----------------"<<endl;
-  os<<(*ptrFMIs);
-  if (debug) cout<<"finished Growth::write"<<endl;
-}
-
-///////////////////////////////////MoltToMaturity/////////////////////////////////
-int MoltToMaturity::debug=1;
-const adstring MoltToMaturity::KEYWORD="molt_to_maturity";
-
-/**
- * Class constructor
- */
-MoltToMaturity::MoltToMaturity(){
-  if (debug) cout<<"starting MoltToMaturity::MoltToMaturity"<<endl;
-  ptrFCs = nullptr;
-  ptrFIs = nullptr;
-  ptrVIs = nullptr;
-  nFunctionTypes = 0;
-  nVectorTypes = 0;
-  if (debug) cout<<"finished MoltToMaturity::MoltToMaturity"<<endl;
-}
-
-/**
- * Class destructor
- */
-MoltToMaturity::~MoltToMaturity(){
-  if (ptrFCs) delete ptrFCs; ptrFCs=nullptr;
-  if (ptrFIs) delete ptrFIs; ptrFIs=nullptr;
-  if (ptrVIs) delete ptrVIs; ptrVIs=nullptr;
-}
-
-/**
- * Read object from input stream in ADMB format.
- * 
- * @param is - file input stream
- */
-void MoltToMaturity::read(cifstream & is){
-  if (debug) cout<<"starting MoltToMaturity::read from '"<<is.get_file_name()<<"'"<<endl;
-  adstring str;
-  is>>str; gmacs::checkKeyWord(str,KEYWORD,"MoltToMaturity::read");
-  is>>str; hasTM = gmacs::isTrue(str);
-  if (debug) cout<<"has terminal molt: "<<hasTM<<endl;
-  if (hasTM){
-  //  if (debug) FactorCombinations::debug=1;
-    if (ptrFCs) delete ptrFCs;
-    ptrFCs = new FactorCombinations();
-    is>>(*ptrFCs);
-    if (debug) cout<<(*ptrFCs)<<endl;
-
-    nFunctionTypes = ptrFCs->countType("function"); 
-    if (debug) cout<<"nFunctionTypes = "<<nFunctionTypes<<endl;
-    if (ptrFIs) delete ptrFIs;
-    ptrFIs = new StdParamFunctionsInfo();
-    is>>(*ptrFIs);
-    if (debug) cout<<(*ptrFIs)<<endl;
-
-    nVectorTypes = ptrFCs->countType("vector");
-    if (debug) cout<<"nVectorTypes = "<<nVectorTypes<<endl;
-    if (ptrVIs) delete ptrVIs;
-    ptrVIs = new FixedVectorsInfo();
-    is>>(*ptrVIs);
-    if (debug) cout<<(*ptrVIs)<<endl;
-  }
-  
-  if (debug) cout<<"finished MoltToMaturity::read from '"<<is.get_file_name()<<"'"<<endl;
-}
-/**
- * Write object to output stream in ADMB format.
- * 
- * @param os - output stream
- */
-void MoltToMaturity::write(std::ostream & os){
-  if (debug) cout<<"starting MoltToMaturity::write"<<endl;
-  os<<KEYWORD<<"       #keyword-----------------------------------"<<endl;
-  os<<gmacs::isTrue(hasTM)<<"      #--undergoes terminal molt?"<<endl;
-  os<<"#--if true, must specify probability-at-size for undergoing terminal molt to maturity"<<endl;
-  if (hasTM){
-    os<<"#--Factor combinations--------------"<<endl;
-    os<<"#----Type options to specify terminal molt probability-at-size--------------"<<endl;
-    os<<"# 'function': function with estimable parameters (specified in the 'functions' information section)"<<endl;
-    os<<"# 'vector'  : fixed weight-at-size vector        (specified in the 'fixed_vectors' information section)"<<endl;
-    os<<(*ptrFCs);
-
-    os<<"#--Parameter information"<<endl;
-
-    os<<"#----Function info---------------"<<endl;
-    os<<(*ptrFIs);
-
-    os<<"#----Fixed vector info-----------------"<<endl;
-    os<<(*ptrVIs);
-  }
-  if (debug) cout<<"finished MoltToMaturity::write"<<endl;
-}
-
-///////////////////////////////////AnnualRecruitment/////////////////////////////////
-int AnnualRecruitment::debug=1;
-const adstring AnnualRecruitment::KEYWORD="annual_recruitment";
-
-/**
- * Class constructor
- */
-AnnualRecruitment::AnnualRecruitment(){
-  if (debug) cout<<"starting AnnualRecruitment::AnnualRecruitment"<<endl;
-  ptrFCs = nullptr;
-  ptrVPFIs = nullptr;
-  nFunctionTypes = 0;
-  ptrVPVIs = nullptr;
-  if (debug) cout<<"finished AnnualRecruitment::AnnualRecruitment"<<endl;
-}
-
-/**
- * Class destructor
- */
-AnnualRecruitment::~AnnualRecruitment(){
-  if (ptrFCs)   delete ptrFCs;   ptrFCs=nullptr;
-  if (ptrVPFIs) delete ptrVPFIs; ptrVPFIs=nullptr;
-  if (ptrVPVIs) delete ptrVPVIs; ptrVPVIs=nullptr;
-}
-
-/**
- * Read object from input stream in ADMB format.
- * 
- * @param is - file input stream
- */
-void AnnualRecruitment::read(cifstream & is){
-  if (debug) cout<<"starting AnnualRecruitment::read from '"<<is.get_file_name()<<"'"<<endl;
-  adstring str;
-  is>>str; gmacs::checkKeyWord(str,KEYWORD,"AnnualRecruitment::read");
-//  if (debug) FactorCombinations::debug=1;
-  if (ptrFCs) delete ptrFCs;
-  ptrFCs = new FactorCombinations();
-  is>>(*ptrFCs);
-//  if (debug) FactorCombinations::debug=0;
-  
-  nFunctionTypes = ptrFCs->countType("var_function"); 
-  if (debug) cout<<"nFunctionTypes = "<<nFunctionTypes<<endl;
-  if (ptrVPFIs) delete ptrVPFIs;
-  ptrVPFIs = new VarParamFunctionsInfo();
-  is>>(*ptrVPFIs);
-  if (debug) cout<<(*ptrVPFIs)<<endl;
-  
-  if (ptrVPVIs) delete ptrVPVIs;
-  ptrVPVIs = new AllVarParamsVariationInfo();
-  is>>(*ptrVPVIs);
-  if (debug) cout<<(*ptrVPVIs)<<endl;
-  
-  if (debug) cout<<"finished AnnualRecruitment::read from '"<<is.get_file_name()<<"'"<<endl;
-}
-/**
- * Write object to output stream in ADMB format.
- * 
- * @param os - output stream
- */
-void AnnualRecruitment::write(std::ostream & os){
-  if (debug) cout<<"starting AnnualRecruitment::write"<<endl;
-  os<<KEYWORD<<"       #--keyword-----------------------------------"<<endl;
-  os<<"#--Factor combinations--------------"<<endl;
-  os<<"#----Type options--------------"<<endl;
-  os<<"# 'var_function': function with estimable parameters w/ variation (specified in 'var_functions' information section)"<<endl;
-  os<<(*ptrFCs);
-  
-  os<<"#--Parameter info---------------"<<endl;
-  
-  os<<"#----var_functions info---------------"<<endl;
-  os<<(*ptrVPFIs);
-  
-  os<<"#----var_params info---------------"<<endl;
-  os<<(*ptrVPVIs);
-  
-  if (debug) cout<<"finished AnnualRecruitment::write"<<endl;
-}
-
-///////////////////////////////////RecruitmentAtSize/////////////////////////////////
-int RecruitmentAtSize::debug=1;
-const adstring RecruitmentAtSize::KEYWORD="recruitment_at_size";
-
-/**
- * Class constructor
- */
-RecruitmentAtSize::RecruitmentAtSize(){
-  if (debug) cout<<"starting RecruitmentAtSize::RecruitmentAtSize"<<endl;
-  ptrFCs = nullptr;
-  ptrVPFIs = nullptr;
-  nFunctionTypes = 0;
-  ptrVPVIs = nullptr;
-  if (debug) cout<<"finished RecruitmentAtSize::RecruitmentAtSize"<<endl;
-}
-
-/**
- * Class destructor
- */
-RecruitmentAtSize::~RecruitmentAtSize(){
-  if (ptrFCs)   delete ptrFCs;   ptrFCs=nullptr;
-  if (ptrVPFIs) delete ptrVPFIs; ptrVPFIs=nullptr;
-  if (ptrVPVIs) delete ptrVPVIs; ptrVPVIs=nullptr;
-}
-
-/**
- * Read object from input stream in ADMB format.
- * 
- * @param is - file input stream
- */
-void RecruitmentAtSize::read(cifstream & is){
-  if (debug) cout<<"starting RecruitmentAtSize::read from '"<<is.get_file_name()<<"'"<<endl;
-  adstring str;
-  is>>str; gmacs::checkKeyWord(str,KEYWORD,"RecruitmentAtSize::read");
-//  if (debug) FactorCombinations::debug=1;
-  if (ptrFCs) delete ptrFCs;
-  ptrFCs = new FactorCombinations();
-  is>>(*ptrFCs);
-//  if (debug) FactorCombinations::debug=0;
-  
-  nFunctionTypes = ptrFCs->countType("var_function"); 
-  if (debug) cout<<"nFunctionTypes = "<<nFunctionTypes<<endl;
-  if (ptrVPFIs) delete ptrVPFIs;
-  ptrVPFIs = new VarParamFunctionsInfo();
-  is>>(*ptrVPFIs);
-  if (debug) cout<<(*ptrVPFIs)<<endl;
-  
-  if (ptrVPVIs) delete ptrVPVIs;
-  ptrVPVIs = new AllVarParamsVariationInfo();
-  is>>(*ptrVPVIs);
-  if (debug) cout<<(*ptrVPVIs)<<endl;
-  
-  if (debug) cout<<"finished RecruitmentAtSize::read from '"<<is.get_file_name()<<"'"<<endl;
-}
-/**
- * Write object to output stream in ADMB format.
- * 
- * @param os - output stream
- */
-void RecruitmentAtSize::write(std::ostream & os){
-  if (debug) cout<<"starting RecruitmentAtSize::write"<<endl;
-  os<<KEYWORD<<"       #--keyword-----------------------------------"<<endl;
-  os<<"#--Factor combinations--------------"<<endl;
-  os<<"#----Type options--------------"<<endl;
-  os<<"# 'var_function': function with estimable parameters w/ variation (specified in 'var_functions' information section)"<<endl;
-  os<<(*ptrFCs);
-  
-  os<<"#--Parameter info---------------"<<endl;
-  
-  os<<"#----var_functions info---------------"<<endl;
-  os<<(*ptrVPFIs);
-  
-  os<<"#----var_params info---------------"<<endl;
-  os<<(*ptrVPVIs);
-  
-  if (debug) cout<<"finished RecruitmentAtSize::write"<<endl;
-}
-
 ///////////////////////////////////ModelCTL/////////////////////////////////////
 int ModelCTL::debug = 1;
 /* model ctl file version */
@@ -611,8 +33,81 @@ ModelCTL::~ModelCTL(){
   if (ptrMP)   delete ptrMP;   ptrMP   = nullptr;
   if (ptrM2M)  delete ptrM2M;  ptrM2M  = nullptr;
   if (ptrGrw)  delete ptrGrw;  ptrGrw  = nullptr;
-  if (ptrAnnRec)  delete ptrAnnRec;  ptrAnnRec  = nullptr;
-  if (ptrRecAtZ)  delete ptrRecAtZ;  ptrRecAtZ  = nullptr;
+  if (ptrAnnRec) delete ptrAnnRec;  ptrAnnRec  = nullptr;
+  if (ptrRecAtZ) delete ptrRecAtZ;  ptrRecAtZ  = nullptr;
+}
+/**
+ * Calculate number of parameters
+ * 
+ * @return - (int) number of parameters
+ */
+int ModelCTL::calcNumParams(){
+  int n = 0;
+  if (ptrWatZ)   n += ptrWatZ->calcNumParams();
+//  if (ptrNM)     n += ptrNM->calcNumParams();
+  if (ptrMP)     n += ptrMP->calcNumParams();
+  if (ptrM2M)    n += ptrM2M->calcNumParams();
+  if (ptrGrw)    n += ptrGrw->calcNumParams();
+//  if (ptrAnnRec) n += ptrAnnRec->calcNumParams();
+//  if (ptrRecAtZ) n += ptrRecAtZ->calcNumParams();
+  return n;
+}
+/**
+ * For each parameter, set the index of the corresponding gmacs 
+ * parameter, including mirrored parameters
+ * 
+ * @return (int) the index associated with the last parameter
+ * 
+ * @details The returned value should be equal to the number of 
+ * non-mirrored parameters.
+ */
+int ModelCTL::setParamIndices(){
+  //must follow the order of evaluation in calcILUPJs
+  int idx=0;
+  if (ptrWatZ) idx = ptrWatZ->setParamIndices(idx);    
+//  if (ptrNM) idx = ???   
+  if (ptrMP)  idx = ptrMP->setParamIndices(idx);    
+  if (ptrM2M) idx = ptrM2M->setParamIndices(idx);    
+  if (ptrGrw) idx = ptrGrw->setParamIndices(idx);    
+//  if (ptrAnnRec) idx = ???
+//  if (ptrRecAtZ) idx = ???    
+  return idx;  
+}
+/**
+ * Utility function to copy matrix of initial value, lower bound, upper bound, phase, 
+ * and jitter flag for all parameters in an object to a summary matrix
+ * 
+ * @param ctr - row counter for summary matrix
+ * @param ptr - pointer to object to extract ILUJPs matrix from
+ * @param dm - matrix to copy the extracted matrix into
+ * 
+ * @return - (int) the last row of dm written to
+ */
+int ModelCTL::extractILUPJs(int ctr,AllParamsInfo* ptr,dmatrix& dm){
+  if (ptr){
+    dmatrix dm1 = ptr->calcILUPJs();    
+    for (int r=dm1.indexmin();r<=dm1.indexmax();r++) dm(++ctr) = dm1(r);
+  }
+  return ctr;
+}
+/**
+ * Create a matrix with initial value, lower bound, upper bound, phase, and jitter flag 
+ * for all parameters.
+ * 
+ * @return - dmatrix with initial value, lower bound, upper bound, phase, 
+ * and jitter flag for all parameters
+ */
+dmatrix ModelCTL::calcILUPJs(){
+  int n = calcNumParams();
+  dmatrix dm(1,n,1,5); int ctr = 0;
+  if (ptrWatZ) ctr = extractILUPJs(ctr,ptrWatZ,dm);    
+//  if (ptrNM) ctr = extractILUPJs(ctr,ptrNM,dm);    
+  if (ptrMP) ctr = extractILUPJs(ctr,ptrMP,dm);    
+  if (ptrM2M) ctr = extractILUPJs(ctr,ptrM2M,dm);    
+  if (ptrGrw) ctr = extractILUPJs(ctr,ptrGrw,dm);    
+//  if (ptrAnnRec) ctr = extractILUPJs(ctr,ptrAnnRec,dm);    
+//  if (ptrRecAtZ) ctr = extractILUPJs(ctr,ptrRecAtZ,dm);    
+  return dm;  
 }
 /**
  * Read object from input stream in ADMB format.

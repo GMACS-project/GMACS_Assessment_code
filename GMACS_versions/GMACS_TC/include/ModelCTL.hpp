@@ -15,360 +15,7 @@
 #include "ParamInfo.hpp"
 #include "VarParamInfo.hpp"
 #include "FixedQuantitiesInfo.hpp"
-
-///////////////////////////////////WeightAtSize/////////////////////////////////
-class WeightAtSize{
-public:
-  /* flag to print debugging info */
-  static int debug;
-  /* keyword */
-  static const adstring KEYWORD;
-  
-  /* pointer to FactorCombinations object */
-  FactorCombinations* ptrFCs;
-  /* number of factor combinations using the function type */
-  int nFunctionTypes;
-  /* pointer to StdParamFunctionsInfo object */
-  StdParamFunctionsInfo* ptrFIs;
-  /* number of factor combinations using the vector type */
-  int nVectorTypes;
-  /* pointer to FixedVectorsInfo object */
-  FixedVectorsInfo* ptrVIs;
-  
-  /**
-   * Class constructor
-   */
-  WeightAtSize();
-  
-  /**
-   * Class destructor
-   */
-  ~WeightAtSize();
-  
-  /**
-   * Read object from input stream in ADMB format.
-   * 
-   * @param is - file input stream
-   */
-  void read(cifstream & is);
-  /**
-   * Write object to output stream in ADMB format.
-   * 
-   * @param os - output stream
-   */
-  void write(std::ostream & os);
-  /**
-   * Operator to read from input filestream in ADMB format
-   */
-  friend cifstream&    operator >>(cifstream & is, WeightAtSize & obj){obj.read(is);return is;}
-  /**
-   * Operator to write to output stream in ADMB format
-   */
-  friend std::ostream& operator <<(std::ostream & os,   WeightAtSize & obj){obj.write(os);return os;}
-};
-
-///////////////////////////////////NatMort/////////////////////////////////
-class NatMort{
-public:
-  /* flag to print debugging info */
-  static int debug;
-  /* keyword */
-  static const adstring KEYWORD;
-  
-  /* pointer to FactorCombinations object */
-  FactorCombinations* ptrFCs;
-  /* number of factor combinations using the var_function type */
-  int nFunctionTypes;
-  /* pointer to VarParamFunctionsInfo object */
-  VarParamFunctionsInfo* ptrVPFIs;
-  /* pointer to AllVarParamsInfo object */
-  AllVarParamsVariationInfo* ptrVPVIs;
-  
-  /**
-   * Class constructor
-   */
-  NatMort();
-  
-  /**
-   * Class destructor
-   */
-  ~NatMort();
-  
-  /**
-   * Read object from input stream in ADMB format.
-   * 
-   * @param is - file input stream
-   */
-  void read(cifstream & is);
-  /**
-   * Write object to output stream in ADMB format.
-   * 
-   * @param os - output stream
-   */
-  void write(std::ostream & os);
-  /**
-   * Operator to read from input filestream in ADMB format
-   */
-  friend cifstream&    operator >>(cifstream & is, NatMort & obj){obj.read(is);return is;}
-  /**
-   * Operator to write to output stream in ADMB format
-   */
-  friend std::ostream& operator <<(std::ostream & os,   NatMort & obj){obj.write(os);return os;}
-};
-
-///////////////////////////////////MoltProbability/////////////////////////////////
-class MoltProbability{
-public:
-  /* flag to print debugging info */
-  static int debug;
-  /* keyword */
-  static const adstring KEYWORD;
-  /* pointer to FactorCombinations object */
-  FactorCombinations* ptrFCs;
-  /* number of factor combinations using the function type */
-  int nFunctionTypes;
-  /* pointer to StdParamFunctionsInfo object */
-  StdParamFunctionsInfo* ptrFIs;
-  /* number of factor combinations using the vector type*/
-  int nVectorTypes;
-  /* pointer to FixedVectorsInfo object */
-  FixedVectorsInfo* ptrVIs;
-  
-  /**
-   * Class constructor
-   */
-  MoltProbability();
-  
-  /**
-   * Class destructor
-   */
-  ~MoltProbability();
-  
-  /**
-   * Read object from input stream in ADMB format.
-   * 
-   * @param is - file input stream
-   */
-  void read(cifstream & is);
-  /**
-   * Write object to output stream in ADMB format.
-   * 
-   * @param os - output stream
-   */
-  void write(std::ostream & os);
-  /**
-   * Operator to read from input filestream in ADMB format
-   */
-  friend cifstream&    operator >>(cifstream & is, MoltProbability & obj){obj.read(is);return is;}
-  /**
-   * Operator to write to output stream in ADMB format
-   */
-  friend std::ostream& operator <<(std::ostream & os,   MoltProbability & obj){obj.write(os);return os;}
-};
-
-///////////////////////////////////MoltToMaturity///////////////////////////////
-class MoltToMaturity{
-public:
-  /* flag to print debugging info */
-  static int debug;
-  /* keyword */
-  static const adstring KEYWORD;
-  /* integer flag indicating whether or not terminal molt occurs */
-  int hasTM; 
-  /* pointer to FactorCombinations object */
-  FactorCombinations* ptrFCs;
-  /* number of factor combinations using the function type */
-  int nFunctionTypes;
-  /* pointer to StdParamFunctionsInfo object */
-  StdParamFunctionsInfo* ptrFIs;
-  /* number of factor combinations using the vector type*/
-  int nVectorTypes;
-  /* pointer to FixedVectorsInfo object */
-  FixedVectorsInfo* ptrVIs;
-  
-  /**
-   * Class constructor
-   */
-  MoltToMaturity();
-  
-  /**
-   * Class destructor
-   */
-  ~MoltToMaturity();
-  
-  /**
-   * Read object from input stream in ADMB format.
-   * 
-   * @param is - file input stream
-   */
-  void read(cifstream & is);
-  /**
-   * Write object to output stream in ADMB format.
-   * 
-   * @param os - output stream
-   */
-  void write(std::ostream & os);
-  /**
-   * Operator to read from input filestream in ADMB format
-   */
-  friend cifstream&    operator >>(cifstream & is, MoltToMaturity & obj){obj.read(is);return is;}
-  /**
-   * Operator to write to output stream in ADMB format
-   */
-  friend std::ostream& operator <<(std::ostream & os,   MoltToMaturity & obj){obj.write(os);return os;}
-};
-
-///////////////////////////////////Growth/////////////////////////////////
-class Growth{
-public:
-  /* flag to print debugging info */
-  static int debug;
-  /* keyword */
-  static const adstring KEYWORD;
-  /* pointer to FactorCombinations object */
-  FactorCombinations* ptrFCs;
-  /* number of factor combinations using the function type */
-  int nFunctionTypes;
-  /* pointer to StdParamFunctionsInfo object */
-  StdParamFunctionsInfo* ptrFIs;
-  /* number of factor combinations using the param matrix type */
-  int nParamMatrixFunctionTypes;
-  /* pointer to ParamMatrixsInfo object */
-  ParamMatrixFunctionsInfo* ptrPMIs;
-  /* number of factor combinations using the fixed matrix type */
-  int nFixedMatrixTypes;
-  /* pointer to FixedMatrixsInfo object */
-  FixedMatrixsInfo* ptrFMIs;
-  
-  /**
-   * Class constructor
-   */
-  Growth();
-  
-  /**
-   * Class destructor
-   */
-  ~Growth();
-  
-  /**
-   * Read object from input stream in ADMB format.
-   * 
-   * @param is - file input stream
-   */
-  void read(cifstream & is);
-  /**
-   * Write object to output stream in ADMB format.
-   * 
-   * @param os - output stream
-   */
-  void write(std::ostream & os);
-  /**
-   * Operator to read from input filestream in ADMB format
-   */
-  friend cifstream&    operator >>(cifstream & is, Growth & obj){obj.read(is);return is;}
-  /**
-   * Operator to write to output stream in ADMB format
-   */
-  friend std::ostream& operator <<(std::ostream & os,   Growth & obj){obj.write(os);return os;}
-};
-
-///////////////////////////////////AnnualRecruitment/////////////////////////////////
-class AnnualRecruitment{
-public:
-  /* flag to print debugging info */
-  static int debug;
-  /* keyword */
-  static const adstring KEYWORD;
-  
-  /* pointer to FactorCombinations object */
-  FactorCombinations* ptrFCs;
-  /* number of factor combinations using the var_function type */
-  int nFunctionTypes;
-  /* pointer to VarParamFunctionsInfo object */
-  VarParamFunctionsInfo* ptrVPFIs;
-  /* pointer to AllVarParamsInfo object */
-  AllVarParamsVariationInfo* ptrVPVIs;
-  
-  /**
-   * Class constructor
-   */
-  AnnualRecruitment();
-  
-  /**
-   * Class destructor
-   */
-  ~AnnualRecruitment();
-  
-  /**
-   * Read object from input stream in ADMB format.
-   * 
-   * @param is - file input stream
-   */
-  void read(cifstream & is);
-  /**
-   * Write object to output stream in ADMB format.
-   * 
-   * @param os - output stream
-   */
-  void write(std::ostream & os);
-  /**
-   * Operator to read from input filestream in ADMB format
-   */
-  friend cifstream&    operator >>(cifstream & is, AnnualRecruitment & obj){obj.read(is);return is;}
-  /**
-   * Operator to write to output stream in ADMB format
-   */
-  friend std::ostream& operator <<(std::ostream & os,   AnnualRecruitment & obj){obj.write(os);return os;}
-};
-
-///////////////////////////////////RecruitmentAtSize/////////////////////////////////
-class RecruitmentAtSize{
-public:
-  /* flag to print debugging info */
-  static int debug;
-  /* keyword */
-  static const adstring KEYWORD;
-  
-  /* pointer to FactorCombinations object */
-  FactorCombinations* ptrFCs;
-  /* number of factor combinations using the var_function type */
-  int nFunctionTypes;
-  /* pointer to VarParamFunctionsInfo object */
-  VarParamFunctionsInfo* ptrVPFIs;
-  /* pointer to AllVarParamsInfo object */
-  AllVarParamsVariationInfo* ptrVPVIs;
-  
-  /**
-   * Class constructor
-   */
-  RecruitmentAtSize();
-  
-  /**
-   * Class destructor
-   */
-  ~RecruitmentAtSize();
-  
-  /**
-   * Read object from input stream in ADMB format.
-   * 
-   * @param is - file input stream
-   */
-  void read(cifstream & is);
-  /**
-   * Write object to output stream in ADMB format.
-   * 
-   * @param os - output stream
-   */
-  void write(std::ostream & os);
-/**
-   * Operator to read from input filestream in ADMB format
-   */
-  friend cifstream&    operator >>(cifstream & is, RecruitmentAtSize & obj){obj.read(is);return is;}
-  /**
-   * Operator to write to output stream in ADMB format
-   */
-  friend std::ostream& operator <<(std::ostream & os,   RecruitmentAtSize & obj){obj.write(os);return os;}
-};
+#include "ModelCTL_Components.hpp"
 
 ////////////////////////////////////--ModeCTL--/////////////////////////////////
 class ModelCTL{
@@ -397,11 +44,34 @@ public:
    * Class constructor
    */
   ModelCTL();
-  
   /**
    * Class destructor
    */
   ~ModelCTL();
+  /**
+   * Calculate number of parameters
+   * 
+   * @return - (int) number of parameters
+   */
+  int calcNumParams();
+  /**
+   * For each parameter, set the index of the corresponding gmacs 
+   * parameter, including mirrored parameters
+   * 
+   * @return (int) the index associated with the last parameter
+   * 
+   * @details The returned value should be equal to the number of 
+   * non-mirrored parameters.
+   */
+  int setParamIndices();
+  /**
+   * Create a matrix with initial value, lower bound, upper bound, phase, and jitter flag 
+   * for all parameters.
+   * 
+   * @return - dmatrix with initial value, lower bound, upper bound, phase, 
+   * and jitter flag for all parameters
+   */
+  dmatrix calcILUPJs();
   /**
    * Read object from input stream in ADMB format.
    * 
@@ -422,6 +92,19 @@ public:
    * Operator to write to output stream in ADMB format
    */
   friend std::ostream& operator <<(std::ostream & os,   ModelCTL & obj){obj.write(os);return os;}
+  
+private:
+  /**
+   * Utility function to copy matrix of initial value, lower bound, upper bound, phase, 
+   * and jitter flag for all parameters in an object to a summary matrix
+   * 
+   * @param ctr - row counter for summary matrix
+   * @param ptr - pointer to object to extract ILUJPs matrix from
+   * @param dm - matrix to copy the extracted matrix into
+   * 
+   * @return - (int) the last row of dm written to
+   */
+  int extractILUPJs(int ctr,AllParamsInfo* ptr,dmatrix& dm);
 };
 
 #endif /* MODELCTL_HPP */

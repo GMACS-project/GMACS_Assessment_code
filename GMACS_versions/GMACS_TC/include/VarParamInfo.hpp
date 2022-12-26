@@ -16,17 +16,63 @@
 #include <map>
 #include <admodel.h>
 #include "ModelConfiguration.hpp"
-#include "ParamInfo.hpp"
 
-///////////////////////////////////VarFunctionInfo////////////////////////////
-class VarParamFunctionInfo{
+///////////////////////////////////BasicVarParamInfo////////////////////////////
+class BasicVarParamInfo{
+public:
+  /* flag to print debugging info */
+  static int debug;
+  /* initial value */
+  double init_val;
+  /* lower bound */
+  double lwr_bnd;
+  /* upper bound */
+  double upr_bnd;
+  /* estimation phase */
+  int phase;
+  /* flag to jitter initial value */
+  int jitter;
+  /* name of prior pdf */
+  adstring s_prior;
+  /* leading parameter for prior */
+  double p1;
+  /* secondary parameter for prior */
+  double p2;
+  /* index into gmacs parameter vector */
+  int idx;
+  
+  BasicVarParamInfo();
+  ~BasicVarParamInfo();
+   /**
+   * Read object from input stream in ADMB format.
+   * 
+   * @param is - file input stream
+   */
+  void read(cifstream & is);
+  /**
+   * Write object to output stream in ADMB format.
+   * 
+   * @param os - output stream
+   */
+  void write(std::ostream & os);
+  /**
+   * Operator to read from input filestream in ADMB format
+   */
+  friend cifstream&    operator >>(cifstream & is, BasicVarParamInfo & obj){obj.read(is);return is;}
+  /**
+   * Operator to write to output stream in ADMB format
+   */
+  friend std::ostream& operator <<(std::ostream & os,   BasicVarParamInfo & obj){obj.write(os);return os;}
+  
+};//--BasicVarParamInfo
+
+///////////////////////////////////VarPAramFunctionInfo////////////////////////////
+class VarParamFunctionInfo: BasicVarParamInfo {
 public:
   /* flag to print debugging info */
   static int debug;
   /* factor combination index */
   int fc;
-  /* function name */
-  adstring s_function;
   /* parameter name */
   adstring s_param;
   /* id of mirror for parameter */
@@ -41,10 +87,8 @@ public:
   int nECs;
   /* environmental covariate names */
   adstring_array sa_ECs;
-  /* pointer to basic parameter info */
-  BasicParamInfo* ptrPI;
   
-  VarParamFunctionInfo(int fc_,adstring& function_,adstring& param_);
+  VarParamFunctionInfo(int fc_,adstring& param_);
   ~VarParamFunctionInfo();
    /**
    * Read object from input stream in ADMB format.
@@ -199,7 +243,7 @@ public:
 };//--VarParamTypesInfo
 
 ///////////////////////////////////VarParamInfo////////////////////////////
-class VarParamInfo: public BasicParamInfo {
+class VarParamInfo: public BasicVarParamInfo {
 public:
   /* flag to print debugging info */
   static int debug;
@@ -334,8 +378,8 @@ public:
   
 };//--VarParamsCombinedInfo
 
-//////////////////////////////AllVarParamTypesInfo//////////////////////////
-class AllVarParamsVariationInfo{
+//////////////////////////////VarParamsVariationInfo//////////////////////////
+class VarParamsVariationInfo{
 public:
   /* flag to print debugging info */
   static int debug;
@@ -353,11 +397,11 @@ public:
   /** 
    * Class constructor
    */
-  AllVarParamsVariationInfo();
+  VarParamsVariationInfo();
   /** 
    * Class destructor
    */
-  ~AllVarParamsVariationInfo();
+  ~VarParamsVariationInfo();
    /**
    * Read object from input stream in ADMB format.
    * 
@@ -373,13 +417,13 @@ public:
   /**
    * Operator to read from input filestream in ADMB format
    */
-  friend cifstream&    operator >>(cifstream & is, AllVarParamsVariationInfo & obj){obj.read(is);return is;}
+  friend cifstream&    operator >>(cifstream & is, VarParamsVariationInfo & obj){obj.read(is);return is;}
   /**
    * Operator to write to output stream in ADMB format
    */
-  friend std::ostream& operator <<(std::ostream & os,   AllVarParamsVariationInfo & obj){obj.write(os);return os;}
+  friend std::ostream& operator <<(std::ostream & os,   VarParamsVariationInfo & obj){obj.write(os);return os;}
   
-};//--AllVarParamTypesInfo
+};//--VarParamsVariationInfo
 
 
 #endif /* VARPARAMINFO_HPP */

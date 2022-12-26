@@ -20,7 +20,7 @@
 //    s = shell condition      (1:nSCs; AGG_sc=0)
 //    a = age class            (1:nAges;AGG_age=0)
 //    z = size bin             (1:nZBs;;AGG_zbs=0)
-//    c = combination          
+//    c = factor combination          
 //
 //  OUTPUT FILES:
 //    gmacs.rep  Main result file for reading into R etc
@@ -55,6 +55,8 @@
 //                 factor combinations); instead reading info until reaching an EOF (fc\<0)
 //2022-12-20: 1. Developed VarParam classes and added NatMort class to ModelCTL.
 //2022-12-21: 1. Added AnnualRecruitment and RecuitmentAtSize classes to ModelCTL.
+//2022-12-25: 1. Completed i/o revisions to ParamInfo and FixedQuantities objects to 
+//                 facilitate parameter matching.
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
@@ -76,8 +78,13 @@ GLOBALS_SECTION
   long hour,minute,second;
   double elapsed_time;
   
+  //commandline inputs
+  int usePin = 0;//initially set to false
+  int nRetro = 0;//number of retrospective peels to remove (years to drop)
+  
   //pointers to model objects
-  ModelCTL* ptrCTL; //ptr to model control file object
+  ModelConfiguration* ptrMC;//ptr to model configuration object
+  ModelCTL* ptrCTL;         //ptr to model control file object
 
 
 // ================================================================================================
@@ -89,6 +96,7 @@ DATA_SECTION
   !! ECHOSTR("+----------------------+");
 //  !! TheHeader =  adstring("## GMACS TC Version 0.0; Compiled 2022-11-16");
   
+ //the sandbox for testing DATA_SECTION concepts
  LOCAL_CALCS
   adstring t1 = "test1";
   adstring t2 = "test23";
@@ -114,6 +122,27 @@ DATA_SECTION
   // #include "gmacs_sandbox_data_section.cpp"
 //  exit(-1);
  END_CALCS  
+    
+  //process commandline inputs
+ LOCAL_CALCS
+    {
+      int on; int opt;//defined for local scope only here
+      
+      //Adjust number of retrospective peels via command line input
+      if ( (on=option_match(ad_comm::argc,ad_comm::argv,"-nRetro",opt))>-1 ) {
+        if (on+1<argc) {
+            nRetro=atoi(ad_comm::argv[on+1]);
+            adstring str = "#Retrospective model run using yRetro = " + ::str(nRetro);
+            ECHOSTR(str);
+        }
+      }
+      
+      //use a pin file to initialize parameter values?
+      if ( (on=option_match(ad_comm::argc,ad_comm::argv,"-pin",opt))>-1 ) {
+        usePin = 1;//set pin flag
+        ECHOSTR("using pin file");
+      }
+ END_CALCS
             
   //read from gmacs.dat file
   init_adstring fn_mc;
@@ -130,20 +159,43 @@ DATA_SECTION
       ECHOSTR("#--------finished gmacs.dat-------")
     }
  END_CALCS
+ 
+  int stYr;   //start year
+  int fnYr;   //final complete year
+  int nRGs;   //number of regions defined
+  int nSXs;   //number of sexes defined
+  int nMSs;   //number of maturity states defined
+  int nSCs;   //number of shell conditions defined
+  int nZBs;   //number of size bins
+  int nZCs;   //number of size bin cutpoints (nZBs+1)
  LOCAL_CALCS
-    {
       ECHOSTR("#-----------------------------------")
       ECHOSTR("#--------Model Configuration--------")
       adstring str = "#--Reading configuration file "+fn_mc;
       ECHOSTR(str)
       ad_comm::change_datafile_name(fn_mc);
-      ModelConfiguration* ptrMC = ModelConfiguration::getInstance();
+      ptrMC = ModelConfiguration::getInstance();//the object is a singleton, hence the static access
       ptrMC->read(*(ad_comm::global_datafile));
       ECHOSTR("#--Finished reading configuration file")
       ofstream os("gmacs_in_MCI.dat");
       os<<(*ptrMC);
       echo::out<<(*ptrMC);
+      ptrMC->setNumRetroYears(nRetro);//need to set before determining year validity
+      stYr = ptrMC->stYr;
+      fnYr = ptrMC->fnYr;//nRetro NOT accounted for
+      nRGs = ptrMC->pRGs->getSize();//number of regions (not including "all")
+      nSXs = ptrMC->pSXs->getSize();//number of sexes (not including "all")
+      nMSs = ptrMC->pMSs->getSize();//number of maturity states (not including "all")
+      nSCs = ptrMC->pSCs->getSize();//number of shell conditions (not including "all")
+      nZBs = ptrMC->pZBs->getSize();//number of size bins
     }
+ END_CALCS
+    vector zBs(1,nZBs); //1-based vector of size bins
+    vector zCs(0,nZBs); //0-based vector of size bin cutpoints
+    !!zBs = ptrMC->pZBs->midpts;//assign midpoints to size bins
+    !!zCs = ptrMC->pZBs->cutpts;//assign size bin cutpoints
+
+ LOCAL_CALCS
     {
       ECHOSTR("#--------Model Control--------")
       adstring str = "#--Reading ctl file "+fn_ctl;
@@ -155,21 +207,50 @@ DATA_SECTION
       ofstream os("gmacs_in_CTL.dat");
       os<<(*ptrCTL);
       echo::out<<(*ptrCTL);
+      
+      ECHOSTR("\n#------");
+      int numParams = ptrCTL->calcNumParams();
+      ECHOOBJ("numParams = ",numParams);
+      dmatrix dm = ptrCTL->calcILUPJs();
+      ECHOOBJ("ILUPJs",dm);
+      ptrCTL->setParamIndices();
+      os<<(*ptrCTL);
+      echo::out<<(*ptrCTL);
+//      exit(-1);
     }
  END_CALCS  
     
-// //determine parameter information
-// //--count parameters
-// int nparams = 0;
-// //--create vectors with initial values, upper and lower bounds
-// dvector init_vals(1,nparams);
-// dvector params_lb(1,nparams);
-// dvector params_ub(1,nparams);
-// ivector params_phs(1,nparams);
+  //determine parameter information
+  int nParams;//number of parameters
+ !!nParams = ptrCTL->calcNumParams();//--count number of non-mirrored parameters
+  //--create vectors for initial values, lower and upper bounds, phases, and jitter flags
+  vector params_ivs(1,nParams);//initial values
+  vector params_lbs(1,nParams);//lower bounds
+  vector params_ubs(1,nParams);//upper bounds
+  ivector params_phs(1,nParams);//phases
+  ivector params_jts(1,nParams);//jitter flags
+ LOCAL_CALCS
+    //--extract parameter initial values, lower and upper bounds, phases, and jitter flags
+    dmatrix dm = ptrCTL->calcILUPJs();
+    for (int i=1;i<=nParams;i++){
+      params_ivs(i) = dm(1,1);//initial values
+      params_lbs(i) = dm(1,2);//lower bounds
+      params_ubs(i) = dm(1,3);//upper bounds
+      params_phs(i) = (int) dm(i,4);//phases
+      params_jts(i) = (int) dm(i,5);//jitter flags
+    }
+    //check number of parameters that will be active
+    int nA = 0;
+    for (int i=1;i<=nParams;i++) 
+      if (params_phs(i)>0) nA++;
+    cout<<"number of active parameters is "<<nA<<endl;
+ END_CALCS
             
  int nFunCalls;
  !!nFunCalls = 0;
 
+  !! ECHOSTR("| finished Data Section         |");
+  
 // ================================================================================================
 // ================================================================================================
 // Label 200: INITIALIZATION_SECTION
@@ -182,11 +263,32 @@ PARAMETER_SECTION
   !! ECHOSTR("+----------------------+");
   !! ECHOSTR("| Parameter Section    |");
   !! ECHOSTR("+----------------------+");
-  init_number dummy;
-//  init_bounded_number_vector params(1,nparams,params_lb,params_ub,params_phs);
+//  init_number dummy;
+  init_bounded_number_vector params(1,nParams,params_lbs,params_ubs,params_phs);
+  
+  !!ECHOSTR("creating population numbers array");
+  6darray n_yrxmsz(stYr,fnYr+1,1,nRGs,1,nSXs,1,nMSs,1,nSCs,1,nZBs);
+  
+  !!ECHOSTR("creating arrays for factor combinations");
+  !!ECHOSTR("WatZ");
+  !!int nFCs_WatZ = ptrCTL->ptrWatZ->getNumFCs();//number of factor combinations for specifying size-specific weight
+  matrix wAtZ_cz(1,nFCs_WatZ,1,nZBs);         //weight-at-size, by feature combination
+  
+  !!ECHOSTR("MP");
+  !!int nFCs_MP = ptrCTL->ptrMP->getNumFCs();     //number of factor combinations for specifying the size-specific probability of molting
+  matrix prMolt_cz(1,nFCs_WatZ,1,nZBs);        //size-specific probability of molting, by feature combination
+  
+  !!ECHOSTR("M2M");
+  !!int nFCs_M2M = ptrCTL->ptrM2M->getNumFCs();   //number of factor combinations for specifying the size-specific probability of molt-to-maturity
+  matrix prM2M_cz(1,nFCs_M2M,1,nZBs);          //size-specific probability of undergoing molt-to-maturity,by feature combination
+  
+  !!ECHOSTR("Grw");
+  !!int nFCs_Grw = ptrCTL->ptrGrw->getNumFCs();   //number of factor combinations for specifying growth
+  3darray prGrw_czz(1,nFCs_Grw,1,nZBs,1,nZBs); //size-specific probability of post-molt size, given pre-molt size, by feature combination
   
   //objective function value
   objective_function_value objFun;
+  !! ECHOSTR("| finished Parameter Section    |");
 
 // ================================================================================================
 // ================================================================================================
@@ -196,6 +298,21 @@ PRELIMINARY_CALCS_SECTION
   ECHOSTR("| Preliminary Calcs Section  |");
   ECHOSTR("+----------------------------+");
   
+  //check number of parameters which will (eventually) be active
+  int chk = 0;
+  for (int i=1;i<=nParams;i++)
+    if (params(i).get_phase_start()>0) chk++;
+  cout<<"number of parameters with phase > 0: "<<chk<<endl;
+  
+  if (!usePin){
+    //set initial values using initial values from ctl file
+    for (int i=1;i<=nParams;i++) params(i) = params_ivs(i);
+    //TODO: possibly set initial numbers in different fashion
+  }
+  //calculate model results using initial values
+  
+  ECHOSTR("| finished Preliminary Calcs Section  |");
+  
 // ================================================================================================
 // ================================================================================================
 // Label 500: BETWEEN_PHASES_SECTION
@@ -203,6 +320,13 @@ BETWEEN_PHASES_SECTION
     ECHOSTR("#--BETWEEN_PHASES_SECTION---------------------");
     adstring msg = "#----Starting phase "+str(current_phase())+" of "+str(initial_params::max_number_phases);
     ECHOSTR(msg);
+    {
+      int chk = 0;
+      for (int i=1;i<=nParams;i++)
+        if ((params(i).get_phase_start()>0)&&(params(i).get_phase_start()<=current_phase())) chk++;
+      msg = "number of active parameters: "+str(chk);
+      ECHOSTR(msg);
+    }
     ECHOSTR("----------------------------------------------");
     
 // ================================================================================================
@@ -214,8 +338,19 @@ PROCEDURE_SECTION
   ECHOSTR("+----------------------------+");
   // Update function calls
   nFunCalls += 1;
+  
+  //for development only:: copy parameter values
+  int chk = 0;
+  dvar_vector pvals(1,nParams);
+  for (int i=1;i<=nParams;i++) {
+    if (params(i).get_phase_start()>0) chk++;
+    pvals(i) = params(i);
+  }
+  cout<<"number of parameters with phase > 0: "<<chk<<endl;
 
-  objFun = square(dummy);
+//  objFun = square(dummy);
+  objFun = norm2(pvals);
+  cout<<"objFun = "<<objFun<<endl;
 //  int Ipnt,ii,jj;
 //
 //  //cout << theta << endl;
@@ -5781,6 +5916,48 @@ PROCEDURE_SECTION
 //  OutFile2 << "Fdovs (flt)" <<endl;
 //  OutFile2 << nlogPenalty(12)*Penalty_emphasis(12) << endl;
 //  OutFile2 << endl;
+  
+FUNCTION calcWatZ
+  int debug=1;
+  if (debug) ECHOSTR("starting calcWatZ");
+  WeightAtSize* ptrWatZ = ptrCTL->ptrWatZ;
+  wAtZ_cz.initialize();
+  //loop through FCs: 
+  int fc = 0;
+  std::map<int,FactorCombination*> mapFCs = ptrWatZ->ptrFCs->mapFCs;
+  for (std::map<int,FactorCombination*>::iterator it=mapFCs.begin(); it!=mapFCs.end(); it++){
+    fc++;
+    int fc_ = it->second->fc;
+    adstring fcn = it->second->s_fcn;
+    dvar_vector w_z(1,nZBs);
+    if (debug) ECHOITER("fc ",it);
+    if ((it->second)->s_type=="function"){
+      if (debug) ECHOSTR("--starting calc for function type");
+      //wAtZ(fc) = 
+    } else
+    if ((it->second)->s_type=="param_vector"){
+      ECHOSTR("calcWatZ: not implemented for param_vector types yet.");
+      exit(-1);
+    } else
+    if ((it->second)->s_type=="param_matrix") {
+      ECHOSTR("calcWatZ: not implemented for param_matrix types yet.");
+      exit(-1);
+    } else
+    if ((it->second)->s_type=="fixed_vector") {
+      if (debug) ECHOSTR("--starting calc for fixed_vector type");
+      //TODO: fill in
+      //wAtZ(fc) = 
+    } else 
+    if ((it->second)->s_type=="fixed_matrix") {
+      ECHOSTR("calcWatZ: not implemented for fixed_matrix types yet.");
+      exit(-1);
+    } else {
+      //TODO: need to fill in behavior for var_ types
+      ECHOSTR("calcWatZ: not implemented for var_param types yet.");
+      exit(-1);
+    }
+  }    
+  if (debug) ECHOSTR("finished calcWatZ");
 
    
 // ================================================================================================

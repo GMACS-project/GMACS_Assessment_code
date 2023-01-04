@@ -61,10 +61,11 @@ This document is intended to give you "guidelines and generic steps" to follow w
 
 We assume you already know how to use Rstudio with projects. If you have never used Github (and/or Githhub Desktop) with Rstudio, you can find out more from the following online workshops: the ["Happy Git and Github for the useR"] from *Jenny Brian* and the [R Workflow] workshop from *Elizabeth Holmes*.
 
-Throughout this document, we will use `R` code to update to a new version of GMACS. The functions used are available in the [`gmr`] package, which is useful for working with GMACS. This package is available on the repository. To get it installed you will need the [`devtools`] package. 
+Throughout this document, we will use `R` code to update to a new version of GMACS. The functions used are available in the [`gmr`] package, which is useful for working with GMACS. 
+This package is available on the GMACS-project GitHub organisation. To get it installed you will need the [`devtools`] package. 
 
 
-In the course of this document, we will also need various packages required to i) call AD Model Builder ([ADMB]) in `R` (to compile and build the GMACS executable), ii) .
+In the course of this document, we will also need various packages required to i) call AD Model Builder ([ADMB]) in `R` (to compile and build the GMACS executable). These packages are automatically loaded when loading the [`gmr`] package into R.
 
 As the repository is private, you will have to set your credentials in R to be able to download the package.
 The following code help you to do this. Please use the address of your Github account (the one that gives you access to the organization's repository in Github).

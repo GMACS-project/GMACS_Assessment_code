@@ -216,7 +216,7 @@ pre code {
 
 <h1 class="title toc-ignore">A basic workflow for using the GMACS repository for developpers</h1>
 <h4 class="author">Matthieu VERON</h4>
-<h4 class="date">Last compiled on 21 December, 2022</h4>
+<h4 class="date">Last compiled on 01 January, 2023</h4>
 
 </div>
 
@@ -228,19 +228,20 @@ pre code {
 <h1><span class="header-section-number">1</span> Introduction</h1>
 <p>This document is intended to give you “guidelines and generic steps” to follow when working on GMACS and releasing a new version. Its aims are to show you how to use the GMACS Github repository to modify GMACS while tracking code changes. The idea is to make this workflow easy to follow so we will work with Github without the command-line interface using the graphical interface for Git <em><a href="https://desktop.github.com/">Github Desktop</a></em>.</p>
 <p>We assume you already know how to use Rstudio with projects. If you have never used Github (and/or Githhub Desktop) with Rstudio, you can find out more from the following online workshops: the <a href="https://happygitwithr.com/">“Happy Git and Github for the useR”</a> from <em>Jenny Brian</em> and the <a href="https://rverse-tutorials.github.io/RWorkflow-NWFSC-2021/index.html">R Workflow</a> workshop from <em>Elizabeth Holmes</em>.</p>
-<p>Throughout this document, we will use <code>R</code> code to update to a new version of GMACS. The functions used are available in the <a href="https://github.com/GMACS-project/gmr"><code>gmr</code></a> package, which is useful for working with GMACS. This package is available on the repository. To get it installed you will need the <a href="https://www.r-project.org/nosvn/pandoc/devtools.html"><code>devtools</code></a> package.</p>
-<p>In the course of this document, we will also need various packages required to i) call AD Model Builder (<a href="https://www.admb-project.org/">ADMB</a>) in <code>R</code> (to compile and build the GMACS executable), ii) .</p>
+<p>Throughout this document, we will use <code>R</code> code to update to a new version of GMACS. The functions used are available in the <a href="https://github.com/GMACS-project/gmr"><code>gmr</code></a> package, which is useful for working with GMACS. This package is available on the GMACS-project GitHub organisation. To get it installed you will need the <a href="https://www.r-project.org/nosvn/pandoc/devtools.html"><code>devtools</code></a> package.</p>
+<p>In the course of this document, we will also need various packages required to i) call AD Model Builder (<a href="https://www.admb-project.org/">ADMB</a>) in <code>R</code> (to compile and build the GMACS executable). These packages are automatically loaded when loading the <a href="https://github.com/GMACS-project/gmr"><code>gmr</code></a> package into R.</p>
 <p>As the repository is private, you will have to set your credentials in R to be able to download the package. The following code help you to do this. Please use the address of your Github account (the one that gives you access to the organization’s repository in Github).</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuLnBhY2sgPC0gXCJnbXJcIlxuLkRpclNyYyA8LSBcIkdNQUNTLXByb2plY3QvZ21yXCJcbi5Vc2VybmFtZSA8LSBcIlwiICAgICAgICAgICAgICAgICAgICAgIyB0aGUgbmFtZSBvZiB5b3VyIEdpdGh1YlxuLlVzZXJFbWFpbDwtIFwiXCIgICAgICAgICMgWW91ciBlbWFpbCBhZGRyZXNzIGFzc29jaWF0ZWQgdG8geW91ciBHaXRodWIgYWNjb3VudFxuXG4jIFJlbW92ZSB0aGUgcGFja2FnZSBpZiB5b3UgYWxyZWFkeSBnb3QgaXQgaW5zdGFsbGVkIG9uIHlvdXIgY29tcHV0ZXJcbnJlbW92ZS5wYWNrYWdlcygucGFjaywgbGliPVwifi9SL3dpbi1saWJyYXJ5LzQuMVwiKVxuXG4jIFNldCBjb25maWdcbnVzZXRoaXM6OnVzZV9naXRfY29uZmlnKHVzZXIubmFtZSA9IC5Vc2VybmFtZSwgdXNlci5lbWFpbCA9IC5Vc2VyRW1haWwpXG5cbiMgR28gdG8gZ2l0aHViIHBhZ2UgdG8gZ2VuZXJhdGUgdG9rZW5cbnVzZXRoaXM6OmNyZWF0ZV9naXRodWJfdG9rZW4oKSBcblxuIyBQYXN0ZSB5b3VyIFBBVCBpbnRvIHBvcC11cCB0aGF0IGZvbGxvd3MuLi5cbmNyZWRlbnRpYWxzOjpzZXRfZ2l0aHViX3BhdCgpXG5cbiMgTm93IHJlbW90ZXM6Omluc3RhbGxfZ2l0aHViKCkgd2lsbCB3b3JrXG5kZXZ0b29sczo6aW5zdGFsbF9naXRodWIoLkRpclNyYylcblxuYGBgIn0= -->
-<pre class="r"><code>.pack &lt;- &quot;gmr&quot;
-.DirSrc &lt;- &quot;GMACS-project/gmr&quot;
-.Username &lt;- &quot;&quot;                     # the name of your Github
-.UserEmail&lt;- &quot;&quot;        # Your email address associated to your Github account
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuLnBhY2sgPC0gXFxnbXJcXFxuLkRpclNyYyA8LSBcXEdNQUNTLXByb2plY3QvZ21yXFxcbi5Vc2VybmFtZSA8LSBcXFxcICAgICAgICAgICAgICAgICAgICAgIyB0aGUgbmFtZSBvZiB5b3VyIEdpdGh1YlxuLlVzZXJFbWFpbDwtIFxcXFwgICAgICAgICMgWW91ciBlbWFpbCBhZGRyZXNzIGFzc29jaWF0ZWQgdG8geW91ciBHaXRodWIgYWNjb3VudFxuXG4jIFJlbW92ZSB0aGUgcGFja2FnZSBpZiB5b3UgYWxyZWFkeSBnb3QgaXQgaW5zdGFsbGVkIG9uIHlvdXIgY29tcHV0ZXJcbnJlbW92ZS5wYWNrYWdlcygucGFjaywgbGliPVxcfi9SL3dpbi1saWJyYXJ5LzQuMVxcKVxuXG4jIFNldCBjb25maWdcbnVzZXRoaXM6OnVzZV9naXRfY29uZmlnKHVzZXIubmFtZSA9IC5Vc2VybmFtZSwgdXNlci5lbWFpbCA9IC5Vc2VyRW1haWwpXG5cbiMgR28gdG8gZ2l0aHViIHBhZ2UgdG8gZ2VuZXJhdGUgdG9rZW5cbnVzZXRoaXM6OmNyZWF0ZV9naXRodWJfdG9rZW4oKSBcblxuIyBQYXN0ZSB5b3VyIFBBVCBpbnRvIHBvcC11cCB0aGF0IGZvbGxvd3MuLi5cbmNyZWRlbnRpYWxzOjpzZXRfZ2l0aHViX3BhdCgpXG5cbiMgTm93IHJlbW90ZXM6Omluc3RhbGxfZ2l0aHViKCkgd2lsbCB3b3JrXG5kZXZ0b29sczo6aW5zdGFsbF9naXRodWIoLkRpclNyYylcblxuYGBgXG5gYGAifQ== -->
+<pre class="r"><code>```r
+.pack &lt;- \gmr\
+.DirSrc &lt;- \GMACS-project/gmr\
+.Username &lt;- \\                     # the name of your Github
+.UserEmail&lt;- \\        # Your email address associated to your Github account
 
 # Remove the package if you already got it installed on your computer
-remove.packages(.pack, lib=&quot;~/R/win-library/4.1&quot;)
+remove.packages(.pack, lib=\~/R/win-library/4.1\)
 
 # Set config
 usethis::use_git_config(user.name = .Username, user.email = .UserEmail)
@@ -254,14 +255,30 @@ credentials::set_github_pat()
 # Now remotes::install_github() will work
 devtools::install_github(.DirSrc)
 </code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>The following code proceeds the installation of the <code>[gmr]</code> package on your machine and load the various libraries.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5ybShsaXN0PWxzKCkpICAgICAjIENsZWFuIHlvdXIgUiBzZXNzaW9uXG5cbiMgU2V0IHRoZSB3b3JraW5nIGRpcmVjdG9yeSBhcyB0aGUgZGlyZWN0b3J5IG9mIHRoaXMgZG9jdW1lbnQtLS0tXG4jIHNldHdkKGRpcm5hbWUocnN0dWRpb2FwaTo6Z2V0QWN0aXZlRG9jdW1lbnRDb250ZXh0KCkkcGF0aCkpXG5cbiMgY2hlY2sgeW91ciBkaXJlY3RvcnlcbmdldHdkKClcblxuIyBJbnN0YWxsIGFuZCBsb2FkIHRoZSBwYWNrYWdlcy0tLS1cblxuIyAxLkluc3RhbGwgZGV2dG9vbHMgYW5kIGdkYXRhIG9uIHlvdXIgbWFjaGluZSAtLS0tXG5pZiAoIXJlcXVpcmUoXCJkZXZ0b29sc1wiKSkgeyAgICAgICAgICAgICAgICAgICAgICAgICMgaW5zdGFsbCBkZXZ0b29sc1xuICBpbnN0YWxsLnBhY2thZ2VzKFwiZGV2dG9vbHNcIilcbn1cblxuaWYgKCFyZXF1aXJlKFwiZ2RhdGFcIikpIHsgICAgICAgICAgICAgICAgICAgICAgICAjIG5lZWRlZCB0byBtYW5pcHVsYXRlIGRhdGFcbiAgaW5zdGFsbC5wYWNrYWdlcyhcImdkYXRhXCIpXG59XG5cbiMgMi4gSW5zdGFsbCAvIHVwZGF0ZSBnbXIgcGFja2FnZSAtLS0tXG4uU3JjIDwtIFwiR01BQ1MtcHJvamVjdC9nbXJcIlxuLlVwZGF0ZSA8LSAwICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgR2V0IHRoZSBsYXRlc3QgdmVyc2lvbiBvZiBnbXI/ICgwOiBubzsgMTogaW5zdGFsbCBmb3IgdGhlIGZpcnN0IHRpbWU7XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyAyOiB1cGRhdGUgdGhlIHBhY2thZ2UpXG5teWxpYiA8LSBcIn4vUi93aW4tbGlicmFyeS80LjFcIiAgICAgICAgICAjIHRoZSBsaWJyYXJ5IGRpcmVjdG9yeSB0byByZW1vdmUgdGhlIFxuIyBnbXIgcGFja2FnZSBmcm9tXG5cbiMgIHJlbW90ZXM6Omluc3RhbGxfZ2l0aHViKCkgd2lsbCB3b3JrIHRvIGluc3RhbGwgZ21yIG9uIHlvdXIgbWFjaGluZVxuaWYoLlVwZGF0ZSA9PSAxKSBkZXZ0b29sczo6aW5zdGFsbF9naXRodWIoLlNyYylcblxuXG4jIFVwZGF0aW5nIHRvIHRoZSBsYXRlc3QgdmVyc2lvbiBvZiBnbXJcbmlmKC5VcGRhdGUgPT0gMil7XG4gIHJlbW92ZS5wYWNrYWdlcyhcImdtclwiLCBsaWI9bXlsaWIpXG4gIGRldnRvb2xzOjppbnN0YWxsX2dpdGh1YiguU3JjKVxufSBcblxuXG4jIExvYWQgdGhlIGdtciBwYWNrYWdlXG5saWJyYXJ5KGdtcilcbmBgYCJ9 -->
-<pre class="r"><code>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+The following code proceeds the installation of the `[gmr]` package on your machine and load the various libraries.
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuXG5ybShsaXN0PWxzKCkpICAgICAjIENsZWFuIHlvdXIgUiBzZXNzaW9uXG5cbiMgU2V0IHRoZSB3b3JraW5nIGRpcmVjdG9yeSBhcyB0aGUgZGlyZWN0b3J5IG9mIHRoaXMgZG9jdW1lbnQtLS0tXG4jIHNldHdkKGRpcm5hbWUocnN0dWRpb2FwaTo6Z2V0QWN0aXZlRG9jdW1lbnRDb250ZXh0KCkkcGF0aCkpXG5cbiMgY2hlY2sgeW91ciBkaXJlY3RvcnlcbmdldHdkKClcblxuIyBJbnN0YWxsIGFuZCBsb2FkIHRoZSBwYWNrYWdlcy0tLS1cblxuIyAxLkluc3RhbGwgZGV2dG9vbHMgYW5kIGdkYXRhIG9uIHlvdXIgbWFjaGluZSAtLS0tXG5pZiAoIXJlcXVpcmUoXFxkZXZ0b29sc1xcKSkgeyAgICAgICAgICAgICAgICAgICAgICAgICMgaW5zdGFsbCBkZXZ0b29sc1xuICBpbnN0YWxsLnBhY2thZ2VzKFxcZGV2dG9vbHNcXClcbn1cblxuaWYgKCFyZXF1aXJlKFxcZ2RhdGFcXCkpIHsgICAgICAgICAgICAgICAgICAgICAgICAjIG5lZWRlZCB0byBtYW5pcHVsYXRlIGRhdGFcbiAgaW5zdGFsbC5wYWNrYWdlcyhcXGdkYXRhXFwpXG59XG5cbiMgMi4gSW5zdGFsbCAvIHVwZGF0ZSBnbXIgcGFja2FnZSAtLS0tXG4uU3JjIDwtIFxcR01BQ1MtcHJvamVjdC9nbXJcXFxuLlVwZGF0ZSA8LSAwICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgR2V0IHRoZSBsYXRlc3QgdmVyc2lvbiBvZiBnbXI/ICgwOiBubzsgMTogaW5zdGFsbCBmb3IgdGhlIGZpcnN0IHRpbWU7XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyAyOiB1cGRhdGUgdGhlIHBhY2thZ2UpXG5teWxpYiA8LSBcXH4vUi93aW4tbGlicmFyeS80LjFcXCAgICAgICAgICAjIHRoZSBsaWJyYXJ5IGRpcmVjdG9yeSB0byByZW1vdmUgdGhlIFxuIyBnbXIgcGFja2FnZSBmcm9tXG5cbiMgIHJlbW90ZXM6Omluc3RhbGxfZ2l0aHViKCkgd2lsbCB3b3JrIHRvIGluc3RhbGwgZ21yIG9uIHlvdXIgbWFjaGluZVxuaWYoLlVwZGF0ZSA9PSAxKSBkZXZ0b29sczo6aW5zdGFsbF9naXRodWIoLlNyYylcblxuXG4jIFVwZGF0aW5nIHRvIHRoZSBsYXRlc3QgdmVyc2lvbiBvZiBnbXJcbmlmKC5VcGRhdGUgPT0gMil7XG4gIHJlbW92ZS5wYWNrYWdlcyhcXGdtclxcLCBsaWI9bXlsaWIpXG4gIGRldnRvb2xzOjppbnN0YWxsX2dpdGh1YiguU3JjKVxufSBcblxuXG4jIExvYWQgdGhlIGdtciBwYWNrYWdlXG5saWJyYXJ5KGdtcilcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+
 rm(list=ls())     # Clean your R session
 
 # Set the working directory as the directory of this document----
@@ -273,19 +290,19 @@ getwd()
 # Install and load the packages----
 
 # 1.Install devtools and gdata on your machine ----
-if (!require(&quot;devtools&quot;)) {                        # install devtools
-  install.packages(&quot;devtools&quot;)
+if (!require(\devtools\)) {                        # install devtools
+  install.packages(\devtools\)
 }
 
-if (!require(&quot;gdata&quot;)) {                        # needed to manipulate data
-  install.packages(&quot;gdata&quot;)
+if (!require(\gdata\)) {                        # needed to manipulate data
+  install.packages(\gdata\)
 }
 
 # 2. Install / update gmr package ----
-.Src &lt;- &quot;GMACS-project/gmr&quot;
+.Src &lt;- \GMACS-project/gmr\
 .Update &lt;- 0                            # Get the latest version of gmr? (0: no; 1: install for the first time;
                                         # 2: update the package)
-mylib &lt;- &quot;~/R/win-library/4.1&quot;          # the library directory to remove the 
+mylib &lt;- \~/R/win-library/4.1\          # the library directory to remove the 
 # gmr package from
 
 #  remotes::install_github() will work to install gmr on your machine
@@ -294,130 +311,171 @@ if(.Update == 1) devtools::install_github(.Src)
 
 # Updating to the latest version of gmr
 if(.Update == 2){
-  remove.packages(&quot;gmr&quot;, lib=mylib)
+  remove.packages(\gmr\, lib=mylib)
   devtools::install_github(.Src)
 } 
 
 
 # Load the gmr package
 library(gmr)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p><code>Codes</code> in this document are summarized in a clean and runnable <code>.R</code> script (<a href="https://github.com/GMACS-project/GMACS_Assessment_code/blob/main/GMACS/UpdateGMACS.R">UpdateGMACS.R</a>) which you should use whenever you want to release a new version of GMACS. This R script will guide you through all the steps of the procedure making the GMACS upgrade process easier and more transparent.</p>
-</div>
-<div id="set-up-for-using-this-workflow" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Set-up for using this workflow</h1>
-<p>As a member of the <a href="https://github.com/GMACS-project">GMACS-project</a> organization, you probably already have a <a href="https://github.com/">Github</a> account; if not, you will need one if you want to work with this repository and potentially act as an active developer. You will also need to get installed R (or Rstudio) and Github Desktop on your computer. Below are the links to install these programs:</p>
-<ul>
-<li>Install <a href="https://cran.r-project.org/">R</a></li>
-<li>Install <a href="https://www.rstudio.com/products/rstudio/download/">Rstudio</a></li>
-<li>Install <a href="https://desktop.github.com/">Github Desktop</a></li>
-</ul>
-<p>If you want to link your R/Rstudio to your Github account so that you can push your changes from Rstudio directly to Github, please refer to the two workshops listed above. I will not cover this topic in this document.</p>
-</div>
-<div id="lets-get-the-gmacs_assessment_code-repository-on-your-computer" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> Let’s get the <em>GMACS_Assessment_code</em> repository on your computer</h1>
-<p>I am going to show you a workflow to get the <a href="https://github.com/GMACS-project/GMACS_Assessment_code">GMACS_Assessment_code</a> repository on your computer. Here, you have two options:</p>
-<ol style="list-style-type: decimal">
-<li>You want to contribute to the development of GMACS: you will therefore need to <a href="#Fork-repo"><strong>fork</strong></a> the repository to be able to directly push up changes to GMACS to the organization’s repository.</li>
-<li>You only want to <a href="#Copy-repo"><strong>clone</strong></a> the repository of the organization and modify it to your liking without pushing up modifications to the repository of the organization. In this case, you will not contribute directly to the development of GMACS.</li>
-</ol>
-<div id="Fork-repo" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> Fork the <a href="https://github.com/GMACS-project/GMACS_Assessment_code">GMACS_Assessment_code</a> repository</h2>
-<p>By <strong><em>forking</em></strong> this repository, you will be able to contribute to the organization’s repository. If you just want to copy it and then modify it for your own purpose on you computer, please follow the steps described in the <a href="#Copy-repo">Copy a GMACS-project repository</a> section.</p>
-<p><strong>Warning:</strong> <em>the following workflow will provide you with “real” access to the GMACS repository. Therefore, any changes you may make to this repository can become “permanent”. Please, never delete an important file or folder if you are not sure. Thank you.</em></p>
-<ol style="list-style-type: decimal">
-<li>In Github Desktop, click <em>File &gt; Clone Repository</em></li>
-<li>In the <em>“Clone a repository”</em> popup window, chose the URL tab and paste the GMACS_Assessment_code repository url.</li>
-<li>Check the selected folder in the local path and click <code>Clone</code>.</li>
-</ol>
-<p>You are now ready to make some changes to GMACS, commit them and push up them to the organization repository. You can also create a new RStudio project in the folder holding the <a href="https://github.com/GMACS-project/GMACS_Assessment_code">GMACS_Assessment_code</a> repository on your computer and start to work with GMACS outputs.</p>
-</div>
-<div id="Copy-repo" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> Clone the <a href="https://github.com/GMACS-project/GMACS_Assessment_code">GMACS_Assessment_code</a> repository</h2>
-<p>Here I show you how to copy the <a href="https://github.com/GMACS-project/GMACS_Assessment_code">GMACS_Assessment_code</a> repository on your computer. By following these steps, you will not be able to contribute to the <a href="https://github.com/GMACS-project">GMACS-project</a> organisation but you will have the possibility to adapt this repository for your purpose without fear of impacting the organization’s repository. Below are the steps to follow:</p>
-<ol style="list-style-type: decimal">
-<li>Get and copy the <a href="https://github.com/GMACS-project/GMACS_Assessment_code">url</a> of the <a href="https://github.com/GMACS-project/GMACS_Assessment_code">GMACS_Assessment_code</a> repository.</li>
-<li>Go to you Github account. It should be github.com/your-name.</li>
-<li>In Github, click the <code>+</code> in top right and select <code>import repository</code>.</li>
-<li>Paste the url in <strong><em>the Your old repository’s clone URL</em></strong> section and give a name for this new repo. You have now the <a href="https://github.com/GMACS-project/GMACS_Assessment_code">GMACS_Assessment_code</a> on your own Github (i.e., you have an url looking like <em>github.com/your-name/GMACS_Assessment_code</em> if you kept the same name as the one of the organization).</li>
-<li>You can now clone this repository to your computer following the same steps as those used to clone the <a href="https://github.com/GMACS-project/GMACS_Assessment_code">GMACS_Assessment_code</a> repository from the <a href="https://github.com/GMACS-project">organization</a> website.</li>
-</ol>
-</div>
-</div>
-<div id="lets-work-on-a-new-version-of-gmacs" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Let’s work on a new version of GMACS</h1>
-<p>In the <strong><a href="https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS">GMACS</a></strong> folder of the <a href="https://github.com/GMACS-project/GMACS_Assessment_code">GMACS_Assessment_code</a> repository, two subfolders should attract your attention when you want to implement a new version of GMACS (I’m talking about development when you make a change (no matter how small) to the GMACS code):</p>
-<ol style="list-style-type: decimal">
-<li>The <strong><a href="https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS/Dvpt_Version">Dvpt_Version</a></strong> folder: this folder contains the version of GMACS <strong><em>currently in development</em></strong>. This means that this version is still being tested after some modifications and has not been released as a stable version.</li>
-<li>The <strong><a href="https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS/Latest_Version">Latest_Version</a></strong> folder: this folder holds the latest stable and tested version of GMACS.</li>
-</ol>
-<p>These two subfolders contain all the hardware you need to run GMACS either in a “development way” or to get a “stable” stock assessment.</p>
-<p><strong>If you want to make new changes to the GMACS code, please work only in the subfolder <em><a href="https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS/Dvpt_Version">Dvpt_Version</a></em>.</strong></p>
-<p>In the following, I give you some guidelines about how correctly update a GMACS version and push up those change on Github. Obviously, this assumes that you have previously forked (and not cloned) the organization’s repo on your computer.</p>
-<p>Let’s take the example of incorporating time-varying natural mortality into GMACS with a focus on snow crab. I will not go through the implementation of the code itself but simply give you the path to follow to:</p>
-<ol style="list-style-type: lower-roman">
-<li>keep track of these changes,</li>
-<li>check that they do not impact the obtainment of a new executable (i.e., that the code can be compiled),</li>
-<li>analyze the impact of these changes on the assessment for a stock (i.e., compare with the last stable version of GMACS the results of the assessment using this version under development) and,</li>
-<li>release this new stable version of GMACS to the community.</li>
-</ol>
-<p><em>Reminder:</em> <strong>You will be working in the <a href="https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS/Dvpt_Version">Dvpt_Version</a> subfolder.</strong></p>
-<div id="modify-the-gmacsbase.tpl" class="section level2" number="4.1">
-<h2><span class="header-section-number">4.1</span> Modify the gmacsbase.tpl</h2>
-<p>In the <a href="https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS/Dvpt_Version">Dvpt_Version</a> subfolder, open the gmacsbase.tpl file in an editor and incorporate the new functions/variables to get time-varying natural mortality configuration. This operation does not require any “new entries” or variable declarations in the .ctl, .dat or .prj files so that the change you make will remain (first) at the gmacsbase.tpl file level.</p>
-</div>
-<div id="check-compilation-and-build-the-executable" class="section level2" number="4.2">
-<h2><span class="header-section-number">4.2</span> Check compilation and build the executable</h2>
-<p>Once you are done with the configuration of time-varying natural mortality in GMACS, you now need to check that you are still able to compile the model and build the executable. To build the source files of GMACS into an executable, you will need to call ADMB. Gmacs can now be compile, build and run using <code>R</code>. The only requirement is to provide him with specific directories so it will be able locate ADMB and a C/C++ compiler.</p>
-<p>To provide such directories, you can use the <a href="https://github.com/GMACS-project/GMACS_Assessment_code/blob/main/GMACS/ADpaths.txt">ADpaths.txt</a> file available on Github. You will need to modify the paths accordingly with your setups on your computer. This text file holds the information of specific R variable names and the pathway to use them. <strong>Please do not modify the R variable names in this file otherwise you will have some troubles and will not be able to build the GMACS executable.</strong> By default, this file is locate in the current working directory (i.e., in the GMACS folder).</p>
-<p>Running this procedure, you will be asked to provide a name for the new version of GMACS. This name will be the one used at the end of all your modifications for this new version so if you have to realize multiple compilation, please stay “consistent” in the name of the version you provide.</p>
-<p>The following code compiles and build the GMACS executable.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIERlZmluZSB0aGUgbmFtZSBvZiB0aGUgZmlsZSBjb250YWluaW5nIHRoZSBkaWZmZXJlbnQgcGF0aHdheXMgbmVlZGVkIHRvIGJ1aWxkXG4jIHRoZSBHTUFDUyBleGVjdXRhYmxlIFxuLkFETUJwYXRocyA8LSBcIkFEcGF0aHMudHh0XCJcblxuIyBSdW4gdGhlIEdldEdtYWNzRXhlIGZ1bmN0aW9uXG4uR2V0R21hY3NFeGUoKVxuXG5gYGAifQ== -->
-<pre class="r"><code>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+`Codes` in this document are summarized in a clean and runnable `.R` script ([UpdateGMACS.R]) which you should use whenever you want to release a new version of GMACS. This R script will guide you through all the steps of the procedure making the GMACS upgrade process easier and more transparent.
+
+# Set-up for using this workflow
+
+As a member of the [GMACS-project] organization, you probably already have a [Github] account; if not, you will need one if you want to work with this repository and potentially act as an active developer. You will also need to get installed R (or Rstudio) and Github Desktop on your computer. Below are the links to install these programs:
+
+-   Install [R]
+-   Install [Rstudio]
+-   Install [Github Desktop]
+
+If you want to link your R/Rstudio to your Github account so that you can push your changes from Rstudio directly to Github, please refer to the two workshops listed above. I will not cover this topic in this document.
+
+# Let&#39;s get the *GMACS_Assessment_code* repository on your computer
+
+I am going to show you a workflow to get the [GMACS_Assessment_code] repository on your computer. Here, you have two options:
+
+1.  You want to contribute to the development of GMACS: you will therefore need to [**fork**](#Fork-repo) the repository to be able to directly push up changes to GMACS to the organization&#39;s repository.
+2.  You only want to [**clone**](#Copy-repo) the repository of the organization and modify it to your liking without pushing up modifications to the repository of the organization. In this case, you will not contribute directly to the development of GMACS.
+
+## Fork the [GMACS_Assessment_code] repository {#Fork-repo}
+
+By ***forking*** this repository, you will be able to contribute to the organization&#39;s repository. If you just want to copy it and then modify it for your own purpose on you computer, please follow the steps described in the [Copy a GMACS-project repository](#Copy-repo) section.
+
+**Warning:** *the following workflow will provide you with &quot;real&quot; access to the GMACS repository. Therefore, any changes you may make to this repository can become &quot;permanent&quot;. Please, never delete an important file or folder if you are not sure. Thank you.*
+
+1.  In Github Desktop, click *File &gt; Clone Repository*
+2.  In the *&quot;Clone a repository&quot;* popup window, chose the URL tab and paste the GMACS_Assessment_code repository url.
+3.  Check the selected folder in the local path and click `Clone`.
+
+You are now ready to make some changes to GMACS, commit them and push up them to the organization repository. You can also create a new RStudio project in the folder holding the [GMACS_Assessment_code] repository on your computer and start to work with GMACS outputs.
+
+## Clone the [GMACS_Assessment_code] repository {#Copy-repo}
+
+Here I show you how to copy the [GMACS_Assessment_code] repository on your computer. By following these steps, you will not be able to contribute to the [GMACS-project] organisation but you will have the possibility to adapt this repository for your purpose without fear of impacting the organization&#39;s repository. Below are the steps to follow:
+
+1.  Get and copy the [url](https://github.com/GMACS-project/GMACS_Assessment_code) of the [GMACS_Assessment_code] repository.
+2.  Go to you Github account. It should be github.com/your-name.
+3.  In Github, click the `+` in top right and select `import repository`.
+4.  Paste the url in ***the Your old repository&#39;s clone URL*** section and give a name for this new repo. You have now the [GMACS_Assessment_code] on your own Github (i.e., you have an url looking like *github.com/your-name/GMACS_Assessment_code* if you kept the same name as the one of the organization).
+5.  You can now clone this repository to your computer following the same steps as those used to clone the [GMACS_Assessment_code] repository from the [organization] website.
+
+# Let&#39;s work on a new version of GMACS
+
+In the **[GMACS]** folder of the [GMACS_Assessment_code] repository, two subfolders should attract your attention when you want to implement a new version of GMACS (I&#39;m talking about development when you make a change (no matter how small) to the GMACS code):
+
+1.  The **[Dvpt_Version]** folder: this folder contains the version of GMACS ***currently in development***. This means that this version is still being tested after some modifications and has not been released as a stable version.
+2.  The **[Latest_Version]** folder: this folder holds the latest stable and tested version of GMACS.
+
+These two subfolders contain all the hardware you need to run GMACS either in a &quot;development way&quot; or to get a &quot;stable&quot; stock assessment.
+
+**If you want to make new changes to the GMACS code, please work only in the subfolder *[Dvpt_Version]*.**
+
+In the following, I give you some guidelines about how correctly update a GMACS version and push up those change on Github. Obviously, this assumes that you have previously forked (and not cloned) the organization&#39;s repo on your computer.
+
+Let&#39;s take the example of incorporating time-varying natural mortality into GMACS with a focus on snow crab. I will not go through the implementation of the code itself but simply give you the path to follow to:
+
+i.  keep track of these changes,
+ii. check that they do not impact the obtainment of a new executable (i.e., that the code can be compiled),
+iii. analyze the impact of these changes on the assessment for a stock (i.e., compare with the last stable version of GMACS the results of the assessment using this version under development) and,
+iv. release this new stable version of GMACS to the community.
+
+*Reminder:* **You will be working in the [Dvpt_Version] subfolder.**
+
+## Modify the gmacsbase.tpl
+
+In the [Dvpt_Version] subfolder, open the gmacsbase.tpl file in an editor and incorporate the new functions/variables to get time-varying natural mortality configuration. This operation does not require any &quot;new entries&quot; or variable declarations in the .ctl, .dat or .prj files so that the change you make will remain (first) at the gmacsbase.tpl file level.
+
+## Check compilation and build the executable
+
+Once you are done with the configuration of time-varying natural mortality in GMACS, you now need to check that you are still able to compile the model and build the executable. To build the source files of GMACS into an executable, you will need to call ADMB. Gmacs can now be compile, build and run using `R`. The only requirement is to provide him with specific directories so it will be able locate ADMB and a C/C++ compiler.
+
+To provide such directories, you can use the [ADpaths.txt] file available on Github. You will need to modify the paths accordingly with your setups on your computer. This text file holds the information of specific R variable names and the pathway to use them.
+**Please do not modify the R variable names in this file otherwise you will have some troubles and will not be able to build the GMACS executable.** By default, this file is locate in the current working directory (i.e., in the GMACS folder).
+
+Running this procedure, you will be asked to provide a name for the new version of GMACS. This name will be the one used at the end of all your modifications for this new version so if you have to realize multiple compilation, please stay &quot;consistent&quot; in the name of the version you provide.
+
+The following code compiles and build the GMACS executable.
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuXG4jIERlZmluZSB0aGUgbmFtZSBvZiB0aGUgZmlsZSBjb250YWluaW5nIHRoZSBkaWZmZXJlbnQgcGF0aHdheXMgbmVlZGVkIHRvIGJ1aWxkXG4jIHRoZSBHTUFDUyBleGVjdXRhYmxlIFxuLkFETUJwYXRocyA8LSBcXEFEcGF0aHMudHh0XFxcblxuIyBSdW4gdGhlIEdldEdtYWNzRXhlIGZ1bmN0aW9uXG4uR2V0R21hY3NFeGUoKVxuXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+
 # Define the name of the file containing the different pathways needed to build
 # the GMACS executable 
-.ADMBpaths &lt;- &quot;ADpaths.txt&quot;
+.ADMBpaths &lt;- \ADpaths.txt\
 
 # Run the GetGmacsExe function
 .GetGmacsExe()
 </code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>While the command is running, you will see on the console exactly what is going on. If the compilation worked, you should have a new executable named <code>gmacs.exe</code> in the root of the <a href="https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS/Dvpt_Version">Dvpt_Version</a> directory. You are now ready to test this new version. Let’s first modify (if needed) the .dat, .ctl, .prj files.</p>
-</div>
-<div id="modify-the-.dat-.ctl-.prj-files" class="section level2" number="4.3">
-<h2><span class="header-section-number">4.3</span> Modify the .dat, .ctl, .prj files</h2>
-<p>In our case, we only need to modify the control parameters for the Time varying natural mortality rates. In the .ctl file, we therefore changed the <em>type</em> of model for natural mortality, the <em>phase of estimation</em>, the <em>standard deviation</em> of the deviations for the random walk, the number of <em>step-changes</em> as we used blocked changes, we define the specific years position of the knots and finally we specified the values for the initial parameters, their low bound, their high bound and their phase.</p>
-</div>
-<div id="run-the-development-version-using-a-case-study-snow-crab" class="section level2" number="4.4">
-<h2><span class="header-section-number">4.4</span> Run the Development version using a case study: Snow crab</h2>
-<p>You are now going to run the GMACS development version for a specific case study. Let’s take the snow crab stock as example for this demonstration. GMACS can be run using the <a href="https://github.com/GMACS-project/GMACS_Assessment_code/blob/main/GMACS/Run_GMACS.Rmd">Run_GMACS</a> Rmarkdown document which call the <code>GMACS()</code> function.</p>
-<p>First define the characteristics of this analysis:</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5cbiMgSUktIFJ1biB0aGUgZGV2ZWxvcG1lbnQgdmVyc2lvbi0tLS1cblxuIyBTcGVjaWVzIG9mIGludGVyZXN0XG4uU3BjIDwtYyhcbiAgXCJTTk9XX2NyYWJcIlxuKVxuXG4jIE5hbWVzIG9mIHRoZSBHTUFDUyB2ZXJzaW9uIHRvIGNvbnNpZGVyXG4uR01BQ1NfdmVyc2lvbiA8LSBjKFxuICBcIkR2cHRfVmVyc2lvblwiXG4pXG5cbiMgRGVmaW5lIGRpcmVjdG9yaWVzXG4uVkVSU0lPTkRJUiA8LSBjKFxuICBwYXN0ZTAoZ2V0d2QoKSwgXCIvRHZwdF9WZXJzaW9uL1wiKVxuKVxuXG4jIFVzZSBMYXN0IEFzc2Vzc21lbnQgZm9yIGNvbXBhcmlzb24/XG4jIElmIHllcywgeW91IG11c3QgcHJvdmlkZSB0aGUgbmFtZXMgb2YgdGhlIG1vZGVsIGZvciBlYWNoIHNwZWNpZXMgaW4gdGhlIHZhcmlhYmxlIC5BU1NNT0RfTkFNRVNcbiMgVGhvc2UgbW9kZWwgZm9sZGVyIG11c3QgaGF2ZSB0byBiZSBob2xkIGluIHRoZSBmb2xkZXIgQXNzZXNzbWVudHNcbi5BU1MgPC0gRkFMU0VcblxuIyBOZWVkIHRvIGNvbnBpbGUgdGhlIG1vZGVsP1xuIyB2ZWN0b3Igb2YgbGVuZ3RoKC5HTUFDU192ZXJzaW9uKVxuIyAwOiBHTUFDUyBpcyBub3QgY29tcGlsZWQuIFRoaXMgYXNzdW1lcyB0aGF0IGFuIGV4ZWN1dGFibGUgZXhpc3RzIGluIHRoZSBkaXJlY3Rvcnkgb2YgdGhlIGNvbmNlcm5lZCB2ZXJzaW9uLlxuIyAxOiBHTUFDUyBpcyBjb21waWxlc1xuLkNPTVBJTEUgPC0gMCAgICAgICAjIFlvdSBhbHJlYWR5IGNvbXBpbGUgYW5kIGJ1aWxkIHRoZSBleGVjdXRhYmxlXG5cbiMgUnVuIEdNQUNTXG4uUlVOX0dNQUNTIDwtIFRSVUVcblxuIyBVc2UgbGF0ZXN0IGF2YWlsYWJsZSBkYXRhIGZvciB0aGUgYXNzZXNzbWVudD9cbi5MYXN0QXNzRGF0IDwtIFRSVUVcblxuIyBEZWZpbmUgdGhlIGRpcmVjdG9yaWVzIGZvciBBRE1CXG4uQURNQnBhdGhzIDwtIFwiQURwYXRocy50eHRcIlxuXG4jIFNob3cgUnRlcm1pbmFsXG4uVkVSQk9TRSA8LSBUUlVFXG5cbiMgRG8gY29tcGFyaXNvbj9cbi5NQUtFX0NvbXAgPC0gRkFMU0VcblxuXG5gYGAifQ== -->
-<pre class="r"><code>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+While the command is running, you will see on the console exactly what is going on.
+If the compilation worked, you should have a new executable named `gmacs.exe` in the root of the [Dvpt_Version] directory.
+You are now ready to test this new version. Let&#39;s first modify (if needed) the .dat, .ctl, .prj files.
+
+## Modify the .dat, .ctl, .prj files
+
+In our case, we only need to modify the control parameters for the Time varying natural mortality rates.
+In the .ctl file, we therefore changed the *type* of model for natural mortality, the *phase of estimation*, the *standard deviation* of the deviations for the random walk, the number of *step-changes* as we used blocked changes, we define the specific years position of the knots and finally we specified the values for the initial parameters, their low bound, their high bound and their phase. 
+
+## Run the Development version using a case study: Snow crab
+
+You are now going to run the GMACS development version for a specific case study. Let&#39;s take the snow crab stock as example for this demonstration. GMACS can be run using the [Run_GMACS] Rmarkdown document which call the `GMACS()` function.
+
+First define the characteristics of this analysis:
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuXG5cbiMgSUktIFJ1biB0aGUgZGV2ZWxvcG1lbnQgdmVyc2lvbi0tLS1cblxuIyBTcGVjaWVzIG9mIGludGVyZXN0XG4uU3BjIDwtYyhcbiAgXFxTTk9XX2NyYWJcXFxuKVxuXG4jIE5hbWVzIG9mIHRoZSBHTUFDUyB2ZXJzaW9uIHRvIGNvbnNpZGVyXG4uR01BQ1NfdmVyc2lvbiA8LSBjKFxuICBcXER2cHRfVmVyc2lvblxcXG4pXG5cbiMgRGVmaW5lIGRpcmVjdG9yaWVzXG4uVkVSU0lPTkRJUiA8LSBjKFxuICBwYXN0ZTAoZ2V0d2QoKSwgXFwvRHZwdF9WZXJzaW9uL1xcKVxuKVxuXG4jIFVzZSBMYXN0IEFzc2Vzc21lbnQgZm9yIGNvbXBhcmlzb24/XG4jIElmIHllcywgeW91IG11c3QgcHJvdmlkZSB0aGUgbmFtZXMgb2YgdGhlIG1vZGVsIGZvciBlYWNoIHNwZWNpZXMgaW4gdGhlIHZhcmlhYmxlIC5BU1NNT0RfTkFNRVNcbiMgVGhvc2UgbW9kZWwgZm9sZGVyIG11c3QgaGF2ZSB0byBiZSBob2xkIGluIHRoZSBmb2xkZXIgQXNzZXNzbWVudHNcbi5BU1MgPC0gRkFMU0VcblxuIyBOZWVkIHRvIGNvbnBpbGUgdGhlIG1vZGVsP1xuIyB2ZWN0b3Igb2YgbGVuZ3RoKC5HTUFDU192ZXJzaW9uKVxuIyAwOiBHTUFDUyBpcyBub3QgY29tcGlsZWQuIFRoaXMgYXNzdW1lcyB0aGF0IGFuIGV4ZWN1dGFibGUgZXhpc3RzIGluIHRoZSBkaXJlY3Rvcnkgb2YgdGhlIGNvbmNlcm5lZCB2ZXJzaW9uLlxuIyAxOiBHTUFDUyBpcyBjb21waWxlc1xuLkNPTVBJTEUgPC0gMCAgICAgICAjIFlvdSBhbHJlYWR5IGNvbXBpbGUgYW5kIGJ1aWxkIHRoZSBleGVjdXRhYmxlXG5cbiMgUnVuIEdNQUNTXG4uUlVOX0dNQUNTIDwtIFRSVUVcblxuIyBVc2UgbGF0ZXN0IGF2YWlsYWJsZSBkYXRhIGZvciB0aGUgYXNzZXNzbWVudD9cbi5MYXN0QXNzRGF0IDwtIFRSVUVcblxuIyBEZWZpbmUgdGhlIGRpcmVjdG9yaWVzIGZvciBBRE1CXG4uQURNQnBhdGhzIDwtIFxcQURwYXRocy50eHRcXFxuXG4jIFNob3cgUnRlcm1pbmFsXG4uVkVSQk9TRSA8LSBUUlVFXG5cbiMgRG8gY29tcGFyaXNvbj9cbi5NQUtFX0NvbXAgPC0gRkFMU0VcblxuXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+
 
 # II- Run the development version----
 
 # Species of interest
 .Spc &lt;-c(
-  &quot;SNOW_crab&quot;
+  \SNOW_crab\
 )
 
 # Names of the GMACS version to consider
 .GMACS_version &lt;- c(
-  &quot;Dvpt_Version&quot;
+  \Dvpt_Version\
 )
 
 # Define directories
 .VERSIONDIR &lt;- c(
-  paste0(getwd(), &quot;/Dvpt_Version/&quot;)
+  paste0(getwd(), \/Dvpt_Version/\)
 )
 
 # Use Last Assessment for comparison?
@@ -438,7 +496,7 @@ library(gmr)</code></pre>
 .LastAssDat &lt;- TRUE
 
 # Define the directories for ADMB
-.ADMBpaths &lt;- &quot;ADpaths.txt&quot;
+.ADMBpaths &lt;- \ADpaths.txt\
 
 # Show Rterminal
 .VERBOSE &lt;- TRUE
@@ -446,14 +504,29 @@ library(gmr)</code></pre>
 # Do comparison?
 .MAKE_Comp &lt;- FALSE
 </code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Then, run the model:</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVzIDwtIEdNQUNTKFxuICBTcGMgPSAuU3BjLFxuICBHTUFDU192ZXJzaW9uID0gLkdNQUNTX3ZlcnNpb24sXG4gIERpciA9IC5WRVJTSU9ORElSLFxuICBBU1MgPSAuQVNTLFxuICBjb21waWxlID0gLkNPTVBJTEUsXG4gIHJ1biA9IC5SVU5fR01BQ1MsXG4gIExhc3RBc3NEYXQgPSAuTGFzdEFzc0RhdCxcbiAgQURNQnBhdGhzID0gLkFETUJwYXRocyxcbiAgbWFrZS5jb21wID0gLk1BS0VfQ29tcCxcbiAgdmVyYm9zZSA9IC5WRVJCT1NFXG4pXG5gYGAifQ== -->
-<pre class="r"><code>res &lt;- GMACS(
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+Then, run the model:
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucmVzIDwtIEdNQUNTKFxuICBTcGMgPSAuU3BjLFxuICBHTUFDU192ZXJzaW9uID0gLkdNQUNTX3ZlcnNpb24sXG4gIERpciA9IC5WRVJTSU9ORElSLFxuICBBU1MgPSAuQVNTLFxuICBjb21waWxlID0gLkNPTVBJTEUsXG4gIHJ1biA9IC5SVU5fR01BQ1MsXG4gIExhc3RBc3NEYXQgPSAuTGFzdEFzc0RhdCxcbiAgQURNQnBhdGhzID0gLkFETUJwYXRocyxcbiAgbWFrZS5jb21wID0gLk1BS0VfQ29tcCxcbiAgdmVyYm9zZSA9IC5WRVJCT1NFXG4pXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+res &lt;- GMACS(
   Spc = .Spc,
   GMACS_version = .GMACS_version,
   Dir = .VERSIONDIR,
@@ -465,20 +538,39 @@ library(gmr)</code></pre>
   make.comp = .MAKE_Comp,
   verbose = .VERBOSE
 )</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>All the output files resulting from this run are stored in the <strong>SNOW_M_time_varying</strong> directory. You are now ready to compare the outputs of this GMACS development version with the ones coming from the latest assessment.</p>
-</div>
-<div id="compare-the-results-of-this-new-version-with-the-results-from-the-last-assessment" class="section level2" number="4.5">
-<h2><span class="header-section-number">4.5</span> Compare the results of this new version with the results from the last assessment</h2>
-<p>In the <a href="https://github.com/GMACS-project/GMACS_Assessment_code">GMACS_Assessment_code</a> repository, the required input files and specific outputs files from the latest assessment for all stocks are are stored in the folder <a href="https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/Assessments">Assessments</a>. For each stocks, this folder contains the models that have been tested, presented and selected by the Crab Plan Team and the Scientific and Statistical Committee to realize the assessment of each crab stock.</p>
-<p>This comparison can be done using the <a href="https://github.com/GMACS-project/GMACS_Assessment_code/blob/main/GMACS/Compare_Version_VS_Last_Assessment.Rmd">Compare_Version_VS_Last_Assessment</a> Rmarkdown document. Here, we will compare the results of the stock assessment for snow crab between the latest assessment and the development version of GMACS. In the same way as previously, the comparison is done by calling the the <code>GMACS()</code> function. You should have been able to do the run and the comparison at the same time i.e., calling the <code>GMACS()</code> function only once but for the purpose of this document we split the steps. Obviously, we are not going again through the entire run here. You have first to modify the <code>.GMACS_version</code> and the <code>.VERSIONDIR</code> variables to consider the last assessment and turn off the <code>.RUN_GMACS</code> variable to avoid going again through the run. You will also need to specify the <code>.ASS</code> and <code>.ASSMOD_NAMES</code> variables that indicate you want to consider the last assessment in the comparison and the name of the model used for this assessment and of course, you will have to turn on the <code>.MAKE_Comp</code> variable to inticate that you want to make comparison between the two versions.</p>
-<p>Changes the parameters for the comparison:</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIE5hbWVzIG9mIHRoZSBHTUFDUyB2ZXJzaW9uIHRvIGNvbnNpZGVyIGZvciBydW5cbi5HTUFDU192ZXJzaW9uIDwtIGMoXG4gIFwiTGFzdF9Bc3Nlc3NtZW50XCIsXG4gIFwiRHZwdF9WZXJzaW9uXCJcbilcblxuIyBEZWZpbmUgZGlyZWN0b3J5XG4uVkVSU0lPTkRJUiA8LSBjKFxuICBwYXN0ZTAoZGlybmFtZShnZXR3ZCgpKSwgXCIvQXNzZXNzbWVudHMvXCIpLFxuICBwYXN0ZTAoZ2V0d2QoKSwgXCIvRHZwdF9WZXJzaW9uL1wiKVxuKVxuXG4jIE5lZWQgdG8gY29ucGlsZSB0aGUgbW9kZWw/XG4jIHZlY3RvciBvZiBsZW5ndGgoLkdNQUNTX3ZlcnNpb24pXG4jIDA6IEdNQUNTIGlzIG5vdCBjb21waWxlZC4gVGhpcyBhc3N1bWVzIHRoYXQgYW4gZXhlY3V0YWJsZSBleGlzdHMgaW4gdGhlIGRpcmVjdG9yeSBvZiB0aGUgY29uY2VybmVkIHZlcnNpb24uXG4jIDE6IEdNQUNTIGlzIGNvbXBpbGVzXG4uQ09NUElMRSA8LSBjKDAsMCkgICAgICAgIyBZb3UgYWxyZWFkeSBjb21waWxlIGFuZCBidWlsZCB0aGUgZXhlY3V0YWJsZVxuXG4jIFJ1biBHTUFDU1xuLlJVTl9HTUFDUyA8LSBGQUxTRVxuXG4jIFNwZWNpZXNcbi5TcGMgPC0gYyhcbiAgICAgICAgICAnU05PV19jcmFiJ1xuICAgICAgICAgIClcblxuIyBVc2UgTGFzdCBBc3Nlc3NtZW50IGZvciBjb21wYXJpc29uP1xuIyBJZiB5ZXMsIHlvdSBtdXN0IHByb3ZpZGUgdGhlIG5hbWVzIG9mIHRoZSBtb2RlbCBmb3IgZWFjaCBzcGVjaWVzIGluIHRoZSB2YXJpYWJsZSAuQVNTTU9EX05BTUVTXG4jIFRob3NlIG1vZGVsIGZvbGRlciBtdXN0IGhhdmUgdG8gYmUgaG9sZCBpbiB0aGUgZm9sZGVyIEFzc2Vzc21lbnRzXG4uQVNTIDwtIFRSVUVcblxuIyBuYW1lcyBvZiB0aGUgbW9kZWwgZm9yIHRoZSBsYXN0IGFzc2Vzc21lbnQgLSBPbmx5IHVzZWZ1bCBpZiBjb21wYXJpc29uIGlzIG1hZGUuXG4jIGlmIGFsbCBzdG9ja3MgYXJlIGNvbnNpZGVyZWQgdGhleSBoYXZlIHRvIGJlIG9yZGVyZWQgYXMgZm9sbG93OlxuIyBcIkFJR0tDL0VBR1wiIC8gXCJBSUdLQy9XQUdcIiAvIFwiQkJSS0NcIiAvIFwiU01CS0NcIiAvIFwiU05PV1wiXG4uQVNTTU9EX05BTUVTIDwtIGMoXG4gICAgICAgICAgICAgICAgICAgJ21vZGVsXzIxX2cnXG4gICAgICAgICAgICAgICAgICAgKVxuXG4jIERvIGNvbXBhcmlzb24/XG4uTUFLRV9Db21wIDwtIFRSVUVcblxuYGBgIn0= -->
-<pre class="r"><code>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+All the output files resulting from this run are stored in the **SNOW_M_time_varying** directory. You are now ready to compare the outputs of this GMACS development version with the ones coming from the latest assessment.
+
+
+
+## Compare the results of this new version with the results from the last assessment
+
+In the [GMACS_Assessment_code] repository, the required input files and specific outputs files from the latest assessment for all stocks are are stored in the folder [Assessments]. For each stocks, this folder contains the models that have been tested, presented and selected by the Crab Plan Team and the Scientific and Statistical Committee to realize the assessment of each crab stock.
+
+This comparison can be done using the [Compare_Version_VS_Last_Assessment] Rmarkdown document. Here, we will compare the results of the stock assessment for snow crab between the latest assessment and the development version of GMACS. 
+In the same way as previously, the comparison is done by calling the the `GMACS()` function. You should have been able to do the run and the comparison at the same time i.e., calling the `GMACS()` function only once but for the purpose of this document we split the steps. Obviously, we are not going again through the entire run here. You have first to modify the `.GMACS_version` and the `.VERSIONDIR` variables to consider the last assessment and turn off the `.RUN_GMACS` variable to avoid going again through the run. You will also need to specify the `.ASS` and `.ASSMOD_NAMES` variables that indicate you want to consider the last assessment in the comparison and the name of the model used for this assessment and of course, you will have to turn on the `.MAKE_Comp` variable to inticate that you want to make comparison between the two versions.
+
+Changes the parameters for the comparison:
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIE5hbWVzIG9mIHRoZSBHTUFDUyB2ZXJzaW9uIHRvIGNvbnNpZGVyIGZvciBydW5cbi5HTUFDU192ZXJzaW9uIDwtIGMoXG4gIFwiTGFzdF9Bc3Nlc3NtZW50XCIsXG4gIFwiRHZwdF9WZXJzaW9uXCJcbilcblxuIyBEZWZpbmUgZGlyZWN0b3J5XG4uVkVSU0lPTkRJUiA8LSBjKFxuICBwYXN0ZTAoZGlybmFtZShnZXR3ZCgpKSwgXCIvQXNzZXNzbWVudHMvXCIpLFxuICBwYXN0ZTAoZ2V0d2QoKSwgXCIvRHZwdF9WZXJzaW9uL1wiKVxuKVxuXG4jIE5lZWQgdG8gY29ucGlsZSB0aGUgbW9kZWw/XG4jIHZlY3RvciBvZiBsZW5ndGgoLkdNQUNTX3ZlcnNpb24pXG4jIDA6IEdNQUNTIGlzIG5vdCBjb21waWxlZC4gVGhpcyBhc3N1bWVzIHRoYXQgYW4gZXhlY3V0YWJsZSBleGlzdHMgaW4gdGhlIGRpcmVjdG9yeSBvZiB0aGUgY29uY2VybmVkIHZlcnNpb24uXG4jIDE6IEdNQUNTIGlzIGNvbXBpbGVzXG4uQ09NUElMRSA8LSBjKDAsMCkgICAgICAgIyBZb3UgYWxyZWFkeSBjb21waWxlIGFuZCBidWlsZCB0aGUgZXhlY3V0YWJsZVxuXG4jIFJ1biBHTUFDU1xuLlJVTl9HTUFDUyA8LSBGQUxTRVxuXG4jIFNwZWNpZXNcbi5TcGMgPC0gYyhcbiAgICAgICAgICAnU05PV19jcmFiJ1xuICAgICAgICAgIClcblxuIyBVc2UgTGFzdCBBc3Nlc3NtZW50IGZvciBjb21wYXJpc29uP1xuIyBJZiB5ZXMsIHlvdSBtdXN0IHByb3ZpZGUgdGhlIG5hbWVzIG9mIHRoZSBtb2RlbCBmb3IgZWFjaCBzcGVjaWVzIGluIHRoZSB2YXJpYWJsZSAuQVNTTU9EX05BTUVTXG4jIFRob3NlIG1vZGVsIGZvbGRlciBtdXN0IGhhdmUgdG8gYmUgaG9sZCBpbiB0aGUgZm9sZGVyIEFzc2Vzc21lbnRzXG4uQVNTIDwtIFRSVUVcblxuIyBuYW1lcyBvZiB0aGUgbW9kZWwgZm9yIHRoZSBsYXN0IGFzc2Vzc21lbnQgLSBPbmx5IHVzZWZ1bCBpZiBjb21wYXJpc29uIGlzIG1hZGUuXG4jIGlmIGFsbCBzdG9ja3MgYXJlIGNvbnNpZGVyZWQgdGhleSBoYXZlIHRvIGJlIG9yZGVyZWQgYXMgZm9sbG93OlxuIyBcIkFJR0tDL0VBR1wiIC8gXCJBSUdLQy9XQUdcIiAvIFwiQkJSS0NcIiAvIFwiU01CS0NcIiAvIFwiU05PV1wiXG4uQVNTTU9EX05BTUVTIDwtIGMoXG4gICAgICAgICAgICAgICAgICAgJ21vZGVsXzIxX2cnXG4gICAgICAgICAgICAgICAgICAgKVxuXG4jIERvIGNvbXBhcmlzb24/XG4uTUFLRV9Db21wIDwtIFRSVUVcblxuYGBgIn0= --&gt;
+
+```r
+
 # Names of the GMACS version to consider for run
 .GMACS_version &lt;- c(
   &quot;Last_Assessment&quot;,
@@ -526,8 +618,89 @@ library(gmr)</code></pre>
 <p>Call the GMACS() function:</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBDYWxsIHRoZSBHTUFDUygpIGZ1bmN0aW9uOlxuXG50YWJsZXMgPC0gR01BQ1MoU3BjID0gLlNwYywgR01BQ1NfdmVyc2lvbiA9IC5HTUFDU192ZXJzaW9uLFxuICAgICAgICAgICAgICAgIERpciA9IC5WRVJTSU9ORElSLFxuICAgICAgICAgICAgICAgIGNvbXBpbGUgPSAuQ09NUElMRSxcbiAgICAgICAgICAgICAgICBBU1MgPSAuQVNTLFxuICAgICAgICAgICAgICAgIEFzc01vZF9uYW1lcyA9IC5BU1NNT0RfTkFNRVMsXG4gICAgICAgICAgICAgICAgcnVuID0gLlJVTl9HTUFDUyxcbiAgICAgICAgICAgICAgICBtYWtlLmNvbXAgPSAuTUFLRV9Db21wKVxuXG5gYGAifQ== -->
-<pre class="r"><code># Call the GMACS() function:
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuXG4jIE5hbWVzIG9mIHRoZSBHTUFDUyB2ZXJzaW9uIHRvIGNvbnNpZGVyIGZvciBydW5cbi5HTUFDU192ZXJzaW9uIDwtIGMoXG4gIFxcTGFzdF9Bc3Nlc3NtZW50XFwsXG4gIFxcRHZwdF9WZXJzaW9uXFxcbilcblxuIyBEZWZpbmUgZGlyZWN0b3J5XG4uVkVSU0lPTkRJUiA8LSBjKFxuICBwYXN0ZTAoZGlybmFtZShnZXR3ZCgpKSwgXFwvQXNzZXNzbWVudHMvXFwpLFxuICBwYXN0ZTAoZ2V0d2QoKSwgXFwvRHZwdF9WZXJzaW9uL1xcKVxuKVxuXG4jIE5lZWQgdG8gY29ucGlsZSB0aGUgbW9kZWw/XG4jIHZlY3RvciBvZiBsZW5ndGgoLkdNQUNTX3ZlcnNpb24pXG4jIDA6IEdNQUNTIGlzIG5vdCBjb21waWxlZC4gVGhpcyBhc3N1bWVzIHRoYXQgYW4gZXhlY3V0YWJsZSBleGlzdHMgaW4gdGhlIGRpcmVjdG9yeSBvZiB0aGUgY29uY2VybmVkIHZlcnNpb24uXG4jIDE6IEdNQUNTIGlzIGNvbXBpbGVzXG4uQ09NUElMRSA8LSBjKDAsMCkgICAgICAgIyBZb3UgYWxyZWFkeSBjb21waWxlIGFuZCBidWlsZCB0aGUgZXhlY3V0YWJsZVxuXG4jIFJ1biBHTUFDU1xuLlJVTl9HTUFDUyA8LSBGQUxTRVxuXG4jIFNwZWNpZXNcbi5TcGMgPC0gYyhcbiAgICAgICAgICAnU05PV19jcmFiJ1xuICAgICAgICAgIClcblxuIyBVc2UgTGFzdCBBc3Nlc3NtZW50IGZvciBjb21wYXJpc29uP1xuIyBJZiB5ZXMsIHlvdSBtdXN0IHByb3ZpZGUgdGhlIG5hbWVzIG9mIHRoZSBtb2RlbCBmb3IgZWFjaCBzcGVjaWVzIGluIHRoZSB2YXJpYWJsZSAuQVNTTU9EX05BTUVTXG4jIFRob3NlIG1vZGVsIGZvbGRlciBtdXN0IGhhdmUgdG8gYmUgaG9sZCBpbiB0aGUgZm9sZGVyIEFzc2Vzc21lbnRzXG4uQVNTIDwtIFRSVUVcblxuIyBuYW1lcyBvZiB0aGUgbW9kZWwgZm9yIHRoZSBsYXN0IGFzc2Vzc21lbnQgLSBPbmx5IHVzZWZ1bCBpZiBjb21wYXJpc29uIGlzIG1hZGUuXG4jIGlmIGFsbCBzdG9ja3MgYXJlIGNvbnNpZGVyZWQgdGhleSBoYXZlIHRvIGJlIG9yZGVyZWQgYXMgZm9sbG93OlxuIyBcXEFJR0tDL0VBR1xcIC8gXFxBSUdLQy9XQUdcXCAvIFxcQkJSS0NcXCAvIFxcU01CS0NcXCAvIFxcU05PV1xcXG4uQVNTTU9EX05BTUVTIDwtIGMoXG4gICAgICAgICAgICAgICAgICAgJ21vZGVsXzIxX2cnXG4gICAgICAgICAgICAgICAgICAgKVxuXG4jIERvIGNvbXBhcmlzb24/XG4uTUFLRV9Db21wIDwtIFRSVUVcblxuYGBgXG5gYGAifQ== -->
+<pre class="r"><code>```r
+
+# Names of the GMACS version to consider for run
+.GMACS_version &lt;- c(
+  \Last_Assessment\,
+  \Dvpt_Version\
+)
+
+# Define directory
+.VERSIONDIR &lt;- c(
+  paste0(dirname(getwd()), \/Assessments/\),
+  paste0(getwd(), \/Dvpt_Version/\)
+)
+
+# Need to conpile the model?
+# vector of length(.GMACS_version)
+# 0: GMACS is not compiled. This assumes that an executable exists in the directory of the concerned version.
+# 1: GMACS is compiles
+.COMPILE &lt;- c(0,0)       # You already compile and build the executable
+
+# Run GMACS
+.RUN_GMACS &lt;- FALSE
+
+# Species
+.Spc &lt;- c(
+          &#39;SNOW_crab&#39;
+          )
+
+# Use Last Assessment for comparison?
+# If yes, you must provide the names of the model for each species in the variable .ASSMOD_NAMES
+# Those model folder must have to be hold in the folder Assessments
+.ASS &lt;- TRUE
+
+# names of the model for the last assessment - Only useful if comparison is made.
+# if all stocks are considered they have to be ordered as follow:
+# \AIGKC/EAG\ / \AIGKC/WAG\ / \BBRKC\ / \SMBKC\ / \SNOW\
+.ASSMOD_NAMES &lt;- c(
+                   &#39;model_21_g&#39;
+                   )
+
+# Do comparison?
+.MAKE_Comp &lt;- TRUE
+</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+
+If you are satisfied with the results of the comparison between these two versions of GMACS, you are now ready to formalize and release this new version and spread it to the community.
+
+
+# Spread the new GMACS version to the whole community
+
+The first step before releasing the new version is to update the [Latest_Version] folder with the new code of GMACS.
+
+
+## Copy the latest version to the Latest_Version folder
+
+Luckily and for the sake of efficiency and transparency, you don&#39;t have to do anything by hand. 
+The `UpdateGMACS()` function allows you to:
+
+  i) Copy and paste all the files you used for the GMACS development version to the [Latest_Version] folder
+  ii) Compile this new release version in the [Latest_Version] folder and get everything ready to use it
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBDYWxsIHRoZSBHTUFDUygpIGZ1bmN0aW9uOlxuXG50YWJsZXMgPC0gR01BQ1MoU3BjID0gLlNwYywgR01BQ1NfdmVyc2lvbiA9IC5HTUFDU192ZXJzaW9uLFxuICAgICAgICAgICAgICAgIERpciA9IC5WRVJTSU9ORElSLFxuICAgICAgICAgICAgICAgIGNvbXBpbGUgPSAuQ09NUElMRSxcbiAgICAgICAgICAgICAgICBBU1MgPSAuQVNTLFxuICAgICAgICAgICAgICAgIEFzc01vZF9uYW1lcyA9IC5BU1NNT0RfTkFNRVMsXG4gICAgICAgICAgICAgICAgcnVuID0gLlJVTl9HTUFDUyxcbiAgICAgICAgICAgICAgICBtYWtlLmNvbXAgPSAuTUFLRV9Db21wKVxuXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+# Call the GMACS() function:
 
 tables &lt;- GMACS(Spc = .Spc, GMACS_version = .GMACS_version,
                 Dir = .VERSIONDIR,
@@ -537,42 +710,20 @@ tables &lt;- GMACS(Spc = .Spc, GMACS_version = .GMACS_version,
                 run = .RUN_GMACS,
                 make.comp = .MAKE_Comp)
 </code></pre>
+<p>```</p>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>If you are satisfied with the results of the comparison between these two versions of GMACS, you are now ready to formalize and release this new version and spread it to the community.</p>
+<div id="push-up-changes-to-the-organizations-repository" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Push up changes to the organization’s repository</h2>
 </div>
-</div>
-<div id="spread-the-new-gmacs-version-to-the-whole-community" class="section level1" number="5">
-<h1><span class="header-section-number">5</span> Spread the new GMACS version to the whole community</h1>
-<p>The first step before releasing the new version is to update the <a href="https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS/Latest_Version">Latest_Version</a> folder with the new code of GMACS.</p>
-<div id="copy-the-latest-version-to-the-latest_version-folder" class="section level2" number="5.1">
-<h2><span class="header-section-number">5.1</span> Copy the latest version to the Latest_Version folder</h2>
-<p>Luckily and for the sake of efficiency and transparency, you don’t have to do anything by hand. The <code>UpdateGMACS()</code> function allows you to:</p>
-<ol style="list-style-type: lower-roman">
-<li>Copy and paste all the files you used for the GMACS development version to the <a href="https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS/Latest_Version">Latest_Version</a> folder</li>
-<li>Compile this new release version in the <a href="https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS/Latest_Version">Latest_Version</a> folder and get everything ready to use it</li>
-</ol>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBVc2UgdGhlIFVwZGF0ZUdNQUNTIGZ1bmN0aW9uIHRvIGNvcHkgYW5kIHBhc3RlIHRoZSBsYXN0IGZpbGVzIGluIHRoZSBMYXRlc3RfVmVyc2lvblxuIyBkaXJlY3RvcnlcblVwZGF0ZUdNQUNTKClcbmBgYCJ9 -->
-<pre class="r"><code># Use the UpdateGMACS function to copy and paste the last files in the Latest_Version
-# directory
-UpdateGMACS()</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="push-up-changes-to-the-organizations-repository" class="section level2" number="5.2">
-<h2><span class="header-section-number">5.2</span> Push up changes to the organization’s repository</h2>
-</div>
-<div id="re-run-the-assessments-with-the-latest-version-optional" class="section level2" number="5.3">
-<h2><span class="header-section-number">5.3</span> Re-run the assessments with the latest version (optional)</h2>
+<div id="re-run-the-assessments-with-the-latest-version-optional" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Re-run the assessments with the latest version (optional)</h2>
 <!-- rnb-text-end -->
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkEgYmFzaWMgd29ya2Zsb3cgZm9yIHVzaW5nIHRoZSBHTUFDUyByZXBvc2l0b3J5IGZvciBkZXZlbG9wcGVycyINCmF1dGhvcjogIk1hdHRoaWV1IFZFUk9OIg0KZGF0ZTogIkxhc3QgY29tcGlsZWQgb24gYHIgZm9ybWF0KFN5cy50aW1lKCksICclZCAlQiwgJVknKWAiDQpvdXRwdXQ6DQogIHBkZl9kb2N1bWVudDoNCiAgICBudW1iZXJfc2VjdGlvbnM6IHllcw0KICBodG1sX25vdGVib29rOg0KICAgIG51bWJlcl9zZWN0aW9uczogeWVzDQogIHdvcmRfZG9jdW1lbnQ6DQogICAgbnVtYmVyX3NlY3Rpb246IHllcw0KICBodG1sX2RvY3VtZW50Og0KICAgIGRmX3ByaW50OiBwYWdlZA0KLS0tDQoNCmBgYHtyLCBpbmNsdWRlPUZBTFNFLCBlY2hvPUZBTFNFfQ0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KA0KICBjb2xsYXBzZSA9IFRSVUUsDQogIGNvbW1lbnQgPSAiIz4iLA0KICBldmFsID0gRkFMU0UsDQogIGluY2x1ZGUgPSBUUlVFDQopDQoNCm1haW4ucGF0aCA8LSBkaXJuYW1lKHJzdHVkaW9hcGk6OmdldEFjdGl2ZURvY3VtZW50Q29udGV4dCgpJHBhdGgpDQprbml0cjo6b3B0c19jaHVuayRzZXQocm9vdC5kaXIgPSBtYWluLnBhdGgpDQprbml0cjo6b3B0c19rbml0JHNldChyb290LmRpciA9IG1haW4ucGF0aCkNCg0KYGBgDQoNCg0KDQpbR2l0aHViIERlc2t0b3BdOiBodHRwczovL2Rlc2t0b3AuZ2l0aHViLmNvbS8NClsiSGFwcHkgR2l0IGFuZCBHaXRodWIgZm9yIHRoZSB1c2VSIl06IGh0dHBzOi8vaGFwcHlnaXR3aXRoci5jb20vDQpbUiBXb3JrZmxvd106IGh0dHBzOi8vcnZlcnNlLXR1dG9yaWFscy5naXRodWIuaW8vUldvcmtmbG93LU5XRlNDLTIwMjEvaW5kZXguaHRtbA0KW0dpdGh1Yl06IGh0dHBzOi8vZ2l0aHViLmNvbS8NCltSXTogaHR0cHM6Ly9jcmFuLnItcHJvamVjdC5vcmcvDQpbUnN0dWRpb106IGh0dHBzOi8vd3d3LnJzdHVkaW8uY29tL3Byb2R1Y3RzL3JzdHVkaW8vZG93bmxvYWQvDQpbYGRldnRvb2xzYF06IGh0dHBzOi8vd3d3LnItcHJvamVjdC5vcmcvbm9zdm4vcGFuZG9jL2RldnRvb2xzLmh0bWwNCltBRE1CXTogaHR0cHM6Ly93d3cuYWRtYi1wcm9qZWN0Lm9yZy8NCg0KW2BnbXJgXTogaHR0cHM6Ly9naXRodWIuY29tL0dNQUNTLXByb2plY3QvZ21yDQpbVXBkYXRlR01BQ1MuUl06IGh0dHBzOi8vZ2l0aHViLmNvbS9HTUFDUy1wcm9qZWN0L0dNQUNTX0Fzc2Vzc21lbnRfY29kZS9ibG9iL21haW4vR01BQ1MvVXBkYXRlR01BQ1MuUg0KW0dNQUNTLXByb2plY3RdOiBodHRwczovL2dpdGh1Yi5jb20vR01BQ1MtcHJvamVjdA0KW0dNQUNTX0Fzc2Vzc21lbnRfY29kZV06IGh0dHBzOi8vZ2l0aHViLmNvbS9HTUFDUy1wcm9qZWN0L0dNQUNTX0Fzc2Vzc21lbnRfY29kZQ0KW29yZ2FuaXphdGlvbl06IGh0dHBzOi8vZ2l0aHViLmNvbS9HTUFDUy1wcm9qZWN0DQpbR01BQ1NdOiBodHRwczovL2dpdGh1Yi5jb20vR01BQ1MtcHJvamVjdC9HTUFDU19Bc3Nlc3NtZW50X2NvZGUvdHJlZS9tYWluL0dNQUNTDQpbRHZwdF9WZXJzaW9uXTogaHR0cHM6Ly9naXRodWIuY29tL0dNQUNTLXByb2plY3QvR01BQ1NfQXNzZXNzbWVudF9jb2RlL3RyZWUvbWFpbi9HTUFDUy9EdnB0X1ZlcnNpb24NCltMYXRlc3RfVmVyc2lvbl06IGh0dHBzOi8vZ2l0aHViLmNvbS9HTUFDUy1wcm9qZWN0L0dNQUNTX0Fzc2Vzc21lbnRfY29kZS90cmVlL21haW4vR01BQ1MvTGF0ZXN0X1ZlcnNpb24NCltBRHBhdGhzLnR4dF06IGh0dHBzOi8vZ2l0aHViLmNvbS9HTUFDUy1wcm9qZWN0L0dNQUNTX0Fzc2Vzc21lbnRfY29kZS9ibG9iL21haW4vR01BQ1MvQURwYXRocy50eHQNCltBc3Nlc3NtZW50c106IGh0dHBzOi8vZ2l0aHViLmNvbS9HTUFDUy1wcm9qZWN0L0dNQUNTX0Fzc2Vzc21lbnRfY29kZS90cmVlL21haW4vQXNzZXNzbWVudHMNCltSdW5fR01BQ1NdOiBodHRwczovL2dpdGh1Yi5jb20vR01BQ1MtcHJvamVjdC9HTUFDU19Bc3Nlc3NtZW50X2NvZGUvYmxvYi9tYWluL0dNQUNTL1J1bl9HTUFDUy5SbWQNCltDb21wYXJlX1ZlcnNpb25fVlNfTGFzdF9Bc3Nlc3NtZW50XTogaHR0cHM6Ly9naXRodWIuY29tL0dNQUNTLXByb2plY3QvR01BQ1NfQXNzZXNzbWVudF9jb2RlL2Jsb2IvbWFpbi9HTUFDUy9Db21wYXJlX1ZlcnNpb25fVlNfTGFzdF9Bc3Nlc3NtZW50LlJtZA0KDQoNCg0KDQoNCiMgSW50cm9kdWN0aW9uDQoNClRoaXMgZG9jdW1lbnQgaXMgaW50ZW5kZWQgdG8gZ2l2ZSB5b3UgImd1aWRlbGluZXMgYW5kIGdlbmVyaWMgc3RlcHMiIHRvIGZvbGxvdyB3aGVuIHdvcmtpbmcgb24gR01BQ1MgYW5kIHJlbGVhc2luZyBhIG5ldyB2ZXJzaW9uLiBJdHMgYWltcyBhcmUgdG8gc2hvdyB5b3UgaG93IHRvIHVzZSB0aGUgR01BQ1MgR2l0aHViIHJlcG9zaXRvcnkgdG8gbW9kaWZ5IEdNQUNTIHdoaWxlIHRyYWNraW5nIGNvZGUgY2hhbmdlcy4gVGhlIGlkZWEgaXMgdG8gbWFrZSB0aGlzIHdvcmtmbG93IGVhc3kgdG8gZm9sbG93IHNvIHdlIHdpbGwgd29yayB3aXRoIEdpdGh1YiB3aXRob3V0IHRoZSBjb21tYW5kLWxpbmUgaW50ZXJmYWNlIHVzaW5nIHRoZSBncmFwaGljYWwgaW50ZXJmYWNlIGZvciBHaXQgKltHaXRodWIgRGVza3RvcF0qLg0KDQpXZSBhc3N1bWUgeW91IGFscmVhZHkga25vdyBob3cgdG8gdXNlIFJzdHVkaW8gd2l0aCBwcm9qZWN0cy4gSWYgeW91IGhhdmUgbmV2ZXIgdXNlZCBHaXRodWIgKGFuZC9vciBHaXRoaHViIERlc2t0b3ApIHdpdGggUnN0dWRpbywgeW91IGNhbiBmaW5kIG91dCBtb3JlIGZyb20gdGhlIGZvbGxvd2luZyBvbmxpbmUgd29ya3Nob3BzOiB0aGUgWyJIYXBweSBHaXQgYW5kIEdpdGh1YiBmb3IgdGhlIHVzZVIiXSBmcm9tICpKZW5ueSBCcmlhbiogYW5kIHRoZSBbUiBXb3JrZmxvd10gd29ya3Nob3AgZnJvbSAqRWxpemFiZXRoIEhvbG1lcyouDQoNClRocm91Z2hvdXQgdGhpcyBkb2N1bWVudCwgd2Ugd2lsbCB1c2UgYFJgIGNvZGUgdG8gdXBkYXRlIHRvIGEgbmV3IHZlcnNpb24gb2YgR01BQ1MuIFRoZSBmdW5jdGlvbnMgdXNlZCBhcmUgYXZhaWxhYmxlIGluIHRoZSBbYGdtcmBdIHBhY2thZ2UsIHdoaWNoIGlzIHVzZWZ1bCBmb3Igd29ya2luZyB3aXRoIEdNQUNTLiBUaGlzIHBhY2thZ2UgaXMgYXZhaWxhYmxlIG9uIHRoZSByZXBvc2l0b3J5LiBUbyBnZXQgaXQgaW5zdGFsbGVkIHlvdSB3aWxsIG5lZWQgdGhlIFtgZGV2dG9vbHNgXSBwYWNrYWdlLiANCg0KDQpJbiB0aGUgY291cnNlIG9mIHRoaXMgZG9jdW1lbnQsIHdlIHdpbGwgYWxzbyBuZWVkIHZhcmlvdXMgcGFja2FnZXMgcmVxdWlyZWQgdG8gaSkgY2FsbCBBRCBNb2RlbCBCdWlsZGVyIChbQURNQl0pIGluIGBSYCAodG8gY29tcGlsZSBhbmQgYnVpbGQgdGhlIEdNQUNTIGV4ZWN1dGFibGUpLCBpaSkgLg0KDQpBcyB0aGUgcmVwb3NpdG9yeSBpcyBwcml2YXRlLCB5b3Ugd2lsbCBoYXZlIHRvIHNldCB5b3VyIGNyZWRlbnRpYWxzIGluIFIgdG8gYmUgYWJsZSB0byBkb3dubG9hZCB0aGUgcGFja2FnZS4NClRoZSBmb2xsb3dpbmcgY29kZSBoZWxwIHlvdSB0byBkbyB0aGlzLiBQbGVhc2UgdXNlIHRoZSBhZGRyZXNzIG9mIHlvdXIgR2l0aHViIGFjY291bnQgKHRoZSBvbmUgdGhhdCBnaXZlcyB5b3UgYWNjZXNzIHRvIHRoZSBvcmdhbml6YXRpb24ncyByZXBvc2l0b3J5IGluIEdpdGh1YikuDQoNCmBgYHtyIFNldCB5b3VyIGNyZWRlbnRpYWx9DQoucGFjayA8LSAiZ21yIg0KLkRpclNyYyA8LSAiR01BQ1MtcHJvamVjdC9nbXIiDQouVXNlcm5hbWUgPC0gIiIgICAgICAgICAgICAgICAgICAgICAjIHRoZSBuYW1lIG9mIHlvdXIgR2l0aHViDQouVXNlckVtYWlsPC0gIiIgICAgICAgICMgWW91ciBlbWFpbCBhZGRyZXNzIGFzc29jaWF0ZWQgdG8geW91ciBHaXRodWIgYWNjb3VudA0KDQojIFJlbW92ZSB0aGUgcGFja2FnZSBpZiB5b3UgYWxyZWFkeSBnb3QgaXQgaW5zdGFsbGVkIG9uIHlvdXIgY29tcHV0ZXINCnJlbW92ZS5wYWNrYWdlcygucGFjaywgbGliPSJ+L1Ivd2luLWxpYnJhcnkvNC4xIikNCg0KIyBTZXQgY29uZmlnDQp1c2V0aGlzOjp1c2VfZ2l0X2NvbmZpZyh1c2VyLm5hbWUgPSAuVXNlcm5hbWUsIHVzZXIuZW1haWwgPSAuVXNlckVtYWlsKQ0KDQojIEdvIHRvIGdpdGh1YiBwYWdlIHRvIGdlbmVyYXRlIHRva2VuDQp1c2V0aGlzOjpjcmVhdGVfZ2l0aHViX3Rva2VuKCkgDQoNCiMgUGFzdGUgeW91ciBQQVQgaW50byBwb3AtdXAgdGhhdCBmb2xsb3dzLi4uDQpjcmVkZW50aWFsczo6c2V0X2dpdGh1Yl9wYXQoKQ0KDQojIE5vdyByZW1vdGVzOjppbnN0YWxsX2dpdGh1YigpIHdpbGwgd29yaw0KZGV2dG9vbHM6Omluc3RhbGxfZ2l0aHViKC5EaXJTcmMpDQoNCmBgYA0KDQoNClRoZSBmb2xsb3dpbmcgY29kZSBwcm9jZWVkcyB0aGUgaW5zdGFsbGF0aW9uIG9mIHRoZSBgW2dtcl1gIHBhY2thZ2Ugb24geW91ciBtYWNoaW5lIGFuZCBsb2FkIHRoZSB2YXJpb3VzIGxpYnJhcmllcy4NCg0KYGBge3IgSW5zdGFsbCBnbXIgYW5kIGxvYWQgcGFja2FnZXN9DQoNCnJtKGxpc3Q9bHMoKSkgICAgICMgQ2xlYW4geW91ciBSIHNlc3Npb24NCg0KIyBTZXQgdGhlIHdvcmtpbmcgZGlyZWN0b3J5IGFzIHRoZSBkaXJlY3Rvcnkgb2YgdGhpcyBkb2N1bWVudC0tLS0NCiMgc2V0d2QoZGlybmFtZShyc3R1ZGlvYXBpOjpnZXRBY3RpdmVEb2N1bWVudENvbnRleHQoKSRwYXRoKSkNCg0KIyBjaGVjayB5b3VyIGRpcmVjdG9yeQ0KZ2V0d2QoKQ0KDQojIEluc3RhbGwgYW5kIGxvYWQgdGhlIHBhY2thZ2VzLS0tLQ0KDQojIDEuSW5zdGFsbCBkZXZ0b29scyBhbmQgZ2RhdGEgb24geW91ciBtYWNoaW5lIC0tLS0NCmlmICghcmVxdWlyZSgiZGV2dG9vbHMiKSkgeyAgICAgICAgICAgICAgICAgICAgICAgICMgaW5zdGFsbCBkZXZ0b29scw0KICBpbnN0YWxsLnBhY2thZ2VzKCJkZXZ0b29scyIpDQp9DQoNCmlmICghcmVxdWlyZSgiZ2RhdGEiKSkgeyAgICAgICAgICAgICAgICAgICAgICAgICMgbmVlZGVkIHRvIG1hbmlwdWxhdGUgZGF0YQ0KICBpbnN0YWxsLnBhY2thZ2VzKCJnZGF0YSIpDQp9DQoNCiMgMi4gSW5zdGFsbCAvIHVwZGF0ZSBnbXIgcGFja2FnZSAtLS0tDQouU3JjIDwtICJHTUFDUy1wcm9qZWN0L2dtciINCi5VcGRhdGUgPC0gMCAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIEdldCB0aGUgbGF0ZXN0IHZlcnNpb24gb2YgZ21yPyAoMDogbm87IDE6IGluc3RhbGwgZm9yIHRoZSBmaXJzdCB0aW1lOw0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgMjogdXBkYXRlIHRoZSBwYWNrYWdlKQ0KbXlsaWIgPC0gIn4vUi93aW4tbGlicmFyeS80LjEiICAgICAgICAgICMgdGhlIGxpYnJhcnkgZGlyZWN0b3J5IHRvIHJlbW92ZSB0aGUgDQojIGdtciBwYWNrYWdlIGZyb20NCg0KIyAgcmVtb3Rlczo6aW5zdGFsbF9naXRodWIoKSB3aWxsIHdvcmsgdG8gaW5zdGFsbCBnbXIgb24geW91ciBtYWNoaW5lDQppZiguVXBkYXRlID09IDEpIGRldnRvb2xzOjppbnN0YWxsX2dpdGh1YiguU3JjKQ0KDQoNCiMgVXBkYXRpbmcgdG8gdGhlIGxhdGVzdCB2ZXJzaW9uIG9mIGdtcg0KaWYoLlVwZGF0ZSA9PSAyKXsNCiAgcmVtb3ZlLnBhY2thZ2VzKCJnbXIiLCBsaWI9bXlsaWIpDQogIGRldnRvb2xzOjppbnN0YWxsX2dpdGh1YiguU3JjKQ0KfSANCg0KDQojIExvYWQgdGhlIGdtciBwYWNrYWdlDQpsaWJyYXJ5KGdtcikNCmBgYA0KDQoNCmBDb2Rlc2AgaW4gdGhpcyBkb2N1bWVudCBhcmUgc3VtbWFyaXplZCBpbiBhIGNsZWFuIGFuZCBydW5uYWJsZSBgLlJgIHNjcmlwdCAoW1VwZGF0ZUdNQUNTLlJdKSB3aGljaCB5b3Ugc2hvdWxkIHVzZSB3aGVuZXZlciB5b3Ugd2FudCB0byByZWxlYXNlIGEgbmV3IHZlcnNpb24gb2YgR01BQ1MuIFRoaXMgUiBzY3JpcHQgd2lsbCBndWlkZSB5b3UgdGhyb3VnaCBhbGwgdGhlIHN0ZXBzIG9mIHRoZSBwcm9jZWR1cmUgbWFraW5nIHRoZSBHTUFDUyB1cGdyYWRlIHByb2Nlc3MgZWFzaWVyIGFuZCBtb3JlIHRyYW5zcGFyZW50Lg0KDQojIFNldC11cCBmb3IgdXNpbmcgdGhpcyB3b3JrZmxvdw0KDQpBcyBhIG1lbWJlciBvZiB0aGUgW0dNQUNTLXByb2plY3RdIG9yZ2FuaXphdGlvbiwgeW91IHByb2JhYmx5IGFscmVhZHkgaGF2ZSBhIFtHaXRodWJdIGFjY291bnQ7IGlmIG5vdCwgeW91IHdpbGwgbmVlZCBvbmUgaWYgeW91IHdhbnQgdG8gd29yayB3aXRoIHRoaXMgcmVwb3NpdG9yeSBhbmQgcG90ZW50aWFsbHkgYWN0IGFzIGFuIGFjdGl2ZSBkZXZlbG9wZXIuIFlvdSB3aWxsIGFsc28gbmVlZCB0byBnZXQgaW5zdGFsbGVkIFIgKG9yIFJzdHVkaW8pIGFuZCBHaXRodWIgRGVza3RvcCBvbiB5b3VyIGNvbXB1dGVyLiBCZWxvdyBhcmUgdGhlIGxpbmtzIHRvIGluc3RhbGwgdGhlc2UgcHJvZ3JhbXM6DQoNCi0gICBJbnN0YWxsIFtSXQ0KLSAgIEluc3RhbGwgW1JzdHVkaW9dDQotICAgSW5zdGFsbCBbR2l0aHViIERlc2t0b3BdDQoNCklmIHlvdSB3YW50IHRvIGxpbmsgeW91ciBSL1JzdHVkaW8gdG8geW91ciBHaXRodWIgYWNjb3VudCBzbyB0aGF0IHlvdSBjYW4gcHVzaCB5b3VyIGNoYW5nZXMgZnJvbSBSc3R1ZGlvIGRpcmVjdGx5IHRvIEdpdGh1YiwgcGxlYXNlIHJlZmVyIHRvIHRoZSB0d28gd29ya3Nob3BzIGxpc3RlZCBhYm92ZS4gSSB3aWxsIG5vdCBjb3ZlciB0aGlzIHRvcGljIGluIHRoaXMgZG9jdW1lbnQuDQoNCiMgTGV0J3MgZ2V0IHRoZSAqR01BQ1NfQXNzZXNzbWVudF9jb2RlKiByZXBvc2l0b3J5IG9uIHlvdXIgY29tcHV0ZXINCg0KSSBhbSBnb2luZyB0byBzaG93IHlvdSBhIHdvcmtmbG93IHRvIGdldCB0aGUgW0dNQUNTX0Fzc2Vzc21lbnRfY29kZV0gcmVwb3NpdG9yeSBvbiB5b3VyIGNvbXB1dGVyLiBIZXJlLCB5b3UgaGF2ZSB0d28gb3B0aW9uczoNCg0KMS4gIFlvdSB3YW50IHRvIGNvbnRyaWJ1dGUgdG8gdGhlIGRldmVsb3BtZW50IG9mIEdNQUNTOiB5b3Ugd2lsbCB0aGVyZWZvcmUgbmVlZCB0byBbKipmb3JrKipdKCNGb3JrLXJlcG8pIHRoZSByZXBvc2l0b3J5IHRvIGJlIGFibGUgdG8gZGlyZWN0bHkgcHVzaCB1cCBjaGFuZ2VzIHRvIEdNQUNTIHRvIHRoZSBvcmdhbml6YXRpb24ncyByZXBvc2l0b3J5Lg0KMi4gIFlvdSBvbmx5IHdhbnQgdG8gWyoqY2xvbmUqKl0oI0NvcHktcmVwbykgdGhlIHJlcG9zaXRvcnkgb2YgdGhlIG9yZ2FuaXphdGlvbiBhbmQgbW9kaWZ5IGl0IHRvIHlvdXIgbGlraW5nIHdpdGhvdXQgcHVzaGluZyB1cCBtb2RpZmljYXRpb25zIHRvIHRoZSByZXBvc2l0b3J5IG9mIHRoZSBvcmdhbml6YXRpb24uIEluIHRoaXMgY2FzZSwgeW91IHdpbGwgbm90IGNvbnRyaWJ1dGUgZGlyZWN0bHkgdG8gdGhlIGRldmVsb3BtZW50IG9mIEdNQUNTLg0KDQojIyBGb3JrIHRoZSBbR01BQ1NfQXNzZXNzbWVudF9jb2RlXSByZXBvc2l0b3J5IHsjRm9yay1yZXBvfQ0KDQpCeSAqKipmb3JraW5nKioqIHRoaXMgcmVwb3NpdG9yeSwgeW91IHdpbGwgYmUgYWJsZSB0byBjb250cmlidXRlIHRvIHRoZSBvcmdhbml6YXRpb24ncyByZXBvc2l0b3J5LiBJZiB5b3UganVzdCB3YW50IHRvIGNvcHkgaXQgYW5kIHRoZW4gbW9kaWZ5IGl0IGZvciB5b3VyIG93biBwdXJwb3NlIG9uIHlvdSBjb21wdXRlciwgcGxlYXNlIGZvbGxvdyB0aGUgc3RlcHMgZGVzY3JpYmVkIGluIHRoZSBbQ29weSBhIEdNQUNTLXByb2plY3QgcmVwb3NpdG9yeV0oI0NvcHktcmVwbykgc2VjdGlvbi4NCg0KKipXYXJuaW5nOioqICp0aGUgZm9sbG93aW5nIHdvcmtmbG93IHdpbGwgcHJvdmlkZSB5b3Ugd2l0aCAicmVhbCIgYWNjZXNzIHRvIHRoZSBHTUFDUyByZXBvc2l0b3J5LiBUaGVyZWZvcmUsIGFueSBjaGFuZ2VzIHlvdSBtYXkgbWFrZSB0byB0aGlzIHJlcG9zaXRvcnkgY2FuIGJlY29tZSAicGVybWFuZW50Ii4gUGxlYXNlLCBuZXZlciBkZWxldGUgYW4gaW1wb3J0YW50IGZpbGUgb3IgZm9sZGVyIGlmIHlvdSBhcmUgbm90IHN1cmUuIFRoYW5rIHlvdS4qDQoNCjEuICBJbiBHaXRodWIgRGVza3RvcCwgY2xpY2sgKkZpbGUgPiBDbG9uZSBSZXBvc2l0b3J5Kg0KMi4gIEluIHRoZSAqIkNsb25lIGEgcmVwb3NpdG9yeSIqIHBvcHVwIHdpbmRvdywgY2hvc2UgdGhlIFVSTCB0YWIgYW5kIHBhc3RlIHRoZSBHTUFDU19Bc3Nlc3NtZW50X2NvZGUgcmVwb3NpdG9yeSB1cmwuDQozLiAgQ2hlY2sgdGhlIHNlbGVjdGVkIGZvbGRlciBpbiB0aGUgbG9jYWwgcGF0aCBhbmQgY2xpY2sgYENsb25lYC4NCg0KWW91IGFyZSBub3cgcmVhZHkgdG8gbWFrZSBzb21lIGNoYW5nZXMgdG8gR01BQ1MsIGNvbW1pdCB0aGVtIGFuZCBwdXNoIHVwIHRoZW0gdG8gdGhlIG9yZ2FuaXphdGlvbiByZXBvc2l0b3J5LiBZb3UgY2FuIGFsc28gY3JlYXRlIGEgbmV3IFJTdHVkaW8gcHJvamVjdCBpbiB0aGUgZm9sZGVyIGhvbGRpbmcgdGhlIFtHTUFDU19Bc3Nlc3NtZW50X2NvZGVdIHJlcG9zaXRvcnkgb24geW91ciBjb21wdXRlciBhbmQgc3RhcnQgdG8gd29yayB3aXRoIEdNQUNTIG91dHB1dHMuDQoNCiMjIENsb25lIHRoZSBbR01BQ1NfQXNzZXNzbWVudF9jb2RlXSByZXBvc2l0b3J5IHsjQ29weS1yZXBvfQ0KDQpIZXJlIEkgc2hvdyB5b3UgaG93IHRvIGNvcHkgdGhlIFtHTUFDU19Bc3Nlc3NtZW50X2NvZGVdIHJlcG9zaXRvcnkgb24geW91ciBjb21wdXRlci4gQnkgZm9sbG93aW5nIHRoZXNlIHN0ZXBzLCB5b3Ugd2lsbCBub3QgYmUgYWJsZSB0byBjb250cmlidXRlIHRvIHRoZSBbR01BQ1MtcHJvamVjdF0gb3JnYW5pc2F0aW9uIGJ1dCB5b3Ugd2lsbCBoYXZlIHRoZSBwb3NzaWJpbGl0eSB0byBhZGFwdCB0aGlzIHJlcG9zaXRvcnkgZm9yIHlvdXIgcHVycG9zZSB3aXRob3V0IGZlYXIgb2YgaW1wYWN0aW5nIHRoZSBvcmdhbml6YXRpb24ncyByZXBvc2l0b3J5LiBCZWxvdyBhcmUgdGhlIHN0ZXBzIHRvIGZvbGxvdzoNCg0KMS4gIEdldCBhbmQgY29weSB0aGUgW3VybF0oaHR0cHM6Ly9naXRodWIuY29tL0dNQUNTLXByb2plY3QvR01BQ1NfQXNzZXNzbWVudF9jb2RlKSBvZiB0aGUgW0dNQUNTX0Fzc2Vzc21lbnRfY29kZV0gcmVwb3NpdG9yeS4NCjIuICBHbyB0byB5b3UgR2l0aHViIGFjY291bnQuIEl0IHNob3VsZCBiZSBnaXRodWIuY29tL3lvdXItbmFtZS4NCjMuICBJbiBHaXRodWIsIGNsaWNrIHRoZSBgK2AgaW4gdG9wIHJpZ2h0IGFuZCBzZWxlY3QgYGltcG9ydCByZXBvc2l0b3J5YC4NCjQuICBQYXN0ZSB0aGUgdXJsIGluICoqKnRoZSBZb3VyIG9sZCByZXBvc2l0b3J5J3MgY2xvbmUgVVJMKioqIHNlY3Rpb24gYW5kIGdpdmUgYSBuYW1lIGZvciB0aGlzIG5ldyByZXBvLiBZb3UgaGF2ZSBub3cgdGhlIFtHTUFDU19Bc3Nlc3NtZW50X2NvZGVdIG9uIHlvdXIgb3duIEdpdGh1YiAoaS5lLiwgeW91IGhhdmUgYW4gdXJsIGxvb2tpbmcgbGlrZSAqZ2l0aHViLmNvbS95b3VyLW5hbWUvR01BQ1NfQXNzZXNzbWVudF9jb2RlKiBpZiB5b3Uga2VwdCB0aGUgc2FtZSBuYW1lIGFzIHRoZSBvbmUgb2YgdGhlIG9yZ2FuaXphdGlvbikuDQo1LiAgWW91IGNhbiBub3cgY2xvbmUgdGhpcyByZXBvc2l0b3J5IHRvIHlvdXIgY29tcHV0ZXIgZm9sbG93aW5nIHRoZSBzYW1lIHN0ZXBzIGFzIHRob3NlIHVzZWQgdG8gY2xvbmUgdGhlIFtHTUFDU19Bc3Nlc3NtZW50X2NvZGVdIHJlcG9zaXRvcnkgZnJvbSB0aGUgW29yZ2FuaXphdGlvbl0gd2Vic2l0ZS4NCg0KIyBMZXQncyB3b3JrIG9uIGEgbmV3IHZlcnNpb24gb2YgR01BQ1MNCg0KSW4gdGhlICoqW0dNQUNTXSoqIGZvbGRlciBvZiB0aGUgW0dNQUNTX0Fzc2Vzc21lbnRfY29kZV0gcmVwb3NpdG9yeSwgdHdvIHN1YmZvbGRlcnMgc2hvdWxkIGF0dHJhY3QgeW91ciBhdHRlbnRpb24gd2hlbiB5b3Ugd2FudCB0byBpbXBsZW1lbnQgYSBuZXcgdmVyc2lvbiBvZiBHTUFDUyAoSSdtIHRhbGtpbmcgYWJvdXQgZGV2ZWxvcG1lbnQgd2hlbiB5b3UgbWFrZSBhIGNoYW5nZSAobm8gbWF0dGVyIGhvdyBzbWFsbCkgdG8gdGhlIEdNQUNTIGNvZGUpOg0KDQoxLiAgVGhlICoqW0R2cHRfVmVyc2lvbl0qKiBmb2xkZXI6IHRoaXMgZm9sZGVyIGNvbnRhaW5zIHRoZSB2ZXJzaW9uIG9mIEdNQUNTICoqKmN1cnJlbnRseSBpbiBkZXZlbG9wbWVudCoqKi4gVGhpcyBtZWFucyB0aGF0IHRoaXMgdmVyc2lvbiBpcyBzdGlsbCBiZWluZyB0ZXN0ZWQgYWZ0ZXIgc29tZSBtb2RpZmljYXRpb25zIGFuZCBoYXMgbm90IGJlZW4gcmVsZWFzZWQgYXMgYSBzdGFibGUgdmVyc2lvbi4NCjIuICBUaGUgKipbTGF0ZXN0X1ZlcnNpb25dKiogZm9sZGVyOiB0aGlzIGZvbGRlciBob2xkcyB0aGUgbGF0ZXN0IHN0YWJsZSBhbmQgdGVzdGVkIHZlcnNpb24gb2YgR01BQ1MuDQoNClRoZXNlIHR3byBzdWJmb2xkZXJzIGNvbnRhaW4gYWxsIHRoZSBoYXJkd2FyZSB5b3UgbmVlZCB0byBydW4gR01BQ1MgZWl0aGVyIGluIGEgImRldmVsb3BtZW50IHdheSIgb3IgdG8gZ2V0IGEgInN0YWJsZSIgc3RvY2sgYXNzZXNzbWVudC4NCg0KKipJZiB5b3Ugd2FudCB0byBtYWtlIG5ldyBjaGFuZ2VzIHRvIHRoZSBHTUFDUyBjb2RlLCBwbGVhc2Ugd29yayBvbmx5IGluIHRoZSBzdWJmb2xkZXIgKltEdnB0X1ZlcnNpb25dKi4qKg0KDQpJbiB0aGUgZm9sbG93aW5nLCBJIGdpdmUgeW91IHNvbWUgZ3VpZGVsaW5lcyBhYm91dCBob3cgY29ycmVjdGx5IHVwZGF0ZSBhIEdNQUNTIHZlcnNpb24gYW5kIHB1c2ggdXAgdGhvc2UgY2hhbmdlIG9uIEdpdGh1Yi4gT2J2aW91c2x5LCB0aGlzIGFzc3VtZXMgdGhhdCB5b3UgaGF2ZSBwcmV2aW91c2x5IGZvcmtlZCAoYW5kIG5vdCBjbG9uZWQpIHRoZSBvcmdhbml6YXRpb24ncyByZXBvIG9uIHlvdXIgY29tcHV0ZXIuDQoNCkxldCdzIHRha2UgdGhlIGV4YW1wbGUgb2YgaW5jb3Jwb3JhdGluZyB0aW1lLXZhcnlpbmcgbmF0dXJhbCBtb3J0YWxpdHkgaW50byBHTUFDUyB3aXRoIGEgZm9jdXMgb24gc25vdyBjcmFiLiBJIHdpbGwgbm90IGdvIHRocm91Z2ggdGhlIGltcGxlbWVudGF0aW9uIG9mIHRoZSBjb2RlIGl0c2VsZiBidXQgc2ltcGx5IGdpdmUgeW91IHRoZSBwYXRoIHRvIGZvbGxvdyB0bzoNCg0KaS4gIGtlZXAgdHJhY2sgb2YgdGhlc2UgY2hhbmdlcywNCmlpLiBjaGVjayB0aGF0IHRoZXkgZG8gbm90IGltcGFjdCB0aGUgb2J0YWlubWVudCBvZiBhIG5ldyBleGVjdXRhYmxlIChpLmUuLCB0aGF0IHRoZSBjb2RlIGNhbiBiZSBjb21waWxlZCksDQppaWkuIGFuYWx5emUgdGhlIGltcGFjdCBvZiB0aGVzZSBjaGFuZ2VzIG9uIHRoZSBhc3Nlc3NtZW50IGZvciBhIHN0b2NrIChpLmUuLCBjb21wYXJlIHdpdGggdGhlIGxhc3Qgc3RhYmxlIHZlcnNpb24gb2YgR01BQ1MgdGhlIHJlc3VsdHMgb2YgdGhlIGFzc2Vzc21lbnQgdXNpbmcgdGhpcyB2ZXJzaW9uIHVuZGVyIGRldmVsb3BtZW50KSBhbmQsDQppdi4gcmVsZWFzZSB0aGlzIG5ldyBzdGFibGUgdmVyc2lvbiBvZiBHTUFDUyB0byB0aGUgY29tbXVuaXR5Lg0KDQoqUmVtaW5kZXI6KiAqKllvdSB3aWxsIGJlIHdvcmtpbmcgaW4gdGhlIFtEdnB0X1ZlcnNpb25dIHN1YmZvbGRlci4qKg0KDQojIyBNb2RpZnkgdGhlIGdtYWNzYmFzZS50cGwNCg0KSW4gdGhlIFtEdnB0X1ZlcnNpb25dIHN1YmZvbGRlciwgb3BlbiB0aGUgZ21hY3NiYXNlLnRwbCBmaWxlIGluIGFuIGVkaXRvciBhbmQgaW5jb3Jwb3JhdGUgdGhlIG5ldyBmdW5jdGlvbnMvdmFyaWFibGVzIHRvIGdldCB0aW1lLXZhcnlpbmcgbmF0dXJhbCBtb3J0YWxpdHkgY29uZmlndXJhdGlvbi4gVGhpcyBvcGVyYXRpb24gZG9lcyBub3QgcmVxdWlyZSBhbnkgIm5ldyBlbnRyaWVzIiBvciB2YXJpYWJsZSBkZWNsYXJhdGlvbnMgaW4gdGhlIC5jdGwsIC5kYXQgb3IgLnByaiBmaWxlcyBzbyB0aGF0IHRoZSBjaGFuZ2UgeW91IG1ha2Ugd2lsbCByZW1haW4gKGZpcnN0KSBhdCB0aGUgZ21hY3NiYXNlLnRwbCBmaWxlIGxldmVsLg0KDQojIyBDaGVjayBjb21waWxhdGlvbiBhbmQgYnVpbGQgdGhlIGV4ZWN1dGFibGUNCg0KT25jZSB5b3UgYXJlIGRvbmUgd2l0aCB0aGUgY29uZmlndXJhdGlvbiBvZiB0aW1lLXZhcnlpbmcgbmF0dXJhbCBtb3J0YWxpdHkgaW4gR01BQ1MsIHlvdSBub3cgbmVlZCB0byBjaGVjayB0aGF0IHlvdSBhcmUgc3RpbGwgYWJsZSB0byBjb21waWxlIHRoZSBtb2RlbCBhbmQgYnVpbGQgdGhlIGV4ZWN1dGFibGUuIFRvIGJ1aWxkIHRoZSBzb3VyY2UgZmlsZXMgb2YgR01BQ1MgaW50byBhbiBleGVjdXRhYmxlLCB5b3Ugd2lsbCBuZWVkIHRvIGNhbGwgQURNQi4gR21hY3MgY2FuIG5vdyBiZSBjb21waWxlLCBidWlsZCBhbmQgcnVuIHVzaW5nIGBSYC4gVGhlIG9ubHkgcmVxdWlyZW1lbnQgaXMgdG8gcHJvdmlkZSBoaW0gd2l0aCBzcGVjaWZpYyBkaXJlY3RvcmllcyBzbyBpdCB3aWxsIGJlIGFibGUgbG9jYXRlIEFETUIgYW5kIGEgQy9DKysgY29tcGlsZXIuDQoNClRvIHByb3ZpZGUgc3VjaCBkaXJlY3RvcmllcywgeW91IGNhbiB1c2UgdGhlIFtBRHBhdGhzLnR4dF0gZmlsZSBhdmFpbGFibGUgb24gR2l0aHViLiBZb3Ugd2lsbCBuZWVkIHRvIG1vZGlmeSB0aGUgcGF0aHMgYWNjb3JkaW5nbHkgd2l0aCB5b3VyIHNldHVwcyBvbiB5b3VyIGNvbXB1dGVyLiBUaGlzIHRleHQgZmlsZSBob2xkcyB0aGUgaW5mb3JtYXRpb24gb2Ygc3BlY2lmaWMgUiB2YXJpYWJsZSBuYW1lcyBhbmQgdGhlIHBhdGh3YXkgdG8gdXNlIHRoZW0uDQoqKlBsZWFzZSBkbyBub3QgbW9kaWZ5IHRoZSBSIHZhcmlhYmxlIG5hbWVzIGluIHRoaXMgZmlsZSBvdGhlcndpc2UgeW91IHdpbGwgaGF2ZSBzb21lIHRyb3VibGVzIGFuZCB3aWxsIG5vdCBiZSBhYmxlIHRvIGJ1aWxkIHRoZSBHTUFDUyBleGVjdXRhYmxlLioqIEJ5IGRlZmF1bHQsIHRoaXMgZmlsZSBpcyBsb2NhdGUgaW4gdGhlIGN1cnJlbnQgd29ya2luZyBkaXJlY3RvcnkgKGkuZS4sIGluIHRoZSBHTUFDUyBmb2xkZXIpLg0KDQpSdW5uaW5nIHRoaXMgcHJvY2VkdXJlLCB5b3Ugd2lsbCBiZSBhc2tlZCB0byBwcm92aWRlIGEgbmFtZSBmb3IgdGhlIG5ldyB2ZXJzaW9uIG9mIEdNQUNTLiBUaGlzIG5hbWUgd2lsbCBiZSB0aGUgb25lIHVzZWQgYXQgdGhlIGVuZCBvZiBhbGwgeW91ciBtb2RpZmljYXRpb25zIGZvciB0aGlzIG5ldyB2ZXJzaW9uIHNvIGlmIHlvdSBoYXZlIHRvIHJlYWxpemUgbXVsdGlwbGUgY29tcGlsYXRpb24sIHBsZWFzZSBzdGF5ICJjb25zaXN0ZW50IiBpbiB0aGUgbmFtZSBvZiB0aGUgdmVyc2lvbiB5b3UgcHJvdmlkZS4NCg0KVGhlIGZvbGxvd2luZyBjb2RlIGNvbXBpbGVzIGFuZCBidWlsZCB0aGUgR01BQ1MgZXhlY3V0YWJsZS4NCg0KYGBge3IgY29tcGlsZSBhbmQgYnVpbGQgR01BQ1MsIGluY2x1ZGU9VFJVRX0NCg0KIyBEZWZpbmUgdGhlIG5hbWUgb2YgdGhlIGZpbGUgY29udGFpbmluZyB0aGUgZGlmZmVyZW50IHBhdGh3YXlzIG5lZWRlZCB0byBidWlsZA0KIyB0aGUgR01BQ1MgZXhlY3V0YWJsZSANCi5BRE1CcGF0aHMgPC0gIkFEcGF0aHMudHh0Ig0KDQojIFJ1biB0aGUgR2V0R21hY3NFeGUgZnVuY3Rpb24NCi5HZXRHbWFjc0V4ZSgpDQoNCmBgYA0KV2hpbGUgdGhlIGNvbW1hbmQgaXMgcnVubmluZywgeW91IHdpbGwgc2VlIG9uIHRoZSBjb25zb2xlIGV4YWN0bHkgd2hhdCBpcyBnb2luZyBvbi4NCklmIHRoZSBjb21waWxhdGlvbiB3b3JrZWQsIHlvdSBzaG91bGQgaGF2ZSBhIG5ldyBleGVjdXRhYmxlIG5hbWVkIGBnbWFjcy5leGVgIGluIHRoZSByb290IG9mIHRoZSBbRHZwdF9WZXJzaW9uXSBkaXJlY3RvcnkuDQpZb3UgYXJlIG5vdyByZWFkeSB0byB0ZXN0IHRoaXMgbmV3IHZlcnNpb24uIExldCdzIGZpcnN0IG1vZGlmeSAoaWYgbmVlZGVkKSB0aGUgLmRhdCwgLmN0bCwgLnByaiBmaWxlcy4NCg0KIyMgTW9kaWZ5IHRoZSAuZGF0LCAuY3RsLCAucHJqIGZpbGVzDQoNCkluIG91ciBjYXNlLCB3ZSBvbmx5IG5lZWQgdG8gbW9kaWZ5IHRoZSBjb250cm9sIHBhcmFtZXRlcnMgZm9yIHRoZSBUaW1lIHZhcnlpbmcgbmF0dXJhbCBtb3J0YWxpdHkgcmF0ZXMuDQpJbiB0aGUgLmN0bCBmaWxlLCB3ZSB0aGVyZWZvcmUgY2hhbmdlZCB0aGUgKnR5cGUqIG9mIG1vZGVsIGZvciBuYXR1cmFsIG1vcnRhbGl0eSwgdGhlICpwaGFzZSBvZiBlc3RpbWF0aW9uKiwgdGhlICpzdGFuZGFyZCBkZXZpYXRpb24qIG9mIHRoZSBkZXZpYXRpb25zIGZvciB0aGUgcmFuZG9tIHdhbGssIHRoZSBudW1iZXIgb2YgKnN0ZXAtY2hhbmdlcyogYXMgd2UgdXNlZCBibG9ja2VkIGNoYW5nZXMsIHdlIGRlZmluZSB0aGUgc3BlY2lmaWMgeWVhcnMgcG9zaXRpb24gb2YgdGhlIGtub3RzIGFuZCBmaW5hbGx5IHdlIHNwZWNpZmllZCB0aGUgdmFsdWVzIGZvciB0aGUgaW5pdGlhbCBwYXJhbWV0ZXJzLCB0aGVpciBsb3cgYm91bmQsIHRoZWlyIGhpZ2ggYm91bmQgYW5kIHRoZWlyIHBoYXNlLiANCg0KIyMgUnVuIHRoZSBEZXZlbG9wbWVudCB2ZXJzaW9uIHVzaW5nIGEgY2FzZSBzdHVkeTogU25vdyBjcmFiDQoNCllvdSBhcmUgbm93IGdvaW5nIHRvIHJ1biB0aGUgR01BQ1MgZGV2ZWxvcG1lbnQgdmVyc2lvbiBmb3IgYSBzcGVjaWZpYyBjYXNlIHN0dWR5LiBMZXQncyB0YWtlIHRoZSBzbm93IGNyYWIgc3RvY2sgYXMgZXhhbXBsZSBmb3IgdGhpcyBkZW1vbnN0cmF0aW9uLiBHTUFDUyBjYW4gYmUgcnVuIHVzaW5nIHRoZSBbUnVuX0dNQUNTXSBSbWFya2Rvd24gZG9jdW1lbnQgd2hpY2ggY2FsbCB0aGUgYEdNQUNTKClgIGZ1bmN0aW9uLg0KDQpGaXJzdCBkZWZpbmUgdGhlIGNoYXJhY3RlcmlzdGljcyBvZiB0aGlzIGFuYWx5c2lzOg0KDQpgYGB7ciBSdW4gdGhlIGRldmVsb3BtZW50IHZlcnNpb259DQoNCg0KIyBJSS0gUnVuIHRoZSBkZXZlbG9wbWVudCB2ZXJzaW9uLS0tLQ0KDQojIFNwZWNpZXMgb2YgaW50ZXJlc3QNCi5TcGMgPC1jKA0KICAiU05PV19jcmFiIg0KKQ0KDQojIE5hbWVzIG9mIHRoZSBHTUFDUyB2ZXJzaW9uIHRvIGNvbnNpZGVyDQouR01BQ1NfdmVyc2lvbiA8LSBjKA0KICAiRHZwdF9WZXJzaW9uIg0KKQ0KDQojIERlZmluZSBkaXJlY3Rvcmllcw0KLlZFUlNJT05ESVIgPC0gYygNCiAgcGFzdGUwKGdldHdkKCksICIvRHZwdF9WZXJzaW9uLyIpDQopDQoNCiMgVXNlIExhc3QgQXNzZXNzbWVudCBmb3IgY29tcGFyaXNvbj8NCiMgSWYgeWVzLCB5b3UgbXVzdCBwcm92aWRlIHRoZSBuYW1lcyBvZiB0aGUgbW9kZWwgZm9yIGVhY2ggc3BlY2llcyBpbiB0aGUgdmFyaWFibGUgLkFTU01PRF9OQU1FUw0KIyBUaG9zZSBtb2RlbCBmb2xkZXIgbXVzdCBoYXZlIHRvIGJlIGhvbGQgaW4gdGhlIGZvbGRlciBBc3Nlc3NtZW50cw0KLkFTUyA8LSBGQUxTRQ0KDQojIE5lZWQgdG8gY29ucGlsZSB0aGUgbW9kZWw/DQojIHZlY3RvciBvZiBsZW5ndGgoLkdNQUNTX3ZlcnNpb24pDQojIDA6IEdNQUNTIGlzIG5vdCBjb21waWxlZC4gVGhpcyBhc3N1bWVzIHRoYXQgYW4gZXhlY3V0YWJsZSBleGlzdHMgaW4gdGhlIGRpcmVjdG9yeSBvZiB0aGUgY29uY2VybmVkIHZlcnNpb24uDQojIDE6IEdNQUNTIGlzIGNvbXBpbGVzDQouQ09NUElMRSA8LSAwICAgICAgICMgWW91IGFscmVhZHkgY29tcGlsZSBhbmQgYnVpbGQgdGhlIGV4ZWN1dGFibGUNCg0KIyBSdW4gR01BQ1MNCi5SVU5fR01BQ1MgPC0gVFJVRQ0KDQojIFVzZSBsYXRlc3QgYXZhaWxhYmxlIGRhdGEgZm9yIHRoZSBhc3Nlc3NtZW50Pw0KLkxhc3RBc3NEYXQgPC0gVFJVRQ0KDQojIERlZmluZSB0aGUgZGlyZWN0b3JpZXMgZm9yIEFETUINCi5BRE1CcGF0aHMgPC0gIkFEcGF0aHMudHh0Ig0KDQojIFNob3cgUnRlcm1pbmFsDQouVkVSQk9TRSA8LSBUUlVFDQoNCiMgRG8gY29tcGFyaXNvbj8NCi5NQUtFX0NvbXAgPC0gRkFMU0UNCg0KDQpgYGANCg0KVGhlbiwgcnVuIHRoZSBtb2RlbDoNCg0KYGBge3IgUnVuIEdNQ1MgZHZwdF92ZXJzaW9uLCBpbmNsdWRlPVRSVUV9DQpyZXMgPC0gR01BQ1MoDQogIFNwYyA9IC5TcGMsDQogIEdNQUNTX3ZlcnNpb24gPSAuR01BQ1NfdmVyc2lvbiwNCiAgRGlyID0gLlZFUlNJT05ESVIsDQogIEFTUyA9IC5BU1MsDQogIGNvbXBpbGUgPSAuQ09NUElMRSwNCiAgcnVuID0gLlJVTl9HTUFDUywNCiAgTGFzdEFzc0RhdCA9IC5MYXN0QXNzRGF0LA0KICBBRE1CcGF0aHMgPSAuQURNQnBhdGhzLA0KICBtYWtlLmNvbXAgPSAuTUFLRV9Db21wLA0KICB2ZXJib3NlID0gLlZFUkJPU0UNCikNCmBgYA0KDQpBbGwgdGhlIG91dHB1dCBmaWxlcyByZXN1bHRpbmcgZnJvbSB0aGlzIHJ1biBhcmUgc3RvcmVkIGluIHRoZSAqKlNOT1dfTV90aW1lX3ZhcnlpbmcqKiBkaXJlY3RvcnkuIFlvdSBhcmUgbm93IHJlYWR5IHRvIGNvbXBhcmUgdGhlIG91dHB1dHMgb2YgdGhpcyBHTUFDUyBkZXZlbG9wbWVudCB2ZXJzaW9uIHdpdGggdGhlIG9uZXMgY29taW5nIGZyb20gdGhlIGxhdGVzdCBhc3Nlc3NtZW50Lg0KDQoNCg0KIyMgQ29tcGFyZSB0aGUgcmVzdWx0cyBvZiB0aGlzIG5ldyB2ZXJzaW9uIHdpdGggdGhlIHJlc3VsdHMgZnJvbSB0aGUgbGFzdCBhc3Nlc3NtZW50DQoNCkluIHRoZSBbR01BQ1NfQXNzZXNzbWVudF9jb2RlXSByZXBvc2l0b3J5LCB0aGUgcmVxdWlyZWQgaW5wdXQgZmlsZXMgYW5kIHNwZWNpZmljIG91dHB1dHMgZmlsZXMgZnJvbSB0aGUgbGF0ZXN0IGFzc2Vzc21lbnQgZm9yIGFsbCBzdG9ja3MgYXJlIGFyZSBzdG9yZWQgaW4gdGhlIGZvbGRlciBbQXNzZXNzbWVudHNdLiBGb3IgZWFjaCBzdG9ja3MsIHRoaXMgZm9sZGVyIGNvbnRhaW5zIHRoZSBtb2RlbHMgdGhhdCBoYXZlIGJlZW4gdGVzdGVkLCBwcmVzZW50ZWQgYW5kIHNlbGVjdGVkIGJ5IHRoZSBDcmFiIFBsYW4gVGVhbSBhbmQgdGhlIFNjaWVudGlmaWMgYW5kIFN0YXRpc3RpY2FsIENvbW1pdHRlZSB0byByZWFsaXplIHRoZSBhc3Nlc3NtZW50IG9mIGVhY2ggY3JhYiBzdG9jay4NCg0KVGhpcyBjb21wYXJpc29uIGNhbiBiZSBkb25lIHVzaW5nIHRoZSBbQ29tcGFyZV9WZXJzaW9uX1ZTX0xhc3RfQXNzZXNzbWVudF0gUm1hcmtkb3duIGRvY3VtZW50LiBIZXJlLCB3ZSB3aWxsIGNvbXBhcmUgdGhlIHJlc3VsdHMgb2YgdGhlIHN0b2NrIGFzc2Vzc21lbnQgZm9yIHNub3cgY3JhYiBiZXR3ZWVuIHRoZSBsYXRlc3QgYXNzZXNzbWVudCBhbmQgdGhlIGRldmVsb3BtZW50IHZlcnNpb24gb2YgR01BQ1MuIA0KSW4gdGhlIHNhbWUgd2F5IGFzIHByZXZpb3VzbHksIHRoZSBjb21wYXJpc29uIGlzIGRvbmUgYnkgY2FsbGluZyB0aGUgdGhlIGBHTUFDUygpYCBmdW5jdGlvbi4gWW91IHNob3VsZCBoYXZlIGJlZW4gYWJsZSB0byBkbyB0aGUgcnVuIGFuZCB0aGUgY29tcGFyaXNvbiBhdCB0aGUgc2FtZSB0aW1lIGkuZS4sIGNhbGxpbmcgdGhlIGBHTUFDUygpYCBmdW5jdGlvbiBvbmx5IG9uY2UgYnV0IGZvciB0aGUgcHVycG9zZSBvZiB0aGlzIGRvY3VtZW50IHdlIHNwbGl0IHRoZSBzdGVwcy4gT2J2aW91c2x5LCB3ZSBhcmUgbm90IGdvaW5nIGFnYWluIHRocm91Z2ggdGhlIGVudGlyZSBydW4gaGVyZS4gWW91IGhhdmUgZmlyc3QgdG8gbW9kaWZ5IHRoZSBgLkdNQUNTX3ZlcnNpb25gIGFuZCB0aGUgYC5WRVJTSU9ORElSYCB2YXJpYWJsZXMgdG8gY29uc2lkZXIgdGhlIGxhc3QgYXNzZXNzbWVudCBhbmQgdHVybiBvZmYgdGhlIGAuUlVOX0dNQUNTYCB2YXJpYWJsZSB0byBhdm9pZCBnb2luZyBhZ2FpbiB0aHJvdWdoIHRoZSBydW4uIFlvdSB3aWxsIGFsc28gbmVlZCB0byBzcGVjaWZ5IHRoZSBgLkFTU2AgYW5kIGAuQVNTTU9EX05BTUVTYCB2YXJpYWJsZXMgdGhhdCBpbmRpY2F0ZSB5b3Ugd2FudCB0byBjb25zaWRlciB0aGUgbGFzdCBhc3Nlc3NtZW50IGluIHRoZSBjb21wYXJpc29uIGFuZCB0aGUgbmFtZSBvZiB0aGUgbW9kZWwgdXNlZCBmb3IgdGhpcyBhc3Nlc3NtZW50IGFuZCBvZiBjb3Vyc2UsIHlvdSB3aWxsIGhhdmUgdG8gdHVybiBvbiB0aGUgYC5NQUtFX0NvbXBgIHZhcmlhYmxlIHRvIGludGljYXRlIHRoYXQgeW91IHdhbnQgdG8gbWFrZSBjb21wYXJpc29uIGJldHdlZW4gdGhlIHR3byB2ZXJzaW9ucy4NCg0KQ2hhbmdlcyB0aGUgcGFyYW1ldGVycyBmb3IgdGhlIGNvbXBhcmlzb246DQoNCmBgYHtyLCBDb21wYXJlIHRoZSBkZXZlbG9wbWVudCB2ZXJzaW9uIGFuZCB0aGUgbGF0ZXN0IGFzc2Vzc21lbnR9DQoNCiMgTmFtZXMgb2YgdGhlIEdNQUNTIHZlcnNpb24gdG8gY29uc2lkZXIgZm9yIHJ1bg0KLkdNQUNTX3ZlcnNpb24gPC0gYygNCiAgIkxhc3RfQXNzZXNzbWVudCIsDQogICJEdnB0X1ZlcnNpb24iDQopDQoNCiMgRGVmaW5lIGRpcmVjdG9yeQ0KLlZFUlNJT05ESVIgPC0gYygNCiAgcGFzdGUwKGRpcm5hbWUoZ2V0d2QoKSksICIvQXNzZXNzbWVudHMvIiksDQogIHBhc3RlMChnZXR3ZCgpLCAiL0R2cHRfVmVyc2lvbi8iKQ0KKQ0KDQojIE5lZWQgdG8gY29ucGlsZSB0aGUgbW9kZWw/DQojIHZlY3RvciBvZiBsZW5ndGgoLkdNQUNTX3ZlcnNpb24pDQojIDA6IEdNQUNTIGlzIG5vdCBjb21waWxlZC4gVGhpcyBhc3N1bWVzIHRoYXQgYW4gZXhlY3V0YWJsZSBleGlzdHMgaW4gdGhlIGRpcmVjdG9yeSBvZiB0aGUgY29uY2VybmVkIHZlcnNpb24uDQojIDE6IEdNQUNTIGlzIGNvbXBpbGVzDQouQ09NUElMRSA8LSBjKDAsMCkgICAgICAgIyBZb3UgYWxyZWFkeSBjb21waWxlIGFuZCBidWlsZCB0aGUgZXhlY3V0YWJsZQ0KDQojIFJ1biBHTUFDUw0KLlJVTl9HTUFDUyA8LSBGQUxTRQ0KDQojIFNwZWNpZXMNCi5TcGMgPC0gYygNCiAgICAgICAgICAnU05PV19jcmFiJw0KICAgICAgICAgICkNCg0KIyBVc2UgTGFzdCBBc3Nlc3NtZW50IGZvciBjb21wYXJpc29uPw0KIyBJZiB5ZXMsIHlvdSBtdXN0IHByb3ZpZGUgdGhlIG5hbWVzIG9mIHRoZSBtb2RlbCBmb3IgZWFjaCBzcGVjaWVzIGluIHRoZSB2YXJpYWJsZSAuQVNTTU9EX05BTUVTDQojIFRob3NlIG1vZGVsIGZvbGRlciBtdXN0IGhhdmUgdG8gYmUgaG9sZCBpbiB0aGUgZm9sZGVyIEFzc2Vzc21lbnRzDQouQVNTIDwtIFRSVUUNCg0KIyBuYW1lcyBvZiB0aGUgbW9kZWwgZm9yIHRoZSBsYXN0IGFzc2Vzc21lbnQgLSBPbmx5IHVzZWZ1bCBpZiBjb21wYXJpc29uIGlzIG1hZGUuDQojIGlmIGFsbCBzdG9ja3MgYXJlIGNvbnNpZGVyZWQgdGhleSBoYXZlIHRvIGJlIG9yZGVyZWQgYXMgZm9sbG93Og0KIyAiQUlHS0MvRUFHIiAvICJBSUdLQy9XQUciIC8gIkJCUktDIiAvICJTTUJLQyIgLyAiU05PVyINCi5BU1NNT0RfTkFNRVMgPC0gYygNCiAgICAgICAgICAgICAgICAgICAnbW9kZWxfMjFfZycNCiAgICAgICAgICAgICAgICAgICApDQoNCiMgRG8gY29tcGFyaXNvbj8NCi5NQUtFX0NvbXAgPC0gVFJVRQ0KDQpgYGANCg0KQ2FsbCB0aGUgR01BQ1MoKSBmdW5jdGlvbjoNCg0KYGBge3J9DQojIENhbGwgdGhlIEdNQUNTKCkgZnVuY3Rpb246DQoNCnRhYmxlcyA8LSBHTUFDUyhTcGMgPSAuU3BjLCBHTUFDU192ZXJzaW9uID0gLkdNQUNTX3ZlcnNpb24sDQogICAgICAgICAgICAgICAgRGlyID0gLlZFUlNJT05ESVIsDQogICAgICAgICAgICAgICAgY29tcGlsZSA9IC5DT01QSUxFLA0KICAgICAgICAgICAgICAgIEFTUyA9IC5BU1MsDQogICAgICAgICAgICAgICAgQXNzTW9kX25hbWVzID0gLkFTU01PRF9OQU1FUywNCiAgICAgICAgICAgICAgICBydW4gPSAuUlVOX0dNQUNTLA0KICAgICAgICAgICAgICAgIG1ha2UuY29tcCA9IC5NQUtFX0NvbXApDQoNCmBgYA0KDQoNCg0KSWYgeW91IGFyZSBzYXRpc2ZpZWQgd2l0aCB0aGUgcmVzdWx0cyBvZiB0aGUgY29tcGFyaXNvbiBiZXR3ZWVuIHRoZXNlIHR3byB2ZXJzaW9ucyBvZiBHTUFDUywgeW91IGFyZSBub3cgcmVhZHkgdG8gZm9ybWFsaXplIGFuZCByZWxlYXNlIHRoaXMgbmV3IHZlcnNpb24gYW5kIHNwcmVhZCBpdCB0byB0aGUgY29tbXVuaXR5Lg0KDQoNCiMgU3ByZWFkIHRoZSBuZXcgR01BQ1MgdmVyc2lvbiB0byB0aGUgd2hvbGUgY29tbXVuaXR5DQoNClRoZSBmaXJzdCBzdGVwIGJlZm9yZSByZWxlYXNpbmcgdGhlIG5ldyB2ZXJzaW9uIGlzIHRvIHVwZGF0ZSB0aGUgW0xhdGVzdF9WZXJzaW9uXSBmb2xkZXIgd2l0aCB0aGUgbmV3IGNvZGUgb2YgR01BQ1MuDQoNCg0KIyMgQ29weSB0aGUgbGF0ZXN0IHZlcnNpb24gdG8gdGhlIExhdGVzdF9WZXJzaW9uIGZvbGRlcg0KDQpMdWNraWx5IGFuZCBmb3IgdGhlIHNha2Ugb2YgZWZmaWNpZW5jeSBhbmQgdHJhbnNwYXJlbmN5LCB5b3UgZG9uJ3QgaGF2ZSB0byBkbyBhbnl0aGluZyBieSBoYW5kLiANClRoZSBgVXBkYXRlR01BQ1MoKWAgZnVuY3Rpb24gYWxsb3dzIHlvdSB0bzoNCg0KICBpKSBDb3B5IGFuZCBwYXN0ZSBhbGwgdGhlIGZpbGVzIHlvdSB1c2VkIGZvciB0aGUgR01BQ1MgZGV2ZWxvcG1lbnQgdmVyc2lvbiB0byB0aGUgW0xhdGVzdF9WZXJzaW9uXSBmb2xkZXINCiAgaWkpIENvbXBpbGUgdGhpcyBuZXcgcmVsZWFzZSB2ZXJzaW9uIGluIHRoZSBbTGF0ZXN0X1ZlcnNpb25dIGZvbGRlciBhbmQgZ2V0IGV2ZXJ5dGhpbmcgcmVhZHkgdG8gdXNlIGl0DQoNCmBgYHtyfQ0KIyBVc2UgdGhlIFVwZGF0ZUdNQUNTIGZ1bmN0aW9uIHRvIGNvcHkgYW5kIHBhc3RlIHRoZSBsYXN0IGZpbGVzIGluIHRoZSBMYXRlc3RfVmVyc2lvbg0KIyBkaXJlY3RvcnkNClVwZGF0ZUdNQUNTKCkNCmBgYA0KDQoNCg0KIyMgUHVzaCB1cCBjaGFuZ2VzIHRvIHRoZSBvcmdhbml6YXRpb24ncyByZXBvc2l0b3J5DQoNCiMjIFJlLXJ1biB0aGUgYXNzZXNzbWVudHMgd2l0aCB0aGUgbGF0ZXN0IHZlcnNpb24gKG9wdGlvbmFsKQ0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkEgYmFzaWMgd29ya2Zsb3cgZm9yIHVzaW5nIHRoZSBHTUFDUyByZXBvc2l0b3J5IGZvciBkZXZlbG9wcGVycyINCmF1dGhvcjogIk1hdHRoaWV1IFZFUk9OIg0KZGF0ZTogIkxhc3QgY29tcGlsZWQgb24gYHIgZm9ybWF0KFN5cy50aW1lKCksICclZCAlQiwgJVknKWAiDQpvdXRwdXQ6DQogIHBkZl9kb2N1bWVudDoNCiAgICBudW1iZXJfc2VjdGlvbnM6IHllcw0KICBodG1sX25vdGVib29rOg0KICAgIG51bWJlcl9zZWN0aW9uczogeWVzDQogIHdvcmRfZG9jdW1lbnQ6DQogICAgbnVtYmVyX3NlY3Rpb246IHllcw0KICBodG1sX2RvY3VtZW50Og0KICAgIGRmX3ByaW50OiBwYWdlZA0KLS0tDQoNCmBgYHtyLCBpbmNsdWRlPUZBTFNFLCBlY2hvPUZBTFNFfQ0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KA0KICBjb2xsYXBzZSA9IFRSVUUsDQogIGNvbW1lbnQgPSAiIz4iLA0KICBldmFsID0gRkFMU0UsDQogIGluY2x1ZGUgPSBUUlVFDQopDQoNCm1haW4ucGF0aCA8LSBkaXJuYW1lKHJzdHVkaW9hcGk6OmdldEFjdGl2ZURvY3VtZW50Q29udGV4dCgpJHBhdGgpDQprbml0cjo6b3B0c19jaHVuayRzZXQocm9vdC5kaXIgPSBtYWluLnBhdGgpDQprbml0cjo6b3B0c19rbml0JHNldChyb290LmRpciA9IG1haW4ucGF0aCkNCg0KYGBgDQoNCg0KDQpbR2l0aHViIERlc2t0b3BdOiBodHRwczovL2Rlc2t0b3AuZ2l0aHViLmNvbS8NClsiSGFwcHkgR2l0IGFuZCBHaXRodWIgZm9yIHRoZSB1c2VSIl06IGh0dHBzOi8vaGFwcHlnaXR3aXRoci5jb20vDQpbUiBXb3JrZmxvd106IGh0dHBzOi8vcnZlcnNlLXR1dG9yaWFscy5naXRodWIuaW8vUldvcmtmbG93LU5XRlNDLTIwMjEvaW5kZXguaHRtbA0KW0dpdGh1Yl06IGh0dHBzOi8vZ2l0aHViLmNvbS8NCltSXTogaHR0cHM6Ly9jcmFuLnItcHJvamVjdC5vcmcvDQpbUnN0dWRpb106IGh0dHBzOi8vd3d3LnJzdHVkaW8uY29tL3Byb2R1Y3RzL3JzdHVkaW8vZG93bmxvYWQvDQpbYGRldnRvb2xzYF06IGh0dHBzOi8vd3d3LnItcHJvamVjdC5vcmcvbm9zdm4vcGFuZG9jL2RldnRvb2xzLmh0bWwNCltBRE1CXTogaHR0cHM6Ly93d3cuYWRtYi1wcm9qZWN0Lm9yZy8NCg0KW2BnbXJgXTogaHR0cHM6Ly9naXRodWIuY29tL0dNQUNTLXByb2plY3QvZ21yDQpbVXBkYXRlR01BQ1MuUl06IGh0dHBzOi8vZ2l0aHViLmNvbS9HTUFDUy1wcm9qZWN0L0dNQUNTX0Fzc2Vzc21lbnRfY29kZS9ibG9iL21haW4vR01BQ1MvVXBkYXRlR01BQ1MuUg0KW0dNQUNTLXByb2plY3RdOiBodHRwczovL2dpdGh1Yi5jb20vR01BQ1MtcHJvamVjdA0KW0dNQUNTX0Fzc2Vzc21lbnRfY29kZV06IGh0dHBzOi8vZ2l0aHViLmNvbS9HTUFDUy1wcm9qZWN0L0dNQUNTX0Fzc2Vzc21lbnRfY29kZQ0KW29yZ2FuaXphdGlvbl06IGh0dHBzOi8vZ2l0aHViLmNvbS9HTUFDUy1wcm9qZWN0DQpbR01BQ1NdOiBodHRwczovL2dpdGh1Yi5jb20vR01BQ1MtcHJvamVjdC9HTUFDU19Bc3Nlc3NtZW50X2NvZGUvdHJlZS9tYWluL0dNQUNTDQpbRHZwdF9WZXJzaW9uXTogaHR0cHM6Ly9naXRodWIuY29tL0dNQUNTLXByb2plY3QvR01BQ1NfQXNzZXNzbWVudF9jb2RlL3RyZWUvbWFpbi9HTUFDUy9EdnB0X1ZlcnNpb24NCltMYXRlc3RfVmVyc2lvbl06IGh0dHBzOi8vZ2l0aHViLmNvbS9HTUFDUy1wcm9qZWN0L0dNQUNTX0Fzc2Vzc21lbnRfY29kZS90cmVlL21haW4vR01BQ1MvTGF0ZXN0X1ZlcnNpb24NCltBRHBhdGhzLnR4dF06IGh0dHBzOi8vZ2l0aHViLmNvbS9HTUFDUy1wcm9qZWN0L0dNQUNTX0Fzc2Vzc21lbnRfY29kZS9ibG9iL21haW4vR01BQ1MvQURwYXRocy50eHQNCltBc3Nlc3NtZW50c106IGh0dHBzOi8vZ2l0aHViLmNvbS9HTUFDUy1wcm9qZWN0L0dNQUNTX0Fzc2Vzc21lbnRfY29kZS90cmVlL21haW4vQXNzZXNzbWVudHMNCltSdW5fR01BQ1NdOiBodHRwczovL2dpdGh1Yi5jb20vR01BQ1MtcHJvamVjdC9HTUFDU19Bc3Nlc3NtZW50X2NvZGUvYmxvYi9tYWluL0dNQUNTL1J1bl9HTUFDUy5SbWQNCltDb21wYXJlX1ZlcnNpb25fVlNfTGFzdF9Bc3Nlc3NtZW50XTogaHR0cHM6Ly9naXRodWIuY29tL0dNQUNTLXByb2plY3QvR01BQ1NfQXNzZXNzbWVudF9jb2RlL2Jsb2IvbWFpbi9HTUFDUy9Db21wYXJlX1ZlcnNpb25fVlNfTGFzdF9Bc3Nlc3NtZW50LlJtZA0KDQoNCg0KDQoNCiMgSW50cm9kdWN0aW9uDQoNClRoaXMgZG9jdW1lbnQgaXMgaW50ZW5kZWQgdG8gZ2l2ZSB5b3UgImd1aWRlbGluZXMgYW5kIGdlbmVyaWMgc3RlcHMiIHRvIGZvbGxvdyB3aGVuIHdvcmtpbmcgb24gR01BQ1MgYW5kIHJlbGVhc2luZyBhIG5ldyB2ZXJzaW9uLiBJdHMgYWltcyBhcmUgdG8gc2hvdyB5b3UgaG93IHRvIHVzZSB0aGUgR01BQ1MgR2l0aHViIHJlcG9zaXRvcnkgdG8gbW9kaWZ5IEdNQUNTIHdoaWxlIHRyYWNraW5nIGNvZGUgY2hhbmdlcy4gVGhlIGlkZWEgaXMgdG8gbWFrZSB0aGlzIHdvcmtmbG93IGVhc3kgdG8gZm9sbG93IHNvIHdlIHdpbGwgd29yayB3aXRoIEdpdGh1YiB3aXRob3V0IHRoZSBjb21tYW5kLWxpbmUgaW50ZXJmYWNlIHVzaW5nIHRoZSBncmFwaGljYWwgaW50ZXJmYWNlIGZvciBHaXQgKltHaXRodWIgRGVza3RvcF0qLg0KDQpXZSBhc3N1bWUgeW91IGFscmVhZHkga25vdyBob3cgdG8gdXNlIFJzdHVkaW8gd2l0aCBwcm9qZWN0cy4gSWYgeW91IGhhdmUgbmV2ZXIgdXNlZCBHaXRodWIgKGFuZC9vciBHaXRoaHViIERlc2t0b3ApIHdpdGggUnN0dWRpbywgeW91IGNhbiBmaW5kIG91dCBtb3JlIGZyb20gdGhlIGZvbGxvd2luZyBvbmxpbmUgd29ya3Nob3BzOiB0aGUgWyJIYXBweSBHaXQgYW5kIEdpdGh1YiBmb3IgdGhlIHVzZVIiXSBmcm9tICpKZW5ueSBCcmlhbiogYW5kIHRoZSBbUiBXb3JrZmxvd10gd29ya3Nob3AgZnJvbSAqRWxpemFiZXRoIEhvbG1lcyouDQoNClRocm91Z2hvdXQgdGhpcyBkb2N1bWVudCwgd2Ugd2lsbCB1c2UgYFJgIGNvZGUgdG8gdXBkYXRlIHRvIGEgbmV3IHZlcnNpb24gb2YgR01BQ1MuIFRoZSBmdW5jdGlvbnMgdXNlZCBhcmUgYXZhaWxhYmxlIGluIHRoZSBbYGdtcmBdIHBhY2thZ2UsIHdoaWNoIGlzIHVzZWZ1bCBmb3Igd29ya2luZyB3aXRoIEdNQUNTLiANClRoaXMgcGFja2FnZSBpcyBhdmFpbGFibGUgb24gdGhlIEdNQUNTLXByb2plY3QgR2l0SHViIG9yZ2FuaXNhdGlvbi4gVG8gZ2V0IGl0IGluc3RhbGxlZCB5b3Ugd2lsbCBuZWVkIHRoZSBbYGRldnRvb2xzYF0gcGFja2FnZS4gDQoNCg0KSW4gdGhlIGNvdXJzZSBvZiB0aGlzIGRvY3VtZW50LCB3ZSB3aWxsIGFsc28gbmVlZCB2YXJpb3VzIHBhY2thZ2VzIHJlcXVpcmVkIHRvIGkpIGNhbGwgQUQgTW9kZWwgQnVpbGRlciAoW0FETUJdKSBpbiBgUmAgKHRvIGNvbXBpbGUgYW5kIGJ1aWxkIHRoZSBHTUFDUyBleGVjdXRhYmxlKS4gVGhlc2UgcGFja2FnZXMgYXJlIGF1dG9tYXRpY2FsbHkgbG9hZGVkIHdoZW4gbG9hZGluZyB0aGUgW2BnbXJgXSBwYWNrYWdlIGludG8gUi4NCg0KQXMgdGhlIHJlcG9zaXRvcnkgaXMgcHJpdmF0ZSwgeW91IHdpbGwgaGF2ZSB0byBzZXQgeW91ciBjcmVkZW50aWFscyBpbiBSIHRvIGJlIGFibGUgdG8gZG93bmxvYWQgdGhlIHBhY2thZ2UuDQpUaGUgZm9sbG93aW5nIGNvZGUgaGVscCB5b3UgdG8gZG8gdGhpcy4gUGxlYXNlIHVzZSB0aGUgYWRkcmVzcyBvZiB5b3VyIEdpdGh1YiBhY2NvdW50ICh0aGUgb25lIHRoYXQgZ2l2ZXMgeW91IGFjY2VzcyB0byB0aGUgb3JnYW5pemF0aW9uJ3MgcmVwb3NpdG9yeSBpbiBHaXRodWIpLg0KDQpgYGB7ciBTZXQgeW91ciBjcmVkZW50aWFsfQ0KLnBhY2sgPC0gImdtciINCi5EaXJTcmMgPC0gIkdNQUNTLXByb2plY3QvZ21yIg0KLlVzZXJuYW1lIDwtICIiICAgICAgICAgICAgICAgICAgICAgIyB0aGUgbmFtZSBvZiB5b3VyIEdpdGh1Yg0KLlVzZXJFbWFpbDwtICIiICAgICAgICAjIFlvdXIgZW1haWwgYWRkcmVzcyBhc3NvY2lhdGVkIHRvIHlvdXIgR2l0aHViIGFjY291bnQNCg0KIyBSZW1vdmUgdGhlIHBhY2thZ2UgaWYgeW91IGFscmVhZHkgZ290IGl0IGluc3RhbGxlZCBvbiB5b3VyIGNvbXB1dGVyDQpyZW1vdmUucGFja2FnZXMoLnBhY2ssIGxpYj0ifi9SL3dpbi1saWJyYXJ5LzQuMSIpDQoNCiMgU2V0IGNvbmZpZw0KdXNldGhpczo6dXNlX2dpdF9jb25maWcodXNlci5uYW1lID0gLlVzZXJuYW1lLCB1c2VyLmVtYWlsID0gLlVzZXJFbWFpbCkNCg0KIyBHbyB0byBnaXRodWIgcGFnZSB0byBnZW5lcmF0ZSB0b2tlbg0KdXNldGhpczo6Y3JlYXRlX2dpdGh1Yl90b2tlbigpIA0KDQojIFBhc3RlIHlvdXIgUEFUIGludG8gcG9wLXVwIHRoYXQgZm9sbG93cy4uLg0KY3JlZGVudGlhbHM6OnNldF9naXRodWJfcGF0KCkNCg0KIyBOb3cgcmVtb3Rlczo6aW5zdGFsbF9naXRodWIoKSB3aWxsIHdvcmsNCmRldnRvb2xzOjppbnN0YWxsX2dpdGh1YiguRGlyU3JjKQ0KDQpgYGANCg0KDQpUaGUgZm9sbG93aW5nIGNvZGUgcHJvY2VlZHMgdGhlIGluc3RhbGxhdGlvbiBvZiB0aGUgYFtnbXJdYCBwYWNrYWdlIG9uIHlvdXIgbWFjaGluZSBhbmQgbG9hZCB0aGUgdmFyaW91cyBsaWJyYXJpZXMuDQoNCmBgYHtyIEluc3RhbGwgZ21yIGFuZCBsb2FkIHBhY2thZ2VzfQ0KDQpybShsaXN0PWxzKCkpICAgICAjIENsZWFuIHlvdXIgUiBzZXNzaW9uDQoNCiMgU2V0IHRoZSB3b3JraW5nIGRpcmVjdG9yeSBhcyB0aGUgZGlyZWN0b3J5IG9mIHRoaXMgZG9jdW1lbnQtLS0tDQojIHNldHdkKGRpcm5hbWUocnN0dWRpb2FwaTo6Z2V0QWN0aXZlRG9jdW1lbnRDb250ZXh0KCkkcGF0aCkpDQoNCiMgY2hlY2sgeW91ciBkaXJlY3RvcnkNCmdldHdkKCkNCg0KIyBJbnN0YWxsIGFuZCBsb2FkIHRoZSBwYWNrYWdlcy0tLS0NCg0KIyAxLkluc3RhbGwgZGV2dG9vbHMgYW5kIGdkYXRhIG9uIHlvdXIgbWFjaGluZSAtLS0tDQppZiAoIXJlcXVpcmUoImRldnRvb2xzIikpIHsgICAgICAgICAgICAgICAgICAgICAgICAjIGluc3RhbGwgZGV2dG9vbHMNCiAgaW5zdGFsbC5wYWNrYWdlcygiZGV2dG9vbHMiKQ0KfQ0KDQppZiAoIXJlcXVpcmUoImdkYXRhIikpIHsgICAgICAgICAgICAgICAgICAgICAgICAjIG5lZWRlZCB0byBtYW5pcHVsYXRlIGRhdGENCiAgaW5zdGFsbC5wYWNrYWdlcygiZ2RhdGEiKQ0KfQ0KDQojIDIuIEluc3RhbGwgLyB1cGRhdGUgZ21yIHBhY2thZ2UgLS0tLQ0KLlNyYyA8LSAiR01BQ1MtcHJvamVjdC9nbXIiDQouVXBkYXRlIDwtIDAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBHZXQgdGhlIGxhdGVzdCB2ZXJzaW9uIG9mIGdtcj8gKDA6IG5vOyAxOiBpbnN0YWxsIGZvciB0aGUgZmlyc3QgdGltZTsNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIDI6IHVwZGF0ZSB0aGUgcGFja2FnZSkNCm15bGliIDwtICJ+L1Ivd2luLWxpYnJhcnkvNC4xIiAgICAgICAgICAjIHRoZSBsaWJyYXJ5IGRpcmVjdG9yeSB0byByZW1vdmUgdGhlIA0KIyBnbXIgcGFja2FnZSBmcm9tDQoNCiMgIHJlbW90ZXM6Omluc3RhbGxfZ2l0aHViKCkgd2lsbCB3b3JrIHRvIGluc3RhbGwgZ21yIG9uIHlvdXIgbWFjaGluZQ0KaWYoLlVwZGF0ZSA9PSAxKSBkZXZ0b29sczo6aW5zdGFsbF9naXRodWIoLlNyYykNCg0KDQojIFVwZGF0aW5nIHRvIHRoZSBsYXRlc3QgdmVyc2lvbiBvZiBnbXINCmlmKC5VcGRhdGUgPT0gMil7DQogIHJlbW92ZS5wYWNrYWdlcygiZ21yIiwgbGliPW15bGliKQ0KICBkZXZ0b29sczo6aW5zdGFsbF9naXRodWIoLlNyYykNCn0gDQoNCg0KIyBMb2FkIHRoZSBnbXIgcGFja2FnZQ0KbGlicmFyeShnbXIpDQpgYGANCg0KDQpgQ29kZXNgIGluIHRoaXMgZG9jdW1lbnQgYXJlIHN1bW1hcml6ZWQgaW4gYSBjbGVhbiBhbmQgcnVubmFibGUgYC5SYCBzY3JpcHQgKFtVcGRhdGVHTUFDUy5SXSkgd2hpY2ggeW91IHNob3VsZCB1c2Ugd2hlbmV2ZXIgeW91IHdhbnQgdG8gcmVsZWFzZSBhIG5ldyB2ZXJzaW9uIG9mIEdNQUNTLiBUaGlzIFIgc2NyaXB0IHdpbGwgZ3VpZGUgeW91IHRocm91Z2ggYWxsIHRoZSBzdGVwcyBvZiB0aGUgcHJvY2VkdXJlIG1ha2luZyB0aGUgR01BQ1MgdXBncmFkZSBwcm9jZXNzIGVhc2llciBhbmQgbW9yZSB0cmFuc3BhcmVudC4NCg0KIyBTZXQtdXAgZm9yIHVzaW5nIHRoaXMgd29ya2Zsb3cNCg0KQXMgYSBtZW1iZXIgb2YgdGhlIFtHTUFDUy1wcm9qZWN0XSBvcmdhbml6YXRpb24sIHlvdSBwcm9iYWJseSBhbHJlYWR5IGhhdmUgYSBbR2l0aHViXSBhY2NvdW50OyBpZiBub3QsIHlvdSB3aWxsIG5lZWQgb25lIGlmIHlvdSB3YW50IHRvIHdvcmsgd2l0aCB0aGlzIHJlcG9zaXRvcnkgYW5kIHBvdGVudGlhbGx5IGFjdCBhcyBhbiBhY3RpdmUgZGV2ZWxvcGVyLiBZb3Ugd2lsbCBhbHNvIG5lZWQgdG8gZ2V0IGluc3RhbGxlZCBSIChvciBSc3R1ZGlvKSBhbmQgR2l0aHViIERlc2t0b3Agb24geW91ciBjb21wdXRlci4gQmVsb3cgYXJlIHRoZSBsaW5rcyB0byBpbnN0YWxsIHRoZXNlIHByb2dyYW1zOg0KDQotICAgSW5zdGFsbCBbUl0NCi0gICBJbnN0YWxsIFtSc3R1ZGlvXQ0KLSAgIEluc3RhbGwgW0dpdGh1YiBEZXNrdG9wXQ0KDQpJZiB5b3Ugd2FudCB0byBsaW5rIHlvdXIgUi9Sc3R1ZGlvIHRvIHlvdXIgR2l0aHViIGFjY291bnQgc28gdGhhdCB5b3UgY2FuIHB1c2ggeW91ciBjaGFuZ2VzIGZyb20gUnN0dWRpbyBkaXJlY3RseSB0byBHaXRodWIsIHBsZWFzZSByZWZlciB0byB0aGUgdHdvIHdvcmtzaG9wcyBsaXN0ZWQgYWJvdmUuIEkgd2lsbCBub3QgY292ZXIgdGhpcyB0b3BpYyBpbiB0aGlzIGRvY3VtZW50Lg0KDQojIExldCdzIGdldCB0aGUgKkdNQUNTX0Fzc2Vzc21lbnRfY29kZSogcmVwb3NpdG9yeSBvbiB5b3VyIGNvbXB1dGVyDQoNCkkgYW0gZ29pbmcgdG8gc2hvdyB5b3UgYSB3b3JrZmxvdyB0byBnZXQgdGhlIFtHTUFDU19Bc3Nlc3NtZW50X2NvZGVdIHJlcG9zaXRvcnkgb24geW91ciBjb21wdXRlci4gSGVyZSwgeW91IGhhdmUgdHdvIG9wdGlvbnM6DQoNCjEuICBZb3Ugd2FudCB0byBjb250cmlidXRlIHRvIHRoZSBkZXZlbG9wbWVudCBvZiBHTUFDUzogeW91IHdpbGwgdGhlcmVmb3JlIG5lZWQgdG8gWyoqZm9yayoqXSgjRm9yay1yZXBvKSB0aGUgcmVwb3NpdG9yeSB0byBiZSBhYmxlIHRvIGRpcmVjdGx5IHB1c2ggdXAgY2hhbmdlcyB0byBHTUFDUyB0byB0aGUgb3JnYW5pemF0aW9uJ3MgcmVwb3NpdG9yeS4NCjIuICBZb3Ugb25seSB3YW50IHRvIFsqKmNsb25lKipdKCNDb3B5LXJlcG8pIHRoZSByZXBvc2l0b3J5IG9mIHRoZSBvcmdhbml6YXRpb24gYW5kIG1vZGlmeSBpdCB0byB5b3VyIGxpa2luZyB3aXRob3V0IHB1c2hpbmcgdXAgbW9kaWZpY2F0aW9ucyB0byB0aGUgcmVwb3NpdG9yeSBvZiB0aGUgb3JnYW5pemF0aW9uLiBJbiB0aGlzIGNhc2UsIHlvdSB3aWxsIG5vdCBjb250cmlidXRlIGRpcmVjdGx5IHRvIHRoZSBkZXZlbG9wbWVudCBvZiBHTUFDUy4NCg0KIyMgRm9yayB0aGUgW0dNQUNTX0Fzc2Vzc21lbnRfY29kZV0gcmVwb3NpdG9yeSB7I0ZvcmstcmVwb30NCg0KQnkgKioqZm9ya2luZyoqKiB0aGlzIHJlcG9zaXRvcnksIHlvdSB3aWxsIGJlIGFibGUgdG8gY29udHJpYnV0ZSB0byB0aGUgb3JnYW5pemF0aW9uJ3MgcmVwb3NpdG9yeS4gSWYgeW91IGp1c3Qgd2FudCB0byBjb3B5IGl0IGFuZCB0aGVuIG1vZGlmeSBpdCBmb3IgeW91ciBvd24gcHVycG9zZSBvbiB5b3UgY29tcHV0ZXIsIHBsZWFzZSBmb2xsb3cgdGhlIHN0ZXBzIGRlc2NyaWJlZCBpbiB0aGUgW0NvcHkgYSBHTUFDUy1wcm9qZWN0IHJlcG9zaXRvcnldKCNDb3B5LXJlcG8pIHNlY3Rpb24uDQoNCioqV2FybmluZzoqKiAqdGhlIGZvbGxvd2luZyB3b3JrZmxvdyB3aWxsIHByb3ZpZGUgeW91IHdpdGggInJlYWwiIGFjY2VzcyB0byB0aGUgR01BQ1MgcmVwb3NpdG9yeS4gVGhlcmVmb3JlLCBhbnkgY2hhbmdlcyB5b3UgbWF5IG1ha2UgdG8gdGhpcyByZXBvc2l0b3J5IGNhbiBiZWNvbWUgInBlcm1hbmVudCIuIFBsZWFzZSwgbmV2ZXIgZGVsZXRlIGFuIGltcG9ydGFudCBmaWxlIG9yIGZvbGRlciBpZiB5b3UgYXJlIG5vdCBzdXJlLiBUaGFuayB5b3UuKg0KDQoxLiAgSW4gR2l0aHViIERlc2t0b3AsIGNsaWNrICpGaWxlID4gQ2xvbmUgUmVwb3NpdG9yeSoNCjIuICBJbiB0aGUgKiJDbG9uZSBhIHJlcG9zaXRvcnkiKiBwb3B1cCB3aW5kb3csIGNob3NlIHRoZSBVUkwgdGFiIGFuZCBwYXN0ZSB0aGUgR01BQ1NfQXNzZXNzbWVudF9jb2RlIHJlcG9zaXRvcnkgdXJsLg0KMy4gIENoZWNrIHRoZSBzZWxlY3RlZCBmb2xkZXIgaW4gdGhlIGxvY2FsIHBhdGggYW5kIGNsaWNrIGBDbG9uZWAuDQoNCllvdSBhcmUgbm93IHJlYWR5IHRvIG1ha2Ugc29tZSBjaGFuZ2VzIHRvIEdNQUNTLCBjb21taXQgdGhlbSBhbmQgcHVzaCB1cCB0aGVtIHRvIHRoZSBvcmdhbml6YXRpb24gcmVwb3NpdG9yeS4gWW91IGNhbiBhbHNvIGNyZWF0ZSBhIG5ldyBSU3R1ZGlvIHByb2plY3QgaW4gdGhlIGZvbGRlciBob2xkaW5nIHRoZSBbR01BQ1NfQXNzZXNzbWVudF9jb2RlXSByZXBvc2l0b3J5IG9uIHlvdXIgY29tcHV0ZXIgYW5kIHN0YXJ0IHRvIHdvcmsgd2l0aCBHTUFDUyBvdXRwdXRzLg0KDQojIyBDbG9uZSB0aGUgW0dNQUNTX0Fzc2Vzc21lbnRfY29kZV0gcmVwb3NpdG9yeSB7I0NvcHktcmVwb30NCg0KSGVyZSBJIHNob3cgeW91IGhvdyB0byBjb3B5IHRoZSBbR01BQ1NfQXNzZXNzbWVudF9jb2RlXSByZXBvc2l0b3J5IG9uIHlvdXIgY29tcHV0ZXIuIEJ5IGZvbGxvd2luZyB0aGVzZSBzdGVwcywgeW91IHdpbGwgbm90IGJlIGFibGUgdG8gY29udHJpYnV0ZSB0byB0aGUgW0dNQUNTLXByb2plY3RdIG9yZ2FuaXNhdGlvbiBidXQgeW91IHdpbGwgaGF2ZSB0aGUgcG9zc2liaWxpdHkgdG8gYWRhcHQgdGhpcyByZXBvc2l0b3J5IGZvciB5b3VyIHB1cnBvc2Ugd2l0aG91dCBmZWFyIG9mIGltcGFjdGluZyB0aGUgb3JnYW5pemF0aW9uJ3MgcmVwb3NpdG9yeS4gQmVsb3cgYXJlIHRoZSBzdGVwcyB0byBmb2xsb3c6DQoNCjEuICBHZXQgYW5kIGNvcHkgdGhlIFt1cmxdKGh0dHBzOi8vZ2l0aHViLmNvbS9HTUFDUy1wcm9qZWN0L0dNQUNTX0Fzc2Vzc21lbnRfY29kZSkgb2YgdGhlIFtHTUFDU19Bc3Nlc3NtZW50X2NvZGVdIHJlcG9zaXRvcnkuDQoyLiAgR28gdG8geW91IEdpdGh1YiBhY2NvdW50LiBJdCBzaG91bGQgYmUgZ2l0aHViLmNvbS95b3VyLW5hbWUuDQozLiAgSW4gR2l0aHViLCBjbGljayB0aGUgYCtgIGluIHRvcCByaWdodCBhbmQgc2VsZWN0IGBpbXBvcnQgcmVwb3NpdG9yeWAuDQo0LiAgUGFzdGUgdGhlIHVybCBpbiAqKip0aGUgWW91ciBvbGQgcmVwb3NpdG9yeSdzIGNsb25lIFVSTCoqKiBzZWN0aW9uIGFuZCBnaXZlIGEgbmFtZSBmb3IgdGhpcyBuZXcgcmVwby4gWW91IGhhdmUgbm93IHRoZSBbR01BQ1NfQXNzZXNzbWVudF9jb2RlXSBvbiB5b3VyIG93biBHaXRodWIgKGkuZS4sIHlvdSBoYXZlIGFuIHVybCBsb29raW5nIGxpa2UgKmdpdGh1Yi5jb20veW91ci1uYW1lL0dNQUNTX0Fzc2Vzc21lbnRfY29kZSogaWYgeW91IGtlcHQgdGhlIHNhbWUgbmFtZSBhcyB0aGUgb25lIG9mIHRoZSBvcmdhbml6YXRpb24pLg0KNS4gIFlvdSBjYW4gbm93IGNsb25lIHRoaXMgcmVwb3NpdG9yeSB0byB5b3VyIGNvbXB1dGVyIGZvbGxvd2luZyB0aGUgc2FtZSBzdGVwcyBhcyB0aG9zZSB1c2VkIHRvIGNsb25lIHRoZSBbR01BQ1NfQXNzZXNzbWVudF9jb2RlXSByZXBvc2l0b3J5IGZyb20gdGhlIFtvcmdhbml6YXRpb25dIHdlYnNpdGUuDQoNCiMgTGV0J3Mgd29yayBvbiBhIG5ldyB2ZXJzaW9uIG9mIEdNQUNTDQoNCkluIHRoZSAqKltHTUFDU10qKiBmb2xkZXIgb2YgdGhlIFtHTUFDU19Bc3Nlc3NtZW50X2NvZGVdIHJlcG9zaXRvcnksIHR3byBzdWJmb2xkZXJzIHNob3VsZCBhdHRyYWN0IHlvdXIgYXR0ZW50aW9uIHdoZW4geW91IHdhbnQgdG8gaW1wbGVtZW50IGEgbmV3IHZlcnNpb24gb2YgR01BQ1MgKEknbSB0YWxraW5nIGFib3V0IGRldmVsb3BtZW50IHdoZW4geW91IG1ha2UgYSBjaGFuZ2UgKG5vIG1hdHRlciBob3cgc21hbGwpIHRvIHRoZSBHTUFDUyBjb2RlKToNCg0KMS4gIFRoZSAqKltEdnB0X1ZlcnNpb25dKiogZm9sZGVyOiB0aGlzIGZvbGRlciBjb250YWlucyB0aGUgdmVyc2lvbiBvZiBHTUFDUyAqKipjdXJyZW50bHkgaW4gZGV2ZWxvcG1lbnQqKiouIFRoaXMgbWVhbnMgdGhhdCB0aGlzIHZlcnNpb24gaXMgc3RpbGwgYmVpbmcgdGVzdGVkIGFmdGVyIHNvbWUgbW9kaWZpY2F0aW9ucyBhbmQgaGFzIG5vdCBiZWVuIHJlbGVhc2VkIGFzIGEgc3RhYmxlIHZlcnNpb24uDQoyLiAgVGhlICoqW0xhdGVzdF9WZXJzaW9uXSoqIGZvbGRlcjogdGhpcyBmb2xkZXIgaG9sZHMgdGhlIGxhdGVzdCBzdGFibGUgYW5kIHRlc3RlZCB2ZXJzaW9uIG9mIEdNQUNTLg0KDQpUaGVzZSB0d28gc3ViZm9sZGVycyBjb250YWluIGFsbCB0aGUgaGFyZHdhcmUgeW91IG5lZWQgdG8gcnVuIEdNQUNTIGVpdGhlciBpbiBhICJkZXZlbG9wbWVudCB3YXkiIG9yIHRvIGdldCBhICJzdGFibGUiIHN0b2NrIGFzc2Vzc21lbnQuDQoNCioqSWYgeW91IHdhbnQgdG8gbWFrZSBuZXcgY2hhbmdlcyB0byB0aGUgR01BQ1MgY29kZSwgcGxlYXNlIHdvcmsgb25seSBpbiB0aGUgc3ViZm9sZGVyICpbRHZwdF9WZXJzaW9uXSouKioNCg0KSW4gdGhlIGZvbGxvd2luZywgSSBnaXZlIHlvdSBzb21lIGd1aWRlbGluZXMgYWJvdXQgaG93IGNvcnJlY3RseSB1cGRhdGUgYSBHTUFDUyB2ZXJzaW9uIGFuZCBwdXNoIHVwIHRob3NlIGNoYW5nZSBvbiBHaXRodWIuIE9idmlvdXNseSwgdGhpcyBhc3N1bWVzIHRoYXQgeW91IGhhdmUgcHJldmlvdXNseSBmb3JrZWQgKGFuZCBub3QgY2xvbmVkKSB0aGUgb3JnYW5pemF0aW9uJ3MgcmVwbyBvbiB5b3VyIGNvbXB1dGVyLg0KDQpMZXQncyB0YWtlIHRoZSBleGFtcGxlIG9mIGluY29ycG9yYXRpbmcgdGltZS12YXJ5aW5nIG5hdHVyYWwgbW9ydGFsaXR5IGludG8gR01BQ1Mgd2l0aCBhIGZvY3VzIG9uIHNub3cgY3JhYi4gSSB3aWxsIG5vdCBnbyB0aHJvdWdoIHRoZSBpbXBsZW1lbnRhdGlvbiBvZiB0aGUgY29kZSBpdHNlbGYgYnV0IHNpbXBseSBnaXZlIHlvdSB0aGUgcGF0aCB0byBmb2xsb3cgdG86DQoNCmkuICBrZWVwIHRyYWNrIG9mIHRoZXNlIGNoYW5nZXMsDQppaS4gY2hlY2sgdGhhdCB0aGV5IGRvIG5vdCBpbXBhY3QgdGhlIG9idGFpbm1lbnQgb2YgYSBuZXcgZXhlY3V0YWJsZSAoaS5lLiwgdGhhdCB0aGUgY29kZSBjYW4gYmUgY29tcGlsZWQpLA0KaWlpLiBhbmFseXplIHRoZSBpbXBhY3Qgb2YgdGhlc2UgY2hhbmdlcyBvbiB0aGUgYXNzZXNzbWVudCBmb3IgYSBzdG9jayAoaS5lLiwgY29tcGFyZSB3aXRoIHRoZSBsYXN0IHN0YWJsZSB2ZXJzaW9uIG9mIEdNQUNTIHRoZSByZXN1bHRzIG9mIHRoZSBhc3Nlc3NtZW50IHVzaW5nIHRoaXMgdmVyc2lvbiB1bmRlciBkZXZlbG9wbWVudCkgYW5kLA0KaXYuIHJlbGVhc2UgdGhpcyBuZXcgc3RhYmxlIHZlcnNpb24gb2YgR01BQ1MgdG8gdGhlIGNvbW11bml0eS4NCg0KKlJlbWluZGVyOiogKipZb3Ugd2lsbCBiZSB3b3JraW5nIGluIHRoZSBbRHZwdF9WZXJzaW9uXSBzdWJmb2xkZXIuKioNCg0KIyMgTW9kaWZ5IHRoZSBnbWFjc2Jhc2UudHBsDQoNCkluIHRoZSBbRHZwdF9WZXJzaW9uXSBzdWJmb2xkZXIsIG9wZW4gdGhlIGdtYWNzYmFzZS50cGwgZmlsZSBpbiBhbiBlZGl0b3IgYW5kIGluY29ycG9yYXRlIHRoZSBuZXcgZnVuY3Rpb25zL3ZhcmlhYmxlcyB0byBnZXQgdGltZS12YXJ5aW5nIG5hdHVyYWwgbW9ydGFsaXR5IGNvbmZpZ3VyYXRpb24uIFRoaXMgb3BlcmF0aW9uIGRvZXMgbm90IHJlcXVpcmUgYW55ICJuZXcgZW50cmllcyIgb3IgdmFyaWFibGUgZGVjbGFyYXRpb25zIGluIHRoZSAuY3RsLCAuZGF0IG9yIC5wcmogZmlsZXMgc28gdGhhdCB0aGUgY2hhbmdlIHlvdSBtYWtlIHdpbGwgcmVtYWluIChmaXJzdCkgYXQgdGhlIGdtYWNzYmFzZS50cGwgZmlsZSBsZXZlbC4NCg0KIyMgQ2hlY2sgY29tcGlsYXRpb24gYW5kIGJ1aWxkIHRoZSBleGVjdXRhYmxlDQoNCk9uY2UgeW91IGFyZSBkb25lIHdpdGggdGhlIGNvbmZpZ3VyYXRpb24gb2YgdGltZS12YXJ5aW5nIG5hdHVyYWwgbW9ydGFsaXR5IGluIEdNQUNTLCB5b3Ugbm93IG5lZWQgdG8gY2hlY2sgdGhhdCB5b3UgYXJlIHN0aWxsIGFibGUgdG8gY29tcGlsZSB0aGUgbW9kZWwgYW5kIGJ1aWxkIHRoZSBleGVjdXRhYmxlLiBUbyBidWlsZCB0aGUgc291cmNlIGZpbGVzIG9mIEdNQUNTIGludG8gYW4gZXhlY3V0YWJsZSwgeW91IHdpbGwgbmVlZCB0byBjYWxsIEFETUIuIEdtYWNzIGNhbiBub3cgYmUgY29tcGlsZSwgYnVpbGQgYW5kIHJ1biB1c2luZyBgUmAuIFRoZSBvbmx5IHJlcXVpcmVtZW50IGlzIHRvIHByb3ZpZGUgaGltIHdpdGggc3BlY2lmaWMgZGlyZWN0b3JpZXMgc28gaXQgd2lsbCBiZSBhYmxlIGxvY2F0ZSBBRE1CIGFuZCBhIEMvQysrIGNvbXBpbGVyLg0KDQpUbyBwcm92aWRlIHN1Y2ggZGlyZWN0b3JpZXMsIHlvdSBjYW4gdXNlIHRoZSBbQURwYXRocy50eHRdIGZpbGUgYXZhaWxhYmxlIG9uIEdpdGh1Yi4gWW91IHdpbGwgbmVlZCB0byBtb2RpZnkgdGhlIHBhdGhzIGFjY29yZGluZ2x5IHdpdGggeW91ciBzZXR1cHMgb24geW91ciBjb21wdXRlci4gVGhpcyB0ZXh0IGZpbGUgaG9sZHMgdGhlIGluZm9ybWF0aW9uIG9mIHNwZWNpZmljIFIgdmFyaWFibGUgbmFtZXMgYW5kIHRoZSBwYXRod2F5IHRvIHVzZSB0aGVtLg0KKipQbGVhc2UgZG8gbm90IG1vZGlmeSB0aGUgUiB2YXJpYWJsZSBuYW1lcyBpbiB0aGlzIGZpbGUgb3RoZXJ3aXNlIHlvdSB3aWxsIGhhdmUgc29tZSB0cm91YmxlcyBhbmQgd2lsbCBub3QgYmUgYWJsZSB0byBidWlsZCB0aGUgR01BQ1MgZXhlY3V0YWJsZS4qKiBCeSBkZWZhdWx0LCB0aGlzIGZpbGUgaXMgbG9jYXRlIGluIHRoZSBjdXJyZW50IHdvcmtpbmcgZGlyZWN0b3J5IChpLmUuLCBpbiB0aGUgR01BQ1MgZm9sZGVyKS4NCg0KUnVubmluZyB0aGlzIHByb2NlZHVyZSwgeW91IHdpbGwgYmUgYXNrZWQgdG8gcHJvdmlkZSBhIG5hbWUgZm9yIHRoZSBuZXcgdmVyc2lvbiBvZiBHTUFDUy4gVGhpcyBuYW1lIHdpbGwgYmUgdGhlIG9uZSB1c2VkIGF0IHRoZSBlbmQgb2YgYWxsIHlvdXIgbW9kaWZpY2F0aW9ucyBmb3IgdGhpcyBuZXcgdmVyc2lvbiBzbyBpZiB5b3UgaGF2ZSB0byByZWFsaXplIG11bHRpcGxlIGNvbXBpbGF0aW9uLCBwbGVhc2Ugc3RheSAiY29uc2lzdGVudCIgaW4gdGhlIG5hbWUgb2YgdGhlIHZlcnNpb24geW91IHByb3ZpZGUuDQoNClRoZSBmb2xsb3dpbmcgY29kZSBjb21waWxlcyBhbmQgYnVpbGQgdGhlIEdNQUNTIGV4ZWN1dGFibGUuDQoNCmBgYHtyIGNvbXBpbGUgYW5kIGJ1aWxkIEdNQUNTLCBpbmNsdWRlPVRSVUV9DQoNCiMgRGVmaW5lIHRoZSBuYW1lIG9mIHRoZSBmaWxlIGNvbnRhaW5pbmcgdGhlIGRpZmZlcmVudCBwYXRod2F5cyBuZWVkZWQgdG8gYnVpbGQNCiMgdGhlIEdNQUNTIGV4ZWN1dGFibGUgDQouQURNQnBhdGhzIDwtICJBRHBhdGhzLnR4dCINCg0KIyBSdW4gdGhlIEdldEdtYWNzRXhlIGZ1bmN0aW9uDQouR2V0R21hY3NFeGUoKQ0KDQpgYGANCldoaWxlIHRoZSBjb21tYW5kIGlzIHJ1bm5pbmcsIHlvdSB3aWxsIHNlZSBvbiB0aGUgY29uc29sZSBleGFjdGx5IHdoYXQgaXMgZ29pbmcgb24uDQpJZiB0aGUgY29tcGlsYXRpb24gd29ya2VkLCB5b3Ugc2hvdWxkIGhhdmUgYSBuZXcgZXhlY3V0YWJsZSBuYW1lZCBgZ21hY3MuZXhlYCBpbiB0aGUgcm9vdCBvZiB0aGUgW0R2cHRfVmVyc2lvbl0gZGlyZWN0b3J5Lg0KWW91IGFyZSBub3cgcmVhZHkgdG8gdGVzdCB0aGlzIG5ldyB2ZXJzaW9uLiBMZXQncyBmaXJzdCBtb2RpZnkgKGlmIG5lZWRlZCkgdGhlIC5kYXQsIC5jdGwsIC5wcmogZmlsZXMuDQoNCiMjIE1vZGlmeSB0aGUgLmRhdCwgLmN0bCwgLnByaiBmaWxlcw0KDQpJbiBvdXIgY2FzZSwgd2Ugb25seSBuZWVkIHRvIG1vZGlmeSB0aGUgY29udHJvbCBwYXJhbWV0ZXJzIGZvciB0aGUgVGltZSB2YXJ5aW5nIG5hdHVyYWwgbW9ydGFsaXR5IHJhdGVzLg0KSW4gdGhlIC5jdGwgZmlsZSwgd2UgdGhlcmVmb3JlIGNoYW5nZWQgdGhlICp0eXBlKiBvZiBtb2RlbCBmb3IgbmF0dXJhbCBtb3J0YWxpdHksIHRoZSAqcGhhc2Ugb2YgZXN0aW1hdGlvbiosIHRoZSAqc3RhbmRhcmQgZGV2aWF0aW9uKiBvZiB0aGUgZGV2aWF0aW9ucyBmb3IgdGhlIHJhbmRvbSB3YWxrLCB0aGUgbnVtYmVyIG9mICpzdGVwLWNoYW5nZXMqIGFzIHdlIHVzZWQgYmxvY2tlZCBjaGFuZ2VzLCB3ZSBkZWZpbmUgdGhlIHNwZWNpZmljIHllYXJzIHBvc2l0aW9uIG9mIHRoZSBrbm90cyBhbmQgZmluYWxseSB3ZSBzcGVjaWZpZWQgdGhlIHZhbHVlcyBmb3IgdGhlIGluaXRpYWwgcGFyYW1ldGVycywgdGhlaXIgbG93IGJvdW5kLCB0aGVpciBoaWdoIGJvdW5kIGFuZCB0aGVpciBwaGFzZS4gDQoNCiMjIFJ1biB0aGUgRGV2ZWxvcG1lbnQgdmVyc2lvbiB1c2luZyBhIGNhc2Ugc3R1ZHk6IFNub3cgY3JhYg0KDQpZb3UgYXJlIG5vdyBnb2luZyB0byBydW4gdGhlIEdNQUNTIGRldmVsb3BtZW50IHZlcnNpb24gZm9yIGEgc3BlY2lmaWMgY2FzZSBzdHVkeS4gTGV0J3MgdGFrZSB0aGUgc25vdyBjcmFiIHN0b2NrIGFzIGV4YW1wbGUgZm9yIHRoaXMgZGVtb25zdHJhdGlvbi4gR01BQ1MgY2FuIGJlIHJ1biB1c2luZyB0aGUgW1J1bl9HTUFDU10gUm1hcmtkb3duIGRvY3VtZW50IHdoaWNoIGNhbGwgdGhlIGBHTUFDUygpYCBmdW5jdGlvbi4NCg0KRmlyc3QgZGVmaW5lIHRoZSBjaGFyYWN0ZXJpc3RpY3Mgb2YgdGhpcyBhbmFseXNpczoNCg0KYGBge3IgUnVuIHRoZSBkZXZlbG9wbWVudCB2ZXJzaW9ufQ0KDQoNCiMgSUktIFJ1biB0aGUgZGV2ZWxvcG1lbnQgdmVyc2lvbi0tLS0NCg0KIyBTcGVjaWVzIG9mIGludGVyZXN0DQouU3BjIDwtYygNCiAgIlNOT1dfY3JhYiINCikNCg0KIyBOYW1lcyBvZiB0aGUgR01BQ1MgdmVyc2lvbiB0byBjb25zaWRlcg0KLkdNQUNTX3ZlcnNpb24gPC0gYygNCiAgIkR2cHRfVmVyc2lvbiINCikNCg0KIyBEZWZpbmUgZGlyZWN0b3JpZXMNCi5WRVJTSU9ORElSIDwtIGMoDQogIHBhc3RlMChnZXR3ZCgpLCAiL0R2cHRfVmVyc2lvbi8iKQ0KKQ0KDQojIFVzZSBMYXN0IEFzc2Vzc21lbnQgZm9yIGNvbXBhcmlzb24/DQojIElmIHllcywgeW91IG11c3QgcHJvdmlkZSB0aGUgbmFtZXMgb2YgdGhlIG1vZGVsIGZvciBlYWNoIHNwZWNpZXMgaW4gdGhlIHZhcmlhYmxlIC5BU1NNT0RfTkFNRVMNCiMgVGhvc2UgbW9kZWwgZm9sZGVyIG11c3QgaGF2ZSB0byBiZSBob2xkIGluIHRoZSBmb2xkZXIgQXNzZXNzbWVudHMNCi5BU1MgPC0gRkFMU0UNCg0KIyBOZWVkIHRvIGNvbnBpbGUgdGhlIG1vZGVsPw0KIyB2ZWN0b3Igb2YgbGVuZ3RoKC5HTUFDU192ZXJzaW9uKQ0KIyAwOiBHTUFDUyBpcyBub3QgY29tcGlsZWQuIFRoaXMgYXNzdW1lcyB0aGF0IGFuIGV4ZWN1dGFibGUgZXhpc3RzIGluIHRoZSBkaXJlY3Rvcnkgb2YgdGhlIGNvbmNlcm5lZCB2ZXJzaW9uLg0KIyAxOiBHTUFDUyBpcyBjb21waWxlcw0KLkNPTVBJTEUgPC0gMCAgICAgICAjIFlvdSBhbHJlYWR5IGNvbXBpbGUgYW5kIGJ1aWxkIHRoZSBleGVjdXRhYmxlDQoNCiMgUnVuIEdNQUNTDQouUlVOX0dNQUNTIDwtIFRSVUUNCg0KIyBVc2UgbGF0ZXN0IGF2YWlsYWJsZSBkYXRhIGZvciB0aGUgYXNzZXNzbWVudD8NCi5MYXN0QXNzRGF0IDwtIFRSVUUNCg0KIyBEZWZpbmUgdGhlIGRpcmVjdG9yaWVzIGZvciBBRE1CDQouQURNQnBhdGhzIDwtICJBRHBhdGhzLnR4dCINCg0KIyBTaG93IFJ0ZXJtaW5hbA0KLlZFUkJPU0UgPC0gVFJVRQ0KDQojIERvIGNvbXBhcmlzb24/DQouTUFLRV9Db21wIDwtIEZBTFNFDQoNCg0KYGBgDQoNClRoZW4sIHJ1biB0aGUgbW9kZWw6DQoNCmBgYHtyIFJ1biBHTUNTIGR2cHRfdmVyc2lvbiwgaW5jbHVkZT1UUlVFfQ0KcmVzIDwtIEdNQUNTKA0KICBTcGMgPSAuU3BjLA0KICBHTUFDU192ZXJzaW9uID0gLkdNQUNTX3ZlcnNpb24sDQogIERpciA9IC5WRVJTSU9ORElSLA0KICBBU1MgPSAuQVNTLA0KICBjb21waWxlID0gLkNPTVBJTEUsDQogIHJ1biA9IC5SVU5fR01BQ1MsDQogIExhc3RBc3NEYXQgPSAuTGFzdEFzc0RhdCwNCiAgQURNQnBhdGhzID0gLkFETUJwYXRocywNCiAgbWFrZS5jb21wID0gLk1BS0VfQ29tcCwNCiAgdmVyYm9zZSA9IC5WRVJCT1NFDQopDQpgYGANCg0KQWxsIHRoZSBvdXRwdXQgZmlsZXMgcmVzdWx0aW5nIGZyb20gdGhpcyBydW4gYXJlIHN0b3JlZCBpbiB0aGUgKipTTk9XX01fdGltZV92YXJ5aW5nKiogZGlyZWN0b3J5LiBZb3UgYXJlIG5vdyByZWFkeSB0byBjb21wYXJlIHRoZSBvdXRwdXRzIG9mIHRoaXMgR01BQ1MgZGV2ZWxvcG1lbnQgdmVyc2lvbiB3aXRoIHRoZSBvbmVzIGNvbWluZyBmcm9tIHRoZSBsYXRlc3QgYXNzZXNzbWVudC4NCg0KDQoNCiMjIENvbXBhcmUgdGhlIHJlc3VsdHMgb2YgdGhpcyBuZXcgdmVyc2lvbiB3aXRoIHRoZSByZXN1bHRzIGZyb20gdGhlIGxhc3QgYXNzZXNzbWVudA0KDQpJbiB0aGUgW0dNQUNTX0Fzc2Vzc21lbnRfY29kZV0gcmVwb3NpdG9yeSwgdGhlIHJlcXVpcmVkIGlucHV0IGZpbGVzIGFuZCBzcGVjaWZpYyBvdXRwdXRzIGZpbGVzIGZyb20gdGhlIGxhdGVzdCBhc3Nlc3NtZW50IGZvciBhbGwgc3RvY2tzIGFyZSBhcmUgc3RvcmVkIGluIHRoZSBmb2xkZXIgW0Fzc2Vzc21lbnRzXS4gRm9yIGVhY2ggc3RvY2tzLCB0aGlzIGZvbGRlciBjb250YWlucyB0aGUgbW9kZWxzIHRoYXQgaGF2ZSBiZWVuIHRlc3RlZCwgcHJlc2VudGVkIGFuZCBzZWxlY3RlZCBieSB0aGUgQ3JhYiBQbGFuIFRlYW0gYW5kIHRoZSBTY2llbnRpZmljIGFuZCBTdGF0aXN0aWNhbCBDb21taXR0ZWUgdG8gcmVhbGl6ZSB0aGUgYXNzZXNzbWVudCBvZiBlYWNoIGNyYWIgc3RvY2suDQoNClRoaXMgY29tcGFyaXNvbiBjYW4gYmUgZG9uZSB1c2luZyB0aGUgW0NvbXBhcmVfVmVyc2lvbl9WU19MYXN0X0Fzc2Vzc21lbnRdIFJtYXJrZG93biBkb2N1bWVudC4gSGVyZSwgd2Ugd2lsbCBjb21wYXJlIHRoZSByZXN1bHRzIG9mIHRoZSBzdG9jayBhc3Nlc3NtZW50IGZvciBzbm93IGNyYWIgYmV0d2VlbiB0aGUgbGF0ZXN0IGFzc2Vzc21lbnQgYW5kIHRoZSBkZXZlbG9wbWVudCB2ZXJzaW9uIG9mIEdNQUNTLiANCkluIHRoZSBzYW1lIHdheSBhcyBwcmV2aW91c2x5LCB0aGUgY29tcGFyaXNvbiBpcyBkb25lIGJ5IGNhbGxpbmcgdGhlIHRoZSBgR01BQ1MoKWAgZnVuY3Rpb24uIFlvdSBzaG91bGQgaGF2ZSBiZWVuIGFibGUgdG8gZG8gdGhlIHJ1biBhbmQgdGhlIGNvbXBhcmlzb24gYXQgdGhlIHNhbWUgdGltZSBpLmUuLCBjYWxsaW5nIHRoZSBgR01BQ1MoKWAgZnVuY3Rpb24gb25seSBvbmNlIGJ1dCBmb3IgdGhlIHB1cnBvc2Ugb2YgdGhpcyBkb2N1bWVudCB3ZSBzcGxpdCB0aGUgc3RlcHMuIE9idmlvdXNseSwgd2UgYXJlIG5vdCBnb2luZyBhZ2FpbiB0aHJvdWdoIHRoZSBlbnRpcmUgcnVuIGhlcmUuIFlvdSBoYXZlIGZpcnN0IHRvIG1vZGlmeSB0aGUgYC5HTUFDU192ZXJzaW9uYCBhbmQgdGhlIGAuVkVSU0lPTkRJUmAgdmFyaWFibGVzIHRvIGNvbnNpZGVyIHRoZSBsYXN0IGFzc2Vzc21lbnQgYW5kIHR1cm4gb2ZmIHRoZSBgLlJVTl9HTUFDU2AgdmFyaWFibGUgdG8gYXZvaWQgZ29pbmcgYWdhaW4gdGhyb3VnaCB0aGUgcnVuLiBZb3Ugd2lsbCBhbHNvIG5lZWQgdG8gc3BlY2lmeSB0aGUgYC5BU1NgIGFuZCBgLkFTU01PRF9OQU1FU2AgdmFyaWFibGVzIHRoYXQgaW5kaWNhdGUgeW91IHdhbnQgdG8gY29uc2lkZXIgdGhlIGxhc3QgYXNzZXNzbWVudCBpbiB0aGUgY29tcGFyaXNvbiBhbmQgdGhlIG5hbWUgb2YgdGhlIG1vZGVsIHVzZWQgZm9yIHRoaXMgYXNzZXNzbWVudCBhbmQgb2YgY291cnNlLCB5b3Ugd2lsbCBoYXZlIHRvIHR1cm4gb24gdGhlIGAuTUFLRV9Db21wYCB2YXJpYWJsZSB0byBpbnRpY2F0ZSB0aGF0IHlvdSB3YW50IHRvIG1ha2UgY29tcGFyaXNvbiBiZXR3ZWVuIHRoZSB0d28gdmVyc2lvbnMuDQoNCkNoYW5nZXMgdGhlIHBhcmFtZXRlcnMgZm9yIHRoZSBjb21wYXJpc29uOg0KDQpgYGB7ciwgQ29tcGFyZSB0aGUgZGV2ZWxvcG1lbnQgdmVyc2lvbiBhbmQgdGhlIGxhdGVzdCBhc3Nlc3NtZW50fQ0KDQojIE5hbWVzIG9mIHRoZSBHTUFDUyB2ZXJzaW9uIHRvIGNvbnNpZGVyIGZvciBydW4NCi5HTUFDU192ZXJzaW9uIDwtIGMoDQogICJMYXN0X0Fzc2Vzc21lbnQiLA0KICAiRHZwdF9WZXJzaW9uIg0KKQ0KDQojIERlZmluZSBkaXJlY3RvcnkNCi5WRVJTSU9ORElSIDwtIGMoDQogIHBhc3RlMChkaXJuYW1lKGdldHdkKCkpLCAiL0Fzc2Vzc21lbnRzLyIpLA0KICBwYXN0ZTAoZ2V0d2QoKSwgIi9EdnB0X1ZlcnNpb24vIikNCikNCg0KIyBOZWVkIHRvIGNvbnBpbGUgdGhlIG1vZGVsPw0KIyB2ZWN0b3Igb2YgbGVuZ3RoKC5HTUFDU192ZXJzaW9uKQ0KIyAwOiBHTUFDUyBpcyBub3QgY29tcGlsZWQuIFRoaXMgYXNzdW1lcyB0aGF0IGFuIGV4ZWN1dGFibGUgZXhpc3RzIGluIHRoZSBkaXJlY3Rvcnkgb2YgdGhlIGNvbmNlcm5lZCB2ZXJzaW9uLg0KIyAxOiBHTUFDUyBpcyBjb21waWxlcw0KLkNPTVBJTEUgPC0gYygwLDApICAgICAgICMgWW91IGFscmVhZHkgY29tcGlsZSBhbmQgYnVpbGQgdGhlIGV4ZWN1dGFibGUNCg0KIyBSdW4gR01BQ1MNCi5SVU5fR01BQ1MgPC0gRkFMU0UNCg0KIyBTcGVjaWVzDQouU3BjIDwtIGMoDQogICAgICAgICAgJ1NOT1dfY3JhYicNCiAgICAgICAgICApDQoNCiMgVXNlIExhc3QgQXNzZXNzbWVudCBmb3IgY29tcGFyaXNvbj8NCiMgSWYgeWVzLCB5b3UgbXVzdCBwcm92aWRlIHRoZSBuYW1lcyBvZiB0aGUgbW9kZWwgZm9yIGVhY2ggc3BlY2llcyBpbiB0aGUgdmFyaWFibGUgLkFTU01PRF9OQU1FUw0KIyBUaG9zZSBtb2RlbCBmb2xkZXIgbXVzdCBoYXZlIHRvIGJlIGhvbGQgaW4gdGhlIGZvbGRlciBBc3Nlc3NtZW50cw0KLkFTUyA8LSBUUlVFDQoNCiMgbmFtZXMgb2YgdGhlIG1vZGVsIGZvciB0aGUgbGFzdCBhc3Nlc3NtZW50IC0gT25seSB1c2VmdWwgaWYgY29tcGFyaXNvbiBpcyBtYWRlLg0KIyBpZiBhbGwgc3RvY2tzIGFyZSBjb25zaWRlcmVkIHRoZXkgaGF2ZSB0byBiZSBvcmRlcmVkIGFzIGZvbGxvdzoNCiMgIkFJR0tDL0VBRyIgLyAiQUlHS0MvV0FHIiAvICJCQlJLQyIgLyAiU01CS0MiIC8gIlNOT1ciDQouQVNTTU9EX05BTUVTIDwtIGMoDQogICAgICAgICAgICAgICAgICAgJ21vZGVsXzIxX2cnDQogICAgICAgICAgICAgICAgICAgKQ0KDQojIERvIGNvbXBhcmlzb24/DQouTUFLRV9Db21wIDwtIFRSVUUNCg0KYGBgDQoNCkNhbGwgdGhlIEdNQUNTKCkgZnVuY3Rpb246DQoNCmBgYHtyfQ0KIyBDYWxsIHRoZSBHTUFDUygpIGZ1bmN0aW9uOg0KDQp0YWJsZXMgPC0gR01BQ1MoU3BjID0gLlNwYywgR01BQ1NfdmVyc2lvbiA9IC5HTUFDU192ZXJzaW9uLA0KICAgICAgICAgICAgICAgIERpciA9IC5WRVJTSU9ORElSLA0KICAgICAgICAgICAgICAgIGNvbXBpbGUgPSAuQ09NUElMRSwNCiAgICAgICAgICAgICAgICBBU1MgPSAuQVNTLA0KICAgICAgICAgICAgICAgIEFzc01vZF9uYW1lcyA9IC5BU1NNT0RfTkFNRVMsDQogICAgICAgICAgICAgICAgcnVuID0gLlJVTl9HTUFDUywNCiAgICAgICAgICAgICAgICBtYWtlLmNvbXAgPSAuTUFLRV9Db21wKQ0KDQpgYGANCg0KDQoNCklmIHlvdSBhcmUgc2F0aXNmaWVkIHdpdGggdGhlIHJlc3VsdHMgb2YgdGhlIGNvbXBhcmlzb24gYmV0d2VlbiB0aGVzZSB0d28gdmVyc2lvbnMgb2YgR01BQ1MsIHlvdSBhcmUgbm93IHJlYWR5IHRvIGZvcm1hbGl6ZSBhbmQgcmVsZWFzZSB0aGlzIG5ldyB2ZXJzaW9uIGFuZCBzcHJlYWQgaXQgdG8gdGhlIGNvbW11bml0eS4NCg0KDQojIFNwcmVhZCB0aGUgbmV3IEdNQUNTIHZlcnNpb24gdG8gdGhlIHdob2xlIGNvbW11bml0eQ0KDQpUaGUgZmlyc3Qgc3RlcCBiZWZvcmUgcmVsZWFzaW5nIHRoZSBuZXcgdmVyc2lvbiBpcyB0byB1cGRhdGUgdGhlIFtMYXRlc3RfVmVyc2lvbl0gZm9sZGVyIHdpdGggdGhlIG5ldyBjb2RlIG9mIEdNQUNTLg0KDQoNCiMjIENvcHkgdGhlIGxhdGVzdCB2ZXJzaW9uIHRvIHRoZSBMYXRlc3RfVmVyc2lvbiBmb2xkZXINCg0KTHVja2lseSBhbmQgZm9yIHRoZSBzYWtlIG9mIGVmZmljaWVuY3kgYW5kIHRyYW5zcGFyZW5jeSwgeW91IGRvbid0IGhhdmUgdG8gZG8gYW55dGhpbmcgYnkgaGFuZC4gDQpUaGUgYFVwZGF0ZUdNQUNTKClgIGZ1bmN0aW9uIGFsbG93cyB5b3UgdG86DQoNCiAgaSkgQ29weSBhbmQgcGFzdGUgYWxsIHRoZSBmaWxlcyB5b3UgdXNlZCBmb3IgdGhlIEdNQUNTIGRldmVsb3BtZW50IHZlcnNpb24gdG8gdGhlIFtMYXRlc3RfVmVyc2lvbl0gZm9sZGVyDQogIGlpKSBDb21waWxlIHRoaXMgbmV3IHJlbGVhc2UgdmVyc2lvbiBpbiB0aGUgW0xhdGVzdF9WZXJzaW9uXSBmb2xkZXIgYW5kIGdldCBldmVyeXRoaW5nIHJlYWR5IHRvIHVzZSBpdA0KDQpgYGB7cn0NCiMgVXNlIHRoZSBVcGRhdGVHTUFDUyBmdW5jdGlvbiB0byBjb3B5IGFuZCBwYXN0ZSB0aGUgbGFzdCBmaWxlcyBpbiB0aGUgTGF0ZXN0X1ZlcnNpb24NCiMgZGlyZWN0b3J5DQpVcGRhdGVHTUFDUygpDQpgYGANCg0KDQoNCiMjIFB1c2ggdXAgY2hhbmdlcyB0byB0aGUgb3JnYW5pemF0aW9uJ3MgcmVwb3NpdG9yeQ0KDQojIyBSZS1ydW4gdGhlIGFzc2Vzc21lbnRzIHdpdGggdGhlIGxhdGVzdCB2ZXJzaW9uIChvcHRpb25hbCkNCg==</div>
 
 
 

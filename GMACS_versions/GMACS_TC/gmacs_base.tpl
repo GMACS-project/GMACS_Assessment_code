@@ -57,6 +57,7 @@
 //2022-12-21: 1. Added AnnualRecruitment and RecuitmentAtSize classes to ModelCTL.
 //2022-12-25: 1. Completed i/o revisions to ParamInfo and FixedQuantities objects to 
 //                 facilitate parameter matching.
+//2023-01-05: 1. Added Functions.hpp/cpp to facilitate function mapping.
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
@@ -304,11 +305,15 @@ PRELIMINARY_CALCS_SECTION
     if (params(i).get_phase_start()>0) chk++;
   cout<<"number of parameters with phase > 0: "<<chk<<endl;
   
+  //set initial values for parameters
   if (!usePin){
     //set initial values using initial values from ctl file
     for (int i=1;i<=nParams;i++) params(i) = params_ivs(i);
     //TODO: possibly set initial numbers in different fashion
   }
+  
+  //save initial param values to ctl information
+  
   //calculate model results using initial values
   
   ECHOSTR("| finished Preliminary Calcs Section  |");
@@ -5917,46 +5922,48 @@ PROCEDURE_SECTION
 //  OutFile2 << nlogPenalty(12)*Penalty_emphasis(12) << endl;
 //  OutFile2 << endl;
   
+////////////////////////////////////////////////////////////////////////////////
 FUNCTION calcWatZ
   int debug=1;
   if (debug) ECHOSTR("starting calcWatZ");
   WeightAtSize* ptrWatZ = ptrCTL->ptrWatZ;
   wAtZ_cz.initialize();
-  //loop through FCs: 
-  int fc = 0;
+  //Step 1: loop through FCs and calculate WatZ
+  int ctr = 0;
   std::map<int,FactorCombination*> mapFCs = ptrWatZ->ptrFCs->mapFCs;
   for (std::map<int,FactorCombination*>::iterator it=mapFCs.begin(); it!=mapFCs.end(); it++){
-    fc++;
-    int fc_ = it->second->fc;
-    adstring fcn = it->second->s_fcn;
-    dvar_vector w_z(1,nZBs);
-    if (debug) ECHOITER("fc ",it);
-    if ((it->second)->s_type=="function"){
-      if (debug) ECHOSTR("--starting calc for function type");
-      //wAtZ(fc) = 
-    } else
-    if ((it->second)->s_type=="param_vector"){
-      ECHOSTR("calcWatZ: not implemented for param_vector types yet.");
-      exit(-1);
-    } else
-    if ((it->second)->s_type=="param_matrix") {
-      ECHOSTR("calcWatZ: not implemented for param_matrix types yet.");
-      exit(-1);
-    } else
-    if ((it->second)->s_type=="fixed_vector") {
-      if (debug) ECHOSTR("--starting calc for fixed_vector type");
-      //TODO: fill in
-      //wAtZ(fc) = 
-    } else 
-    if ((it->second)->s_type=="fixed_matrix") {
-      ECHOSTR("calcWatZ: not implemented for fixed_matrix types yet.");
-      exit(-1);
-    } else {
-      //TODO: need to fill in behavior for var_ types
-      ECHOSTR("calcWatZ: not implemented for var_param types yet.");
-      exit(-1);
-    }
-  }    
+    ctr++;//keep track of number of factor combinations examined
+    int fc_ = it->second->fc; //factor combination
+    if (it->second->fcm==0){//not a mirror
+      adstring fcn = it->second->s_fcn;
+      dvar_vector w_z(1,nZBs);
+      if (debug) ECHOITER("fc ",it);
+      if ((it->second)->s_type=="function"){
+        if (debug) ECHOSTR("--starting calc for function type");
+        //wAtZ_cz(fc) = 
+      } else
+      if ((it->second)->s_type=="param_vector"){
+        ECHOSTR("calcWatZ: not implemented for param_vector types yet.");
+        exit(-1);
+      } else
+      if ((it->second)->s_type=="param_matrix") {
+        ECHOSTR("calcWatZ: not implemented for param_matrix types yet.");
+        exit(-1);
+      } else
+      if ((it->second)->s_type=="fixed_vector") {
+        if (debug) ECHOSTR("--starting calc for fixed_vector type");
+        //TODO: fill in
+        //wAtZ(fc) = 
+      } else 
+      if ((it->second)->s_type=="fixed_matrix") {
+        ECHOSTR("calcWatZ: not implemented for fixed_matrix types yet.");
+        exit(-1);
+      } else {
+        //TODO: need to fill in behavior for var_ types
+        ECHOSTR("calcWatZ: not implemented for var_param types yet.");
+        exit(-1);
+      }
+    }    
   if (debug) ECHOSTR("finished calcWatZ");
 
    

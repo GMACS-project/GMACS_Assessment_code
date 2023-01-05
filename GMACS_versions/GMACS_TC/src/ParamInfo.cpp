@@ -16,7 +16,7 @@ int ParamBasicInfo::debug = 0;
 /**
  * Constructor
  */
-ParamBasicInfo::ParamBasicInfo(){idx=-1;}
+ParamBasicInfo::ParamBasicInfo(){pv_idx=-1;}
 /**
  * Destructor
  */
@@ -59,7 +59,7 @@ void ParamBasicInfo::write(std::ostream & os){
     os<<s_prior<<"  ";
     os<<p1<<"  ";
     os<<p2<<"  ";
-    os<<"#--param index: "<<idx;
+    os<<"#--param index: "<<pv_idx;
   } else {
     os<<"#--value is mirrored in "<<mir;
   }

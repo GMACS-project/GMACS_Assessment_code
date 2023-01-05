@@ -123,7 +123,7 @@ public:
   /* secondary parameter for prior */
   double p2;
   /* index into gmacs parameter vector */
-  int idx;
+  int pv_idx;
   
   ParamBasicInfo();
   ~ParamBasicInfo();

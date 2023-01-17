@@ -39,16 +39,16 @@ knitr::opts_knit$set(root.dir = main.path)
 [ADMB]: https://www.admb-project.org/
 
 [`gmr`]: https://github.com/GMACS-project/gmr
-[UpdateGMACS.R]: https://github.com/GMACS-project/GMACS_Assessment_code/blob/main/GMACS/UpdateGMACS.R
+[UpdateGMACS.R]: https://github.com/GMACS-project/GMACS_Assessment_code/blob/main/R_scripts/UpdateGMACS.R
 [GMACS-project]: https://github.com/GMACS-project
 [GMACS_Assessment_code]: https://github.com/GMACS-project/GMACS_Assessment_code
 [organization]: https://github.com/GMACS-project
-[Dvpt_Version]: https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS/Dvpt_Version
-[Latest_Version]: https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS/Latest_Version
+[Dvpt_Version]: https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS_versions/Dvpt_Version
+[Latest_Version]: https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS_versions/Latest_Version
 [ADpaths_Windows.txt]: https://github.com/GMACS-project/GMACS_Assessment_code/blob/main/GMACS_versions/ADpaths_Windows.txt
 [ADpaths_MacOS.txt]: https://github.com/GMACS-project/GMACS_Assessment_code/blob/main/GMACS_versions/ADpaths_MacOS.txt
 [Assessments]: https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/Assessments
-[Compare_Version_VS_Last_Assessment]: https://github.com/GMACS-project/GMACS_Assessment_code/blob/main/GMACS/Compare_Version_VS_Last_Assessment.Rmd
+[Compare_Version_VS_Last_Assessment]:https://github.com/GMACS-project/GMACS_Assessment_code/blob/main/Rmarkdown_templates/Compare_Version_VS_Last_Assessment.Rmd
 
 
 # Introduction

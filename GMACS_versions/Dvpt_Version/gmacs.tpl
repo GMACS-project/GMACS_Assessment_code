@@ -71,7 +71,7 @@
 // ************************************************************************************ //
 DATA_SECTION
 
- !! TheHeader =  adstring("## GMACS Version 2.01.L03; Previous compilation on:  2023-01-01 20:28:19; Last compilation on:  2023-01-01 20:29:06");
+ !! TheHeader =  adstring("## GMACS Version 2.01.L03; Compiled 2023-01-16 21:07:43");
 
 
 //-------------------------------
@@ -8434,7 +8434,7 @@ FUNCTION CreateOutput
   REPORT(obs_cpue);
   REPORT(pre_cpue);
   OutFile4 <<  setw(25) << setprecision(10) << setfixed() << endl;
-  OutFile4 << "pre_cpue" << endl;
+  OutFile4 << "# pre_cpue" << endl;
   OutFile4 << pre_cpue << endl;
   REPORT(res_cpue);
   REPORT(survey_q);
@@ -8463,8 +8463,8 @@ FUNCTION CreateOutput
       oldk = k;
     }
   OutFile4 << "#--------------------------------------------------------------------------------------------" << endl;
-  OutFile4 << "Size_data_summary1" << endl;
-  OutFile4 << "Year, Seas, Fleet,  Sex,  Type, Shell,  Maturity, Nsamp,  DataVec (obs), DataVec (pred)" << endl;
+  OutFile4 << "# Size_data_summary1" << endl;
+  OutFile4 << "# Year, Seas, Fleet,  Sex,  Type, Shell,  Maturity, Nsamp,  DataVec (obs), DataVec (pred)" << endl;
   oldk = 0;
   for (int ii=1; ii<=nSizeComps_in;ii++)
    {
@@ -8483,8 +8483,8 @@ FUNCTION CreateOutput
 
 
   OutFile4 << "#--------------------------------------------------------------------------------------------" << endl;
-  OutFile4 << "Size_data_summary2" << endl;
-  OutFile4 << "Year, Seas, Fleet,  Sex,  Type, Shell,  Maturity, Nsamp,  DataVec (obs), DataVec (pred)" << endl;
+  OutFile4 << "# Size_data_summary2" << endl;
+  OutFile4 << "# Year, Seas, Fleet,  Sex,  Type, Shell,  Maturity, Nsamp,  DataVec (obs), DataVec (pred)" << endl;
   for ( int kk = 1; kk <= nSizeComps_in; kk++ )
    for ( int ii = 1; ii <= nSizeCompRows_in(kk); ii++ )
     {

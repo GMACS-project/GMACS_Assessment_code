@@ -225,7 +225,6 @@ namespace gsm {
         return selex;
     }
 
-
     // nonparametric: Base function for non-parametric selectivity option
     /**
      * @brief Nonparametric selectivity function

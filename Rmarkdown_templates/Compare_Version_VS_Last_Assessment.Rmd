@@ -138,9 +138,6 @@ Here is a summary of the latest changes from the version 2.01.J:
 
 ```{r, echo=FALSE, results='asis'}
 
-
-
-
 tables <- GMACS(
   Spc = .Spc,
   GMACS_version = .GMACS_version,
@@ -155,23 +152,6 @@ tables <- GMACS(
   verbose <- .VERBOSE
 )
 # print(tables)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

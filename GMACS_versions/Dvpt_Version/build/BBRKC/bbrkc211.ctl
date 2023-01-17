@@ -522,7 +522,7 @@
 2020       # last rec_dev
    0	   # Terminal molting (0 = off, 1 = on). If on, the calc_stock_recruitment_relationship() isn't called in the procedure
    2       # Estimated rec_dev phase
-   2       # Estimated sex_ratio
+   2       # Estimated sex_ratio phase
  0.5       # initial sex-ratio
   -3       # Estimated rec_ini phase
    1       # VERBOSE FLAG (0 = off, 1 = on, 2 = objective func; 3 diagnostics)

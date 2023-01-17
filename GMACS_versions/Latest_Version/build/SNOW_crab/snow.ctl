@@ -574,7 +574,7 @@
 ## Type																					
 6
 # 0
-## M is relative (YES=1; NO=0)																					
+## M is relative (YES=1; NO=0) - How M for females relate to that for males																				
 0																					
 ## Phase of estimation																					
 4

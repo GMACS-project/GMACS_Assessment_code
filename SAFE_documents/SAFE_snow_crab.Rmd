@@ -72,13 +72,13 @@ ScenarioNames<-mod_names
 
 # needs terminal backslash
 .MODELDIR = c(
-              paste0(dirname(getwd()), "/GMACS_Terminal_molt/GMACS_V_1_00/build/",Spc,"/"),
-              paste0(dirname(getwd()), "/GMACS_Terminal_molt/GMACS_V_2_01_A/build/",Spc,"/"),
-              paste0(dirname(getwd()), "/GMACS_Terminal_molt/GMACS_V_2_01_C/build/",Spc,"/"),
-              paste0(dirname(getwd()), "/GMACS_Terminal_molt/GMACS_V_2_01_E/build/",Spc,"/"),
-              paste0(dirname(getwd()), "/GMACS_Terminal_molt/GMACS_V_2_01_G/build/",Spc,"/"),
-              paste0(dirname(getwd()), "/GMACS_Terminal_molt/GMACS_V_2_01_H/build/",Spc,"/"),
-              paste0(getwd(), "/Latest_Version/build/",Spc,"/")
+              paste0(dirname(getwd()), "/GMACS_versions/GMACS_Terminal_molt/GMACS_V_1_00/build/",Spc,"_crab/"),
+              paste0(dirname(getwd()), "/GMACS_versions/GMACS_Terminal_molt/GMACS_V_2_01_A/build/",Spc,"/"),
+              paste0(dirname(getwd()), "/GMACS_versions/GMACS_Terminal_molt/GMACS_V_2_01_C/build/",Spc,"/"),
+              paste0(dirname(getwd()), "/GMACS_versions/GMACS_Terminal_molt/GMACS_V_2_01_E/build/",Spc,"/"),
+              paste0(dirname(getwd()), "/GMACS_versions/GMACS_Terminal_molt/GMACS_V_2_01_G/build/",Spc,"/"),
+              paste0(dirname(getwd()), "/GMACS_versions/GMACS_Terminal_molt/GMACS_V_2_01_H/build/",Spc,"/"),
+              paste0(dirname(getwd()), "/Latest_Version/build/",Spc,"/")
               )
 
 .THEME    = theme_bw(base_size = 12, base_family = "") +

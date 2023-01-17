@@ -71,7 +71,8 @@
 // ************************************************************************************ //
 DATA_SECTION
 
- !! TheHeader =  adstring("## GMACS Version 2.01.L02; Compiled 2022-12-22 16:30:22");
+ !! TheHeader =  adstring("## GMACS Version 2.01.L03; Compiled 2023-01-16 21:07:43");
+
 
 //-------------------------------
 // Sandbox for testing functions |
@@ -2852,7 +2853,8 @@ PARAMETER_SECTION
   !!ECHO(Grwth);
   // Selectivity parameters
   init_bounded_number_vector log_slx_pars(1,nslx_pars,slx_lb,slx_ub,slx_phzm);
-  !! for (int i=1;i<=nslx_pars;i++) log_slx_pars(i) = log_slx_pars_init(i);
+  // AEP
+  // !! for (int i=1;i<=nslx_pars;i++) log_slx_pars(i) = log_slx_pars_init(i);
   !!ECHO(log_slx_pars);
   // Asymptotic retention
   init_bounded_number_vector Asymret(1,NumAsympRet,AsympSel_lb,AsympSel_ub,AsympSel_phz);
@@ -8115,6 +8117,8 @@ FUNCTION CreateOutput
   OutFile2.open("gmacs.rep");
   OutFile3.close();
   OutFile3.open("personal.rep");
+  OutFile4.close();
+  OutFile4.open("simdata.out");
 
   // The header material
   OutFile1 << TheHeader << endl;
@@ -8392,6 +8396,9 @@ FUNCTION CreateOutput
   REPORT(obs_catch);
   REPORT(obs_effort);
   REPORT(pre_catch);
+  OutFile4 <<  setw(25) << setprecision(10) << setfixed() << endl;
+  OutFile4 << "# pre_catch" << endl;
+  OutFile4 << pre_catch << endl;
   REPORT(res_catch);
   REPORT(log_q_catch);
   REPORT(obs_catch_out);
@@ -8426,6 +8433,9 @@ FUNCTION CreateOutput
   REPORT(cpue_cv_add);
   REPORT(obs_cpue);
   REPORT(pre_cpue);
+  OutFile4 <<  setw(25) << setprecision(10) << setfixed() << endl;
+  OutFile4 << "# pre_cpue" << endl;
+  OutFile4 << pre_cpue << endl;
   REPORT(res_cpue);
   REPORT(survey_q);
   OutFile1 << "CPUE: standard deviation and median" << endl;
@@ -8452,11 +8462,34 @@ FUNCTION CreateOutput
        }
       oldk = k;
     }
+  OutFile4 << "#--------------------------------------------------------------------------------------------" << endl;
+  OutFile4 << "# Size_data_summary1" << endl;
+  OutFile4 << "# Year, Seas, Fleet,  Sex,  Type, Shell,  Maturity, Nsamp,  DataVec (obs), DataVec (pred)" << endl;
+  oldk = 0;
+  for (int ii=1; ii<=nSizeComps_in;ii++)
+   {
+    int k = iCompAggregator(ii);
+    if ( oldk != k )
+     for (int jj=1;jj<=nSizeCompRows_in(ii);jj++)
+      if (d3_SizeComps_in(ii,jj,-7) <= nyrRetro || (d3_SizeComps_in(ii,jj,-7) == nyrRetro+1 & d3_SizeComps_in(ii,jj,-6) == 1) )
+       {
+        for (int kk=-7;kk<=1;kk++) OutFile4 << int(d3_SizeComps_in(ii,jj,kk)) << " ";
+        OutFile4 << size_comp_sample_size(k,jj) << "   ";
+        OutFile4 << d3_obs_size_comps(k,jj) << "   ";
+        OutFile4 << d3_pre_size_comps(k,jj) << endl;
+       }
+      oldk = k;
+    }
 
+
+  OutFile4 << "#--------------------------------------------------------------------------------------------" << endl;
+  OutFile4 << "# Size_data_summary2" << endl;
+  OutFile4 << "# Year, Seas, Fleet,  Sex,  Type, Shell,  Maturity, Nsamp,  DataVec (obs), DataVec (pred)" << endl;
   for ( int kk = 1; kk <= nSizeComps_in; kk++ )
    for ( int ii = 1; ii <= nSizeCompRows_in(kk); ii++ )
     {
      d3_obs_size_comps_out(kk,ii) = d3_obs_size_comps_in(kk,ii) / sum(d3_obs_size_comps_in(kk,ii));
+     OutFile4 << d3_pre_size_comps_out(kk,ii) << endl;
      d3_pre_size_comps_out(kk,ii) = d3_pre_size_comps_in(kk,ii) / sum(d3_pre_size_comps_in(kk,ii));
      d3_res_size_comps_out(kk,ii) = d3_obs_size_comps_out(kk,ii) - d3_pre_size_comps_out(kk,ii); // WRONG, DARCY 29 jULY 2016
     }
@@ -8853,6 +8886,7 @@ GLOBALS_SECTION
   ofstream OutFile1;
   ofstream OutFile2;
   ofstream OutFile3;
+  ofstream OutFile4;
 
   // Define objects for report file, echoinput, etc.
   /**
@@ -9379,4 +9413,6 @@ FINAL_SECTION
 
 // 2022-10-31 ** WTS ** (Version to 2.01.WTS) - 1. Added commandline input flag "testingflag" to turn on sandbox - 2. Added alternative data file reader (TCSAM02 format)
 // 2022-11-16 ** WTS ** (Version to 2.01.WTS) - 1. Added lots of diagnostic output when reading input files - 2. Added ECHOSTR, WriteCtlStr, WriteProjStr macros for 1 - 3. Reformatted calc_relative_abundance in preparation for adding ability to handle immature data
-// 2022-12-22 ** MV ** (Version to 2.01.L01) - 1. Fix a small bug in calc_natural_mortality() - 2. Rename WTS's version - 3. Modify the DatFileReader.cpp to make it compatible with different OS - Fix a small bug in the control file section (MrelFem)
+// 2022-12-22 ** MV ** (Version to 2.01.L02) - 1. Fix a small bug in calc_natural_mortality() - 2. Rename WTS's version - 3. Modify the DatFileReader.cpp to make it compatible with different OS - Fix a small bug in the control file section (MrelFem)
+// 2022-12-31 ** MV ** (Version to 2.01.L03) - 1. Add the simulation approach developped by AE- AE modified the code so initial values for selex is not re-set in the PARAMETER_SECTION
+

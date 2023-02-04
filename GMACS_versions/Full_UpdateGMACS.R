@@ -24,185 +24,340 @@
 
 
 
+# I- Install/Update gmr and load packages ----
 
+rm(list = ls())     # Clean your R session
 
-
-
-rm(list=ls())     # Clean your R session
-
-# Set the working directory as the directory of this document----
+# Set the working directory as the directory of this document
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+
 # check your directory
 getwd()
 
-# Install and load the packages----
+# Install and load the packages
 
-# 1.Install devtools and gdata on your machine ----
-if (!require("devtools")) {                        # install devtools
+# 1.Install devtools and gdata on your machine
+if (!require("devtools")) {
+  # install devtools
   install.packages("devtools")
 }
 
-if (!require("gdata")) {                        # needed to manipulate data
+if (!require("gdata")) {
+  # needed to manipulate data
   install.packages("gdata")
 }
 
-# 2. Install / update gmr package ----
-.Src <- "GMACS-project/gmr"
-.Update <- 0                           # Get the latest version of gmr? (0: no; 1: install for the first time;
-                                        # 2: update the package)
-mylib <- "~/R/win-library/4.1"          # the library directory to remove the 
-# gmr package from
+# 2. Install / update gmr package
+Src <- "GMACS-project/gmr"
+# Get the latest version of gmr? (0: no; 1: install for the first time; 2: update the package)
+Update <-
+  0
+# Inidicate the library directory to remove the gmr package from
+mylib <-
+  "~/R/win-library/4.1"
 
 #  remotes::install_github() will work to install gmr on your machine
-if(.Update == 1) devtools::install_github(.Src)
-
+if (Update == 1)
+  devtools::install_github(Src)
 
 # Updating to the latest version of gmr
-if(.Update == 2){
-  remove.packages("gmr", lib=mylib)
-  devtools::install_github(.Src)
-} 
-
+if (Update == 2) {
+  remove.packages("gmr", lib = mylib)
+  devtools::install_github(Src)
+}
 
 # Load the gmr package
 library(gmr)
+# -----------------------------------------------------------
 
 
-# I- compile and build GMACS----
+# II- Compile and build GMACS ----
+
+# Set the working directories:
+Dir_Dvpt_Vers <- file.path(getwd(), "Dvpt_Version")
+Dir_Last_Vers <- file.path(getwd(), "Latest_Version")
 
 # Define the name of the file containing the different pathways needed to build
-# the GMACS executable 
-.ADMBpaths <- "ADpaths_Windows.txt"
+# the GMACS executable - The ADpaths_Windows.txt file has to be used for windows
+# machine and the ADpaths_MacOS.txt for Linux-like machine (including MacOS)
+# /!\ his file need to be modified so the paths will fit to your machine
+ADMBpaths <- ifelse(.Platform$OS.type == "windows",
+                    "ADpaths_Windows.txt",
+                    "ADpaths_MacOS.txt")
 
-# Run the GetGmacsExe function
-.GetGmacsExe(ADMBpaths = .ADMBpaths)
+# Run the .GetGmacsExe() function to create an executable for the
+# new version of GMACS you've been developing.
+.GetGmacsExe(.nameFold = "Dvpt_Version", ADMBpaths = ADMBpaths)
+
+# Now run the createGmacsExe() function to get the executable for the
+# latest version (if applicable)
+
+createGmacsExe(
+  vv = 2,
+  Dir = c(Dir_Dvpt_Vers, Dir_Last_Vers),
+  verbose = FALSE,
+  ADMBpaths = ADMBpaths
+)
+# -----------------------------------------------------------
 
 
-# II- Run the development version----
+# III- Run the development version ----
 
-# Species of interest
-.Spc <-c(
-  # "SNOW_crab"
+# Define the working directories
+
+# Stock of interest - Here we are going to test all stocks
+# Vector of character string
+# For one stock in particular (e.g., EAG), use the following command:
+# Stock <-c(
+#   "EAG","WAG"
+# )
+Stock <-c(
   "all"
 )
 
 # Names of the GMACS version to consider
-.GMACS_version <- c(
+# Character string
+# Here we focus on the development version ("Dvpt_Version")
+GMACS_version <- c(
   "Dvpt_Version"
 )
 
-# Define directories
-.VERSIONDIR <- c(
-  paste0(getwd(), "/Dvpt_Version/")
-)
+# Define directories (path to the version you are working on)
+# Character string 
+VERSIONDIR <- Dir_Dvpt_Vers
 
 # Use Last Assessment for comparison?
-# If yes, you must provide the names of the model for each species in the variable .ASSMOD_NAMES
-# Those model folder must have to be hold in the folder Assessments
-.ASS <- FALSE
+# Logical
+# If yes, you must provide the names of the model(s) you want to consider for 
+# comparison for each stock in the variable named ASSMOD_NAMES. 
+# Those models folders must have to be hold in the "Assessments" folder of 
+# the GMACS_Assessment_code repository.
+ASS <- FALSE
 
-# Need to conpile the model?
-# vector of length(.GMACS_version)
-# 0: GMACS is not compiled. This assumes that an executable exists in the directory of the concerned version.
-# 1: GMACS is compiles
-.COMPILE <- 0       # You already compile and build the executable
+# Do ou need to compile GMACS?
+# vector of interger of length(.GMACS_version)
+# 0: GMACS does not need to be compiled. This assumes that an executable exists in the directory of the concerned version.
+# 1: GMACS needs to be compiled
+COMPILE <- 0       # You already compile and build the executable
 
 # Run GMACS
-.RUN_GMACS <- TRUE
+# Logical
+# Here, we want to get an assessment for each stock
+RUN_GMACS <- TRUE
 
 # Use latest available data for the assessment?
-.LastAssDat <- TRUE
-
-# Define the directories for ADMB
-.ADMBpaths <- "ADpaths_Windows.txt"
+# Logical
+# If TRUE, the model will be using the input files available in the "Assessment_data"
+# folder of the GMACS_Assessment_code repository. 
+# Remind that if you implemented a version in which you made modifications on the
+# input files (either the .ctl, .dat, or .prj files) you don't want to use the 
+# original files because it won't work.
+LastAssDat <- FALSE
 
 # Show Rterminal
-.VERBOSE <- TRUE
+# Do you want to see what is going on? (similar to verbose <- TRUE)
+# Logical
+VERBOSE <- TRUE
 
-# Do comparison?
-.MAKE_Comp <- FALSE
+# Do comparisons?
+# Logical
+# This is not the topic right now
+MAKE_Comp <- FALSE
 
-
-# Run GMCS dvpt_version
+#  ===================================== #
+#  ===================================== #
 res <- GMACS(
-  Spc = .Spc,
-  GMACS_version = .GMACS_version,
-  Dir = .VERSIONDIR,
-  ASS = .ASS,
-  compile = .COMPILE,
-  run = .RUN_GMACS,
-  LastAssDat = .LastAssDat,
-  ADMBpaths = .ADMBpaths,
-  make.comp = .MAKE_Comp,
-  verbose = .VERBOSE
+  Spc = Stock,
+  GMACS_version = GMACS_version,
+  Dir = VERSIONDIR,
+  ASS = ASS,
+  compile = COMPILE,
+  run = RUN_GMACS,
+  LastAssDat = LastAssDat,
+  ADMBpaths = ADMBpaths,
+  make.comp = MAKE_Comp,
+  verbose = VERBOSE
 )
+# -----------------------------------------------------------
 
 
 
 
 
-# III- Compare the development version and the latest assessment----
+
+
+# IV- Compare the development version and the latest assessment ----
 
 # Names of the GMACS version to consider for run
-.GMACS_version <- c(
-  "Last_Assessment",
+# Here we want comparison between the development version and the latest version of GMACS
+
+# Name the GMACS version you want to consider for the comparison
+# Vector of character string
+GMACS_version <- c(
+  # "Last_Assessment",
   "Dvpt_Version",
-  "Latest_Version"
-)
+  "Latest_Version")
 
 # Define directory
-.VERSIONDIR <- c(
-  file.path(dirname(getwd()), "Assessments"),
-  file.path(getwd(), "Dvpt_Version"),
-  file.path(getwd(), "Latest_Version")
-)
+# Vector of path directory
+VERSIONDIR <- c(
+  # Dir_Assess,
+  Dir_Dvpt_Vers,
+  Dir_Last_Vers)
+
 
 # Need to conpile the model?
-# vector of length(.GMACS_version)
+# vector of interger of length(.GMACS_version)
 # 0: GMACS is not compiled. This assumes that an executable exists in the directory of the concerned version.
 # 1: GMACS is compiles
-.COMPILE <- c(0,0,0)       # You already compile and build the executable
+# COMPILE <- c(0,0,0)       # You already compile and build the executable
+COMPILE <- c(0,0) 
 
-# Run GMACS
-.RUN_GMACS <- FALSE
+# Run GMACS - Runs have already been done
+# Logical
+# Here, we already have assessment outputs for each stock
+RUN_GMACS <- FALSE
 
-# Species
-.Spc <- c('EAG', 'WAG',
-          'BBRKC',
-          'SMBKC',
-          'SNOW_crab')
+
+# Stock of interest - Here we are going to test all stocks
+# Vector of character string
+# For one stock in particular (e.g., EAG), use the following command:
+# Stock <-c(
+#   "EAG"
+# )
+Stock <-c(
+  "all"
+)
 
 # Use Last Assessment for comparison?
-# If yes, you must provide the names of the model for each species in the variable .ASSMOD_NAMES
-# Those model folder must have to be hold in the folder Assessments
-.ASS <- TRUE
+# Logical
+# If yes, you must provide the names of the model(s) you want to consider for 
+# comparison for each stock in the variable named ASSMOD_NAMES. 
+# Those models folders must have to be hold in the "Assessments" folder of 
+# the GMACS_Assessment_code repository.
+ASS <- FALSE
 
-# names of the model for the last assessment - Only useful if comparison is made.
-# if all stocks are considered they have to be ordered as follow:
+# names of the model for the last assessment
+# Only useful if comparison is made.
+# Vector of character string
+# If all stocks are considered they have to be ordered as follow:
 # "AIGKC/EAG" / "AIGKC/WAG" / "BBRKC" / "SMBKC" / "SNOW"
-.ASSMOD_NAMES <- c('model_21_1e', 'model_21_1e',
-                   'model_21_1',
-                   'model_16_0',
-                   'model_21_g')
+ASSMOD_NAMES <- c('model_21_1e',
+                  'model_21_1e',
+                  'model_21_1',
+                  'model_16_0',
+                  'model_21_g')
 
-# Do comparison?
-.MAKE_Comp <- TRUE
+# Do comparisons?
+# Logical
+MAKE_Comp <- TRUE
 
-# Call the GMACS() function:
+#  ===================================== #
+#  ===================================== #
 
-tables <- GMACS(Spc = .Spc, GMACS_version = .GMACS_version,
-                Dir = .VERSIONDIR,
-                compile = .COMPILE,
-                ASS = .ASS,
-                AssMod_names = .ASSMOD_NAMES,
-                run = .RUN_GMACS,
-                make.comp = .MAKE_Comp)
+# The results of the comparisons are in a list form and stored in the
+# "tables" object
+# ----------------------------------------------------- #
+
+tables <- GMACS(Spc = Stock, 
+                GMACS_version = GMACS_version,
+                Dir = VERSIONDIR,
+                compile = COMPILE,
+                ADMBpaths = ADMBpaths,
+                ASS = ASS,
+                AssMod_names = ASSMOD_NAMES,
+                run = RUN_GMACS,
+                make.comp = MAKE_Comp)
+
+# The table variable is a named list where the first argument of this
+# list is the name of each stock:
+names(tables)
+
+# Then the second level of arguments corresponds to each 
+# version of GMCAS / model you want to compare:
+names(tables$EAG)
+
+# Finally the last level of this list is the values of management 
+# quantities that are used for comparison.
+# MMB | B35 | F35 | FOFL | OFL | Status | M | Av_Recr
+names(tables$EAG$Dvpt_Version)
+
+# -----------------------------------------------------------
+
+
+
+# V- Plot the outputs from different versions/models----
+
+# Stock of interest
+# Stock <- c("EAG","WAG")
+Stock <- "all"
+
+
+# Names of the version(s) to consider
+model_name <- c(
+  "Version 2.01.L02", # LATEST VERSION
+  "Version 2.01.L04" # Development version
+)
+
+# Directory of this(ese) version(s)
+Dir = c(Dir_Last_Vers, Dir_Dvpt_Vers)
+
+
+# Options to save the outputs
+# If Stock="all', provide the directory where to save plots for each stock
+# in the same order as they appear when using the list.files() function
+# in the "build" directory
+# list.files(file.path(Dir_Dvpt_Vers,"build"))
+
+# Dir.out <- file.path(Dir_Dvpt_Vers, "build", Stock)
+Dir.out <- c(file.path(Dir_Dvpt_Vers, "build", "BBRKC"),
+             file.path(Dir_Dvpt_Vers, "build", "EAG"),
+             file.path(Dir_Dvpt_Vers, "build", "SMBKC"),
+             file.path(Dir_Dvpt_Vers, "build", "SNOW_crab"),
+             file.path(Dir_Dvpt_Vers, "build", "WAG")
+             )
+
+
+
+
+# Save the plot? 
+save <- TRUE
+# Which format ?
+out.format <- 'png'
+
+
+plot_basicOutput(Stock = Stock,
+                 Dir = Dir,
+                 model_name = model_name,
+                 save.out = save,
+                 Dir.out = Dir.out,
+                 out.format = out.format)
+Mgt_table
+
+
+
+
+# If you are satisfied with the results of the comparison between these two 
+# versions of GMACS, you are now ready to formalize and submit this new version 
+# to spread it to the community.
+
+# The first step before submitting your new version on GitHub is to update the 
+# [Latest_Version] folder with the new code of GMACS.
+# Luckily and for the sake of efficiency and transparency, you don't have to 
+# do anything by hand. 
+
+# The `UpdateGMACS()` function allows you to:
+
+# i) Copy and paste all the files you used for the GMACS development version to the [Latest_Version] folder
+# ii) Compile this new release version in the [Latest_Version] folder and get everything ready to use it
+UpdateGMACS(dirSrc = Dir_Dvpt_Vers,
+            dirNew = Dir_Last_Vers)
 
 
 
 
 
 
-# Use the UpdateGMACS function to copy and paste the last files in the Latest_Version
-# directory
-UpdateGMACS()
+
+
+

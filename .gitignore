@@ -18,5 +18,5 @@ GMACS_versions/Dvpt_Version/gmacs
 GMACS_versions/Dvpt_Version/lib/*.log
 GMACS_versions/Dvpt_Version/lib/*.obj
 #--the following does not ignore all files
-GMACS_versions/Dvpt_Version/build
+# GMACS_versions/Dvpt_Version/build
 

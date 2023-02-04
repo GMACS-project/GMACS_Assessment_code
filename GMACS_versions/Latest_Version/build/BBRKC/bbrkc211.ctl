@@ -138,7 +138,8 @@
 ## number of molt periods
 2 2
 ## Year(s) molt period changes (blank if no changes)
-1980 1980
+1980
+1980
 ## Beta parameters are relative (1=Yes;0=no)
 1
 

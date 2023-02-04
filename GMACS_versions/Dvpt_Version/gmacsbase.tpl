@@ -71,8 +71,10 @@
 // ************************************************************************************ //
 DATA_SECTION
 
- !! TheHeader =  adstring("## GMACS Version 2.01.L03; Compiled 2023-01-16 21:07:43");
+ !! TheHeader =  adstring("## GMACS Version  2.01.L04; ** MV **; Compiled 2023-02-04 11:48:34");
 
+ int usepinfile;
+ !! usepinfile = 0;
 
 //-------------------------------
 // Sandbox for testing functions |
@@ -87,6 +89,11 @@ DATA_SECTION
     if ( (on=option_match(ad_comm::argc,ad_comm::argv,"-testing",opt))>-1 )
      {
       testingflag = 1;
+     }
+    if ( (on=option_match(ad_comm::argc,ad_comm::argv,"-apin",opt))>-1 )
+     {
+      usepinfile = 1;
+      cout << "using pin file" << endl;
      }
     if (testingflag==1){
        //Testing alternative dat file reader
@@ -2854,7 +2861,7 @@ PARAMETER_SECTION
   // Selectivity parameters
   init_bounded_number_vector log_slx_pars(1,nslx_pars,slx_lb,slx_ub,slx_phzm);
   // AEP
-  // !! for (int i=1;i<=nslx_pars;i++) log_slx_pars(i) = log_slx_pars_init(i);
+  !! if (usepinfile==0) for (int i=1;i<=nslx_pars;i++) log_slx_pars(i) = log_slx_pars_init(i);
   !!ECHO(log_slx_pars);
   // Asymptotic retention
   init_bounded_number_vector Asymret(1,NumAsympRet,AsympSel_lb,AsympSel_ub,AsympSel_phz);
@@ -3078,7 +3085,7 @@ PRELIMINARY_CALCS_SECTION
   cout << "+----------------------+" << endl;
   cout << "| Preliminary section  |" << endl;
   cout << "+----------------------+" << endl;
-
+  
   // 32 Gaussian evaluation points
   xg( 1)=-0.99726; xg( 2)=-0.98561; xg( 3)=-0.96476; xg( 4)=-0.93490; xg( 5)=-0.89632; xg( 6)=-0.84936; xg( 7)=-0.79448; xg( 8)=-0.73218;
   xg( 9)=-0.66304; xg(10)=-0.58771; xg(11)=-0.50689; xg(12)=-0.42135; xg(13)=-0.33186; xg(14)=-0.23928; xg(15)=-0.14447; xg(16)= -0.0483;
@@ -8294,16 +8301,16 @@ FUNCTION CreateOutput
   OutFile1 << "#Parameter_name Estimate Standard_error Estimated_quantity_count" << endl;
   if (OutRefPars==YES)
    {
-    OutFile1 << "Male Spr_rbar   " << ParsOut(NparEst+1) << " " << ParsOut.sd(NparEst+1) << " " << NparEst+1 << endl;
-    OutFile1 << "Female Spr_rbar   " << ParsOut(NparEst+2) << " " << ParsOut.sd(NparEst+2) << " " << NparEst+2 << endl;
-    OutFile1 << "SSSB/R(F=0)" << ParsOut(NparEst+3) << " " << ParsOut.sd(NparEst+3) << " " << NparEst+3 << endl;
-    OutFile1 << "BMSY       " << ParsOut(NparEst+4) << " " << ParsOut.sd(NparEst+4) << " " << NparEst+4 << endl;
-    OutFile1 << "Bcurr/BMSY " << ParsOut(NparEst+5) << " " << ParsOut.sd(NparEst+5) << " " << NparEst+5 << endl;
-    OutFile1 << "OFL(tot)   " << ParsOut(NparEst+6) << " " << ParsOut.sd(NparEst+6) << " " << NparEst+6 << endl;
+    OutFile1 << "Male Spr_rbar : " << ParsOut(NparEst+1) << " " << ParsOut.sd(NparEst+1) << " " << NparEst+1 << endl;
+    OutFile1 << "Female Spr_rbar : " << ParsOut(NparEst+2) << " " << ParsOut.sd(NparEst+2) << " " << NparEst+2 << endl;
+    OutFile1 << "SSSB/R(F=0) : " << ParsOut(NparEst+3) << " " << ParsOut.sd(NparEst+3) << " " << NparEst+3 << endl;
+    OutFile1 << "BMSY : " << ParsOut(NparEst+4) << " " << ParsOut.sd(NparEst+4) << " " << NparEst+4 << endl;
+    OutFile1 << "Bcurr/BMSY : " << ParsOut(NparEst+5) << " " << ParsOut.sd(NparEst+5) << " " << NparEst+5 << endl;
+    OutFile1 << "OFL(tot) : " << ParsOut(NparEst+6) << " " << ParsOut.sd(NparEst+6) << " " << NparEst+6 << endl;
     for (int k=1;k<=nfleet;k++)
-      OutFile1 << "Fmsy (" << k <<")   " << ParsOut(NparEst+6+k)<< " " << ParsOut.sd(NparEst+6+k) << " " << NparEst+6+k << endl;
+      OutFile1 << "Fmsy (" << k <<") : " << ParsOut(NparEst+6+k)<< " " << ParsOut.sd(NparEst+6+k) << " " << NparEst+6+k << endl;
     for (int k=1;k<=nfleet;k++)
-      OutFile1 << "Fofl (" << k <<")   " << ParsOut(NparEst+6+nfleet+k)<< " " << ParsOut.sd(NparEst+6+nfleet+k) << " " << NparEst+6+nfleet+k << endl;
+      OutFile1 << "Fofl (" << k <<") : " << ParsOut(NparEst+6+nfleet+k)<< " " << ParsOut.sd(NparEst+6+nfleet+k) << " " << NparEst+6+nfleet+k << endl;
     NparEst += 6+2*nfleet;  
    }
   
@@ -8313,7 +8320,7 @@ FUNCTION CreateOutput
     for (int h=1;h<=nsex;h++)
      for (int y=syr;y<=nyr;y++)
       {
-       OutFile1 << "Log(rec) (" << h <<"," <<y<< ") " << ParsOut(NRecPar+IpntOut)<< " " << ParsOut.sd(NRecPar+IpntOut) << " " << NRecPar+IpntOut << endl;
+       OutFile1 << "Log(rec) (" << h <<"," <<y<< ") : " << ParsOut(NRecPar+IpntOut)<< " " << ParsOut.sd(NRecPar+IpntOut) << " " << NRecPar+IpntOut << endl;
        IpntOut += 1;
       }
      NparEst += IpntOut; 
@@ -8323,7 +8330,7 @@ FUNCTION CreateOutput
    {
     for (int y=syr;y<=nyr;y++)
      {
-		OutFile1 << "Log(ssb) (" <<y<< ") " << ParsOut(NSSBPar+IpntOut)<< " " << ParsOut.sd(NSSBPar+IpntOut) << " " << NSSBPar+IpntOut << endl;
+		OutFile1 << "Log(ssb) (" <<y<< ") : " << ParsOut(NSSBPar+IpntOut)<< " " << ParsOut.sd(NSSBPar+IpntOut) << " " << NSSBPar+IpntOut << endl;
 		IpntOut += 1;
      }
      NparEst += IpntOut; 
@@ -8333,7 +8340,7 @@ FUNCTION CreateOutput
    {
     for (int y=syr;y<=nyr;y++)
      {
-		OutFile1 << "Mean(f) (" <<y<< ") " << ParsOut(NfbarPar+IpntOut)<< " " << ParsOut.sd(NfbarPar+IpntOut) << " " << NfbarPar+IpntOut << endl;
+		OutFile1 << "Mean(f) (" <<y<< ") : " << ParsOut(NfbarPar+IpntOut)<< " " << ParsOut.sd(NfbarPar+IpntOut) << " " << NfbarPar+IpntOut << endl;
 		IpntOut += 1;
      }
      NparEst += IpntOut; 
@@ -8343,14 +8350,14 @@ FUNCTION CreateOutput
    {
     for (int y=syr;y<=nyr;y++)
      {
-      OutFile1 << "log(dyn ssb) (" <<y<< ") " << ParsOut(NB0Par+IpntOut)<< " " << ParsOut.sd(NB0Par+IpntOut) << " " << NB0Par+IpntOut << endl;
+      OutFile1 << "log(dyn ssb) (" <<y<< ") : " << ParsOut(NB0Par+IpntOut)<< " " << ParsOut.sd(NB0Par+IpntOut) << " " << NB0Par+IpntOut << endl;
       IpntOut += 1;
      }
      NparEst += IpntOut; 
    }  
    
   dvariable sigR = mfexp(logSigmaR);
-  OutFile1 << "SigmaR: " << sigR << "; Weight = " << 0.5/(sigR*sigR) << endl;
+  OutFile1 << "SigmaR : " << sigR << "; Weight : " << 0.5/(sigR*sigR) << endl;
    
   OutFile1 << endl;
   OutFile1 << "#--------------------------------------------------------------------------------------------" << endl;
@@ -8381,7 +8388,7 @@ FUNCTION CreateOutput
   OutFile1 << endl;
 
   OutFile1 << "#--------------------------------------------------------------------------------------------" << endl;
-  OutFile1 << "Simple likelihood" << endl;
+  OutFile1 << "#Simple likelihood" << endl;
 
   REPORT(nloglike);
   REPORT(nlogPenalty);
@@ -8390,7 +8397,7 @@ FUNCTION CreateOutput
 
   // catches
   OutFile1 << "#--------------------------------------------------------------------------------------------" << endl;
-  OutFile1 << "Catch_data_summary" << endl;
+  OutFile1 << "#Catch_data_summary" << endl;
   calc_predicted_catch_out();
   REPORT(dCatchData);
   REPORT(obs_catch);
@@ -8410,7 +8417,7 @@ FUNCTION CreateOutput
 
   // index data
   OutFile1 << "#--------------------------------------------------------------------------------------------" << endl;
-  OutFile1 << "Index_data_summary" << endl;
+  OutFile1 << "#Index_data_summary" << endl;
 
   REPORT(dSurveyData);
  // Changed by Jie to correct cpue_cv_add error
@@ -8438,14 +8445,14 @@ FUNCTION CreateOutput
   OutFile4 << pre_cpue << endl;
   REPORT(res_cpue);
   REPORT(survey_q);
-  OutFile1 << "CPUE: standard deviation and median" << endl;
+  OutFile1 << "# CPUE: standard deviation and median" << endl;
   REPORT(sdnr_MAR_cpue);
   OutFile1 << endl;
 
   // index data
   OutFile1 << "#--------------------------------------------------------------------------------------------" << endl;
-  OutFile1 << "Size_data_summary" << endl;
-  OutFile1 << "Year, Seas, Fleet,  Sex,  Type, Shell,  Maturity, Nsamp,  DataVec (obs), DataVec (pred)" << endl;
+  OutFile1 << "#Size_data_summary" << endl;
+  OutFile1 << "#Year, Seas, Fleet,  Sex,  Type, Shell,  Maturity, Nsamp,  DataVec (obs), DataVec (pred)" << endl;
 
   int oldk = 0;
   for (int ii=1; ii<=nSizeComps_in;ii++)
@@ -8530,7 +8537,7 @@ FUNCTION CreateOutput
    }
   REPORT(size_comp_sample_size);
 
-  OutFile1 << "Size data: standard deviation and median" << endl;
+  OutFile1 << "#Size data: standard deviation and median" << endl;
   REPORT(sdnr_MAR_lf);
   //REPORT(Francis_weights);
   OutFile1 << endl;
@@ -8832,7 +8839,7 @@ FUNCTION CreateOutput
   OutFile2 << nlogPenalty(8)*Penalty_emphasis(8) << endl;
   OutFile2 << "Free_sel_smooth" <<endl;
   OutFile2 << nlogPenalty(9)*Penalty_emphasis(9) << endl;
-  OutFile2 << "Initial estimated numbers at length" <<endl;
+  OutFile2 << "Initial_estimated_numbers_at_length" <<endl;
   OutFile2 << nlogPenalty(10)*Penalty_emphasis(10) << endl;
   OutFile2 << "Fevs (flt)" <<endl;
   OutFile2 << nlogPenalty(11)*Penalty_emphasis(11) << endl;
@@ -9415,4 +9422,5 @@ FINAL_SECTION
 // 2022-11-16 ** WTS ** (Version to 2.01.WTS) - 1. Added lots of diagnostic output when reading input files - 2. Added ECHOSTR, WriteCtlStr, WriteProjStr macros for 1 - 3. Reformatted calc_relative_abundance in preparation for adding ability to handle immature data
 // 2022-12-22 ** MV ** (Version to 2.01.L02) - 1. Fix a small bug in calc_natural_mortality() - 2. Rename WTS's version - 3. Modify the DatFileReader.cpp to make it compatible with different OS - Fix a small bug in the control file section (MrelFem)
 // 2022-12-31 ** MV ** (Version to 2.01.L03) - 1. Add the simulation approach developped by AE- AE modified the code so initial values for selex is not re-set in the PARAMETER_SECTION
-
+// 2023-01-17 ** AEP ** (Version to 2.01.L04) - 1. Corrected the override of the initialization of selectivity
+// 2023-02-4 ** MV ** (Version to 2.01.L04) - 1. Small changes in the Format of the gmacsAll.out

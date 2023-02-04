@@ -1,0 +1,6 @@
+- GMACS version:   2.01.L04
+- Last compilation date (i.e., last updated version: 2023-02-04 11:48:34 
+- Last update(s) have been made by:  Matthieu Veron
+
+- Details about the last modification:
+// 2023-02-4 ** MV ** (Version to 2.01.L04) - 1. Small changes in the Format of the gmacsAll.out

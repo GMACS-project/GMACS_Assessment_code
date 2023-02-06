@@ -5,7 +5,8 @@ sm22.ctl
 #projectionfile
 sm22.prj
 # Jitter specs (1=yes; SD)
-0 0.1
+0 
+0.1
 # Output variances of (1=Yes)
 1   # Reference points
 1   # Recruits

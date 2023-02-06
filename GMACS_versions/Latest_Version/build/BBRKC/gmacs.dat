@@ -1,7 +1,8 @@
 bbrkc211.dat
 bbrkc211.ctl
 bbrkc21.prj
-1  0.1                   # Jitter & sd
+1  
+0.1                   # Jitter & sd
 # Output variances of (1=Yes)
 1   # Reference points
 0   # Recruits

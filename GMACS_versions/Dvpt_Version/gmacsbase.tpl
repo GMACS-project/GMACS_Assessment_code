@@ -8451,7 +8451,7 @@ FUNCTION CreateOutput
 
   // index data
   OutFile1 << "#--------------------------------------------------------------------------------------------" << endl;
-  OutFile1 << "#Size_data_summary" << endl;
+  OutFile1 << "Size_data_summary" << endl;
   OutFile1 << "#Year, Seas, Fleet,  Sex,  Type, Shell,  Maturity, Nsamp,  DataVec (obs), DataVec (pred)" << endl;
 
   int oldk = 0;
@@ -8771,9 +8771,9 @@ FUNCTION CreateOutput
     OutFile1 << endl;
 
     OutFile1 << "#--------------------------------------------------------------------------------------------" << endl;
-    OutFile1 << "#Reference points" << endl;
+    OutFile1 << "# Reference points" << endl;
 
-    OutFile1 << "Which combinations of season (rows) and fleet (column) have F>0 in the forecast" << endl;
+    OutFile1 << "# Which combinations of season (rows) and fleet (column) have F>0 in the forecast" << endl;
     for (int j=1;j<=nseason;j++)
      {
       OutFile1 << " " << j << " ";

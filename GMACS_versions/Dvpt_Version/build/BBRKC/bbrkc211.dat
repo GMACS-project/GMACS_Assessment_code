@@ -924,5 +924,17 @@ NMFS_Trawl BSFRF
 #67.5	2	14.766667	1000000000000000000000																																							
 # MidPoint Sex  MidPoint   Time-at-liberty Size-trans matrix Number of points
 # Release       Recapture
+
+
+# Environmental data
+# Number of series
+0
+
+# Year ranges
+
+# Indices
+# Index Year Value     
+
+
 ##	eof																																									
 9999																																										

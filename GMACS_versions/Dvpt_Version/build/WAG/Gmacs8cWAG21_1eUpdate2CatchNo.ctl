@@ -116,34 +116,42 @@
 ##  ————————————————————————————————————————————————————————————————————————————————————##
 ##  Selectivity  P(capture  of  all  sizes)
 ## ———————————————————————————————————————————————————————————————————————————————————— ##
-## gear  par   sel                                                phz     start  end    ##
-# index index par sex  ival      lb    ub   prior    p1     p2    mirror period period  ##
+## gear  par   sel                                                phz     start  end    	Env  Link Rand  Start_Y	End_Y	 	  ##
+# index index par sex  ival      lb    ub   prior    p1     p2    mirror period period  	Link Par  Walk  period	period 	Sigma ##
 ## ———————————————————————————————————————————————————————————————————————————————————— ##
 ## Gear-1
-   1     1     1   0  134.901126827 105.0 180.0   0   100.0  190.0     3     1960   2004 #set sex 0 for male only fishery, from my model  
-   1     2     2   0  18.431613644  0.01   20.0   0     0.1   50.0     3     1960   2004 # from my model 
-   1     3     1   0  134.436890424 105.0 180.0   0   100.0  190.0     3     2005   2021 # from my model  
-   1     4     2   0   7.435698766  0.01   20.0   0     0.1   50.0     3     2005   2021 # from my model 
+   1     1     1   0  134.901126827 105.0 180.0   0   100.0  190.0     3     1960   2004	0    0    0	  	0		0	 	0	 #set sex 0 for male only fishery, from my model  
+   1     2     2   0  18.431613644  0.01   20.0   0     0.1   50.0     3     1960   2004	0    0    0	  	0		0	 	0	  # from my model 
+   1     3     1   0  134.436890424 105.0 180.0   0   100.0  190.0     3     2005   2021	0    0    0	  	0		0	 	0	  # from my model  
+   1     4     2   0   7.435698766  0.01   20.0   0     0.1   50.0     3     2005   2021	0    0    0	  	0		0	 	0	  # from my model 
                       
 # Gear-2  
-   2     5     1   0    1.00      0.99  1.02   0     10.0  200.0   -3     1960   2021
+   2     5     1   0    1.00      0.99  1.02   0     10.0  200.0   -3     1960   2021	0    0    0	  	0		0	 	0	 
 ## ———————————————————————————————————————————————————————————————————————————————————— ##
 ## ———————————————————————————————————————————————————————————————————————————————————— ##
 ## Retained
-## gear  par   sel                                                     phz    start  end        
-# index index par sex  ival        lb    ub     prior   p1     p2     mirror period period   
+## gear  par   sel                                                     phz    start  end   	Env  Link Rand  Start_Y	End_Y	 	  ##      
+# index index par sex  ival        lb    ub     prior   p1     p2     mirror period period 	Link Par  Walk  period	period 	Sigma ##   
 # Gear-1
- -1      6    1   0   136.009505623  105.0  180.0  0      100.0  190.0    3     1960   2021 # from my model 
- -1      7    2   0    1.869278156   0.0001  20.0  0      0.1    50.0     3     1960   2021 # from my model 
+ -1      6    1   0   136.009505623  105.0  180.0  0      100.0  190.0    3     1960   2021	0    0    0	  	0		0	 	0	  # from my model 
+ -1      7    2   0    1.869278156   0.0001  20.0  0      0.1    50.0     3     1960   2021	0    0    0	  	0		0	 	0	  # from my model 
                                           
 # Gear-2
- -2      8    1   0    1.00         0.99   1.01  0       10.0   200.0    -3     1960   2021
+ -2      8    1   0    1.00         0.99   1.01  0       10.0   200.0    -3     1960   2021	0    0    0	  	0		0	 	0	 
 
 ## ———————————————————————————————————————————————————————————————————————————————————— ##
 # Number of asyptotic parameters
 1
 # Fleet   Sex     Year       ival   lb   ub    phz
        1     1     1960   0.000001   0    1     -3
+	   
+# Environmental parameters
+# Initial lower upper phase
+
+# Deviation parameter phase
+-1
+   
+
 ## ———————————————————————————————————————————————————————————————————————————————————— ##
 ## PRIORS FOR CATCHABILITY
 ##     If a uniform prior is selected for a parameter then the lb and ub are used (p1   ##
@@ -225,7 +233,7 @@
   ##  ——————————————————————————————————————————————————————————————————————————————————  ##
 
 ##  TIME  VARYING  NATURAL  MORTALIIY  RATES  ##
-##  ——————————————————————————————————————————————————————————————————————————————————— ##
+##  ——————————————————————————————————————————————————————————————————————————————————E##
 ## Type: 0 = constant natural mortality                                                 ##
 ##       1 = Random walk (deviates constrained by variance in M)                        ##
 ##       2 = Cubic Spline (deviates constrained by nodes & node-placement)              ##
@@ -248,8 +256,9 @@
 ## number of breakpoints in M by size (keep it at 0) 
 0
 # line groups for breakpoint
-8
+#
 ## Specific initial values for the natural mortality devs (0-no, 1=yes)
+0
 ## 1
 ## ival        lb        ub        phz    extra
 ##    3.0        0.5       5.0       4        0
@@ -265,9 +274,9 @@
 ## ———————————————————————————————————————————————————————————————————————————————————— ##	
 # maturity specific natural mortality? (yes = 1; no = 0; only for use if nmature > 1)
 0																				
-## ——————————————————————————————————————————————————————————————————————————————————————————— ##																					
+## ——————————————————————————————————————————————————————————————————————————————————————————E##																					
 ## 	ival        lb		ub		phz		prior	p1		p2         # parameter     ##																					
-## ——————————————————————————————————————————————————————————————————————————————————————————— ##																					
+## ——————————————————————————————————————————————————————————————————————————————————————————E##																					
 	0	    -1		1		-1		0	 1		1		
 ##  ———————————————————————————————————————————————————————————————————————————————————— ##
 ##  OTHER  CONTROLS
@@ -299,9 +308,21 @@
 
 ## EMPHASIS FACTORS (Priors)
 ##                                                             
-# Log_fdevs   meanF       Mdevs  Rec_devs Initial_devs Fst_dif_dev Mean_sex-Ratio  Molt_prob	Free selectivity	Init_n_at_len Fvecs Fdovs
-         0       0         0.0         2            0         0           0                0                   0                    0     1     0       #
-
+# Log_fdevs   meanF       Mdevs  Rec_devs Initial_devs Fst_dif_dev Mean_sex-Ratio  Molt_prob	Free selectivity	Init_n_at_len Fvecs Fdovs		SelDevs
+#         0       0         0.0         2            0         0           0                0                   0                    0     1     0	0       #
+0  		# Log_fdevs
+0  		# meanF	
+0.0		# Mdevs
+2  		# Rec_devs 
+0  		# Initial_devs
+0  		# Fst_dif_dev
+0  		# Mean_sex-Ratio
+0  		# Molt_prob
+0  		# Free selectivity
+0  		# Init_n_at_len
+1  		# Fdevs
+0  		# Fdovs
+0  		# Sel_devs		
 ##  EOF
 9999
 

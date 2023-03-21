@@ -71,7 +71,7 @@
 // ************************************************************************************ //
 DATA_SECTION
 
- !! TheHeader =  adstring("## GMACS Version  2.01.L04; ** AEP **; Compiled 2023-02-04 11:48:34");
+ !! TheHeader = adstring("## GMACS Version 2.01.M; ** MV **; Compiled 2023-03-20 19:47:20");
 
  int usepinfile;
  !! usepinfile = 0;
@@ -906,6 +906,31 @@ DATA_SECTION
    {  ECHO(iMoltIncSex);ECHO(iMoltInitSizeClass); ECHO(iMoltEndSizeClass); ECHO(iMoltTimeAtLib); ECHO(iMoltFleetRecap); ECHO(iMoltYearRecap); ECHO(iMoltSampSize);}
  END_CALCS
 
+  // |--------------------|
+  // | ENVIRONMENTAL DATA |
+  // |--------------------|
+  !! cout << " * Environmental data" << endl;
+  !! gmacs_data << "# Environmental data" << endl;
+  init_int NenvIndics;                                  ///> Number of environmental indicies
+  !! ECHO(NenvIndics)
+  !! gmacs_data << NenvIndics << endl;
+  // init_imatrix EnvYrs(1,NenvIndics,1,2);
+  init_matrix EnvYrs(1,NenvIndics,1,2);
+  int NenvData;
+  !! ECHO(EnvYrs)
+  !! NenvData = 0;
+  !! for (int i = 1; i<=NenvIndics; i++) NenvData += (int(EnvYrs(i,2))-int(EnvYrs(i,1))+1);
+  !! gmacs_data << "# Year range" << endl;
+  !! gmacs_data << EnvYrs << endl;
+  init_matrix EnvDataInp(1,NenvData,1,3); 
+  !! gmacs_data << "# Actual data" << endl;
+  !! WRITEDAT(EnvDataInp);
+  matrix EnvData(syr,nyr,1,NenvIndics);
+  !! if (NenvData>0)
+  !!  for (int i=1;i<=NenvData;i++)
+  !!   EnvData(int(EnvDataInp(i,2)),int(EnvDataInp(i,1))) = EnvDataInp(i,3);
+  !! WRITEDAT(EnvData);
+
   // |------------------|
   // | END OF DATA FILE |
   // |------------------|
@@ -1214,7 +1239,11 @@ DATA_SECTION
   int nslx_pars;                                           //> number of selectivity parameters in total
   int nslx_rows_in;                                        //> number of selectivity rows
   int nslx_cols_in;                                        //> number of selectivity columns
-  !! nslx_cols_in = 13;                                    //> number of columns in the control file to be read in
+  !! nslx_cols_in = 19;                                    //> number of columns in the control file to be read in
+  int nslx_envpars;                                        //> number of environmental parameters
+  !! nslx_envpars = 0;
+  int nslx_devpars;                                        //> number of deviation parameters
+  !! nslx_devpars = 0;
 
   init_ivector slx_nsel_period_in(1,nfleet);               //> number of selex time periods
   init_ivector slx_bsex_in(1,nfleet);                      //> boolean for sex-specific selex
@@ -1425,8 +1454,14 @@ DATA_SECTION
   !! gmacs_ctl << "## 3: Beta      - parameters are the two beta parameters [see dbeta]" << endl;
   !! gmacs_ctl << "## 4: Gamma     - parameters are the two gamma parameters [see dgamma]" << endl;
   !! gmacs_ctl << "## Start / End block: years to define the current block structure" << endl;
-  
-  !! gmacs_ctl << "# Fleet Index Parameter_no Sex Initial Lower_bound Upper_bound Phase Prior_type Prior_1 Prior_2 Start_block End_block" << endl;
+  !! gmacs_ctl << "## Env_Link: Do environmental impact ? (0/1)" << endl;
+  !! gmacs_ctl << "## Env_Link_Var: Which environmental variable to consider for tihs parameter ? (column of Env data)" << endl;
+  !! gmacs_ctl << "## Rand_Walk: Do a random walk? (0/1)" << endl;
+  !! gmacs_ctl << "## Start_year_RW: Start year of the random walk" << endl;
+  !! gmacs_ctl << "## End_year_RW: End year of the random walk" << endl;
+  !! gmacs_ctl << "## Sigma_RW: Sigma used for the random walk" << endl;
+
+  !! gmacs_ctl << "# Fleet Index Parameter_no Sex Initial Lower_bound Upper_bound Phase Prior_type Prior_1 Prior_2 Start_block End_block Env_Link Env_Link_Var Rand_Walk Start_year_RW End_year_RW Sigma_RW" << endl;
   !! for (int k=1;k<=nslx_rows_in;k++)
   !!  {
   !!   if (slx_control_in(k,13) == nyr+1)
@@ -1442,11 +1477,11 @@ DATA_SECTION
   ivector slx_gear(1,nslx);                                ///> index the gear type
   ivector slx_type(1,nslx);                                ///> the type of selectivity function
   ivector slx_isex(1,nslx);                                ///> 0 = males and females, 1 = males only, 2 = females only
-  ivector slx_styr(1,nslx);                                ///> period start year
-  ivector slx_edyr(1,nslx);                                ///> period end year
+  ivector slx_styr(1,nslx);                                ///> period start year for block
+  ivector slx_edyr(1,nslx);                                ///> period end year for block
   ivector slx_cols(1,nslx);
   ivector slx_npar(1,nslx);                                ///> parameters by pattern
-  ivector slx_incl(1,nslx);				   ///> is the selectivity in another gear
+  ivector slx_incl(1,nslx);				                         ///> is the selectivity in another gear
   ivector slx_extra(1,nslx);
   ivector slx_max_at_1(1,nslx);
 
@@ -1547,13 +1582,21 @@ DATA_SECTION
   vector  slx_lb(1,nslx_pars);                             ///> lower bound
   vector  slx_ub(1,nslx_pars);                             ///> uppder bound
   ivector slx_phzm(1,nslx_pars);                           ///> phase/mirror
+  ivector slx_envlink(1,nslx_pars);                        ///> Is there an environmental link (0/1)
+  ivector slx_envvar(1,nslx_pars);                         ///> link to environmental parameter (i.e., which param (column) in the Envdata matrix)
+  ivector slx_RdWalk_dev_type(1,nslx_pars);                ///> is there a random walk (0/1/2)- If so (1/2), which type (1: First order autoregressive process, 2: gaussian white noise)
+  vector slx_dev_sigma(1,nslx_pars);                       ///> sigma for the random walk or random parameters
+  ivector slx_styr_RdWalk(1,nslx_pars);                      ///> period start year for random walk devs
+  ivector slx_edyr_RdWalk(1,nslx_pars);                      ///> period end year for random walk devs
+  ivector slx_timeVar(1,nslx);                             ///> is selectivity time-varying
 
  LOC_CALCS
+  for ( int k = 1; k <= nslx; k++ ) slx_timeVar(k) = 0;
   for ( int k = 1; k <= nslx; k++ )
    if (slx_type(k) >=0)
    {
     int kk = slx_indx(k);
-    cout << k << " " << kk << " " << slx_cols(k) << endl;
+    // cout << k << " " << kk << " " << slx_cols(k) << endl;
     for ( int j = 1; j <= slx_cols(k); j++ )               ///> read parameters for each pattern
      {
       int jj = kk + (j - 1);
@@ -1582,12 +1625,25 @@ DATA_SECTION
         slx_ub(jj) = log(slx_control_in(jj,7));
         }
       if (slx_type(k) == SELEX_UNIFORM1 || slx_type(k) == SELEX_UNIFORM0) slx_phzm(jj) = -1*abs(slx_phzm(jj));
+
+       // Deal with environmental links
+       slx_envlink(jj) = slx_control_in(jj,14);
+       slx_envvar(jj) = slx_control_in(jj,15);
+       slx_RdWalk_dev_type(jj) = slx_control_in(jj,16);
+       slx_styr_RdWalk(jj) = slx_control_in(jj,17);
+       slx_edyr_RdWalk(jj) = slx_control_in(jj,18);
+       slx_dev_sigma(jj) = slx_control_in(jj,19);
+       //cout << slx_control_in(jj) << endl;
+       if (slx_envlink(jj) == 1) { nslx_envpars += 1; slx_timeVar(k) = 1; }
+       if (slx_RdWalk_dev_type(jj) == 1) { nslx_devpars += (slx_edyr_RdWalk(j)-slx_styr_RdWalk(j)); slx_timeVar(k) = 1; }
+       if (slx_RdWalk_dev_type(jj) == 2) { nslx_devpars += (slx_edyr_RdWalk(j)-slx_styr_RdWalk(j)+1); slx_timeVar(k) = 1; }
+
      }
    }
    else  // End if (slx_type(k) >=0)
    {
 	 int kk = slx_indx(k);
-     cout << "Mirrors" << k << " " << kk << " " << slx_cols(k) << endl;
+     // cout << "Mirrors" << k << " " << kk << " " << slx_cols(k) << endl;
      for ( int j = 1; j <= slx_cols(k); j++ )               ///> mirror special
       {
        int jj = kk + (j - 1);
@@ -1643,6 +1699,60 @@ DATA_SECTION
   echoinput << "# Fleet Sex Year Initial lower_bound upper_bound phase" << endl;
   echoinput << AsympSel_control << endl;
  END_CALCS
+
+  // |-----------------------------------------------------------------|
+  // | ENVIRONMENTAL PARAMETERS AND RANDOM WALK SELECTIVITY OPTIONS    |
+  // |-----------------------------------------------------------------|
+
+ int nslx_envpardim;
+ !! nslx_envpardim = nslx_envpars;
+ !! if (nslx_envpardim==0) nslx_envpardim = 1;
+ vector SlxEnvPar_ival(1,nslx_envpardim);
+ vector SlxEnvPar_lb(1,nslx_envpardim);
+ vector SlxEnvPar_ub(1,nslx_envpardim);
+ ivector SlxEnvPar_phz(1,nslx_envpardim);
+ 
+ !!if (nslx_envpars > 0)
+ !! {
+ !!  for (int i = 1; i<=nslx_envpars; i++)
+ !!   *(ad_comm::global_datafile) >> SlxEnvPar_ival(i) >> SlxEnvPar_lb(i) >> SlxEnvPar_ub(i) >> SlxEnvPar_phz(i);
+ !! }
+ !!else // fake parameters
+ !! {
+ !!  SlxEnvPar_ival(1) = 0;
+ !!  SlxEnvPar_lb(1) = -1;
+ !!  SlxEnvPar_ub(1) = 1;
+ !!  SlxEnvPar_phz(1) = -1;
+ !! }
+ 
+ !! gmacs_ctl << "# Number of environmental parameters" << endl;
+ !! if (nslx_envpars > 0)
+ !!  {
+ !!   gmacs_ctl << "# Initial lower_bound upper_bound phase" << endl;
+ !!   for (int i=1;i<=nslx_envpars;i++)
+ !!    gmacs_ctl << SlxEnvPar_ival(i) << " " << SlxEnvPar_lb(i) << " " << SlxEnvPar_ub(i) << " " << SlxEnvPar_phz(i) << endl;
+ !!  }
+
+ int nslx_devpardim;
+ !! nslx_devpardim = nslx_devpars;
+ !! if (nslx_devpardim==0) nslx_devpardim = 1;
+ vector SlxDevPar_ival(1,nslx_devpardim);
+ ivector SlxDevPar_phz(1,nslx_devpardim);
+ 
+ init_int devParPhase;
+ !! gmacs_ctl << "# DevParPhase" << endl;
+ !! gmacs_ctl << devParPhase << endl;
+ 
+ !!if (nslx_devpars > 0)
+ !! {
+ !!  for (int i = 1; i<=nslx_devpars; i++)
+ !!   { SlxDevPar_ival(i) =0 ;  SlxDevPar_phz(i) = devParPhase; }
+ !! }
+ !!else // fake parameters
+ !! {
+ !!  SlxDevPar_ival(1) = 0;
+ !!  SlxDevPar_phz(1) = -1;
+ !! }
 
   // |---------------------------------------------------------|
   // | PRIORS FOR CATCHABILITIES OF SURVEYS/INDICES            |
@@ -2391,8 +2501,8 @@ DATA_SECTION
   init_matrix Penalty_fdevs(1,nfleet,1,4);                 ///> Fleet-species weights
   !! WriteCtl(Penalty_fdevs);
   !! cout << "## Emphasis Factors (Priors/Penalties) ##" << endl;
-  !! WriteCtlStr("## Emphasis Factors (Priors/Penalties: 12 values) ##");
-  init_vector Penalty_emphasis(1,12);                       ///> Weights on penalties
+  !! WriteCtlStr("## Emphasis Factors (Priors/Penalties: 13 values) ##");
+  init_vector Penalty_emphasis(1,13);                       ///> Weights on penalties
  LOCAL_CALCS
   gmacs_ctl<<Penalty_emphasis(1)<<"\t#--Log_fdevs"<<endl;
   gmacs_ctl<<Penalty_emphasis(2)<<"\t#--MeanF"<<endl;
@@ -2406,6 +2516,7 @@ DATA_SECTION
   gmacs_ctl<<Penalty_emphasis(10)<<"\t#--Init_n_at_len"<<endl;
   gmacs_ctl<<Penalty_emphasis(11)<<"\t#--Fvecs"<<endl;
   gmacs_ctl<<Penalty_emphasis(12)<<"\t#--Fdovss"<<endl;
+  gmacs_ctl<<Penalty_emphasis(13)<<"\t#--Random walk in selectivity"<<endl;
  END_CALCS
 
   init_int eof_ctl;
@@ -2691,6 +2802,8 @@ DATA_SECTION
   for (Ipar=1;Ipar<=nGrwth; Ipar++) if (Grwth_phz(Ipar) > TurnOffPhase) Grwth_phz(Ipar) = -1;
   for (Ipar=1;Ipar<=nslx_pars; Ipar++) if (slx_phzm(Ipar) > TurnOffPhase) slx_phzm(Ipar) = -1;
   for (Ipar=1;Ipar<=NumAsympRet; Ipar++) if (AsympSel_phz(Ipar) > TurnOffPhase) AsympSel_phz(Ipar) = -1;
+  for (Ipar=1;Ipar<=nslx_envpardim; Ipar++) if (SlxEnvPar_phz(Ipar) > TurnOffPhase) SlxEnvPar_phz(Ipar) = -1;
+  for (Ipar=1;Ipar<=nslx_devpardim; Ipar++) if (SlxDevPar_phz(Ipar) > TurnOffPhase) SlxDevPar_phz(Ipar) = -1;
   for (Ipar=1;Ipar<=nfleet; Ipar++) if (f_phz(Ipar) > TurnOffPhase) f_phz(Ipar) = -1;
   for (Ipar=1;Ipar<=nfleet; Ipar++) if (foff_phz(Ipar) > TurnOffPhase) foff_phz(Ipar) = -1;
   if (rec_ini_phz > TurnOffPhase) rec_ini_phz = -1;
@@ -2705,6 +2818,8 @@ DATA_SECTION
   for (Ipar=1;Ipar<=nGrwth; Ipar++) if (Grwth_phz(Ipar) > 0) NVarPar += 1;
   for (Ipar=1;Ipar<=nslx_pars; Ipar++) if (slx_phzm(Ipar) > 0) NVarPar += 1;
   for (Ipar=1;Ipar<=NumAsympRet; Ipar++) if (AsympSel_phz(Ipar) > 0) NVarPar += 1;
+  for (Ipar=1;Ipar<=nslx_envpardim; Ipar++) if (SlxEnvPar_phz(Ipar) > 0) NVarPar += 1;
+  for (Ipar=1;Ipar<=nslx_devpardim; Ipar++) if (SlxDevPar_phz(Ipar) > 0) NVarPar += 1;
   for (Ipar=1;Ipar<=nfleet; Ipar++) if (f_phz(Ipar) > 0) NVarPar += 1;
   for (Ipar=1;Ipar<=nfleet; Ipar++) if (f_phz(Ipar) > 0) NVarPar += nFparams(Ipar);
   for (Ipar=1;Ipar<=nfleet; Ipar++) if (foff_phz(Ipar) > 0) NVarPar += 1;
@@ -2759,6 +2874,8 @@ INITIALIZATION_SECTION
    log_add_cv          log_add_cv_ival;
    m_dev_est           Mdev_ival;
    log_slx_pars        log_slx_pars_init;
+   slx_env_pars        SlxEnvPar_ival;
+   sel_devs            SlxDevPar_ival;
 
 // ================================================================================================
 
@@ -2866,6 +2983,11 @@ PARAMETER_SECTION
   // Asymptotic retention
   init_bounded_number_vector Asymret(1,NumAsympRet,AsympSel_lb,AsympSel_ub,AsympSel_phz);
   !!ECHO(Asymret);
+  // Selectivity devs
+  init_bounded_number_vector slx_env_pars(1,nslx_envpardim,SlxEnvPar_lb,SlxEnvPar_ub,SlxEnvPar_phz);
+  !!ECHO(slx_env_pars);
+  init_bounded_number_vector sel_devs(1,nslx_devpardim,-12.0,12.0,SlxDevPar_phz);
+  !!ECHO(sel_devs);
 
   // Fishing mortality rate parameters
   init_bounded_number_vector log_fbar(1,nfleet,fbar_lb,fbar_ub,f_phz);       ///> Male mean fishing mortality.
@@ -2926,8 +3048,8 @@ PARAMETER_SECTION
   // Items related to the objective function
   vector priorDensity(1,NVarPar);
   matrix nloglike(1,nlikes,1,ilike_vector);
-//  vector nlogPenalty(1,10);
-  vector nlogPenalty(1,12);
+  vector nlogPenalty(1,13);
+  number logDevPenal;
   matrix sdnr_MAR_cpue(1,nSurveys,1,2);
   matrix sdnr_MAR_lf(1,nSizeComps,1,2);
   vector Francis_weights(1,nSizeComps);
@@ -3148,6 +3270,13 @@ PRELIMINARY_CALCS_SECTION
       randu.fill_randn(rng2);
       Asymret(ipar) = GenJitter(IsJittered,AsympSel_ival(ipar),AsympSel_lb(ipar),AsympSel_ub(ipar),AsympSel_phz(ipar),sdJitter,rands,randu);
      }
+    for (int ipar=1;ipar<=nslx_envpardim;ipar++)
+     {
+      rands.fill_randn(rng2);
+      randu.fill_randn(rng2);
+      slx_env_pars(ipar) = GenJitter(IsJittered,SlxEnvPar_ival(ipar),SlxEnvPar_lb(ipar),SlxEnvPar_ub(ipar),SlxEnvPar_phz(ipar),sdJitter,rands,randu);
+     }
+    // Don't jitter devpars
     for (int ipar=1;ipar<=nfleet;ipar++)
      {
       rands.fill_randn(rng2);
@@ -3255,6 +3384,8 @@ PROCEDURE_SECTION
   //cout << log_slx_pars << endl;
   //exit(1);
 
+  // penalty for selectivity deviations
+  logDevPenal = 0;
 
   if ( verbose >= 3 ) cout << "Ok after start of function ..." << endl;
 
@@ -3314,6 +3445,8 @@ PROCEDURE_SECTION
   for (ii=1;ii<=nGrwth; ii++) if (Grwth_phz(ii) > 0) {Ipnt +=1; ParsOut(Ipnt) = Grwth(ii); }
   for (ii=1;ii<=nslx_pars; ii++) if (slx_phzm(ii) > 0) {Ipnt +=1; ParsOut(Ipnt) = log_slx_pars(ii); }
   for (ii=1;ii<=NumAsympRet; ii++) if (AsympSel_phz(ii) > 0) {Ipnt +=1; ParsOut(Ipnt) = Asymret(ii); }
+  for (ii=1;ii<=nslx_envpardim; ii++) if (SlxEnvPar_phz(ii) > 0) {Ipnt +=1; ParsOut(Ipnt) = slx_env_pars(ii); }
+  for (ii=1;ii<=nslx_devpardim; ii++) if (SlxDevPar_phz(ii) > 0) {Ipnt +=1; ParsOut(Ipnt) = sel_devs(ii); }
   for (ii=1;ii<=nfleet; ii++) if (f_phz(ii) > 0) {Ipnt +=1; ParsOut(Ipnt) = log_fbar(ii); }
   for (ii=1;ii<=nfleet; ii++)
    for (jj=1;jj<=nFparams(ii);jj++) if (f_phz(ii) > 0) {Ipnt +=1; ParsOut(Ipnt) = log_fdev(ii,jj); }
@@ -3681,121 +3814,170 @@ FUNCTION init_selectivities
   **/
 FUNCTION calc_selectivities
   int h,i,k, k2;
+  int jstore, estore, sd;
   dvar_vector pv;
   dvar_vector temp_slx1(1,nclass);
+  dvar_matrix SelDevs(1,nslx_pars,syr,nyr); /// matrix of deviations (environmnetal & random walk)
   dvariable p1, p2, p3, p4;
   log_slx_capture.initialize();
   log_slx_discard.initialize();
   log_slx_retaind.initialize();
   class gsm::Selex<dvar_vector> *pSLX;
 
+  //cout << slx_type << endl;
+  //cout << slx_styr << endl;
+  //cout << slx_edyr << endl;
+  //cout << slx_timeVar << endl;
+  //cout << slx_RdWalk_dev_type << endl;
+  //cout << slx_envlink<< endl;
+  //cout << slx_dev_sigma<< endl;
+  //cout << slx_styr_RdWalk<< endl;
+  //cout << slx_edyr_RdWalk<< endl;
+  //cout << slx_dev_sigma<< endl;
+
   // Specify non-mirrored selectivity
-  int j = 1;
+  int j = 1; int ee = 1; sd = 1;
   for ( int k = 1; k <= nslx; k++ )
-   if (slx_type(k) < 0) {pSLX=0; j++;} else
-   //if (slx_type(k) >= 0)
-   {
+   if (slx_type(k) < 0){
+    pSLX=0; 
+    j++;
+  } else {
      if (verbose>3) cout<<"retrieving selex for k = "<<k<<endl;
     dvar_vector temp_slx2(1,slx_extra(k));
     dvar_vector knots(1,slx_extra(k));
 
-    switch ( slx_type(k) )
-     {
-      case SELEX_PARAMETRIC:                               ///> parametric
-          if (verbose>3) cout<<"SELEX_PARAMETRIC"<<endl;
-       for (i = 1; i <= nclass; i++) { temp_slx1(i) = log_slx_pars(j); j++; }
-       ((gsm::ParameterPerClass<dvar_vector>*) ppSLX[k-1])->SetSelparms(temp_slx1);
-       pSLX = ppSLX[k-1];
-       break;
-      case SELEX_COEFFICIENTS:                             ///> coefficients
-          if (verbose>3) cout<<"SELEX_COEFFICIENTS"<<endl;
-       for (i = 1; i <= slx_extra(k); i++) { temp_slx2(i) = log_slx_pars(j); j++; }
-       ((gsm::SelectivityCoefficients<dvar_vector>*)ppSLX[k-1])->SetSelCoeffs(temp_slx2);
-       pSLX = ppSLX[k-1];
-       break;
-      case SELEX_STANLOGISTIC:                             ///> logistic
-          if (verbose>3) cout<<"SELEX_LOGISTIC"<<endl;
-       p1 = mfexp(log_slx_pars(j));
-       j++;
-       p2 = mfexp(log_slx_pars(j));
-       j++;
-       ((gsm::LogisticCurve<dvar_vector,dvariable>*) ppSLX[k-1])->SetParams(p1,p2);
-       pSLX = ppSLX[k-1];
-       break;
-      case SELEX_5095LOGISTIC:                             ///> logistic95
-          if (verbose>3) cout<<"SELEX_LOGISTIC95"<<endl;
-        p1 = mfexp(log_slx_pars(j));
-        j++;
-        p2 = mfexp(log_slx_pars(j));
-        j++;
-       ((gsm::LogisticCurve95<dvar_vector,dvariable>*) ppSLX[k-1])->SetParams(p1,p2);
-       pSLX = ppSLX[k-1];
-      break;
-      case SELEX_ONE_PAR_LOGISTIC:                         ///> logisticOne
-        if (verbose>3) cout<<"SELEX_ONE_PAR_LOGISTIC"<<endl;
-        p1 = mfexp(log_slx_pars(j));
-        j++;
-       ((gsm::LogisticCurveOne<dvar_vector,dvariable>*) ppSLX[k-1])->SetParams(p1);
-       pSLX = ppSLX[k-1];
-      break;
-      case SELEX_DECLLOGISTIC:                             ///> declining logistic
-          if (verbose>3) cout<<"SELEX_DECLOGISTIC"<<endl;
-        p1 = mfexp(log_slx_pars(j));
-        j++;
-        p2 = mfexp(log_slx_pars(j));
-        j++;
-        for (i = 1; i <= slx_extra(k); i++) { temp_slx2(i) = log_slx_pars(j); j++; }
-       ((gsm::DeclineLogistic<dvar_vector,dvariable,dvariable,dvar_vector>*) ppSLX[k-1])->SetParams(p1,p2,temp_slx2);
-       pSLX = ppSLX[k-1];
-      break;
-      case SELEX_DOUBLENORM:                               ///> double normal
-          if (verbose>3) cout<<"SELEX_DOUBLENORM"<<endl;
-       p1 = mfexp(log_slx_pars(j));
-       j++;
-       p2 = mfexp(log_slx_pars(j));
-       j++;
-       p3 = mfexp(log_slx_pars(j));
-       j++;
-       ((gsm::DoubleNormal<dvar_vector,dvariable>*) ppSLX[k-1])->SetParams(p1,p2,p3);
-       pSLX = ppSLX[k-1];
-       break;
-      case SELEX_DOUBLENORM4:                               ///> double normal4
-          if (verbose>3) cout<<"SELEX_DOUBLENORM4"<<endl;
-       p1 = mfexp(log_slx_pars(j));
-       j++;
-       p2 = mfexp(log_slx_pars(j));
-       j++;
-       p3 = mfexp(log_slx_pars(j));
-       j++;
-       p4 = mfexp(log_slx_pars(j));
-       j++;
-       ((gsm::DoubleNormal4<dvar_vector,dvariable>*) ppSLX[k-1])->SetParams(p1,p2,p3,p4);
-       pSLX = ppSLX[k-1];
-       break;
-      case SELEX_UNIFORM1: // uniform 1
-       j++;
-          if (verbose>3) cout<<"SELEX_UNIFORM1"<<endl;
-       pSLX = ppSLX[k-1];//gsm::UniformCurve<dvar_vector>
-       break;
-      case SELEX_UNIFORM0: // uniform 0
-       j++;
-          if (verbose>3) cout<<"SELEX_UNIFORM0"<<endl;
-       pSLX = ppSLX[k-1];//gsm::Uniform0Curve<dvar_vector>
-       break;
-      case SELEX_CUBIC_SPLINE:                             ///> coefficients
-       if (verbose>3) cout<<"creating SelectivitySpline class"<<endl;
-       for (int i = 1; i <= slx_extra(k); i++) { knots(i) = mfexp(log_slx_pars_init(j)); j++; }
-       for (int i = 1; i <= slx_extra(k); i++) { temp_slx2(i) = log_slx_pars(j); j++; }
-       // Buck
-       //need to set y_vals and x_vals below appropriately
-       //y_vals are values at knots (a dvar_vector)
-       //x_vals are knots           (a dvar_vector)
-       ((gsm::SelectivitySpline<dvar_vector,dvar_vector>*) ppSLX[k-1])->initSpline(temp_slx2,knots);
-       pSLX = ppSLX[k-1];//gsm::SelectivitySpline<dvar_vector,dvar_vector>(temp_slx2,knots);
-       //break;
-     } // switch
+    // Save parameter points we will need then
+    jstore = j; estore = ee;
+    // initialize SelDevs (Cumulative (Env + Random walk) deviations for selectivity)
+     SelDevs.initialize();
 
-    if (verbose>3) cout<<"done selecting SLX"<<endl;
+//   switch ( slx_type(k) )
+//    {
+//     case SELEX_PARAMETRIC:                               ///> parametric
+//         if (verbose>3) cout<<"SELEX_PARAMETRIC"<<endl;
+//      for (i = 1; i <= nclass; i++) { temp_slx1(i) = log_slx_pars(j); j++; }
+//      ((gsm::ParameterPerClass<dvar_vector>*) ppSLX[k-1])->SetSelparms(temp_slx1);
+//      pSLX = ppSLX[k-1];
+//      break;
+//     case SELEX_COEFFICIENTS:                             ///> coefficients
+//         if (verbose>3) cout<<"SELEX_COEFFICIENTS"<<endl;
+//      for (i = 1; i <= slx_extra(k); i++) { temp_slx2(i) = log_slx_pars(j); j++; }
+//      ((gsm::SelectivityCoefficients<dvar_vector>*)ppSLX[k-1])->SetSelCoeffs(temp_slx2);
+//      pSLX = ppSLX[k-1];
+//      break;
+//     case SELEX_STANLOGISTIC:                             ///> logistic
+//         if (verbose>3) cout<<"SELEX_LOGISTIC"<<endl;
+//      p1 = mfexp(log_slx_pars(j));
+//      j++;
+//      p2 = mfexp(log_slx_pars(j));
+//      j++;
+//      ((gsm::LogisticCurve<dvar_vector,dvariable>*) ppSLX[k-1])->SetParams(p1,p2);
+//      pSLX = ppSLX[k-1];
+//      break;
+//     case SELEX_5095LOGISTIC:                             ///> logistic95
+//         if (verbose>3) cout<<"SELEX_LOGISTIC95"<<endl;
+//       p1 = mfexp(log_slx_pars(j));
+//       j++;
+//       p2 = mfexp(log_slx_pars(j));
+//       j++;
+//      ((gsm::LogisticCurve95<dvar_vector,dvariable>*) ppSLX[k-1])->SetParams(p1,p2);
+//      pSLX = ppSLX[k-1];
+//     break;
+//     case SELEX_ONE_PAR_LOGISTIC:                         ///> logisticOne
+//       if (verbose>3) cout<<"SELEX_ONE_PAR_LOGISTIC"<<endl;
+//       p1 = mfexp(log_slx_pars(j));
+//       j++;
+//      ((gsm::LogisticCurveOne<dvar_vector,dvariable>*) ppSLX[k-1])->SetParams(p1);
+//      pSLX = ppSLX[k-1];
+//     break;
+//     case SELEX_DECLLOGISTIC:                             ///> declining logistic
+//         if (verbose>3) cout<<"SELEX_DECLOGISTIC"<<endl;
+//       p1 = mfexp(log_slx_pars(j));
+//       j++;
+//       p2 = mfexp(log_slx_pars(j));
+//       j++;
+//       for (i = 1; i <= slx_extra(k); i++) { temp_slx2(i) = log_slx_pars(j); j++; }
+//      ((gsm::DeclineLogistic<dvar_vector,dvariable,dvariable,dvar_vector>*) ppSLX[k-1])->SetParams(p1,p2,temp_slx2);
+//      pSLX = ppSLX[k-1];
+//     break;
+//     case SELEX_DOUBLENORM:                               ///> double normal
+//         if (verbose>3) cout<<"SELEX_DOUBLENORM"<<endl;
+//      p1 = mfexp(log_slx_pars(j));
+//      j++;
+//      p2 = mfexp(log_slx_pars(j));
+//      j++;
+//      p3 = mfexp(log_slx_pars(j));
+//      j++;
+//      ((gsm::DoubleNormal<dvar_vector,dvariable>*) ppSLX[k-1])->SetParams(p1,p2,p3);
+//      pSLX = ppSLX[k-1];
+//      break;
+//     case SELEX_DOUBLENORM4:                               ///> double normal4
+//         if (verbose>3) cout<<"SELEX_DOUBLENORM4"<<endl;
+//      p1 = mfexp(log_slx_pars(j));
+//      j++;
+//      p2 = mfexp(log_slx_pars(j));
+//      j++;
+//      p3 = mfexp(log_slx_pars(j));
+//      j++;
+//      p4 = mfexp(log_slx_pars(j));
+//      j++;
+//      ((gsm::DoubleNormal4<dvar_vector,dvariable>*) ppSLX[k-1])->SetParams(p1,p2,p3,p4);
+//      pSLX = ppSLX[k-1];
+//      break;
+//     case SELEX_UNIFORM1: // uniform 1
+//      j++;
+//         if (verbose>3) cout<<"SELEX_UNIFORM1"<<endl;
+//      pSLX = ppSLX[k-1];//gsm::UniformCurve<dvar_vector>
+//      break;
+//     case SELEX_UNIFORM0: // uniform 0
+//      j++;
+//         if (verbose>3) cout<<"SELEX_UNIFORM0"<<endl;
+//      pSLX = ppSLX[k-1];//gsm::Uniform0Curve<dvar_vector>
+//      break;
+//     case SELEX_CUBIC_SPLINE:                             ///> coefficients
+//      if (verbose>3) cout<<"creating SelectivitySpline class"<<endl;
+//      for (int i = 1; i <= slx_extra(k); i++) { knots(i) = mfexp(log_slx_pars_init(j)); j++; }
+//      for (int i = 1; i <= slx_extra(k); i++) { temp_slx2(i) = log_slx_pars(j); j++; }
+//      // Buck
+//      //need to set y_vals and x_vals below appropriately
+//      //y_vals are values at knots (a dvar_vector)
+//      //x_vals are knots           (a dvar_vector)
+//      ((gsm::SelectivitySpline<dvar_vector,dvar_vector>*) ppSLX[k-1])->initSpline(temp_slx2,knots);
+//      pSLX = ppSLX[k-1];//gsm::SelectivitySpline<dvar_vector,dvar_vector>(temp_slx2,knots);
+//      //break;
+//    } // switch
+//    if (verbose>3) cout<<"done selecting SLX"<<endl;
+//     
+//   int h1 = 1;
+//   int h2 = nsex;
+//   if ( slx_isex(k) == MALESANDCOMBINED ) { h2 = MALESANDCOMBINED; }     ///> males (or combined sex) only
+//   if ( slx_isex(k) == FEMALES ) { h1 = FEMALES; }                       ///> females only
+//   for ( h = h1; h <= h2; h++ )
+//    {
+//     for ( i = slx_styr(k); i <= slx_edyr(k); i++ )
+//      {
+//       int kk = abs(slx_gear(k));                                        ///> fleet index (negative for retention)
+//       if ( slx_gear(k) > 0 )                                            ///> capture selectivity
+//        {
+//         log_slx_capture(kk,h,i) = pSLX->logSelectivity(dvar_mid_points);
+//         if (slx_type(k)==SELEX_PARAMETRIC || slx_type(k)==SELEX_COEFFICIENTS || slx_type(k)==SELEX_STANLOGISTIC || slx_type(k)==SELEX_5095LOGISTIC)
+//      if( slx_max_at_1(k) == 1)
+//        log_slx_capture(kk,h,i) -= log_slx_capture(kk,h,i,nclass);
+//         //cout << kk << " " << h << " " << i << " " << slx_type(k) << " " << log_slx_capture(kk,h,i) << " " << exp(log_slx_capture(kk,h,i)) << endl;
+//        }
+//       else                                                              ///> discard (because the gear is NEGATIVE)
+//        {
+//         log_slx_retaind(kk,h,i) = pSLX->logSelectivity(dvar_mid_points);
+//         if (slx_type(k)==SELEX_STANLOGISTIC || slx_type(k)==SELEX_5095LOGISTIC)
+//          log_slx_retaind(kk,h,i) -= log_slx_retaind(kk,h,i,nclass);
+//         log_slx_retaind(kk,h,i) += log_high_grade(kk,h,i);
+//         log_slx_discard(kk,h,i) = log(1.0 - exp(log_slx_retaind(kk,h,i)) + TINY);
+//         //cout << kk << " " << h << " " << i << " " << slx_type(k) << " " << log_slx_retaind(kk,h,i) << endl;
+//        }
+//      }
+//    }
+//   //do NOT "delete pSLX;"
+//  } // k
 
     int h1 = 1;
     int h2 = nsex;
@@ -3803,30 +3985,265 @@ FUNCTION calc_selectivities
     if ( slx_isex(k) == FEMALES ) { h1 = FEMALES; }                       ///> females only
     for ( h = h1; h <= h2; h++ )
      {
-      for ( i = slx_styr(k); i <= slx_edyr(k); i++ )
+      // Set the time-varying dev for this fleet x sex
+      if (slx_timeVar(k)==1)
+       for (int iy = slx_styr(k); iy <= slx_edyr(k); iy++ )
+        {
+
+          j = jstore; ee= estore; 
+
+
+         switch ( slx_type(k) )
+          {
+           case SELEX_PARAMETRIC:                               ///> parametric
+            if (verbose>3) cout<<"SELEX_PARAMETRIC " << k << " " << h << " " << j << " " << endl;
+            for (int i = 1; i <= nclass; i++) 
+             { 
+              if (slx_RdWalk_dev_type(j) == 1 & iy > slx_styr_RdWalk(j) & iy<= slx_edyr_RdWalk(j)) { SelDevs(j,iy) = SelDevs(j,iy-1) + sel_devs(sd)*slx_dev_sigma(j); logDevPenal +=  sel_devs(sd)*sel_devs(sd); sd++; }
+              if (slx_RdWalk_dev_type(j) == 2 & iy >= slx_styr_RdWalk(j) & iy <= slx_edyr_RdWalk(j)) {SelDevs(j,iy) = sel_devs(sd)*slx_dev_sigma(j);  logDevPenal +=  sel_devs(sd)*sel_devs(sd); sd++; }
+              if (slx_envlink(j) !=0  & iy >= slx_styr_RdWalk(j) & iy <= slx_edyr_RdWalk(j)) { SelDevs(j,iy) += EnvData(iy,int(slx_envvar(j))) * slx_env_pars(ee); ee++; }
+              j++;
+             }
+            if (verbose>3) cout<<"SELEX_PARAMETRIC " << k << " " << h << " " << j << " " << sd << " " << ee << endl;
+            break;
+           case SELEX_COEFFICIENTS:                             ///> coefficients
+            if (verbose>3) cout<<"SELEX_COEFFICIENTS"<<endl;
+            for (int i = 1; i <= slx_extra(k); i++) 
+             { 
+              if (slx_RdWalk_dev_type(j) == 1 & iy > slx_styr_RdWalk(j) & iy<= slx_edyr_RdWalk(j)) { SelDevs(j,iy) = SelDevs(j,iy-1) + sel_devs(sd)*slx_dev_sigma(j); logDevPenal +=  sel_devs(sd)*sel_devs(sd); sd++; }
+              if (slx_RdWalk_dev_type(j) == 2 & iy >= slx_styr_RdWalk(j) & iy <= slx_edyr_RdWalk(j)) {SelDevs(j,iy) = sel_devs(sd)*slx_dev_sigma(j);  logDevPenal +=  sel_devs(sd)*sel_devs(sd); sd++; }
+              if (slx_envlink(j) !=0  & iy >= slx_styr_RdWalk(j) & iy <= slx_edyr_RdWalk(j)) { SelDevs(j,iy) += EnvData(iy,int(slx_envvar(j))) * slx_env_pars(ee); ee++; }
+              j++;
+             }
+            break;
+           case SELEX_STANLOGISTIC:                             ///> logistic
+            if (verbose>3) cout<<"SELEX_LOGISTIC "<< k << " " << h << " " << iy << endl;
+            for (int i=1;i<=2;i++)
+             {
+              if (slx_RdWalk_dev_type(j) == 1 & iy > slx_styr_RdWalk(j) & iy<= slx_edyr_RdWalk(j)) { SelDevs(j,iy) = SelDevs(j,iy-1) + sel_devs(sd)*slx_dev_sigma(j); logDevPenal +=  sel_devs(sd)*sel_devs(sd); sd++; }
+              if (slx_RdWalk_dev_type(j) == 2 & iy >= slx_styr_RdWalk(j) & iy <= slx_edyr_RdWalk(j)) {SelDevs(j,iy) = sel_devs(sd)*slx_dev_sigma(j);  logDevPenal +=  sel_devs(sd)*sel_devs(sd); sd++; }
+              if (slx_envlink(j) !=0  & iy >= slx_styr_RdWalk(j) & iy <= slx_edyr_RdWalk(j)) { SelDevs(j,iy) += EnvData(iy,int(slx_envvar(j))) * slx_env_pars(ee); ee++; }
+              j++;
+             } 
+            break;
+           case SELEX_5095LOGISTIC:                             ///> logistic95
+            for (int i=1;i<=2;i++)
+             {
+              if (slx_RdWalk_dev_type(j) == 1 & iy > slx_styr_RdWalk(j) & iy<= slx_edyr_RdWalk(j)) { SelDevs(j,iy) = SelDevs(j,iy-1) + sel_devs(sd)*slx_dev_sigma(j); logDevPenal +=  sel_devs(sd)*sel_devs(sd); sd++; }
+              if (slx_RdWalk_dev_type(j) == 2 & iy >= slx_styr_RdWalk(j) & iy <= slx_edyr_RdWalk(j)) {SelDevs(j,iy) = sel_devs(sd)*slx_dev_sigma(j);  logDevPenal +=  sel_devs(sd)*sel_devs(sd); sd++; }
+              if (slx_envlink(j) !=0  & iy >= slx_styr_RdWalk(j) & iy <= slx_edyr_RdWalk(j)) { SelDevs(j,iy) += EnvData(iy,int(slx_envvar(j))) * slx_env_pars(ee); ee++; }
+              j++;
+             } 
+            break;
+           case SELEX_ONE_PAR_LOGISTIC:                         ///> logisticOne
+            if (verbose>3) cout<<"SELEX_ONE_PAR_LOGISTIC"<<endl;
+            if (slx_RdWalk_dev_type(j) == 1 & iy > slx_styr_RdWalk(j) & iy<= slx_edyr_RdWalk(j)) { SelDevs(j,iy) = SelDevs(j,iy-1) + sel_devs(sd)*slx_dev_sigma(j); logDevPenal +=  sel_devs(sd)*sel_devs(sd); sd++; }
+            if (slx_RdWalk_dev_type(j) == 2 & iy >= slx_styr_RdWalk(j) & iy <= slx_edyr_RdWalk(j)) {SelDevs(j,iy) = sel_devs(sd)*slx_dev_sigma(j);  logDevPenal +=  sel_devs(sd)*sel_devs(sd); sd++; }
+            if (slx_envlink(j) !=0  & iy >= slx_styr_RdWalk(j) & iy <= slx_edyr_RdWalk(j)) { SelDevs(j,iy) += EnvData(iy,int(slx_envvar(j))) * slx_env_pars(ee); ee++; }
+            j++;
+            break;
+           case SELEX_DECLLOGISTIC:                             ///> declining logistic
+            if (verbose>3) cout<<"SELEX_DECLOGISTIC"<<endl;
+            for (int i=1;i<=2;i++)
+             {
+              if (slx_RdWalk_dev_type(j) == 1 & iy > slx_styr_RdWalk(j) & iy<= slx_edyr_RdWalk(j)) { SelDevs(j,iy) = SelDevs(j,iy-1) + sel_devs(sd)*slx_dev_sigma(j); logDevPenal +=  sel_devs(sd)*sel_devs(sd); sd++; }
+              if (slx_RdWalk_dev_type(j) == 2 & iy >= slx_styr_RdWalk(j) & iy <= slx_edyr_RdWalk(j)) {SelDevs(j,iy) = sel_devs(sd)*slx_dev_sigma(j);  logDevPenal +=  sel_devs(sd)*sel_devs(sd); sd++; }
+              if (slx_envlink(j) !=0  & iy >= slx_styr_RdWalk(j) & iy <= slx_edyr_RdWalk(j)) { SelDevs(j,iy) += EnvData(iy,int(slx_envvar(j))) * slx_env_pars(ee); ee++; }
+              j++;
+             } 
+            break;
+           case SELEX_DOUBLENORM:                               ///> double normal
+            for (int i=1;i<=3;i++)
+             {
+              if (slx_RdWalk_dev_type(j) == 1 & iy > slx_styr_RdWalk(j) & iy<= slx_edyr_RdWalk(j)) { SelDevs(j,iy) = SelDevs(j,iy-1) + sel_devs(sd)*slx_dev_sigma(j); logDevPenal +=  sel_devs(sd)*sel_devs(sd); sd++; }
+              if (slx_RdWalk_dev_type(j) == 2 & iy >= slx_styr_RdWalk(j) & iy <= slx_edyr_RdWalk(j)) {SelDevs(j,iy) = sel_devs(sd)*slx_dev_sigma(j);  logDevPenal +=  sel_devs(sd)*sel_devs(sd); sd++; }
+              if (slx_envlink(j) !=0  & iy >= slx_styr_RdWalk(j) & iy <= slx_edyr_RdWalk(j)) { SelDevs(j,iy) += EnvData(iy,int(slx_envvar(j))) * slx_env_pars(ee); ee++; }
+              j++;
+             } 
+            break;
+           case SELEX_DOUBLENORM4:                               ///> double normal4
+            if (verbose>3) cout<<"SELEX_DOUBLENORM4"<<endl;
+            for (int i=1;i<=4;i++)
+             {
+              if (slx_RdWalk_dev_type(j) == 1 & iy > slx_styr_RdWalk(j) & iy<= slx_edyr_RdWalk(j)) { SelDevs(j,iy) = SelDevs(j,iy-1) + sel_devs(sd)*slx_dev_sigma(j); logDevPenal +=  sel_devs(sd)*sel_devs(sd); sd++; }
+              if (slx_RdWalk_dev_type(j) == 2 & iy >= slx_styr_RdWalk(j) & iy <= slx_edyr_RdWalk(j)) {SelDevs(j,iy) = sel_devs(sd)*slx_dev_sigma(j);  logDevPenal +=  sel_devs(sd)*sel_devs(sd); sd++; }
+              if (slx_envlink(j) !=0  & iy >= slx_styr_RdWalk(j) & iy <= slx_edyr_RdWalk(j)) { SelDevs(j,iy) += EnvData(iy,int(slx_envvar(j))) * slx_env_pars(ee); ee++; }
+              j++;
+             } 
+            break;
+           case SELEX_UNIFORM1: // uniform 1
+            break;
+           case SELEX_UNIFORM0: // uniform 0
+            break;
+           case SELEX_CUBIC_SPLINE:                             ///> coefficients
+            if (verbose>3) cout<<"creating SelectivitySpline class"<<endl;
+            for (int i = 1; i <= slx_extra(k); i++) 
+             { 
+              if (slx_RdWalk_dev_type(j) == 1 & iy > slx_styr_RdWalk(j) & iy<= slx_edyr_RdWalk(j)) { SelDevs(j,iy) = SelDevs(j,iy-1) + sel_devs(sd)*slx_dev_sigma(j); logDevPenal +=  sel_devs(sd)*sel_devs(sd); sd++; }
+              if (slx_RdWalk_dev_type(j) == 2 & iy >= slx_styr_RdWalk(j) & iy <= slx_edyr_RdWalk(j)) {SelDevs(j,iy) = sel_devs(sd)*slx_dev_sigma(j);  logDevPenal +=  sel_devs(sd)*sel_devs(sd); sd++; }
+              if (slx_envlink(j) !=0  & iy >= slx_styr_RdWalk(j) & iy <= slx_edyr_RdWalk(j)) { SelDevs(j,iy) += EnvData(iy,int(slx_envvar(j))) * slx_env_pars(ee); ee++; }
+              j++;
+             }
+          } // switch
+
+
+          //if (h != h2 || iy != slx_edyr(k)) { j = jstore; ee= estore; }
+
+        } // iy
+       if (verbose>3)  cout << "Done stage 1: " << k << " "<< j << " " << ee << " " << sd << " " << endl;
+
+      // Now the actual deal
+      for (int iy = slx_styr(k); iy <= slx_edyr(k); iy++ )
        {
+        if (iy==slx_styr(k) || slx_timeVar(k)==1)
+         {
+
+          j = jstore; /// ee= estore; 
+
+
+          switch ( slx_type(k) )
+          {
+           case SELEX_PARAMETRIC:                               ///> parametric
+            if (verbose>3) cout<<"SELEX_PARAMETRIC " << k << " " << h << " " << j << " " << endl;
+            for (int i = 1; i <= nclass; i++) 
+             { 
+              temp_slx1(i) = log_slx_pars(j); 
+              if (slx_envlink(j)!=0 || slx_RdWalk_dev_type(j) != 0) { temp_slx1(i) += SelDevs(j,iy); }
+              j++; 
+             }
+            if (verbose>3) cout<<"SELEX_PARAMETRIC " << k << " " << h << " " << j << " " << sd << " " << ee << endl;
+            ((gsm::ParameterPerClass<dvar_vector>*) ppSLX[k-1])->SetSelparms(temp_slx1);
+            pSLX = ppSLX[k-1];
+            break;
+           case SELEX_COEFFICIENTS:                             ///> coefficients
+            if (verbose>3) cout<<"SELEX_COEFFICIENTS"<<endl;
+            for (int i = 1; i <= slx_extra(k); i++) 
+              { 
+               temp_slx2(i) = log_slx_pars(j); 
+               if (slx_envlink(j)!=0 || slx_RdWalk_dev_type(j) != 0) { temp_slx2(i) += SelDevs(j,iy); }
+               j++; 
+               }
+            ((gsm::SelectivityCoefficients<dvar_vector>*)ppSLX[k-1])->SetSelCoeffs(temp_slx2);
+            pSLX = ppSLX[k-1];
+            break;
+           case SELEX_STANLOGISTIC:                             ///> logistic
+            if (verbose>3) cout<<"SELEX_LOGISTIC "<< k << " " << h << " " << iy << endl;
+            p1 = mfexp(log_slx_pars(j));
+            if (slx_envlink(j)!=0 || slx_RdWalk_dev_type(j) != 0) p1 *= exp(SelDevs(j,iy)); 
+            j++;
+            p2 = mfexp(log_slx_pars(j));
+            if (slx_envlink(j)!=0 || slx_RdWalk_dev_type(j) != 0) p2 *= exp(SelDevs(j,iy)); 
+            j++;
+            ((gsm::LogisticCurve<dvar_vector,dvariable>*) ppSLX[k-1])->SetParams(p1,p2);
+            pSLX = ppSLX[k-1];
+            break;
+           case SELEX_5095LOGISTIC:                             ///> logistic95
+            if (verbose>3) cout<<"SELEX_LOGISTIC95"<<endl;
+            p1 = mfexp(log_slx_pars(j));
+            if (slx_envlink(j)!=0 || slx_RdWalk_dev_type(j) != 0) p1 *= exp(SelDevs(j,iy)); 
+            j++;
+            p2 = mfexp(log_slx_pars(j));
+            if (slx_envlink(j)!=0 || slx_RdWalk_dev_type(j) != 0) p2 *= exp(SelDevs(j,iy)); 
+            j++;
+            ((gsm::LogisticCurve95<dvar_vector,dvariable>*) ppSLX[k-1])->SetParams(p1,p2);
+            pSLX = ppSLX[k-1];
+            break;
+           case SELEX_ONE_PAR_LOGISTIC:                         ///> logisticOne
+            if (verbose>3) cout<<"SELEX_ONE_PAR_LOGISTIC"<<endl;
+            p1 = mfexp(log_slx_pars(j));
+            if (slx_envlink(j)!=0 || slx_RdWalk_dev_type(j) != 0) p1 *= exp(SelDevs(j,iy)); 
+            j++;
+            ((gsm::LogisticCurveOne<dvar_vector,dvariable>*) ppSLX[k-1])->SetParams(p1);
+            pSLX = ppSLX[k-1];
+            break;
+           case SELEX_DECLLOGISTIC:                             ///> declining logistic
+            if (verbose>3) cout<<"SELEX_DECLOGISTIC"<<endl;
+            p1 = mfexp(log_slx_pars(j));
+            if (slx_envlink(j)!=0 || slx_RdWalk_dev_type(j) != 0) p1 *= exp(SelDevs(j,iy)); 
+            j++;
+            p2 = mfexp(log_slx_pars(j));
+            if (slx_envlink(j)!=0 || slx_RdWalk_dev_type(j) != 0) p2 *= exp(SelDevs(j,iy)); 
+            j++;
+            for (i = 1; i <= slx_extra(k); i++) { temp_slx2(i) = log_slx_pars(j); j++; }
+            ((gsm::DeclineLogistic<dvar_vector,dvariable,dvariable,dvar_vector>*) ppSLX[k-1])->SetParams(p1,p2,temp_slx2);
+            pSLX = ppSLX[k-1];
+            break;
+           case SELEX_DOUBLENORM:                               ///> double normal
+            if (verbose>3) cout<<"SELEX_DOUBLENORM"<<endl;
+            p1 = mfexp(log_slx_pars(j));
+            j++;
+            p2 = mfexp(log_slx_pars(j));
+            j++;
+            p3 = mfexp(log_slx_pars(j));
+            j++;
+            ((gsm::DoubleNormal<dvar_vector,dvariable>*) ppSLX[k-1])->SetParams(p1,p2,p3);
+            pSLX = ppSLX[k-1];
+            break;
+           case SELEX_DOUBLENORM4:                               ///> double normal4
+            if (verbose>3) cout<<"SELEX_DOUBLENORM4"<<endl;
+            p1 = mfexp(log_slx_pars(j));
+            j++;
+            p2 = mfexp(log_slx_pars(j));
+            j++;
+            p3 = mfexp(log_slx_pars(j));
+            j++;
+            p4 = mfexp(log_slx_pars(j));
+            j++;
+            ((gsm::DoubleNormal4<dvar_vector,dvariable>*) ppSLX[k-1])->SetParams(p1,p2,p3,p4);
+            pSLX = ppSLX[k-1];
+            break;
+           case SELEX_UNIFORM1: // uniform 1
+            j++;
+            if (verbose>3) cout<<"SELEX_UNIFORM1"<<endl;
+            pSLX = ppSLX[k-1];//gsm::UniformCurve<dvar_vector>
+            break;
+           case SELEX_UNIFORM0: // uniform 0
+            j++;
+            if (verbose>3) cout<<"SELEX_UNIFORM0"<<endl;
+            pSLX = ppSLX[k-1];//gsm::Uniform0Curve<dvar_vector>
+            break;
+           case SELEX_CUBIC_SPLINE:                             ///> coefficients
+            if (verbose>3) cout<<"creating SelectivitySpline class"<<endl;
+            for (int i = 1; i <= slx_extra(k); i++) { knots(i) = mfexp(log_slx_pars_init(j)); j++; }
+            for (int i = 1; i <= slx_extra(k); i++) { temp_slx2(i) = log_slx_pars(j); j++; }
+            // Buck
+            //need to set y_vals and x_vals below appropriately
+            //y_vals are values at knots (a dvar_vector)
+            //x_vals are knots           (a dvar_vector)
+            ((gsm::SelectivitySpline<dvar_vector,dvar_vector>*) ppSLX[k-1])->initSpline(temp_slx2,knots);
+            pSLX = ppSLX[k-1];//gsm::SelectivitySpline<dvar_vector,dvar_vector>(temp_slx2,knots);
+            //break;
+          } // switch
+
+          // if (h != h2 || iy != slx_edyr(k)) { j = jstore;}
+          
+         } //  if 
+
         int kk = abs(slx_gear(k));                                        ///> fleet index (negative for retention)
         if ( slx_gear(k) > 0 )                                            ///> capture selectivity
          {
-          log_slx_capture(kk,h,i) = pSLX->logSelectivity(dvar_mid_points);
+          log_slx_capture(kk,h,iy) = pSLX->logSelectivity(dvar_mid_points);
           if (slx_type(k)==SELEX_PARAMETRIC || slx_type(k)==SELEX_COEFFICIENTS || slx_type(k)==SELEX_STANLOGISTIC || slx_type(k)==SELEX_5095LOGISTIC)
-			if( slx_max_at_1(k) == 1)
-				log_slx_capture(kk,h,i) -= log_slx_capture(kk,h,i,nclass);
+    if( slx_max_at_1(k) == 1)
+      log_slx_capture(kk,h,iy) -= log_slx_capture(kk,h,iy,nclass);
           //cout << kk << " " << h << " " << i << " " << slx_type(k) << " " << log_slx_capture(kk,h,i) << " " << exp(log_slx_capture(kk,h,i)) << endl;
          }
         else                                                              ///> discard (because the gear is NEGATIVE)
          {
-          log_slx_retaind(kk,h,i) = pSLX->logSelectivity(dvar_mid_points);
+          log_slx_retaind(kk,h,iy) = pSLX->logSelectivity(dvar_mid_points);
           if (slx_type(k)==SELEX_STANLOGISTIC || slx_type(k)==SELEX_5095LOGISTIC)
-           log_slx_retaind(kk,h,i) -= log_slx_retaind(kk,h,i,nclass);
-          log_slx_retaind(kk,h,i) += log_high_grade(kk,h,i);
-          log_slx_discard(kk,h,i) = log(1.0 - exp(log_slx_retaind(kk,h,i)) + TINY);
-          //cout << kk << " " << h << " " << i << " " << slx_type(k) << " " << log_slx_retaind(kk,h,i) << endl;
+           log_slx_retaind(kk,h,iy) -= log_slx_retaind(kk,h,iy,nclass);
+          log_slx_retaind(kk,h,iy) += log_high_grade(kk,h,iy);
+          log_slx_discard(kk,h,iy) = log(1.0 - exp(log_slx_retaind(kk,h,iy)) + TINY);
+          //cout << kk << " " << h << " " << iy << " " << slx_type(k) << " " << log_slx_retaind(kk,h,iy) << endl;
          }
+        } // iy
+        if (verbose>3) cout << "Done stage 2: " << k << " "<< j << " " << ee << " " << sd << " " << endl;
        }
-     }
+    if (verbose>3) cout<<"done selecting SLX"<<endl;
     //do NOT "delete pSLX;"
    } // k
+   //exit(1);
 
   // Mirror mirrow in the file
   for ( int k = 1; k <= nslx; k++ )
@@ -6183,6 +6600,9 @@ FUNCTION calc_objective_function
      nlogPenalty(12) += Penalty_fdevs(k,4)*sum(square(log_fdov(k)));
     }
 
+  // 13) Penalty on selectivity devs
+  nlogPenalty(13) = logDevPenal;
+
   w_nloglike = sum(elem_prod(nloglike(1),catch_emphasis)) + sum(elem_prod(nloglike(2),cpue_emphasis)) + sum(elem_prod(nloglike(3),lf_emphasis));
   w_nloglike += sum(nloglike(4));
   w_nloglike += sum(nloglike(5))*tag_emphasis;
@@ -8179,6 +8599,7 @@ FUNCTION CreateOutput
   OutFile1 << "10. Init numbers: " << nlogPenalty(10) << " " << Penalty_emphasis(10) << " " << nlogPenalty(10)*Penalty_emphasis(10) << endl;
   OutFile1 << "11. Fdevs (flt) : " << nlogPenalty(11) << " " << Penalty_emphasis(11) << " " << nlogPenalty(11)*Penalty_emphasis(11) << endl;
   OutFile1 << "12. Fdovs (flt) : " << nlogPenalty(12) << " " << Penalty_emphasis(12) << " " << nlogPenalty(12)*Penalty_emphasis(12) << endl;
+  OutFile1 << "13. SelDevs : " << nlogPenalty(13) << " " << Penalty_emphasis(13) << " " << nlogPenalty(13)*Penalty_emphasis(13) << endl;
   OutFile1 << endl;
 
   // Estimated parameters
@@ -8213,6 +8634,23 @@ FUNCTION CreateOutput
     OutFile1 << Npar << " : NumAsympRet " << Ipar << " : " << Asymret(Ipar) << " " << AsympSel_phz(Ipar) << " ";
     if (AsympSel_phz(Ipar) > 0 & AsympSel_phz(Ipar) <= current_phase()) { NparEst +=1; CheckBounds(Asymret(Ipar),AsympSel_lb(Ipar),AsympSel_ub(Ipar));  OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; }
     OutFile1 << endl;
+   }
+ if (nslx_envpardim>0) 
+  for (Ipar=1;Ipar<=nslx_envpardim;Ipar++)
+   {
+    Npar +=1;
+    OutFile1 << Npar << " : Env(Selex) " << Ipar << " : " << slx_env_pars(Ipar) << " " << SlxEnvPar_phz(Ipar) << " ";
+    if (SlxEnvPar_phz(Ipar) > 0 & SlxEnvPar_phz(Ipar) <= current_phase()) { NparEst +=1; CheckBounds(slx_env_pars(Ipar),SlxEnvPar_lb(Ipar),SlxEnvPar_ub(Ipar));  OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; }
+    OutFile1 << endl;
+   }
+ if  (nslx_devpardim>0) 
+  for (Ipar=1;Ipar<=nslx_devpardim;Ipar++)
+   {
+    Npar +=1;
+    OutFile1 << Npar << " : Dev(Selex) " << Ipar << " : " << sel_devs(Ipar) << " " << SlxDevPar_phz(Ipar) << " ";
+    if (SlxDevPar_phz(Ipar) > 0 & SlxDevPar_phz(Ipar) <= current_phase()) { NparEst +=1; CheckBounds(sel_devs(Ipar),-12.0,12.0);  OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; }
+    OutFile1 << endl;
+    cout << Ipar << endl;
    }
   for (Ipar=1;Ipar<=nfleet;Ipar++)
    {
@@ -8451,7 +8889,7 @@ FUNCTION CreateOutput
 
   // index data
   OutFile1 << "#--------------------------------------------------------------------------------------------" << endl;
-  OutFile1 << "#Size_data_summary" << endl;
+  OutFile1 << "Size_data_summary" << endl;
   OutFile1 << "#Year, Seas, Fleet,  Sex,  Type, Shell,  Maturity, Nsamp,  DataVec (obs), DataVec (pred)" << endl;
 
   int oldk = 0;
@@ -8771,9 +9209,9 @@ FUNCTION CreateOutput
     OutFile1 << endl;
 
     OutFile1 << "#--------------------------------------------------------------------------------------------" << endl;
-    OutFile1 << "#Reference points" << endl;
+    OutFile1 << "# Reference points" << endl;
 
-    OutFile1 << "Which combinations of season (rows) and fleet (column) have F>0 in the forecast" << endl;
+    OutFile1 << "# Which combinations of season (rows) and fleet (column) have F>0 in the forecast" << endl;
     for (int j=1;j<=nseason;j++)
      {
       OutFile1 << " " << j << " ";
@@ -9412,18 +9850,26 @@ FINAL_SECTION
 // 2022-05-24; (Version 2.01.I); Bug-fix - Correct the phase for selectivity parameter when slx_type(k) <0
 // 2022-06-05; (Version 2.01.I); Bug-fix - Correct the condition on fhit in calc_brute_equilibrium() and the tempZ1 used in calc_predicted_project()
 
-// 2022-06-06; (Version 2.01.J); Option to consider terminal moldting added (new input in .CTL file => cf OTHER CONTROLS)
+// 2022-06-06; (Version 2.01.J); Option to consider terminal molting added (new input in .CTL file => cf OTHER CONTROLS)
 // 2022-06-06; (Version 2.01.K); Option to calculate the average recruitment used for reference points added (new input in .CTL file => cf OTHER CONTROLS)
 
 // 2022-06-27; (Version 2.01.L); Update catch likelihood function to use dnorm(). Clean a bit the code and fix a small
 // bug in the calc_predicted_project function (inverse season_type in the computation of tempZ1)
 
 // 2022-10-31 ** WTS ** (Version to 2.01.WTS) - 1. Added commandline input flag "testingflag" to turn on sandbox - 2. Added alternative data file reader (TCSAM02 format)
-// 2022-11-16 ** WTS ** (Version to 2.01.WTS) - 1. Added lots of diagnostic output when reading input files - 2. Added ECHOSTR, WriteCtlStr, WriteProjStr macros for 1 - 3. Reformatted calc_relative_abundance in preparation for adding ability to handle immature data
-// 2022-12-22 ** MV ** (Version to 2.01.L02) - 1. Fix a small bug in calc_natural_mortality() - 2. Rename WTS's version - 3. Modify the DatFileReader.cpp to make it compatible with different OS - Fix a small bug in the control file section (MrelFem)
+// 2022-11-16 ** WTS ** (Version to 2.01.WTS) - 1. Added lots of diagnostic output when reading input files - 2. Added ECHOSTR, WriteCtlStr, WriteProjStr macros for 1 
+// - 3. Reformatted calc_relative_abundance in preparation for adding ability to handle immature data
+// 2022-12-22 ** MV ** (Version to 2.01.L02) - 1. Fix a small bug in calc_natural_mortality() - 2. Rename WTS's version - 3. Modify the DatFileReader.cpp to make it 
+// compatible with different OS - Fix a small bug in the control file section (MrelFem)
 // 2022-12-31 ** MV ** (Version to 2.01.L03) - 1. Add the simulation approach developped by AE- AE modified the code so initial values for selex is not re-set in the PARAMETER_SECTION
 // 2023-01-17 ** AEP ** (Version to 2.01.L04) - 1. Corrected the override of the initialization of selectivity
-
+// 2023-02-4 ** MV ** (Version to 2.01.L04) - 1. Small changes in the Format of the gmacsAll.out
+// ================================================ //
+// 2023-03-20 ** MV ** (Upgrade GMACS to version 2.01.M) - 1. Add the developed code by ** AEP ** to read in environmental data and modify his
+// version of the code to make it working with all stocks (bug in the loop while counting the
+// number of selectivity parameters).
+// - 2. Add the developped code by ** AEP ** to incorporate potential random walk in the selectivity parameters. Modify the initial code to
+// make it more flexible. Need to be updated to allow environmental impacts not being dependent upon time period of random walk.
 
 
 

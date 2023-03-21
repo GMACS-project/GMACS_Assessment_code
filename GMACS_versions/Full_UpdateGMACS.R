@@ -22,8 +22,6 @@
 # ------------------------------------------------------------------- #
 
 
-
-
 # I- Install/Update gmr and load packages ----
 
 rm(list = ls())     # Clean your R session
@@ -74,8 +72,8 @@ library(gmr)
 # II- Compile and build GMACS ----
 
 # Set the working directories:
-Dir_Dvpt_Vers <- file.path(getwd(), "Dvpt_Version")
-Dir_Last_Vers <- file.path(getwd(), "Latest_Version")
+Dir_Dvpt_Vers <- file.path(here::here(), "Dvpt_Version")
+Dir_Last_Vers <- file.path(here::here(), "Latest_Version")
 
 # Define the name of the file containing the different pathways needed to build
 # the GMACS executable - The ADpaths_Windows.txt file has to be used for windows
@@ -112,6 +110,7 @@ createGmacsExe(
 #   "EAG","WAG"
 # )
 Stock <-c(
+  # "SMBKC", "EAG"
   "all"
 )
 
@@ -164,6 +163,10 @@ VERBOSE <- TRUE
 # This is not the topic right now
 MAKE_Comp <- FALSE
 
+# Do you want to clean the repertory after the run 
+# This remove most of the output files from ADMB
+# cleanPath <- TRUE
+
 #  ===================================== #
 #  ===================================== #
 res <- GMACS(
@@ -176,14 +179,10 @@ res <- GMACS(
   LastAssDat = LastAssDat,
   ADMBpaths = ADMBpaths,
   make.comp = MAKE_Comp,
-  verbose = VERBOSE
+  verbose = VERBOSE,
+  cleanOut = TRUE
 )
 # -----------------------------------------------------------
-
-
-
-
-
 
 
 # IV- Compare the development version and the latest assessment ----
@@ -295,8 +294,8 @@ Stock <- "all"
 
 # Names of the version(s) to consider
 model_name <- c(
-  "Version 2.01.L02", # LATEST VERSION
-  "Version 2.01.L04" # Development version
+  "Version 2.01.L04", # LATEST VERSION
+  "Version 2.01.M" # Development version
 )
 
 # Directory of this(ese) version(s)
@@ -317,14 +316,10 @@ Dir.out <- c(file.path(Dir_Dvpt_Vers, "build", "BBRKC"),
              file.path(Dir_Dvpt_Vers, "build", "WAG")
              )
 
-
-
-
 # Save the plot? 
 save <- TRUE
 # Which format ?
-out.format <- 'png'
-
+out.format <- 'pdf'
 
 plot_basicOutput(Stock = Stock,
                  Dir = Dir,
@@ -333,8 +328,6 @@ plot_basicOutput(Stock = Stock,
                  Dir.out = Dir.out,
                  out.format = out.format)
 Mgt_table
-
-
 
 
 # If you are satisfied with the results of the comparison between these two 
@@ -355,8 +348,13 @@ UpdateGMACS(dirSrc = Dir_Dvpt_Vers,
 
 
 
+dirSrc = Dir_Dvpt_Vers
+dirNew = Dir_Last_Vers
+
+Dir = dirNew
 
 
+NewGMACSFeat(dirSrc = dirSrc)
 
 
 

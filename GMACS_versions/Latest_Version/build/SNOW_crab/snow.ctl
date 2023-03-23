@@ -131,7 +131,7 @@
 4																					
 # growth increment model (1=alpha/beta; 2=estimated by size-class;3=pre-specified/emprical)																					
 1																					
-# molt probability function (0=pre-specified; 1=flat;2=declining logistic; 3=free parameters)																					
+# molt probability function (0=pre-specified; 1=flat;2=declining logistic; 3=free parameters)																				
 3																					
 # Maximum size-class for recruitment(males then females)																					
 6 6 																					

@@ -71,7 +71,7 @@
 // ************************************************************************************ //
 DATA_SECTION
 
- !! TheHeader = adstring("## GMACS Version 2.01.M; ** MV **; Compiled 2023-03-20 19:37:17");
+ !! TheHeader = adstring("## GMACS Version 2.01.M.01; ** MV **; Compiled 2023-03-23 10:54:35");
 
  int usepinfile;
  !! usepinfile = 0;
@@ -1106,10 +1106,19 @@ DATA_SECTION
 
   init_int bUseCustomMoltProbability;
   !! WriteCtl(bUseCustomMoltProbability);
-  !! if (bUseCustomGrowthMatrix == GROWTH_FIXEDSIZETRANS & bUseGrowthIncrementModel != FIXED_PROB_MOLT)
+//  !! if (bUseCustomGrowthMatrix == GROWTH_FIXEDSIZETRANS & bUseGrowthIncrementModel != FIXED_PROB_MOLT)
+  !! if (bUseCustomGrowthMatrix == GROWTH_FIXEDSIZETRANS & bUseCustomMoltProbability != CONSTANT_PROB_MOLT)
   !!  {
-  !!   cout << "If the custom growth model = 1 molt probability must be 1; STOPPING" << endl; exit(1);
+  !!   cout << "If a custom size transition matrix is provided, the probability of molting must be set constant and equal to 1; STOPPING" << endl; exit(1);
   !!  }
+
+//  init_int bUseCustomMoltProbability;
+//  !! WriteCtl(bUseCustomMoltProbability);
+//  !! if ((bUseCustomGrowthMatrix == GROWTH_FIXEDGROWTHTRANS) & (bUseCustomMoltProbability != FIXED_PROB_MOLT || bUseCustomMoltProbability != CONSTANT_PROB_MOLT))
+//  !!  {
+//  !!   cout << "If the custom growth model is set as a fixed growth transition matrix (1); molt probability must be specified (0/1); STOPPING" << endl; exit(1);
+//  !!  }
+
 
   init_ivector nSizeClassRec(1,nsex);                      ///> Maximum of size-classes to which recruitment must occur
   !!WriteCtl(nSizeClassRec);
@@ -1461,7 +1470,7 @@ DATA_SECTION
   !! gmacs_ctl << "## End_year_RW: End year of the random walk" << endl;
   !! gmacs_ctl << "## Sigma_RW: Sigma used for the random walk" << endl;
 
-  !! gmacs_ctl << "# Fleet Index Parameter_no Sex Initial Lower_bound Upper_bound Phase Prior_type Prior_1 Prior_2 Start_block End_block Env_Link Env_Link_Var Rand_Walk Start_year_RW End_year_RW Sigma_RW" << endl;
+  !! gmacs_ctl << "# Fleet Index Parameter_no Sex Initial Lower_bound Upper_bound Prior_type Prior_1 Prior_2 Phase Start_block End_block Env_Link Env_Link_Var Rand_Walk Start_year_RW End_year_RW Sigma_RW" << endl;
   !! for (int k=1;k<=nslx_rows_in;k++)
   !!  {
   !!   if (slx_control_in(k,13) == nyr+1)
@@ -1586,8 +1595,8 @@ DATA_SECTION
   ivector slx_envvar(1,nslx_pars);                         ///> link to environmental parameter (i.e., which param (column) in the Envdata matrix)
   ivector slx_RdWalk_dev_type(1,nslx_pars);                ///> is there a random walk (0/1/2)- If so (1/2), which type (1: First order autoregressive process, 2: gaussian white noise)
   vector slx_dev_sigma(1,nslx_pars);                       ///> sigma for the random walk or random parameters
-  ivector slx_styr_RdWalk(1,nslx_pars);                      ///> period start year for random walk devs
-  ivector slx_edyr_RdWalk(1,nslx_pars);                      ///> period end year for random walk devs
+  ivector slx_styr_RdWalk(1,nslx_pars);                    ///> period start year for random walk devs
+  ivector slx_edyr_RdWalk(1,nslx_pars);                    ///> period end year for random walk devs
   ivector slx_timeVar(1,nslx);                             ///> is selectivity time-varying
 
  LOC_CALCS
@@ -6411,7 +6420,7 @@ FUNCTION recruitment_likelihood
   // 4) Likelihood for recruitment deviations.
   dvariable sigR = mfexp(logSigmaR);
   nloglike(4,1) = dnorm(res_recruit, sigR);                          ///> Post first year devs
-  if (active(rec_ini)) nloglike(4,2) += dnorm(rec_ini, sigR);                             ///> Initial devs (not used?)
+  if (active(rec_ini)) nloglike(4,2) += dnorm(rec_ini, sigR);        ///> Initial devs (not used?)
   switch ( nSRR_flag )
     {
      case 0:                                                         ///> Constant recruitment
@@ -9864,6 +9873,12 @@ FINAL_SECTION
 // 2022-12-31 ** MV ** (Version to 2.01.L03) - 1. Add the simulation approach developped by AE- AE modified the code so initial values for selex is not re-set in the PARAMETER_SECTION
 // 2023-01-17 ** AEP ** (Version to 2.01.L04) - 1. Corrected the override of the initialization of selectivity
 // 2023-02-4 ** MV ** (Version to 2.01.L04) - 1. Small changes in the Format of the gmacsAll.out
+// ================================================ //
+// 2023-03-20 ** MV ** (Upgrade GMACS to version 2.01.M) - 1. Add the developed code by ** AEP ** to read in environmental data and modify his
+// version of the code to make it working with all stocks (bug in the loop while counting the
+// number of selectivity parameters).
+// - 2. Add the developped code by ** AEP ** to incorporate potential random walk in the selectivity parameters. Modify the initial code to
+// make it more flexible. Need to be updated to allow environmental impacts not being dependent upon time period of random walk.
 
 
 

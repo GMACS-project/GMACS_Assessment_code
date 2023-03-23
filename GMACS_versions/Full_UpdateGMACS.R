@@ -110,7 +110,8 @@ createGmacsExe(
 #   "EAG","WAG"
 # )
 Stock <-c(
-  # "SMBKC", "EAG"
+  # "SMBKC"
+  # , "EAG"
   "all"
 )
 
@@ -345,16 +346,6 @@ Mgt_table
 # ii) Compile this new release version in the [Latest_Version] folder and get everything ready to use it
 UpdateGMACS(dirSrc = Dir_Dvpt_Vers,
             dirNew = Dir_Last_Vers)
-
-
-
-dirSrc = Dir_Dvpt_Vers
-dirNew = Dir_Last_Vers
-
-Dir = dirNew
-
-
-NewGMACSFeat(dirSrc = dirSrc)
 
 
 

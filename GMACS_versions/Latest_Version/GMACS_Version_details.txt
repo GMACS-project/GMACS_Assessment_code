@@ -1,5 +1,5 @@
-- GMACS version:  2.01.M
-- Last compilation date: 2023-03-20 19:37:17 
+- GMACS version:  2.01.M.01
+- Last compilation date: 2023-03-23 10:54:35 
 - Last update(s) have been made by:  Matthieu Veron
 
 - Details about the last modification:
@@ -8,3 +8,6 @@
 // number of selectivity parameters).
 // - 2. Add the developped code by ** AEP ** to incorporate potential random walk in the selectivity parameters. Modify the initial code to
 // make it more flexible. Need to be updated to allow environmental impacts not being dependent upon time period of random walk.
+// ================================================ //
+// 2023-03-23 ** MV ** (Upgrade GMACS to version 2.01.M.01) - 1. Fixed a bug in the checking section of the inputs for the growth maxtrix and growth
+// increment model

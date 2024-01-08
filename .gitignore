@@ -42,3 +42,12 @@ GMACS_versions/**/build/**/personal.rep
 GMACS_versions/**/build/**/gmacs_in.*
 GMACS_versions/**/build/**/gmacs_files_in.dat
 GMACS_versions/**/build/**/*.exe
+.DS_Store
+Assessment_data/.DS_Store
+Assessments/.DS_Store
+Assessments/SMBKC/.DS_Store
+Assessments/SNOW_crab/.DS_Store
+GMACS_versions/.DS_Store
+R_scripts/.DS_Store
+R_scripts/SAFE_app/.DS_Store
+R_scripts/SAFE_app/test/.DS_Store

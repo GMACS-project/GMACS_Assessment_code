@@ -154,48 +154,55 @@
    1         1        1         1        1         # determines fi maximum selectivity at size if forced to equal 1 or not
 ##  ————————————————————————————————————————————————————————————————————————————————————##
 ##  Selectivity  P(capture  of  all  sizes)
-## ———————————————————————————————————————————————————————————————————————————————————— ##
-## gear  par   sel                                                phz     start  end    ##
-# index index par sex  ival      lb    ub   prior    p1     p2    mirror period period  ##
-## ———————————————————————————————————————————————————————————————————————————————————— ##
+## ——————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————— ##
+## gear  par   sel                                                phz     start  end    Env  Link Rand  Start_Y	End_Y	 Sigma ##
+# index index par sex  ival      lb    ub   prior    p1     p2    mirror period period  Link Par  Walk  period	period 	 ##
+## ——————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————— ##
 # Gear-1
-   1     1     1   0    0.4    0.001 1.0    0       0      1    3     1978   2008
-   1     2     2   0    0.7    0.001 1.0    0       0      1    3     1978   2008
-   1     3     3   0    1.0    0.001 2.0    0       0      1    -2     1978   2008
-   1     1     1   0    0.4    0.001 1.0    0       0      1    3     2009   2020 # update end yr
-   1     2     2   0    1.0    0.001 1.0    0       0      1    3     2009   2020 # update end yr
-   1     3     3   0    1.0    0.001 2.0    0       0      1    -2     2009   2020 # update end yr
+   1     1     1   0    0.4    0.001 1.0    0       0      1    3     1978   2008 		0    0   0	  1978	1978	 0.0
+   1     2     2   0    0.7    0.001 1.0    0       0      1    3     1978   2008 		0    0   0	  1978	1978	 0.0
+   1     3     3   0    1.0    0.001 2.0    0       0      1    -2     1978   2008 		0    0   0	  1978	1978	 0.0
+   1     1     1   0    0.4    0.001 1.0    0       0      1    3     2009   2020 		0    0   0	  1978	1978	 0.0 # update end yr
+   1     2     2   0    1.0    0.001 1.0    0       0      1    3     2009   2020 		0    0   0	  1978	1978	 0.0 # update end yr
+   1     3     3   0    1.0    0.001 2.0    0       0      1    -2     2009   2020 		0    0   0	  1978	1978	 0.0 # update end yr
 # Gear-2
-   2     7     1   0    40      10.0  200    0      10    200   -3     1978   2020 # update end yr
-   2     8     2   0    60      10.0  200    0      10    200   -3     1978   2020 # update end yr
+   2     7     1   0    40      10.0  200    0      10    200   -3     1978   2020 		0    0   0	  1978	1978	 0.0 # update end yr
+   2     8     2   0    60      10.0  200    0      10    200   -3     1978   2020 		0    0   0	  1978	1978	 0.0 # update end yr
 # Gear-3
-   3     9     1   0    40      10.0  200    0      10    200   -3     1978   2020 # update end yr
-   3    10     2   0    60      10.0  200    0      10    200   -3     1978   2020 # update end yr
+   3     9     1   0    40      10.0  200    0      10    200   -3     1978   2020 		0    0   0	  1978	1978	 0.0 # update end yr
+   3    10     2   0    60      10.0  200    0      10    200   -3     1978   2020 		0    0   0	  1978	1978	 0.0 # update end yr
 # Gear-4
-   4     11    1   0    0.7     0.001 1.0    0       0      1   4     1978   2021 # update end yr
-   4     12    2   0    1.0     0.001 1.0    0       0      1   4     1978   2021 # update end yr
-   4     13    3   0    0.9     0.001 1.0    0       0      1   -5     1978   2021 # update end yr
+   4     11    1   0    0.7     0.001 1.0    0       0      1   4     1978   2021 		0    0   0	  1978	1978	 0.0 # update end yr
+   4     12    2   0    1.0     0.001 1.0    0       0      1   4     1978   2021 		0    0   0	  1978	1978	 0.0 # update end yr
+   4     13    3   0    0.9     0.001 1.0    0       0      1   -5     1978   2021 		0    0   0	  1978	1978	 0.0 # update end yr
 # Gear-5
-   5     14    1   0    0.4     0.001 1.0    0       0      1   4     1978   2021 # update end yr
-   5     15    2   0    1.0     0.001 1.0    0       0      1   4     1978   2021 # update end yr
-   5     16    3   0    1.0     0.001 2.0    0       0      1   -2     1978   2021 # update end yr
+   5     14    1   0    0.4     0.001 1.0    0       0      1   4     1978   2021 		0    0   0	  1978	1978	 0.0 # update end yr
+   5     15    2   0    1.0     0.001 1.0    0       0      1   4     1978   2021 		0    0   0	  1978	1978	 0.0 # update end yr
+   5     16    3   0    1.0     0.001 2.0    0       0      1   -2     1978   2021 		0    0   0	  1978	1978	 0.0 # update end yr
 ## Retained
 # Gear-1
-  -1     17    1   0    120        50 200    0      1    900    -7     1978   2020 # update end yr
-  -1     18    2   0    123       110 200    0      1    900    -7     1978   2020 # update end yr
+  -1     17    1   0    120        50 200    0      1    900    -7     1978   2020 		0    0   0	  1978	1978	 0.0 # update end yr
+  -1     18    2   0    123       110 200    0      1    900    -7     1978   2020 		0    0   0	  1978	1978	 0.0 # update end yr
 # Gear-2
-  -2     19    1   0   595    1    999    0      1    999   -3     1978   2020 # update end yr
+  -2     19    1   0   595    1    999    0      1    999   -3     1978   2020 		0    0   0	  1978	1978	 0.0 # update end yr
 # Gear-3
-  -3     20    1   0   595    1    999    0      1    999   -3     1978   2020 # update end yr
+  -3     20    1   0   595    1    999    0      1    999   -3     1978   2020 		0    0   0	  1978	1978	 0.0 # update end yr
 # Gear-4
-  -4     21    1   0   595    1    999    0      1    999   -3     1978   2021 # update end yr
+  -4     21    1   0   595    1    999    0      1    999   -3     1978   2021 		0    0   0	  1978	1978	 0.0 # update end yr
 # Gear-5
-  -5     22    1   0   595    1    999    0      1    999   -3     1978   2021 # update end yr
+  -5     22    1   0   595    1    999    0      1    999   -3     1978   2021 		0    0   0	  1978	1978	 0.0 # update end yr
 
 # Number of asymptotic parameters
 1
 # Fleet   Sex     Year       ival  lb   ub    phz  
        1     1     1978   0.000001   0    1     -3
+
+
+# Environmental parameters
+# Initial lower upper phase
+
+# Deviation parameter phase
+-1
 
 ## ==================================================================================== ##
 ## PRIORS FOR CATCHABILITY
@@ -349,8 +356,20 @@
 ## ==================================================================================== ##
 ## EMPHASIS FACTORS (Priors)
 ## ==================================================================================== ##
-# Log_fdevs   meanF       Mdevs  Rec_devs Initial_devs Fst_dif_dev Mean_sex-Ratio    Molt_prob  Free selectivity  Init_n_at_len Fvecs Fdovss (!!!NEW for the last two 1/2022)
-      10000       0        1.0         1            0           0             1             0                 0                    0     0      0       
-
+# Log_fdevs   meanF   Mdevs  Rec_devs Initial_devs Fst_dif_dev Mean_sex-Ratio    Molt_prob  Free_selectivity  Init_n_at_len Fvecs Fdovs  Sel_devs
+#  10000       0       1.0    1        0            0           1             	   0          0                 0     	    0     0      0
+10000	# Log_fdevs
+0		# meanF	
+1.0		# Mdevs
+1		# Rec_devs 
+0		# Initial_devs
+0		# Fst_dif_dev
+1		# Mean_sex-Ratio
+0		# Molt_prob
+0		# Free selectivi
+0		# Init_n_at_len
+0		# Fdevs
+0		# Fdovs
+0       # Sel_devs		
 ## EOF
 9999

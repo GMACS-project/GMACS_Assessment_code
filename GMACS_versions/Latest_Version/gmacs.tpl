@@ -71,7 +71,7 @@
 // ************************************************************************************ //
 DATA_SECTION
 
- !! TheHeader = adstring("## GMACS Version 2.01.M.01; ** MV **; Compiled 2023-03-23 10:54:35");
+ !! TheHeader = adstring("## GMACS Version 2.01.M.01; ** MV **; Previous compilation on:  2023-03-23 10:54:35; Last compilation on:  2023-05-31 11:51:29");
 
  int usepinfile;
  !! usepinfile = 0;
@@ -9879,6 +9879,9 @@ FINAL_SECTION
 // number of selectivity parameters).
 // - 2. Add the developped code by ** AEP ** to incorporate potential random walk in the selectivity parameters. Modify the initial code to
 // make it more flexible. Need to be updated to allow environmental impacts not being dependent upon time period of random walk.
+// ================================================ //
+// 2023-03-23 ** MV ** (Upgrade GMACS to version 2.01.M.01) - 1. Fixed a bug in the checking section of the inputs for the growth maxtrix and growth
+// increment model
 
 
 

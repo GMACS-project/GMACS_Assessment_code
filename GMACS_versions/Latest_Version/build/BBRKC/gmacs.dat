@@ -1,15 +1,46 @@
-bbrkc211.dat
-bbrkc211.ctl
-bbrkc21.prj
-1  
-0.1                   # Jitter & sd
-# Output variances of (1=Yes)
-1   # Reference points
-0   # Recruits
-0   # SSB
-0   # Fbar
-0   # OutDynB0
-# Retrospective analysis number
-0
-# EOF
+# ============================================================ #
+#                    GMACS main data file 
+# 
+# *** 
+#  GMACS Version 2.01.M.01 
+# Last GMACS mofification made by:   ** MV ** 
+# Date of writing the gmacs.dat file: 2024-02-14 16:32:12# *** 
+# 
+# Stock of interest:  BBRKC 
+# Model name:  model_21_1 
+# Year of assessment:  2023 
+# ============================================================ #
+
+## Key GMACS files
+# -------------------------------------- #
+# Data file name
+bbrkc_21_1.dat
+# Control file name
+bbrkc_21_1.ctl
+# Projection file name
+bbrkc_21_1.prj
+
+## jitter specifications
+# -------------------------------------- #
+# Is Jittered?
+1 
+# sd Jitter?
+0.1 
+
+## Output variance specifications
+# -------------------------------------- #
+# Output variance (0 = No; 1 = Yes
+1 # Reference points
+0 # Recruits
+0 # Spawning Stock Biomass
+0 # Mean Fishing mortality (Fbar)
+0 # Dynamic B0 approach
+
+## Retrospective analysis specifications
+# -------------------------------------- #
+0 # Number of year for the retrospective analysis
+
+# -------------------------------------- #
+## End of gmacs.dat file
+# -------------------------------------- #
 9999

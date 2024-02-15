@@ -1,0 +1,19 @@
+#datafile
+sm22.dat
+#controlfile
+sm22.ctl
+#projectionfile
+sm22.prj
+# Jitter specs (1=yes; SD)
+0 
+0.1
+# Output variances of (1=Yes)
+1   # Reference points
+1   # Recruits
+1   # SSB
+1   # Fbar
+1   # OutDynB0
+# Retrospective
+0
+# EOF
+9999

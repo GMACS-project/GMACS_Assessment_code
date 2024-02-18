@@ -4,12 +4,12 @@
 #_*** 
 #_  GMACS Version 2.01.M.01 
 #_Last GMACS mofification made by:   ** MV ** 
-#_Date of writing the control file: 2024-02-14 16:35:20 
+#_Date of writing the control file: 2024-02-17 15:20:42 
 #_*** 
 # 
 #_Stock of interest:  SNOW_crab 
 #_Model name:  model_21_g 
-#_Year of assessment:  2023 
+#_Year of assessment:  2021 
 # ============================================================ #
 
 # -------------------------------------- #

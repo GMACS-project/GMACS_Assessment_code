@@ -32,6 +32,9 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 # check your directory
 getwd()
 
+# File separator
+fsep <- .Platform$file.sep
+
 # Install and load the packages
 
 # 1.Install devtools and gdata on your machine
@@ -72,8 +75,8 @@ library(gmr)
 # II- Compile and build GMACS ----
 
 # Set the working directories:
-Dir_Dvpt_Vers <- file.path(here::here(), "Dvpt_Version")
-Dir_Last_Vers <- file.path(here::here(), "Latest_Version")
+Dir_Dvpt_Vers <- file.path(here::here(), "Dvpt_Version", fsep = fsep)
+Dir_Last_Vers <- file.path(here::here(), "Latest_Version", fsep = fsep)
 
 # Define the name of the file containing the different pathways needed to build
 # the GMACS executable - The ADpaths_Windows.txt file has to be used for windows
@@ -89,7 +92,6 @@ ADMBpaths <- ifelse(.Platform$OS.type == "windows",
 
 # Now run the createGmacsExe() function to get the executable for the
 # latest version (if applicable)
-
 createGmacsExe(
   vv = 2,
   Dir = c(Dir_Dvpt_Vers, Dir_Last_Vers),
@@ -110,8 +112,6 @@ createGmacsExe(
 #   "EAG","WAG"
 # )
 Stock <-c(
-  # "SMBKC"
-  # , "EAG"
   "all"
 )
 
@@ -134,7 +134,7 @@ VERSIONDIR <- Dir_Dvpt_Vers
 # the GMACS_Assessment_code repository.
 ASS <- FALSE
 
-# Do ou need to compile GMACS?
+# Do you need to compile GMACS?
 # vector of interger of length(.GMACS_version)
 # 0: GMACS does not need to be compiled. This assumes that an executable exists in the directory of the concerned version.
 # 1: GMACS needs to be compiled
@@ -154,8 +154,7 @@ RUN_GMACS <- TRUE
 # original files because it won't work.
 LastAssDat <- FALSE
 
-# Show Rterminal
-# Do you want to see what is going on? (similar to verbose <- TRUE)
+# Show the Rterminal ?
 # Logical
 VERBOSE <- TRUE
 
@@ -163,10 +162,6 @@ VERBOSE <- TRUE
 # Logical
 # This is not the topic right now
 MAKE_Comp <- FALSE
-
-# Do you want to clean the repertory after the run 
-# This remove most of the output files from ADMB
-# cleanPath <- TRUE
 
 #  ===================================== #
 #  ===================================== #
@@ -295,8 +290,8 @@ Stock <- "all"
 
 # Names of the version(s) to consider
 model_name <- c(
-  "Version 2.01.L04", # LATEST VERSION
-  "Version 2.01.M" # Development version
+  "Version 2.01.M.02", # LATEST VERSION
+  "Version 2.01.M.01" # Development version
 )
 
 # Directory of this(ese) version(s)
@@ -307,14 +302,14 @@ Dir = c(Dir_Last_Vers, Dir_Dvpt_Vers)
 # If Stock="all', provide the directory where to save plots for each stock
 # in the same order as they appear when using the list.files() function
 # in the "build" directory
-# list.files(file.path(Dir_Dvpt_Vers,"build"))
+# list.files(file.path(Dir_Dvpt_Vers,"build", fsep = fsep))
 
-# Dir.out <- file.path(Dir_Dvpt_Vers, "build", Stock)
-Dir.out <- c(file.path(Dir_Dvpt_Vers, "build", "BBRKC"),
-             file.path(Dir_Dvpt_Vers, "build", "EAG"),
-             file.path(Dir_Dvpt_Vers, "build", "SMBKC"),
-             file.path(Dir_Dvpt_Vers, "build", "SNOW_crab"),
-             file.path(Dir_Dvpt_Vers, "build", "WAG")
+# Dir.out <- file.path(Dir_Dvpt_Vers, "build", Stock, fsep = fsep)
+Dir.out <- c(file.path(Dir_Dvpt_Vers, "build", "BBRKC", fsep = fsep),
+             file.path(Dir_Dvpt_Vers, "build", "EAG", fsep = fsep),
+             file.path(Dir_Dvpt_Vers, "build", "SMBKC", fsep = fsep),
+             file.path(Dir_Dvpt_Vers, "build", "SNOW_crab", fsep = fsep),
+             file.path(Dir_Dvpt_Vers, "build", "WAG", fsep = fsep)
              )
 
 # Save the plot? 
@@ -346,7 +341,4 @@ Mgt_table
 # ii) Compile this new release version in the [Latest_Version] folder and get everything ready to use it
 UpdateGMACS(dirSrc = Dir_Dvpt_Vers,
             dirNew = Dir_Last_Vers)
-
-
-
 

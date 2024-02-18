@@ -71,7 +71,7 @@
 // ************************************************************************************ //
 DATA_SECTION
 
- !! TheHeader = adstring("## GMACS Version 2.01.M.01; ** MV **; Previous compilation on:  2023-03-23 10:54:35; Last compilation on:  2024-02-14 17:35:16");
+ !! TheHeader = adstring("## GMACS 2.01.M.02; ** AEP **; Compiled 2024-02-17 15:28:33");
 
  int usepinfile;
  !! usepinfile = 0;
@@ -100,11 +100,12 @@ DATA_SECTION
       cout<<"|---------------------------------------|"<<endl;
       cout<<"| Testing with alternative dat file     |"<<endl;
       cout<<"|---------------------------------------|"<<endl;
-      DatFileReader* pDFR = new DatFileReader();
-      cifstream is("TannerCrab_NewDatFile.dat",ios::in);
-      is>>(*pDFR);
-      is.close();
-      cout<<(*pDFR)<<endl;
+      //AEP
+      //DatFileReader* pDFR = new DatFileReader();
+      //cifstream is("TannerCrab_NewDatFile.dat",ios::in);
+      //is>>(*pDFR);
+      //is.close();
+      //cout<<(*pDFR)<<endl;
       exit(1);
     } 
     if (0){
@@ -1259,12 +1260,14 @@ DATA_SECTION
   init_imatrix slx_type_in(1,nsex,1,nfleet);               //> integer for selectivity type (e.g. logistic, double normal)
   init_ivector slx_include_in(1,nfleet);                   //> insertion of fleet in another
   init_imatrix slx_extra_in(1,nsex,1,nfleet);              //> extra parameters for each pattern
+  imatrix slx_type_npar(1,nsex,1,nfleet);                  //> integer for number of selex parameters
 
   init_ivector ret_nret_period_in(1,nfleet);               //> number of retention time periods
   init_ivector ret_bsex_in(1,nfleet);                      //> boolean for sex-specific retention
   init_imatrix ret_type_in(1,nsex,1,nfleet);               //> integer for retention type (e.g. logistic, double normal)
   init_imatrix slx_nret(1,nsex,1,nfleet);                  //> boolean for retention/discard
   init_imatrix ret_extra_in(1,nsex,1,nfleet);              //> extra parameters for each pattern
+  imatrix ret_type_npar(1,nsex,1,nfleet);                  //> integer for number of retention parameters
   init_ivector slx_max_at_1_in(1,nfleet);	           //> determines if selectivity for the maximum size class is forced to be 1
 
  LOC_CALCS
@@ -1336,50 +1339,62 @@ DATA_SECTION
       if( slx_type_in(h,k) == SELEX_PARAMETRIC)             ///> parametric
        {
         inc = nclass * slx_nsel_period_in(k);
+        slx_type_npar(h,k) = nclass;
        }
       if( slx_type_in(h,k) == SELEX_COEFFICIENTS)           ///> coefficients
        {
         inc = slx_extra_in(h,k) * slx_nsel_period_in(k);
+        slx_type_npar(h,k) = slx_extra_in(h,k);
        }
       if( slx_type_in(h,k) == SELEX_STANLOGISTIC)           ///> logistic has 2 parameters
        {
         inc = 2 * slx_nsel_period_in(k);
+        slx_type_npar(h,k) = 2;
        }
       if( slx_type_in(h,k) == SELEX_5095LOGISTIC)           ///> logistic95 has 2 parameters
        {
         inc = 2 * slx_nsel_period_in(k);
+        slx_type_npar(h,k) = 2;
        }
       if( slx_type_in(h,k) == SELEX_ONE_PAR_LOGISTIC)       ///> logisticOne has 1 parameters
        {
         inc = 1 * slx_nsel_period_in(k);
+        slx_type_npar(h,k) = 1;
        }
       if( slx_type_in(h,k) == SELEX_DECLLOGISTIC)           ///> declining logistic has 2 + extra parameters
        {
         inc = (2+slx_extra_in(h,k)) * slx_nsel_period_in(k);
+        slx_type_npar(h,k) = 2+slx_extra_in(h,k);
        }
       if( slx_type_in(h,k) == SELEX_DOUBLENORM)             ///> double normal has 3 parameters
        {
         inc = 3 * slx_nsel_period_in(k);
+        slx_type_npar(h,k) =  3;
        }
       if( slx_type_in(h,k) == SELEX_DOUBLENORM4)            ///> double normal has 4 parameters
        {
         inc = 4 * slx_nsel_period_in(k);
+        slx_type_npar(h,k) = 4;
        }
       if( slx_type_in(h,k) == SELEX_UNIFORM1)               ///> uniform has 1 parameter
        {
         inc = 1 * slx_nsel_period_in(k);
+        slx_type_npar(h,k) = 1;
        }
       if( slx_type_in(h,k) == SELEX_UNIFORM0)               ///> uniform has 1 parameter
        {
         inc = 1 * slx_nsel_period_in(k);
+        slx_type_npar(h,k) = 1;
        }
       if( slx_type_in(h,k) == SELEX_CUBIC_SPLINE)          ///> spline has parameters for knots and values
        {
         inc = 2 * slx_extra_in(h,k) * slx_nsel_period_in(k);
+        slx_type_npar(h,k) = 2 * slx_extra_in(h,k);
        }
       if( slx_type_in(h,k) <0)                            ///> mirror has 1 parameter
        {
         inc = 1 * slx_nsel_period_in(k);
+        slx_type_npar(h,k) = 1 * slx_extra_in(h,k);
        }
        echoinput << "h = "<<h<<"  "<<"num pars = "<<inc<<endl;
        nslx_rows_in += inc;//add in increment
@@ -1393,54 +1408,66 @@ DATA_SECTION
       if( ret_type_in(h,k) == SELEX_PARAMETRIC)             ///> parametric
        {
         inc = nclass * ret_nret_period_in(k);
+        ret_type_npar(h,k) = nclass;
        }
       if( ret_type_in(h,k) == SELEX_COEFFICIENTS)           ///> coefficients
        {
-         inc = ret_extra_in(h,k) * ret_nret_period_in(k);
+        inc = ret_extra_in(h,k) * ret_nret_period_in(k);
+        ret_type_npar(h,k) = ret_extra_in(h,k);
        }
       if( ret_type_in(h,k) == SELEX_STANLOGISTIC)           ///> logistic has 2 parameters
        {
         inc = 2 * ret_nret_period_in(k);
+        ret_type_npar(h,k) = 2;
        }
       if( ret_type_in(h,k) == SELEX_5095LOGISTIC)           ///> logistic95 has 2 parameters
        {
         inc = 2 * ret_nret_period_in(k);
+        ret_type_npar(h,k) = 2;
        }
       if( ret_type_in(h,k) == SELEX_ONE_PAR_LOGISTIC)       ///> logisticOne has 1 parameters
        {
         inc = 1 * ret_nret_period_in(k);
+        ret_type_npar(h,k) = 1;
        }
       if( ret_type_in(h,k) == SELEX_DECLLOGISTIC)           ///> declining logistic has 2 + extra parameters
        {
         inc = (2+ret_extra_in(h,k)) * ret_nret_period_in(k);
+        ret_type_npar(h,k) = 2+ret_extra_in(h,k);
        }
       if( ret_type_in(h,k) == SELEX_DOUBLENORM)             ///> double normal has 3 parameters
        {
         inc = 3 * ret_nret_period_in(k);
+        ret_type_npar(h,k) = 3;
        }
       if( ret_type_in(h,k) == SELEX_DOUBLENORM4)            ///> double normal has 4 parameters
        {
         inc = 4 * ret_nret_period_in(k);
+        ret_type_npar(h,k) = 4;
        }
       if( ret_type_in(h,k) == SELEX_UNIFORM1)               ///> uniform has 1 parameter
        {
         inc = 1 * ret_nret_period_in(k);
+        ret_type_npar(h,k) = 1;
        }
       if( ret_type_in(h,k) == SELEX_UNIFORM0)               ///> uniform has 1 parameter
        {
         inc = 1 * ret_nret_period_in(k);
+        ret_type_npar(h,k) = 1;
        }
-      if( ret_type_in(h,k) == SELEX_CUBIC_SPLINE)            ///> spline has parameters for knots and values
+      if( ret_type_in(h,k) == SELEX_CUBIC_SPLINE)           ///> spline has parameters for knots and values
        {
         inc = 2 * ret_extra_in(h,k) * ret_nret_period_in(k);
+        ret_type_npar(h,k) = 2 * ret_extra_in(h,k);
        }
       if( ret_type_in(h,k) <0)                             ///> mirror has 1 parameter
        {
         inc = 1 * ret_nret_period_in(k);
+        ret_type_npar(h,k) = 1;
        }
        echoinput << "h = "<<h<<"  "<<"num pars = "<<inc<<endl;
-       nslx_rows_in += inc;//add in increment
-     }
+       nslx_rows_in += inc;                                ///add in increment
+      }
     tmp_nret = nslx_rows_in - tmp_nret;
     echoinput << "numbers of selectivity, retention rows: " << tmp_nslx << "  " << tmp_nret << endl;
    }
@@ -1496,7 +1523,7 @@ DATA_SECTION
 
  LOC_CALCS
   // Work out the type of each selectivity and place in the ivector slx_type
-  int kk = 1;
+  int kk = 1; int nparsel = 0;
   for ( int k = 1; k <= nfleet; k++ )
    {
    int hh = 1 + slx_bsex_in(k);
@@ -1507,6 +1534,9 @@ DATA_SECTION
        slx_incl(kk) = slx_include_in(k);
        slx_extra(kk) = slx_extra_in(h,k);
        slx_max_at_1(kk) = slx_max_at_1_in(k);
+       for (int ll=1;ll<=slx_type_npar(h,k);ll++)
+        selname1(ll+nparsel) = "Sel_"+fleetname(k)+"_"+sexes(h)+"_period_"+str(i)+"_par_"+str(ll);
+       nparsel +=slx_type_npar(h,k);
        kk ++;
       }
     }
@@ -1518,10 +1548,15 @@ DATA_SECTION
       {
        slx_type(kk) = ret_type_in(h,k);
        slx_extra(kk) = ret_extra_in(h,k);
-	   slx_max_at_1(kk) = slx_max_at_1_in(k);
+       slx_max_at_1(kk) = slx_max_at_1_in(k);
+       cout << k << " " << h << " " << " " << ret_type_npar(h,k) << endl;
+       for (int ll=1;ll<=ret_type_npar(h,k);ll++)
+        selname1(ll+nparsel) = "Ret_"+fleetname(k)+"_"+sexes(h)+"_period_"+str(i)+"_par_"+str(ll);
+       nparsel +=ret_type_npar(h,k);
        kk ++;
       }
     }
+  cout << selname1 << endl;
   // count up number of parameters required
   slx_cols.initialize();
   slx_npar.initialize();
@@ -1600,6 +1635,7 @@ DATA_SECTION
   ivector slx_timeVar(1,nslx);                             ///> is selectivity time-varying
 
  LOC_CALCS
+  int nseldevnames = 0;
   for ( int k = 1; k <= nslx; k++ ) slx_timeVar(k) = 0;
   for ( int k = 1; k <= nslx; k++ )
    if (slx_type(k) >=0)
@@ -1643,9 +1679,25 @@ DATA_SECTION
        slx_edyr_RdWalk(jj) = slx_control_in(jj,18);
        slx_dev_sigma(jj) = slx_control_in(jj,19);
        //cout << slx_control_in(jj) << endl;
-       if (slx_envlink(jj) == 1) { nslx_envpars += 1; slx_timeVar(k) = 1; }
-       if (slx_RdWalk_dev_type(jj) == 1) { nslx_devpars += (slx_edyr_RdWalk(j)-slx_styr_RdWalk(j)); slx_timeVar(k) = 1; }
-       if (slx_RdWalk_dev_type(jj) == 2) { nslx_devpars += (slx_edyr_RdWalk(j)-slx_styr_RdWalk(j)+1); slx_timeVar(k) = 1; }
+       if (slx_envlink(jj) == 1) 
+        { 
+         nslx_envpars += 1; slx_timeVar(k) = 1; 
+         selenvnames1(nslx_envpars) = "Selpattern_"+str(k)+"_par_"+str(j)+"_env_dev";
+        }
+       if (slx_RdWalk_dev_type(jj) == 1) 
+        { 
+         nslx_devpars += (slx_edyr_RdWalk(j)-slx_styr_RdWalk(j)); slx_timeVar(k) = 1; 
+         for (int ii=1;ii<=(slx_edyr_RdWalk(j)-slx_styr_RdWalk(j))+1;ii++)
+          seldevnames1(nseldevnames+ii) = "Selpattern_"+str(k)+"_par_"+str(j)+"_dev_for_year_"+str(slx_styr_RdWalk(j)+ii-1);
+         nseldevnames += (slx_edyr_RdWalk(j)-slx_styr_RdWalk(j))+1;
+        }
+       if (slx_RdWalk_dev_type(jj) == 2) 
+        { 
+         nslx_devpars += (slx_edyr_RdWalk(j)-slx_styr_RdWalk(j)+1); slx_timeVar(k) = 1; 
+         for (int ii=1;ii<=(slx_edyr_RdWalk(j)-slx_styr_RdWalk(j))+1;ii++)
+          seldevnames1(nseldevnames+ii) = "Selpattern_"+str(k)+"_par_"+str(j)+"_for_year_"+str(slx_styr_RdWalk(j)+ii-1);
+         nseldevnames +=  (slx_edyr_RdWalk(j)-slx_styr_RdWalk(j))+1;
+        }
 
      }
    }
@@ -1732,6 +1784,7 @@ DATA_SECTION
  !!  SlxEnvPar_lb(1) = -1;
  !!  SlxEnvPar_ub(1) = 1;
  !!  SlxEnvPar_phz(1) = -1;
+ !!  selenvnames1(1) = "Dummy_sel_env_par"; 
  !! }
  
  !! gmacs_ctl << "# Number of environmental parameters" << endl;
@@ -1761,6 +1814,7 @@ DATA_SECTION
  !! {
  !!  SlxDevPar_ival(1) = 0;
  !!  SlxDevPar_phz(1) = -1;
+ !!  seldevnames1(1) = "Dummy_sel_dev_par";
  !! }
 
   // |---------------------------------------------------------|
@@ -2276,6 +2330,8 @@ DATA_SECTION
     for (int I = 1; I <=nMdev; I++)
     { Mdev_ival(I) = 0; Mdev_lb(I) = -3; Mdev_ub(I) = 3; Mdev_phz(I) = Mdev_phz_def; }
    }
+  for (int I = 1; I <=nMdev; I++)
+   mdevname1(I) = "M_dev_est_par_"+str(I);
  END_CALCS
 
   // |---------------------------------------------------------|
@@ -2868,6 +2924,8 @@ DATA_SECTION
 
   int NfunCall;
   !! NfunCall = 0;
+  int PPnt;
+  !! PPnt;
 
 // ================================================================================================
 
@@ -3504,30 +3562,42 @@ FUNCTION initialize_model_parameters
 
   // Get parameters from theta control matrix:
   M0(1)      = theta(1);
+  parname1(1) = "M-base";
   Jpnt = 2;
   if (nsex>1)
    {
-    if (MrelFem==YES) M0(2) = M0(1)*exp(theta(2));
-    if (MrelFem==NO) M0(2) = theta(2);
+    if (MrelFem==YES) M0(2) = M0(1)*exp(theta(2)); parname1(2) = "M-fem-offset";
+    if (MrelFem==NO) M0(2) = theta(2); parname1(2) = "M-female";
     Jpnt = 3;
    }
   logR0     = theta(Jpnt);
+  parname1(Jpnt) = "Log(R0)";
   logRini   = theta(Jpnt+1);
+  parname1(Jpnt+1) = "Log(Rinitial)";
   logRbar   = theta(Jpnt+2);
+  parname1(Jpnt+2) = "Log(Rbar)";
   ra(1)     = theta(Jpnt+3);
-  rbeta(1)  = theta(Jpnt+4);
+  rbeta(1)  =  theta(Jpnt+4);
+  parname1(Jpnt+3) = "Recruitment_ra-males";
+  parname1(Jpnt+4) = "Recruitment_rb-males";
   Jpnt = Jpnt + 5;
   if (nsex>1)
    {
     ra(2)     = ra(1)*exp(theta(Jpnt));
     rbeta(2)  = rbeta(1)*exp(theta(Jpnt+1));
+    parname1(Jpnt) = "Recruitment_ra-females";
+    parname1(Jpnt+1) = "Recruitment_rb-females";
     Jpnt += 2;
    }
 
   logSigmaR = theta(Jpnt);
   steepness = theta(Jpnt+1);
   rho       = theta(Jpnt+2);
+  parname1(Jpnt) = "log(SigmaR)";
+  parname1(Jpnt+1) = "Steepness";
+  parname1(Jpnt+2) = "Rho";
   Jpnt = Jpnt + 2;
+  PPnt = Jpnt;
 
   // Set rec_deviations
   rec_dev.initialize();
@@ -3551,8 +3621,11 @@ FUNCTION initialize_model_parameters
          {
           Ipnt += 1;
           logN0(Ihmo,l) = theta(Jpnt+Ipnt);
+          anystring = "Initial_logN_for_sex_"+sexes(h)+"_mature_"+str(m)+"_shell_"+str(o)+"_class_"+str(l);
+          parname1(Jpnt+Ipnt) = anystring;
          }
        }
+     PPnt += Ipnt;
     }
 
   // Estimate initial numbers as logistic offsest
@@ -3571,11 +3644,15 @@ FUNCTION initialize_model_parameters
            logN0(Ihmo,1) = 0;
           else
             { logN0(Ihmo,l) = theta(Jpnt+Ipnt);
+             anystring = "Scaled_logN_for_"+sexes(h)+"_mature_"+str(m)+"_shell_"+str(o)+"_class_"+str(l);
+             parname1(Jpnt+Ipnt) = anystring;
+            
               if (active(theta(Jpnt+Ipnt)))
                TempSS += theta(Jpnt+Ipnt)*theta(Jpnt+Ipnt); }
           Ipnt += 1;
          }
        }
+    PPnt += Ipnt-1;
    }
 
   // Get Growth & Molting parameters
@@ -3589,14 +3666,32 @@ FUNCTION initialize_model_parameters
        beta(h)    = Grwth(icnt+1);
        gscale(h,igrow)  = Grwth(icnt+2);
        icnt += 3;
+       parname1(PPnt+1) = "Alpha_"+sexes(h)+"_period_"+str(igrow);
+       parname1(PPnt+2) = "Beta_"+sexes(h)+"_period_"+str(igrow);
+       parname1(PPnt+3) = "Gscale_"+sexes(h)+"_period_"+str(igrow);
+       PPnt += 3;
       }
      if (bUseGrowthIncrementModel==INDIVIDUAL_GROWTHMODEL1 | bUseGrowthIncrementModel==INDIVIDUAL_GROWTHMODEL2)
       {
-       for (int l=1; l<=nclass;l++) molt_increment(h,igrow,l) = Grwth(icnt+l-1);
+       for (int l=1; l<=nclass;l++) 
+        {
+         molt_increment(h,igrow,l) = Grwth(icnt+l-1);
+         parname1(PPnt+1) = "Molt_increment_"+sexes(h)+"_period_"+str(igrow)+"_class_"+str(l);
+	 PPnt += 1;
+        }
        if (BetaParRelative==NO || igrow==1)
-        gscale(h,igrow)  = Grwth(icnt+nclass);
+        {
+         gscale(h,igrow)  = Grwth(icnt+nclass);
+         parname1(PPnt+1) = "Gscale_"+sexes(h)+"_period_"+str(igrow);
+	 PPnt += 1;
+        }
        else
-        if (BetaParRelative==YES) gscale(h,igrow)  = exp(Grwth(icnt+nclass))*gscale(h,1);
+        if (BetaParRelative==YES) 
+         {
+          gscale(h,igrow)  = exp(Grwth(icnt+nclass))*gscale(h,1);
+          parname1(PPnt+1) = "Gscale_"+sexes(h)+"_period_"+str(igrow);
+	  PPnt += 1;
+         }
        icnt += (nclass+1);
       }
 
@@ -3607,6 +3702,10 @@ FUNCTION initialize_model_parameters
        Kappa(h,igrow)      = Grwth(icnt+1);
        SigmaKappa(h,igrow) = Grwth(icnt+2);
        icnt += 3;
+       parname1(PPnt+1) = "Linf_"+sexes(h)+"_period_"+str(igrow);
+       parname1(PPnt+2) = "Kappa_"+sexes(h)+"_period_"+str(igrow);
+       parname1(PPnt+3) = "SigmaKappa_"+sexes(h)+"_period_"+str(igrow);
+       PPnt += 3;
       }
      // Linf varies
      if (bUseGrowthIncrementModel==GROWTH_VARYLINF)
@@ -3615,6 +3714,10 @@ FUNCTION initialize_model_parameters
        Kappa(h,igrow)      = Grwth(icnt+1);
        SigmaLinf(h,igrow)  = Grwth(icnt+2);
        icnt += 3;
+       parname1(PPnt+1) = "Linf_"+sexes(h)+"_period_"+str(igrow);
+       parname1(PPnt+2) = "Kappa_"+sexes(h)+"_period_"+str(igrow);
+       parname1(PPnt+3) = "SigmaLinf_"+sexes(h)+"_period_"+str(igrow);
+       PPnt += 3;
       }
      // Linf and Kappa varies
      if (bUseGrowthIncrementModel==GROWTH_VARYKLINF)
@@ -3624,25 +3727,36 @@ FUNCTION initialize_model_parameters
        SigmaLinf(h,igrow)  = Grwth(icnt+2);
        SigmaKappa(h,igrow) = Grwth(icnt+3);
        icnt += 4;
+       parname1(PPnt+1) = "Linf_"+sexes(h)+"_period_"+str(igrow);
+       parname1(PPnt+2) = "Kappa_"+sexes(h)+"_period_"+str(igrow);
+       parname1(PPnt+3) = "SigmaLinf_"+sexes(h)+"_period_"+str(igrow);
+       parname1(PPnt+4) = "SigmaKappa_"+sexes(h)+"_period_"+str(igrow);
+       PPnt += 4;
       }
     }
    for ( int h = 1; h <= nsex; h++ )
     for (int igrow=1;igrow<=nMoltVaries(h);igrow++)
-	{
+     {
      if (bUseCustomMoltProbability == LOGISTIC_PROB_MOLT)
       {
        molt_mu(h,igrow) = Grwth(icnt);
        molt_cv(h,igrow) = Grwth(icnt+1);
+       parname1(PPnt+1) = "Molt_probability_mu_"+sexes(h)+"_period_"+str(igrow);
+       parname1(PPnt+2) = "Molt_probability_CV_"+sexes(h)+"_period_"+str(igrow);
+       PPnt += 2;
        icnt = icnt + 2;
       }
-	 if (bUseCustomMoltProbability == FREE_PROB_MOLT  )
+     if (bUseCustomMoltProbability == FREE_PROB_MOLT  )
       {
-		for (int l=1; l<=nclass;l++) 
-		 molt_probability_in(h,igrow,l) = Grwth(icnt+l-1);
-	 
-	    icnt += (nclass);
-      } 
+       for (int l=1; l<=nclass;l++) 
+	{
+	 molt_probability_in(h,igrow,l) = Grwth(icnt+l-1);
+	 parname1(PPnt+1)="Molt_probability_"+sexes(h)+"_period_"+str(igrow)+"_class_"+str(l);
+	 PPnt += 1;
 	}
+	icnt += (nclass);
+      } 
+     }
 
    // high grade factors
    log_high_grade.initialize();
@@ -8555,9 +8669,14 @@ FUNCTION CreateOutput
   OutFile3.open("personal.rep");
   OutFile4.close();
   OutFile4.open("simdata.out");
+  OutFile5.close();
+  OutFile5.open("Gmacsall.std");
 
   // The header material
   OutFile1 << TheHeader << endl;
+  // The header material
+  OutFile5 << TheHeader << endl;
+  OutFile5 << "Par_No Est_No Paramter Estimate Standard Error" << endl;
   // Likelihood summary
   OutFile1 <<  setw(12) << setprecision(8) << setfixed() << endl;
   OutFile1 << "#Likelihoods_by_type (raw and weighted)" << endl;
@@ -8619,125 +8738,231 @@ FUNCTION CreateOutput
   for (Ipar=1;Ipar<=ntheta;Ipar++)
    {
     Npar +=1;
-    OutFile1 << Npar << " : Theta " << Ipar << " : " << theta(Ipar) << " " << theta_phz(Ipar) << " ";
-    if (theta_phz(Ipar) > 0 & theta_phz(Ipar) <= current_phase()) { NparEst +=1; CheckBounds(theta(Ipar),theta_lb(Ipar),theta_ub(Ipar));  OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; }
+    OutFile1 << Npar << " " << parname1(Npar)<< " : " << theta(Ipar) << " " << theta_phz(Ipar) << " ";
+    if (theta_phz(Ipar) > 0 & theta_phz(Ipar) <= current_phase()) 
+     { 
+      NparEst +=1; CheckBounds(theta(Ipar),theta_lb(Ipar),theta_ub(Ipar));  
+      OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; 
+      OutFile5 << Npar << " " << NparEst << " " << parname1(Npar) << " " << theta(Ipar) << " " << ParsOut.sd(NparEst) << endl;
+     }
     OutFile1 << endl;
    }
   for (Ipar=1;Ipar<=nGrwth;Ipar++)
    {
     Npar +=1;
-    OutFile1 << Npar << " : Growth " << Ipar << " : " << Grwth(Ipar) << " " << Grwth_phz(Ipar) << " ";
-    if (Grwth_phz(Ipar) > 0 & Grwth_phz(Ipar) <= current_phase()) { NparEst +=1; CheckBounds(Grwth(Ipar),Grwth_lb(Ipar),Grwth_ub(Ipar));  OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; }
+    OutFile1 << Npar << " " << parname1(Npar)<< " : " << Grwth(Ipar) << " " << Grwth_phz(Ipar) << " ";
+    if (Grwth_phz(Ipar) > 0 & Grwth_phz(Ipar) <= current_phase()) 
+     { 
+      NparEst +=1; CheckBounds(Grwth(Ipar),Grwth_lb(Ipar),Grwth_ub(Ipar));  
+      OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; 
+      OutFile5 << Npar << " " << NparEst << " " << parname1(Npar) << " " << Grwth(Ipar) << " " << ParsOut.sd(NparEst) << endl;
+     }
     OutFile1 << endl;
    }
   for (Ipar=1;Ipar<=nslx_pars;Ipar++)
    {
     Npar +=1;
-    OutFile1 << Npar << " : nslx_pars " << Ipar << " : " << log_slx_pars(Ipar) << " " << slx_phzm(Ipar) << " ";
-    if (slx_phzm(Ipar) > 0 & slx_phzm(Ipar) <= current_phase()) { NparEst +=1; CheckBounds(log_slx_pars(Ipar),slx_lb(Ipar),slx_ub(Ipar));  OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; }
+    OutFile1 << Npar << " " << selname1(Ipar)<< " : " << log_slx_pars(Ipar) << " " << slx_phzm(Ipar) << " ";
+    if (slx_phzm(Ipar) > 0 & slx_phzm(Ipar) <= current_phase()) 
+     { 
+      NparEst +=1; CheckBounds(log_slx_pars(Ipar),slx_lb(Ipar),slx_ub(Ipar));  
+      OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; 
+      OutFile5 << Npar << " " << NparEst << " " << selname1(Ipar) << " " << log_slx_pars(Ipar) << " " << ParsOut.sd(NparEst) << endl;
+     }
     OutFile1 << endl;
    }
   for (Ipar=1;Ipar<=NumAsympRet;Ipar++)
    {
     Npar +=1;
-    OutFile1 << Npar << " : NumAsympRet " << Ipar << " : " << Asymret(Ipar) << " " << AsympSel_phz(Ipar) << " ";
-    if (AsympSel_phz(Ipar) > 0 & AsympSel_phz(Ipar) <= current_phase()) { NparEst +=1; CheckBounds(Asymret(Ipar),AsympSel_lb(Ipar),AsympSel_ub(Ipar));  OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; }
+    anystring = "AsympRet_fleet_"+fleetname(AsympSel_fleet(Ipar))+"_sex_"+ sexes(AsympSel_sex(Ipar))+"_year_"+str(AsympSel_year(Ipar));
+    OutFile1 << Npar << " " << anystring << " : " << Asymret(Ipar) << " " << AsympSel_phz(Ipar) << " ";
+    if (AsympSel_phz(Ipar) > 0 & AsympSel_phz(Ipar) <= current_phase()) 
+     { 
+      NparEst +=1; CheckBounds(Asymret(Ipar),AsympSel_lb(Ipar),AsympSel_ub(Ipar));  
+      OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; 
+      OutFile5 << Npar << " " << NparEst << " " << anystring << " " << Asymret(Ipar) << " " << ParsOut.sd(NparEst) << endl;
+     }
     OutFile1 << endl;
    }
  if (nslx_envpardim>0) 
   for (Ipar=1;Ipar<=nslx_envpardim;Ipar++)
    {
     Npar +=1;
-    OutFile1 << Npar << " : Env(Selex) " << Ipar << " : " << slx_env_pars(Ipar) << " " << SlxEnvPar_phz(Ipar) << " ";
-    if (SlxEnvPar_phz(Ipar) > 0 & SlxEnvPar_phz(Ipar) <= current_phase()) { NparEst +=1; CheckBounds(slx_env_pars(Ipar),SlxEnvPar_lb(Ipar),SlxEnvPar_ub(Ipar));  OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; }
+    OutFile1 << Npar << " " << selenvnames1(Ipar)<< " : " << slx_env_pars(Ipar) << " " << SlxEnvPar_phz(Ipar) << " ";
+    if (SlxEnvPar_phz(Ipar) > 0 & SlxEnvPar_phz(Ipar) <= current_phase()) 
+     { 
+      NparEst +=1; CheckBounds(slx_env_pars(Ipar),SlxEnvPar_lb(Ipar),SlxEnvPar_ub(Ipar));  
+      OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; 
+      OutFile5 << Npar << " " << NparEst << " " << selenvnames1(Ipar) << " " << slx_env_pars(Ipar) << " " << ParsOut.sd(NparEst) << endl;
+     }
     OutFile1 << endl;
    }
  if  (nslx_devpardim>0) 
   for (Ipar=1;Ipar<=nslx_devpardim;Ipar++)
    {
     Npar +=1;
-    OutFile1 << Npar << " : Dev(Selex) " << Ipar << " : " << sel_devs(Ipar) << " " << SlxDevPar_phz(Ipar) << " ";
-    if (SlxDevPar_phz(Ipar) > 0 & SlxDevPar_phz(Ipar) <= current_phase()) { NparEst +=1; CheckBounds(sel_devs(Ipar),-12.0,12.0);  OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; }
+    OutFile1 << Npar << " " << seldevnames1(Ipar) << " : " << sel_devs(Ipar) << " " << SlxDevPar_phz(Ipar) << " ";
+    if (SlxDevPar_phz(Ipar) > 0 & SlxDevPar_phz(Ipar) <= current_phase()) 
+     { 
+      NparEst +=1; CheckBounds(sel_devs(Ipar),-12.0,12.0);  
+      OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; 
+      OutFile5 << Npar << " " << NparEst << " " << seldevnames1(Ipar) << " " << sel_devs(Ipar) << " " << ParsOut.sd(NparEst) << endl;
+     }
     OutFile1 << endl;
-    cout << Ipar << endl;
    }
   for (Ipar=1;Ipar<=nfleet;Ipar++)
    {
     Npar +=1;
-    OutFile1 << Npar << " : log_fbar " << Ipar << " : " << log_fbar(Ipar) << " " << f_phz(Ipar) << " ";
-    if (f_phz(Ipar) > 0 & f_phz(Ipar) <= current_phase()) { NparEst +=1; CheckBounds(log_fbar(Ipar),-1000.0,1000.0);  OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; }
+    anystring = "Log_fbar_"+fleetname(Ipar);
+    OutFile1 << Npar << " " << anystring << " : " << log_fbar(Ipar) << " " << f_phz(Ipar) << " ";
+    if (f_phz(Ipar) > 0 & f_phz(Ipar) <= current_phase()) 
+     { 
+      NparEst +=1; CheckBounds(log_fbar(Ipar),-1000.0,1000.0);  
+      OutFile1 << priorDensity(NparEst) << " "<< ParsOut.sd(NparEst) << " " << NparEst; 
+      OutFile5 << Npar << " " << NparEst << " " << anystring << " " << log_fbar(Ipar) << " " << ParsOut.sd(NparEst) << endl;
+     }
     OutFile1 << endl;
    }
   for (Ipar=1;Ipar<=nfleet;Ipar++)
-   for (Jpar=1;Jpar<=nFparams(Ipar);Jpar++)
-    {
-     Npar +=1;
-     OutFile1 << Npar << " : log_fdev " << Ipar << " : " << log_fdev(Ipar,Jpar) << " " << f_phz(Ipar) << " ";
-     if (f_phz(Ipar) > 0 & f_phz(Ipar) <= current_phase()) { NparEst +=1; CheckBounds(log_fdev(Ipar,Jpar),-1000.0,1000.0);  OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; }
-     OutFile1 << endl;
+   {
+    Jpar = 0;
+    for (int iy=syr;iy<=nyrRetro;iy++)
+     for (int j=1;j<=nseason;j++)
+      if (fhit(iy,j,Ipar) >0)
+       {
+        Jpar +=1;
+        Npar +=1;
+        anystring = "Log_fdev_"+fleetname(Ipar)+"_year_"+str(iy)+"_season_"+str(j);
+        OutFile1 << Npar << " " << anystring << " : " << log_fdev(Ipar,Jpar) << " " << f_phz(Ipar) << " ";
+        if (f_phz(Ipar) > 0 & f_phz(Ipar) <= current_phase()) 
+         { 
+          NparEst +=1; CheckBounds(log_fdev(Ipar,Jpar),-1000.0,1000.0);  
+          OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; 
+          OutFile5 << Npar << " " << NparEst << " " << anystring << " " << log_fdev(Ipar,Jpar) << " " << ParsOut.sd(NparEst) << endl;
+         }
+        OutFile1 << endl;
+      }  
     }
   for (Ipar=1;Ipar<=nfleet;Ipar++)
    {
     Npar +=1;
-    OutFile1 << Npar << " : log_foff " << Ipar << " : " << log_foff(Ipar) << " " << foff_phz(Ipar) << " ";
-    if (foff_phz(Ipar) > 0 & foff_phz(Ipar) <= current_phase()) { NparEst +=1; CheckBounds(log_foff(Ipar),-1000.0,1000.0);  OutFile1 << priorDensity(NparEst) << " "<< ParsOut.sd(NparEst) << " " << NparEst; }
+    anystring = "Log_foff_"+fleetname(Ipar);
+    OutFile1 << Npar << " " << anystring << " : " << log_foff(Ipar) << " " << foff_phz(Ipar) << " ";
+    if (foff_phz(Ipar) > 0 & foff_phz(Ipar) <= current_phase()) 
+     { 
+      NparEst +=1; CheckBounds(log_foff(Ipar),-1000.0,1000.0);  
+      OutFile1 << priorDensity(NparEst) << " "<< ParsOut.sd(NparEst) << " " << NparEst; 
+      OutFile5 << Npar << " " << NparEst << " " << anystring << " " << log_foff(Ipar) << " " << ParsOut.sd(NparEst) << endl;
+     }
     OutFile1 << endl;
    }
   for (Ipar=1;Ipar<=nfleet;Ipar++)
-   for (Jpar=1;Jpar<=nYparams(Ipar);Jpar++)
-    {
-     Npar +=1;
-     OutFile1 << Npar << " : log_fdov " << Ipar << " : " << log_fdov(Ipar,Jpar) << " " << foff_phz(Ipar) << " ";
-     if (foff_phz(Ipar) > 0 & foff_phz(Ipar) <= current_phase()) { NparEst +=1; CheckBounds(log_fdov(Ipar,Jpar),-1000.0,1000.0);  OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; }
-     OutFile1 << endl;
+   {
+    Jpar = 0;
+    for (int iy=syr;iy<=nyrRetro;iy++)
+     for (int j=1;j<=nseason;j++)
+      if (yhit(iy,j,Ipar) >0)
+       {
+        Jpar +=1;
+        Npar +=1;
+        anystring = "Log_fdov_"+fleetname(Ipar)+"_year_"+str(iy)+"_season_"+str(j);
+        OutFile1 << Npar << " " << anystring << " : " << log_fdov(Ipar,Jpar) << " " << foff_phz(Ipar) << " ";
+        if (f_phz(Ipar) > 0 & f_phz(Ipar) <= current_phase()) 
+         { 
+          NparEst +=1; CheckBounds(log_fdov(Ipar,Jpar),-1000.0,1000.0);  
+          OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; 
+          OutFile5 << Npar << " " << NparEst << " " << anystring << " " << log_fdov(Ipar,Jpar) << " " << ParsOut.sd(NparEst) << endl;
+         }
+        OutFile1 << endl;
+      }  
     }
+  if (Jpar!=sum(nYparams))  
+  for (int i=1;i<=sum(nYparams)-Jpar;i++)Npar = Npar + 1;
   for (Ipar=1;Ipar<=nclass;Ipar++)
    {
     Npar +=1;
-    OutFile1 << Npar << " : rec_ini " << Ipar << " : " << rec_ini(Ipar) << " " << rec_ini_phz << " ";
-    if (rec_ini_phz > 0 & rdv_phz <= current_phase()) { NparEst +=1; CheckBounds(rec_ini(Ipar),-14.0,14.0);  OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; }
+    OutFile1 << Npar << " Rec_ini_size_class_" << Ipar << " : " << rec_ini(Ipar) << " " << rec_ini_phz << " ";
+    if (rec_ini_phz > 0 & rdv_phz <= current_phase()) 
+     { 
+      NparEst +=1; CheckBounds(rec_ini(Ipar),-14.0,14.0);  
+      OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; 
+      OutFile5 << Npar << " " << NparEst << " Rec_ini_size_class_" << Ipar << " " << rec_ini(Ipar) << " " << ParsOut.sd(NparEst) << endl;
+     }
     OutFile1 << endl;
    }
   for (Ipar=rdv_syr;Ipar<=rdv_eyr;Ipar++)
    {
     Npar +=1;
-    OutFile1 << Npar << " : rec_dev_est " << Ipar << " : " << rec_dev_est(Ipar) << " " << rdv_phz << " ";
-    if (rdv_phz > 0 & rdv_phz <= current_phase()) { NparEst +=1; CheckBounds(rec_dev_est(Ipar),-8.0,8.0);  OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; }
+    OutFile1 << Npar << " Rec_dev_est_" << Ipar << " : " << rec_dev_est(Ipar) << " " << rdv_phz << " ";
+    if (rdv_phz > 0 & rdv_phz <= current_phase()) 
+     { 
+      NparEst +=1; CheckBounds(rec_dev_est(Ipar),-8.0,8.0);  
+      OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; 
+      OutFile5 << Npar << " " << NparEst << " " << "Rec_dev_est_"+str(Ipar) << " " << rec_dev_est(Ipar) << " " << ParsOut.sd(NparEst) << endl;
+     }
     OutFile1 << endl;
    }
   for (Ipar=rdv_syr;Ipar<=rdv_eyr;Ipar++)
    {
     Npar +=1;
-    OutFile1 << Npar << " : logit_rec_prop_est " << Ipar << " : " << logit_rec_prop_est(Ipar) << " " << rec_prop_phz << " ";
-    if (rec_prop_phz > 0 & rec_prop_phz <= current_phase()) { NparEst +=1; CheckBounds(logit_rec_prop_est(Ipar),-100.0,100.0);  OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; }
+    OutFile1 << Npar << " Logit_rec_prop_est_" << Ipar << " : " << logit_rec_prop_est(Ipar) << " " << rec_prop_phz << " ";
+    if (rec_prop_phz > 0 & rec_prop_phz <= current_phase()) 
+     { 
+      NparEst +=1; CheckBounds(logit_rec_prop_est(Ipar),-100.0,100.0);  
+      OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; 
+      OutFile5 << Npar << " " << NparEst << " " << "Logit_rec_prop_est_"+str(Ipar) << " " << logit_rec_prop_est(Ipar) << " " << ParsOut.sd(NparEst) << endl;
+     }
     OutFile1 << endl;
    }
   for (Ipar=1;Ipar<=nMdev;Ipar++)
    {
     Npar +=1;
-    OutFile1 << Npar << " : m_dev_est " << Ipar << " : " << m_dev_est(Ipar) << " " << Mdev_phz(Ipar) << " ";
-    if (Mdev_phz(Ipar) > 0 & Mdev_phz(Ipar) <= current_phase()) { NparEst +=1; CheckBounds(m_dev_est(Ipar),Mdev_lb(Ipar),Mdev_ub(Ipar));  OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; }
+    OutFile1 << Npar << " " << mdevname1(Ipar) << " : " << m_dev_est(Ipar) << " " << Mdev_phz(Ipar) << " ";
+    if (Mdev_phz(Ipar) > 0 & Mdev_phz(Ipar) <= current_phase()) 
+     { 
+      NparEst +=1; CheckBounds(m_dev_est(Ipar),Mdev_lb(Ipar),Mdev_ub(Ipar));  
+      OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; 
+      OutFile5 << Npar << " " << NparEst << " " <<  mdevname1(Ipar) << " " << m_dev_est(Ipar) << " " << ParsOut.sd(NparEst) << endl;
+     }
     OutFile1 << endl;
    }
   for (Ipar=1;Ipar<=nSizeComps;Ipar++)
    {
     Npar +=1;
-    OutFile1 << Npar << " : log_vn " << Ipar << " : " << log_vn(Ipar) << " " << nvn_phz(Ipar) << " ";
-    if (nvn_phz(Ipar) > 0 & nvn_phz(Ipar) <= current_phase()) { NparEst +=1; CheckBounds(log_vn(Ipar),-1000.0,1000.0);  OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; }
+    anystring = "Log_vn_comp_"+str(Ipar);
+    OutFile1 << Npar << " " << anystring << " :  " << log_vn(Ipar) << " " << nvn_phz(Ipar) << " ";
+    if (nvn_phz(Ipar) > 0 & nvn_phz(Ipar) <= current_phase()) 
+     { 
+      NparEst +=1; CheckBounds(log_vn(Ipar),-1000.0,1000.0);  
+      OutFile1 << priorDensity(NparEst) << " " << ParsOut.sd(NparEst) << " " << NparEst; 
+      OutFile5 << Npar << " " << NparEst << " " << anystring << " " << log_vn(Ipar) << " " << ParsOut.sd(NparEst) << endl;
+     }
     OutFile1 << endl;
    }
   for (Ipar=1;Ipar<=nSurveys;Ipar++)
    {
     Npar +=1;
-    OutFile1 << Npar << " : survey_q " << Ipar << " : " << survey_q(Ipar) << " " << q_phz(Ipar) << " ";
-    if (q_phz(Ipar) > 0 & q_phz(Ipar) <= current_phase()) { NparEst +=1; CheckBounds(survey_q(Ipar),q_lb(Ipar),q_ub(Ipar));  OutFile1 << priorDensity(NparEst) << " " <<ParsOut.sd(NparEst) << " " << NparEst; }
+    anystring = "Survey_q_survey_"+str(Ipar);
+    OutFile1 << Npar << " " << anystring << " : " << survey_q(Ipar) << " " << q_phz(Ipar) << " ";
+    if (q_phz(Ipar) > 0 & q_phz(Ipar) <= current_phase()) 
+     { 
+      NparEst +=1; CheckBounds(survey_q(Ipar),q_lb(Ipar),q_ub(Ipar));  
+      OutFile1 << priorDensity(NparEst) << " " <<ParsOut.sd(NparEst) << " " << NparEst; 
+      OutFile5 << Npar << " " << NparEst << " " << anystring << " " << survey_q(Ipar) << " " << ParsOut.sd(NparEst) << endl;
+     }
     OutFile1 << endl;
    }
   for (Ipar=1;Ipar<=nSurveys;Ipar++)
    {
     Npar +=1;
-    OutFile1 << Npar << " : log_add_cvt " << Ipar << " : " << log_add_cv(Ipar) << " " << cv_phz(Ipar) << " ";
-    if (cv_phz(Ipar) > 0 & cv_phz(Ipar) <= current_phase()) { NparEst +=1; CheckBounds(log_add_cv(Ipar),log_add_cv_lb(Ipar),log_add_cv_ub(Ipar));  OutFile1 << priorDensity(NparEst) << " " <<ParsOut.sd(NparEst) << " " << NparEst; }
+    anystring = "Log_add_cvt_survey_"+str(Ipar);
+    OutFile1 << Npar << " " << anystring << " : " << log_add_cv(Ipar) << " " << cv_phz(Ipar) << " ";
+    if (cv_phz(Ipar) > 0 & cv_phz(Ipar) <= current_phase()) 
+     { 
+      NparEst +=1; CheckBounds(log_add_cv(Ipar),log_add_cv_lb(Ipar),log_add_cv_ub(Ipar));  
+      OutFile1 << priorDensity(NparEst) << " " <<ParsOut.sd(NparEst) << " " << NparEst; 
+      OutFile5 << Npar << " " << NparEst << " " << anystring << " " << log_add_cv(Ipar) << " " << ParsOut.sd(NparEst) << endl;
+     }
     OutFile1 << endl;
    }
   OutFile1 << endl;
@@ -9341,6 +9566,7 @@ GLOBALS_SECTION
   ofstream OutFile2;
   ofstream OutFile3;
   ofstream OutFile4;
+  ofstream OutFile5;
 
   // Define objects for report file, echoinput, etc.
   /**
@@ -9624,6 +9850,11 @@ GLOBALS_SECTION
   #undef SURVEY_COMP
   #define SURVEY_COMP 2
   
+  adstring_array parname1(1,500);
+  adstring_array selname1(1,500);
+  adstring_array mdevname1(1,100);
+  adstring_array seldevnames1(1,100);
+  adstring_array selenvnames1(1,100);
   adstring anystring;
   adstring_array fleetname;
   adstring_array sexes;

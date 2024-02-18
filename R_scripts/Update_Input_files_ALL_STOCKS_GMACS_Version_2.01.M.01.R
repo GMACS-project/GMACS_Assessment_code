@@ -19,7 +19,7 @@ dir_Base <- file.path(dirname(here::here()), "Assessment_data", fsep = fsep)
 dir_TPL <- file.path(dirname(here::here()), "GMACS_versions", "Latest_Version", fsep = fsep)
 
 # 2. local functions ----
- write_NewInputFiles <- function(stock = NULL, Ass_year = 2023){
+ write_NewInputFiles <- function(stock = NULL, Ass_year = 2021){
    
    # stock = "EAG"
    # Ass_year = 2023

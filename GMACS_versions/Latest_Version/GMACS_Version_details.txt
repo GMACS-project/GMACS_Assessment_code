@@ -1,13 +1,7 @@
-- GMACS version:  2.01.M.01
-- Last compilation date: 2023-03-23 10:54:35 
-- Last update(s) have been made by:  Matthieu Veron
+- GMACS version:  2.01.M.02
+- Last compilation date: 2024-02-17 15:28:33 
+- Last update(s) have been made by: Andre E. Punt
 
 - Details about the last modification:
-// 2023-03-20 ** MV ** (Upgrade GMACS to version 2.01.M) - 1. Add the developed code by ** AEP ** to read in environmental data and modify his
-// version of the code to make it working with all stocks (bug in the loop while counting the
-// number of selectivity parameters).
-// - 2. Add the developped code by ** AEP ** to incorporate potential random walk in the selectivity parameters. Modify the initial code to
-// make it more flexible. Need to be updated to allow environmental impacts not being dependent upon time period of random walk.
-// ================================================ //
-// 2023-03-23 ** MV ** (Upgrade GMACS to version 2.01.M.01) - 1. Fixed a bug in the checking section of the inputs for the growth maxtrix and growth
-// increment model
+// 2024-02-17 ** AEP ** (Upgrade GMACS to version 2.01.M.02) - 1. Added labels for model output and GMACSALL.STD, mature abundance (SSBA).
+// - 2. Fixed some bugs in the calculaton of Francis weights.

@@ -1,7 +1,7 @@
 #ifndef _GMACSLIB_H_
 #define _GMACSLIB_H_
 
-
+//#include <contrib.h>
 #include "spr.h"
 #include "nloglike.h"
 #include "selex.hpp"

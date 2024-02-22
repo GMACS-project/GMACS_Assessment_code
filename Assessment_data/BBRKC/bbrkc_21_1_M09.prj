@@ -1,0 +1,91 @@
+# ============================================================ #
+#                    GMACS main projection file 
+# 
+# *** 
+#  GMACS Version 2.01.M.09 
+# Last GMACS mofification made by:   ** WTS ** 
+# Date of writing the projection file: 2024-02-20 14:24:23# *** 
+# 
+# Stock of interest:  BBRKC 
+# Model name:  model_21_1 
+# Year of assessment:  2021 
+# ============================================================ #
+
+# -------------------------------------- #
+## References controls (Spawning per recruit specifications)
+# -------------------------------------- #
+0 # Should the MSY be calculated (0 = No; 1 = Yes)
+0 1 1 1 1 1 # Mortality rate applied to each fishery (0= F35%; 1= F is fixed)
+1983 2019 # First and last years for average recruitment/MMB for Bspr calculation
+1983 2019 # First and last years for computing the sex ratio used in the calculation of the BRPs
+2016 2020 # First and last years for computing the average fishing mortality for discards
+0 0 # First and last years for computing the natural mortality
+2016 2020 # First and last years for computing season lengths
+2019 # First year for computing growth
+2019 2020 # First and last year for computing the average vulnerability
+# -------------------------------------- #
+
+# -------------------------------------- #
+## OFL specifications
+# -------------------------------------- #
+0.35 # Target SPR ratio for Bmsy proxy
+3 # Tier system
+0.1 # Alpha (i.e., cut-off)
+0.25 # Beta (i.e., limit)
+1 # Gamma
+0.8 # ABC-OFL buffer
+0 # (0 = No; 1 = year) for whether the yield function should be reported
+# -------------------------------------- #
+
+# -------------------------------------- #
+## Projection specifications
+# -------------------------------------- #
+2031 # Last year of the projection period
+1 # Projection type (1 = Constant F; 2 = proportion of current F)
+2 # Number of strategies considered in the projections
+0 0.25 # Range of F values for the strategies (empty if 0 strategies is considered (see previous line))
+1 # Allow for bycatch fleets to have non-zero mortality
+2 # How many times each MCMC draw is run
+-3423.8 # Should Bmsy be fixed?
+1983 2019 # First and last years for computing the average recruitment
+1983 2019 # First and last years for computing the average sex ratio
+2016 2020 # First and last years for computing the average fishing mortality for discards
+0 0 # First and last years for computing the natural mortality
+2016 2020 # First and last years for computing season lengths
+2019 # Year for specifying growth in the projections
+2019 2020 # First and last year for computing the average vulnerability
+# -------------------------------------- #
+
+# -------------------------------------- #
+## Recruitment specifications
+# -------------------------------------- #
+1 # Stock-recruitment option (1=Mean Rec;2=Ricker;3=Beverton-Holt;4=Mean recruitment)
+6 # Time (age) to recruitment
+2012 2019 # First and last year for generating recruitment
+12294529 # Mean recruitment for projections
+0.6 # Sigma used to compute the recruitment
+0 # Prow(R)
+0 # First recruitment deviation
+# -------------------------------------- #
+
+# -------------------------------------- #
+## Specifying State strategies
+# -------------------------------------- #
+0 # Apply strategies [OFL, ABC] (1 = apply HCR; 0 = constant F)
+1 # Apply the state strategy (1 = yes;0 = no)
+2 # Number of state parameters
+0.00172963 # Mean weight to use - mature individuals
+0.001930932 # Mean weight to use (legal)
+# -------------------------------------- #
+
+# -------------------------------------- #
+## Run specificities
+# -------------------------------------- #
+10000 # Stop after XX mcdraws
+1 # Full diagnostics (0 = No; 1 = Yes)
+# -------------------------------------- #
+
+# -------------------------------------- #
+## End of projection file
+# -------------------------------------- #
+9999

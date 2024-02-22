@@ -62,3 +62,84 @@ FUNCTION MyOutput
     OutFile3<<d3_res_size_comps(kk)<<endl;                                     
    }    
 
+// ==================================================================================================================================================
+
+FUNCTION dvariable CalcStateTAC(const int i, const int iproj,const int YrRefGrow)
+ dvariable StateTAC;
+
+ // Very large TAC
+ StateTAC = 1.0e20; 
+  
+ if (StockName == "St_Matthew_Island_blue_king_crab") StateTAC = StMatsTAC(i,iproj,YrRefGrow);
+ return(StateTAC); 
+
+// ==================================================================================================================================================
+
+FUNCTION dvariable StMatsTAC(const int j, const int iproj,const int YrRefGrow)
+  double lam;
+  int isizeTrans; 
+  dvariable NF,MMARef,MLARef,StateTAC,TAC2;
+  dvar_vector MMAState(syr,nyr+iproj);                                    ///> Mature male ABUNDANCE (used in the control rule)
+  dvar_vector MLAState(syr,nyr+iproj);                                    ///> Legal male ABUNDANCE (used in the control rule)
+  
+  dvariable MeanWStateMature;
+  dvariable MeanWStateLegal;
+  
+  MeanWStateMature = HCRpars(1);
+  MeanWStateLegal = HCRpars(2);
+
+  // Compute MMA and MMB at the start of the season (needed for the State HCRs)
+  MMAState.initialize();   MLAState.initialize();
+  for ( int i = syr; i <= nyrRetro; i++ )
+   {
+    for ( int ig = 1; ig <= n_grp; ig++ )
+     {
+      int h = isex(ig);
+      isizeTrans = iYrIncChanges(h,YrRefGrow);
+      int m = imature(ig);
+      int o = ishell(ig);
+      h <= 1 ? lam = spr_lambda: lam = (1.0 - spr_lambda);
+	  if(nmature==1)
+		  MMAState(i) += sum(lam * elem_prod(d4_N(ig,i,1), maturity(h)));
+   	  if(nmature==2)
+	   if(m==1)	  
+        MMAState(i) += sum(lam * d4_N(ig,i,1));
+      MLAState(i) += sum(lam * elem_prod(d4_N(ig,i,1), legal(h)));
+     }
+   }
+  MMARef = 0; MLARef = 0; NF = 0;
+  for ( int i = max(syr,1982); i <= max(syr,2012); i++ ) { MMARef += MMAState(i); MLARef += MLAState(i); NF += 1; }
+  MMARef /= NF; MLARef /= NF;
+  
+  // Compute MMA and MLA at the start of the season (needed for the State HCRs)
+  for ( int ig = 1; ig <= n_grp; ig++ )
+   {
+    int h = isex(ig);
+    isizeTrans = iYrIncChanges(h,YrRefGrow);
+    int m = imature(ig);
+    int o = ishell(ig);
+    h <= 1 ? lam = spr_lambda: lam = (1.0 - spr_lambda);
+    if(nmature==1)
+      MMAState(nyr+j) += sum(lam * elem_prod(numbers_proj_gytl(ig,j,1), maturity(h)));
+    if(nmature==2)
+     if(m==1)	  
+     MMAState(nyr+j) += sum(lam * numbers_proj_gytl(ig,j,1));
+    MLAState(nyr+j) += sum(lam * elem_prod(numbers_proj_gytl(ig,j,1), legal(h)));
+   }
+
+  if (MMAState(nyr+j) < 0.5*MMARef)
+   StateTAC = 0;
+  else
+   if (MMAState(nyr+j) >= 0.5*MMARef & MMAState(nyr+j) < MMARef)
+    {
+     StateTAC = 0.1*(MMAState(nyr+j)/MMARef)*MMAState(nyr+j)*MeanWStateMature;
+    }
+   else
+    {
+     StateTAC = 0.1*MMAState(nyr+j)*MeanWStateMature;
+    }
+   TAC2 = 0.25*MLAState(nyr+j)*MeanWStateLegal;
+   if (TAC2 < StateTAC) StateTAC = TAC2;
+   return(StateTAC);
+   
+// ==================================================================================================================================================

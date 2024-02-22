@@ -135,6 +135,7 @@ Pot_Fishery Trawl_Bycatch
 #_-------------------------------------- #
 ##_Catch data
 #_-------------------------------------- #
+0 #--input format for catch data (0:old format; 1: new format)
 #_Number of catch data frames
 3 
 #_Number of rows in each data frame
@@ -268,6 +269,7 @@ Pot_Fishery Trawl_Bycatch
 #_-------------------------------------- #
 ##_Relative abundance data
 #_-------------------------------------- #
+0 #--input format for relative abundance data (0:old format; 1: new format)
 #_Number of relative abundance indices
 3 
 #_Index Type (1 = Selectivity; 2 = Selectivity + retention)
@@ -338,6 +340,7 @@ Pot_Fishery Trawl_Bycatch
 #_-------------------------------------- #
 ##_Size composition for all fleets
 #_-------------------------------------- #
+0 #--input format for size comps (0:old format; 1: new format)
 #_Number of size frequency matrices
 2 
 #_Number of rows in each size frequency matrix

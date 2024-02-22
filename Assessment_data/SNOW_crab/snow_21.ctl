@@ -145,8 +145,10 @@
 2 
 #_vector of male mean weight-at-size
 7.66e-06 1.29e-05 2e-05 2.95e-05 4.17e-05 5.68e-05 7.53e-05 9.7455e-05 0.000123688 0.000154329 0.000189739 0.000230279 0.000276313 0.000328208 0.000386333 0.000451057 0.000522754 0.000601796 0.000688561 0.000783424 0.000886766 0.000998966
+7.66E-06	1.29E-05	2.00E-05	2.95E-05	4.17E-05	5.68E-05	7.53E-05	0.000097455	0.000123688	0.000154329	0.000189739	0.000230279	0.000276313	0.000328208	0.000386333	0.000451057	0.000522754	0.000601796	0.000688561	0.000783424	0.000886766	0.000998966
 #_vector of female mean weight-at-size
 9.17e-06 1.44e-05 2.13e-05 2.98e-05 4.03e-05 5.29e-05 6.77e-05 8.4796e-05 0.000104451 0.000126759 0.000151857 0.000179881 0.000210963 0.000245233 0.00028282 0.00032385 0.000368446 0.000416731 0.000468827 0.000524852 0.000584924 0.00064916
+9.17E-06	1.44E-05	2.13E-05	2.98E-05	4.03E-05	5.29E-05	6.77E-05	0.000084796	0.000104451	0.000126759	0.000151857	0.000179881	0.000210963	0.000245233	0.00028282	0.00032385	0.000368446	0.000416731	0.000468827	0.000524852	0.000584924	0.00064916
 # -------------------------------------- #
 
 # -------------------------------------- #
@@ -158,6 +160,8 @@
 #_Legal definition of the proportion of mature at size by sex
 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+# use functional maturity for terminally molting animals?
+0
 # -------------------------------------- #
 
 # -------------------------------------- #
@@ -798,20 +802,12 @@
 0.5 
 # Phase for initial recruitment estimation
 -3 
-# Verbose flag (0 = off; 1 = on; 2 = objective function; 3 = diagnostics)
-1 
 # Initial conditions (1 = unfished, 2 = steady-state, 3 = free params, 4 = free params revised)
 3 
 # Proportion of mature male biomass for SPR reference points
 1 
 # Stock-Recruit-Relationship (0 = none, 1 = Beverton-Holt) 
 0 
-# Maximum phase (stop the estimation after this phase)
-10 
-# Maximum number of function calls
--1 
-# Calculate reference points (0 = No, 1 = Yes)
-1 
 # Use years specified to computed average sex ratio in the calculation of average recruitment for reference points
 # -> 0 = No, i.e. Rec based on End year; 1 = Yes 
 0 

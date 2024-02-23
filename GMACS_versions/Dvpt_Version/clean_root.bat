@@ -10,6 +10,9 @@ if EXIST gmacs.tpl del gmacs.tpl
 :: del *.htp
 :: del gmacs.exe
 :: del gmacs.tpl
+:: del Error_compilation.txt
+:: del Error_convertion.txt
+
 
 
 

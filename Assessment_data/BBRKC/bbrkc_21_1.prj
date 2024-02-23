@@ -41,7 +41,8 @@
 ## Projection specifications
 # -------------------------------------- #
 2031 # Last year of the projection period
-4 # Number of strategies considered in the projections
+1 # Projection type (1=Constant F; 2=proportion of current F)
+2 # Number of strategies considered in the projections
 0 0.25 # Range of F values
 1 # Allow for bycatch fleets to have non-zero mortality
 2 # How many times each MCMC draw is run
@@ -71,6 +72,8 @@
 ## Specifying State strategies
 # -------------------------------------- #
 0 # Apply strategies [OFL, ABC] (1=yes;0=no)
+1 # Apply the state startegy (1=Yes; 0=No)
+2 # Number of state parameters
 0.00172963 # Mean weight to use - mature individuals
 0.001930932 # Mean weight to use (legal)
 # -------------------------------------- #

@@ -1,24 +1,31 @@
 # ============================================================ #
-#                    GMACS main data file 
+#                    GMACS main projection file 
 # 
 # *** 
-#  GMACS Version 2.01.M.01 
-# Last GMACS mofification made by:   ** MV ** 
-# Date of writing the gmacs.dat file: 2024-02-14 16:32:12# *** 
+#  GMACS Version 2.01.M.09 
+# Last GMACS mofification made by:   ** WTS ** 
+# Date of writing the projection file: 2024-02-20 14:24:23# *** 
 # 
 # Stock of interest:  BBRKC 
 # Model name:  model_21_1 
-# Year of assessment:  2021
+# Year of assessment:  2021 
 # ============================================================ #
 
 ## Key GMACS files
 # -------------------------------------- #
 # Data file name
-bbrkc_21_1.dat
+bbrkc_21_1_M09.dat
 # Control file name
-bbrkc_21_1.ctl
+bbrkc_21_1_M09.ctl
 # Projection file name
-bbrkc_21_1.prj
+bbrkc_21_1_M09.prj
+
+## Stock specifications
+# -------------------------------------- #
+# Weight unit
+Tonnes
+# Stock name
+Bristol_Bay_red_king_crab
 
 ## jitter specifications
 # -------------------------------------- #
@@ -39,6 +46,20 @@ bbrkc_21_1.prj
 ## Retrospective analysis specifications
 # -------------------------------------- #
 0 # Number of year for the retrospective analysis
+
+## Other controls
+# -------------------------------------- #
+# Maximum phase (stop the estimation after this phase)
+10 
+# Maximum number of function calls, if 1, stop at fn1 call;
+# if -1 run as long as it takes
+-1 
+# Calculate reference points (0 = No, 1 = Yes)
+1 
+# Use pin file (0 = normal run; 1 = yes-set parameter values)
+0 
+# VERBOSE flag (0 = off, 1 = on, 2 = objective function; 3 = diagnostics)
+0 
 
 # -------------------------------------- #
 ## End of gmacs.dat file

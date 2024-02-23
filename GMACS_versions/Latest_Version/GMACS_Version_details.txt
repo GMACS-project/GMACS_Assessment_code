@@ -1,7 +1,7 @@
-- GMACS version:  2.01.M.02
-- Last compilation date: 2024-02-17 15:28:33 
-- Last update(s) have been made by: Andre E. Punt
+- GMACS version:  2.01.M.09
+- Last compilation date: 2024-02-22 12:20:22 
+- Last update(s) have been made by:  Matthieu Veron
 
 - Details about the last modification:
-// 2024-02-17 ** AEP ** (Upgrade GMACS to version 2.01.M.02) - 1. Added labels for model output and GMACSALL.STD, mature abundance (SSBA).
-// - 2. Fixed some bugs in the calculaton of Francis weights.
+// 2024-02-22 ** MV ** (Update GMACS version 2.01.M.09) - 1. Update info about developpers
+// - 2. Fix indetation issues when compiling and chage the length of the selname1 vector

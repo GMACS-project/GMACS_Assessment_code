@@ -110,6 +110,8 @@
 0 1 1 
 #_Legal definition of the proportion of mature at size by sex
 0 0 1 
+# use functional maturity for terminally molting animals?
+0
 # -------------------------------------- #
 
 # -------------------------------------- #
@@ -576,20 +578,12 @@
 0.5 
 # Phase for initial recruitment estimation
 -3 
-# Verbose flag (0 = off; 1 = on; 2 = objective function; 3 = diagnostics)
-1 
 # Initial conditions (1 = unfished, 2 = steady-state, 3 = free params, 4 = free params revised)
 2 
 # Proportion of mature male biomass for SPR reference points
 1 
 # Stock-Recruit-Relationship (0 = none, 1 = Beverton-Holt) 
 0 
-# Maximum phase (stop the estimation after this phase)
-10 
-# Maximum number of function calls
--1 
-# Calculate reference points (0 = No, 1 = Yes)
-1 
 # Use years specified to computed average sex ratio in the calculation of average recruitment for reference points
 # -> 0 = No, i.e. Rec based on End year; 1 = Yes 
 1 

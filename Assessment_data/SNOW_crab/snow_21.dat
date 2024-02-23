@@ -74,6 +74,7 @@ NMFS_Trawl_1982 NMFS_Trawl_1989 BSFRF_2009 NMFS_2009 BSFRF_2010 NMFS_2010
 #_-------------------------------------- #
 ##_Catch data
 #_-------------------------------------- #
+0 #--input format for catch data (0:old format; 1: new format)
 #_Number of catch data frames
 4 
 #_Number of rows in each data frame
@@ -261,6 +262,7 @@ NMFS_Trawl_1982 NMFS_Trawl_1989 BSFRF_2009 NMFS_2009 BSFRF_2010 NMFS_2010
 #_-------------------------------------- #
 ##_Relative abundance data
 #_-------------------------------------- #
+0 #--input format for relative abundance data (0:old format; 1: new format)
 #_Number of relative abundance indices
 6 
 #_Index Type (1 = Selectivity; 2 = Selectivity + retention)
@@ -385,6 +387,7 @@ NMFS_Trawl_1982 NMFS_Trawl_1989 BSFRF_2009 NMFS_2009 BSFRF_2010 NMFS_2010
 #_-------------------------------------- #
 ##_Size composition for all fleets
 #_-------------------------------------- #
+0 #--input format for size comps (0:old format; 1: new format)
 #_Number of size frequency matrices
 17 
 #_Number of rows in each size frequency matrix

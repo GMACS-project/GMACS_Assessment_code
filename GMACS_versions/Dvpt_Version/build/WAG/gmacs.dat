@@ -1,67 +1,70 @@
 # ============================================================ #
-#                    GMACS main projection file 
+#                    GMACS main data file 
 # 
 # *** 
-#  GMACS Version 2.01.M.09 
-# Last GMACS mofification made by:   ** WTS ** 
-# Date of writing the projection file: 2024-02-20 14:24:23# *** 
+#_GMACS Version 2.10.01 
+#_Last GMACS mofification made by: ** MV ** 
+#_Date of writing the gmacs.dat file:2024-11-01 01:39:58 
+# *** 
 # 
-# Stock of interest:  WAG 
-# Model name:  model_21_1e 
-# Year of assessment:  2021 
+#_Stock of interest: WAG 
+#_Model name: model_21_1e 
+#_Year of assessment: 2021 
 # ============================================================ #
 
-## Key GMACS files
+##_Key GMACS files
 # -------------------------------------- #
-# Data file name
-WAG_21_1_M09.dat
-# Control file name
-WAG_21_1_M09.ctl
-# Projection file name
-WAG_21_1_M09.prj
+#_Data file name
+WAG_21_1.dat
+#_Control file name
+WAG_21_1.ctl
+#_Projection file name
+WAG_21_1.prj
 
-## Stock specifications
+##_Stock specifications
 # -------------------------------------- #
-# Weight unit
+#_Weight unit (used for plotting)
 Tonnes
-# Stock name
+#_Number unit (used for plotting)
+Thousands
+#_Stock name (used for plotting)
 Western_Aleutian_Islands_golden_king_crab
 
-## jitter specifications
+##_Jitter specifications
 # -------------------------------------- #
-# Is Jittered?
+#_Is Jittered?
 0 
-# sd Jitter?
+#_sd Jitter
 0.1 
 
-## Output variance specifications
+##_Output variance specifications
 # -------------------------------------- #
-# Output variance (0 = No; 1 = Yes
-1 # Reference points
-0 # Recruits
-0 # Spawning Stock Biomass
-0 # Mean Fishing mortality (Fbar)
-0 # Dynamic B0 approach
+#_Output variance (0 = No; 1 = Yes)
+1 #_Reference points
+0 #_Recruits
+0 #_Spawning Stock Biomass
+0 #_Mean Fishing mortality (Fbar)
+0 #_Dynamic B0 approach
 
-## Retrospective analysis specifications
+##_Retrospective analysis specifications
 # -------------------------------------- #
-0 # Number of year for the retrospective analysis
+0 #_Number of year for the retrospective analysis
 
-## Other controls
+##_Other controls
 # -------------------------------------- #
-# Maximum phase (stop the estimation after this phase)
+#_Maximum phase (stop the estimation after this phase)
 10 
-# Maximum number of function calls, if 1, stop at fn1 call;
-# if -1 run as long as it takes
+#_Maximum number of function calls: if 1, stop at fn1 call;
+# if -1, run as long as it takes
 -1 
-# Calculate reference points (0 = No, 1 = Yes)
+#_Calculate reference points (0 = No, 1 = Yes)
 1 
-# Use pin file (0 = normal run; 1 = yes-set parameter values)
+#_Use pin file (0 = normal run; 1 = yes-set parameter values)
 0 
-# VERBOSE flag (0 = off, 1 = on, 2 = objective function; 3 = diagnostics)
+#_VERBOSE flag (0 = off, 1 = on, 2 = objective function; 3 = diagnostics)
 0 
 
 # -------------------------------------- #
-## End of gmacs.dat file
+##_End of gmacs.dat file
 # -------------------------------------- #
 9999

@@ -1,15 +1,15 @@
 #_============================================================ #
-#                    GMACS main data file 
+#                    GMACS data file 
 # 
 #_*** 
-#_ GMACS Version 2.01.M.01 
-#_Last GMACS mofification made by:   ** MV ** 
-#_Date of writing the data file: 2024-02-17 16:44:17 
+#_GMACS Version 2.10.01 
+#_Last GMACS mofification made by: ** MV ** 
+#_Date of writing the data file:2024-11-01 01:40:00 
 #_*** 
 # 
-#_Stock of interest:  WAG 
-#_Model name:  model_21_1e 
-#_Year of assessment:  2021 
+#_Stock of interest: WAG 
+#_Model name: model_21_1e 
+#_Year of assessment: 2021 
 #_============================================================ #
 
 #_-------------------------------------- #
@@ -135,7 +135,8 @@ Pot_Fishery Trawl_Bycatch
 #_-------------------------------------- #
 ##_Catch data
 #_-------------------------------------- #
-0 #--input format for catch data (0:old format; 1: new format)
+#_Input format for catch data (0: old format; 1: new format)
+0 
 #_Number of catch data frames
 3 
 #_Number of rows in each data frame
@@ -145,13 +146,12 @@ Pot_Fishery Trawl_Bycatch
 #         ** CATCH DATA **
 #_Sex: 0 = both; 1 = male; 2 = female
 #_Type of catch: 0 = total; 1 = retained; 2 = discard
-#_Units of catch: 1 = biomass; 2 = numbers
-#_Mult: 1 = use data as they are; 2 = multiply by this number (e.g., lbs to kg)
+#_Units of catch: 1 = biomass; 2 = abundance (numbers)
+#_Mult: 1 = use data as they are; otherwise (!=1) = multiply by this number (e.g., lbs to kg)
 #_Year_| Season_| Fleet_| Sex_| Obs_| CV_| Type_| Units_| Mult_| Effort_| Discard_mortality ##
 #_************************************** #
 
-
-# ** Males_Retained_Pot_Fishery_Seas3  **
+# ** Fleet: Pot_Fishery; Catch type: Retained; Sex: Males; Season: 3 **
 # Year | Season | Fleet | Sex | Obs | CV | Type | Units | Mult | Effort | Discard_mortality
 1981 3 1 1 38.436 0.0316 1 2 1 0 0.2
 1982 3 1 1 1114.351 0.0316 1 2 1 0 0.2
@@ -195,7 +195,7 @@ Pot_Fishery Trawl_Bycatch
 2020 3 1 1 1358.32 0.0316 1 1 1 0 0.2
 2021 3 1 1 1223.36 0.0316 1 1 1 0 0.2
 
-# ** Males_Total_Pot_Fishery_Seas3  **
+# ** Fleet: Pot_Fishery; Catch type: Total; Sex: Males; Season: 3 **
 # Year | Season | Fleet | Sex | Obs | CV | Type | Units | Mult | Effort | Discard_mortality
 1990 3 1 1 3981.87 0.207908162 0 1 1 0 0.2
 1991 3 1 1 2118.23 0.130117339 0 1 1 0 0.2
@@ -230,7 +230,7 @@ Pot_Fishery Trawl_Bycatch
 2020 3 1 1 1844.19 0.112848388 0 1 1 0 0.2
 2021 3 1 1 1428.94 0.159180092 0 1 1 0 0.2
 
-# ** Males_Discard_Trawl_Bycatch_Seas3  **
+# ** Fleet: Trawl_Bycatch; Catch type: Discard; Sex: Males; Season: 3 **
 # Year | Season | Fleet | Sex | Obs | CV | Type | Units | Mult | Effort | Discard_mortality
 1989 3 2 1 0.0953342 1.3108 2 1 1.538461538 0 0.65
 1990 3 2 1 0.569417 1.3108 2 1 1.538461538 0 0.65
@@ -269,16 +269,17 @@ Pot_Fishery Trawl_Bycatch
 #_-------------------------------------- #
 ##_Relative abundance data
 #_-------------------------------------- #
-0 #--input format for relative abundance data (0:old format; 1: new format)
+#_Input format for the relative abundance data (0: old format; 1: new format)
+0 
 #_Number of relative abundance indices
 3 
 #_Index Type (1 = Selectivity; 2 = Selectivity + retention)
 2 2 2 
-#_Number of rows in each data frame of index data
+#_Total number of rows of index data
 41 
 
 #_************************************** #
-#    ** RELATIVE ABUNDANCE	DATA **       #
+#     ** RELATIVE ABUNDANCE	DATA **     #
 #_Index: One q is estimated for each index (the number of index values should match nSurveys)
 #_Sex: 0 = both; 1 = male; 2 = female
 #_Maturity: 0 = both; 1 = mature; 2 = immature
@@ -340,7 +341,8 @@ Pot_Fishery Trawl_Bycatch
 #_-------------------------------------- #
 ##_Size composition for all fleets
 #_-------------------------------------- #
-0 #--input format for size comps (0:old format; 1: new format)
+#_Input format for the size composition data (0: old format; 1: new format)
+0 
 #_Number of size frequency matrices
 2 
 #_Number of rows in each size frequency matrix

@@ -1,91 +1,92 @@
 # ============================================================ #
 #                    GMACS main projection file 
 # 
-# *** 
-#  GMACS Version 2.01.M.01 
-# Last GMACS mofification made by:   ** MV ** 
-# Date of writing the projection file: 2024-02-17 16:44:17# *** 
+#_*** 
+#_GMACS Version 2.10.01 
+#_Last GMACS mofification made by: ** MV ** 
+#_Date of writing the projection file:2024-11-01 01:40:01 
+#_*** 
 # 
-# Stock of interest:  SNOW_crab 
-# Model name:  model_21_g 
-# Year of assessment:  2021 
+#_Stock of interest: SNOW_crab 
+#_Model name: model_21_g 
+#_Year of assessment: 2021 
 # ============================================================ #
 
 # -------------------------------------- #
-## References controls (Spawning per recruit specifications)
-# -------------------------------------- #
-0 # Should the MSY be calculated (0 = No; 1 = Yes)
-0 1 1 1 1 1 1 1 # Mortality rate applied to each fishery (0= F35%; 1= F is fixed)
-1984 2018 # First and last years for average recruitment/MMB for Bspr calculation
-2000 2018 # First and last years for computing the sex ratio used in the calculation of the BRPs
-2010 2018 # First and last years for computing the average fishing mortality for discards
-2020 2020 # First and last years for computing the natural mortality
-2020 2020 # First and last years for computing season lengths
-2020 # First year for computing growth
-2020 2020 # First and last year for computing the average vulnerability
-# -------------------------------------- #
-
-# -------------------------------------- #
-## OFL specifications
-# -------------------------------------- #
-0.35 # Target SPR ratio for Bmsy proxy
-3 # Tier system
-0.1 # Alpha (i.e., cut-off)
-0.25 # Beta (i.e., limit)
-1 # Gamma
-0.8 # ABC-OFL buffer
-0 # (0 = No; 1 = year) for whether the yield function should be reported
+##_References controls (Spawning per recruit specifications)
+#_-------------------------------------- #
+0 #_Should the MSY be calculated (0 = No; 1 = Yes)
+0 1 1 1 1 1 1 1 #_Mortality rate applied to each fishery (0= F35%; 1= F is fixed)
+1984 2018 #_First and last years for average recruitment/MMB for Bspr calculation
+2000 2018 #_First and last years for computing the sex ratio used in the calculation of the BRPs
+2010 2018 #_First and last years for computing the average fishing mortality for discards
+2020 2020 #_First and last years for computing the natural mortality
+2020 2020 #_First and last years for computing season lengths
+2020 #_First year for computing growth
+2020 2020 #_First and last year for computing the average vulnerability
 # -------------------------------------- #
 
 # -------------------------------------- #
-## Projection specifications
+##_OFL specifications
 # -------------------------------------- #
-2025 # Last year of the projection period
-1                               # Projection type (1=Constant F; 2=proportion of current F)
-2 # Number of strategies considered in the projections
-0 2.0674 # Range of F values
-1 # Allow for bycatch fleets to have non-zero mortality
-1 # How many times each MCMC draw is run
--3423.8 # Should Bmsy be fixed?
-1984 2018 # First and last years for computing the average recruitment
-2000 2018 # First and last years for computing the average sex ratio
-2018 2018 # First and last years for computing the average fishing mortality for discards
-0 0 # First and last years for computing the natural mortality
-0 0 # First and last years for computing season lengths
-0 # Year for specifying growth in the projections
-0 0 # First and last year for computing the average vulnerability
+0.35 #_Target SPR ratio for Bmsy proxy
+3 #_Tier system
+0.1 #_Alpha (i.e., cut-off)
+0.25 #_Beta (i.e., limit)
+1 #_Gamma
+0.8 #_ABC-OFL buffer
+0 #_(0 = No; 1 = year) for whether the yield function should be reported
 # -------------------------------------- #
 
 # -------------------------------------- #
-## Recruitment specifications
+##_Projection specifications
 # -------------------------------------- #
-1 # Stock-recruitment option (1=Mean Rec;2=Ricker;3=Beverton-Holt;4=Mean recruitment)
-5 # Time (age) to recruitment
-1984 2017 # First and last year for generating recruitment
-10000 # Mean recruitment for projections
-0.6 # Sigma used to compute the recruitment
-0 # Prow(R)
-0 # First recruitment deviation
-# -------------------------------------- #
-
-# -------------------------------------- #
-## Specifying State strategies
-# -------------------------------------- #
-0 # Apply strategies [OFL, ABC] (1=yes;0=no)
-1                          # Apply the state startegy (1=Yes; 0=No)
-2                          # Number of state parameters
-0.00172963 # Mean weight to use - mature individuals
-0.001930932 # Mean weight to use (legal)
+2025 #_Last year of the projection period
+1 #_Projection type (1 = Constant F; 2 = proportion of current F)
+2 #_Number of strategies considered in the projections
+0 2.0674 #_Range of F values for the strategies (empty if 0 strategies is considered (see previous line))
+1 #_Allow for bycatch fleets to have non-zero mortality
+1 #_How many times each MCMC draw is run
+-3423.8 #_Should Bmsy be fixed?
+1984 2018 #_First and last years for computing the average recruitment
+2000 2018 #_First and last years for computing the average sex ratio
+2018 2018 #_First and last years for computing the average fishing mortality for discards
+0 0 #_First and last years for computing the natural mortality
+0 0 #_First and last years for computing season lengths
+0 #_Year for specifying growth in the projections
+0 0 #_First and last year for computing the average vulnerability
 # -------------------------------------- #
 
 # -------------------------------------- #
-## Run specificities
+##_Recruitment specifications
 # -------------------------------------- #
-10000 # Stop after XX mcdraws
-1 # Full diagnostics (0 = No; 1 = Yes)
+1 #_Stock-recruitment option (1=Mean Rec;2=Ricker;3=Beverton-Holt;4=Mean recruitment)
+5 #_Time (age) to recruitment
+1984 2017 #_First and last year for generating recruitment
+10000 #_Mean recruitment for projections
+0.6 #_Sigma used to compute the recruitment
+0 #_Prow(R)
+0 #_First recruitment deviation
 # -------------------------------------- #
 
 # -------------------------------------- #
-## End of projection file
+##_Specifying State strategies
+# -------------------------------------- #
+0 #_Apply strategies [OFL, ABC] (1 = apply HCR; 0 = constant F)
+1 #_Apply the state strategy (1 = yes;0 = no)
+2 #_Number of state parameters
+0.00172963 #_Mean weight to use - mature individuals
+0.001930932 #_Mean weight to use (legal)
+# -------------------------------------- #
+
+# -------------------------------------- #
+##_Run specificities
+# -------------------------------------- #
+10000 #_Stop after XX mcdraws
+1 #_Full diagnostics (0 = No; 1 = Yes)
+# -------------------------------------- #
+
+# -------------------------------------- #
+##_End of projection file
 # -------------------------------------- #
 9999

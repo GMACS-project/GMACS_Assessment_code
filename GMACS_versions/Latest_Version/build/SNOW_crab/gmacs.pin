@@ -1,0 +1,1018 @@
+# ============================================================ #
+#_Number of parameters:  430 
+#_Objective function value:  -21842.143322363201 
+#_Maximum gradient component:  0.006571041366 
+# ============================================================ #
+
+#_theta parameters: 
+# -------------------------------------- #
+# theta[1] -- M-base:
+0.376168821640 
+# theta[2] -- M-female:
+0.412020149065 
+# theta[3] -- Log_R0:
+16.500000000000 
+# theta[4] -- Log_Rinitial:
+16.667848097600 
+# theta[5] -- Log_Rbar:
+6.706832381030 
+# theta[6] -- Recruitment_ra-males:
+32.500000000000 
+# theta[7] -- Recruitment_rb-males:
+1.000000000000 
+# theta[8] -- Recruitment_ra-females:
+0.000000000000 
+# theta[9] -- Recruitment_rb-females:
+0.000000000000 
+# theta[10] -- log_SigmaR:
+-0.900000000000 
+# theta[11] -- Steepness:
+0.750000000000 
+# theta[12] -- Rho:
+0.010000000000 
+# theta[13] -- Scaled_logN_for_Male_mature_1_shell_1_class_2:
+0.091358901663 
+# theta[14] -- Scaled_logN_for_Male_mature_1_shell_1_class_3:
+0.218437362311 
+# theta[15] -- Scaled_logN_for_Male_mature_1_shell_1_class_4:
+0.438631699164 
+# theta[16] -- Scaled_logN_for_Male_mature_1_shell_1_class_5:
+0.754823168625 
+# theta[17] -- Scaled_logN_for_Male_mature_1_shell_1_class_6:
+0.907294661125 
+# theta[18] -- Scaled_logN_for_Male_mature_1_shell_1_class_7:
+1.159806324140 
+# theta[19] -- Scaled_logN_for_Male_mature_1_shell_1_class_8:
+1.389700216120 
+# theta[20] -- Scaled_logN_for_Male_mature_1_shell_1_class_9:
+1.298794310940 
+# theta[21] -- Scaled_logN_for_Male_mature_1_shell_1_class_10:
+1.311712138780 
+# theta[22] -- Scaled_logN_for_Male_mature_1_shell_1_class_11:
+1.414359369970 
+# theta[23] -- Scaled_logN_for_Male_mature_1_shell_1_class_12:
+1.332090823650 
+# theta[24] -- Scaled_logN_for_Male_mature_1_shell_1_class_13:
+1.311117662610 
+# theta[25] -- Scaled_logN_for_Male_mature_1_shell_1_class_14:
+1.561941652710 
+# theta[26] -- Scaled_logN_for_Male_mature_1_shell_1_class_15:
+2.461383739060 
+# theta[27] -- Scaled_logN_for_Male_mature_1_shell_1_class_16:
+1.334483990110 
+# theta[28] -- Scaled_logN_for_Male_mature_1_shell_1_class_17:
+0.753398797180 
+# theta[29] -- Scaled_logN_for_Male_mature_1_shell_1_class_18:
+-0.074118809585 
+# theta[30] -- Scaled_logN_for_Male_mature_1_shell_1_class_19:
+-0.944805476133 
+# theta[31] -- Scaled_logN_for_Male_mature_1_shell_1_class_20:
+-1.373480797550 
+# theta[32] -- Scaled_logN_for_Male_mature_1_shell_1_class_21:
+-1.756231661280 
+# theta[33] -- Scaled_logN_for_Male_mature_1_shell_1_class_22:
+-1.623327518370 
+# theta[34] -- Scaled_logN_for_Male_mature_2_shell_1_class_1:
+0.214892867273 
+# theta[35] -- Scaled_logN_for_Male_mature_2_shell_1_class_2:
+0.299784490500 
+# theta[36] -- Scaled_logN_for_Male_mature_2_shell_1_class_3:
+0.499531797479 
+# theta[37] -- Scaled_logN_for_Male_mature_2_shell_1_class_4:
+0.906917360001 
+# theta[38] -- Scaled_logN_for_Male_mature_2_shell_1_class_5:
+1.328777088060 
+# theta[39] -- Scaled_logN_for_Male_mature_2_shell_1_class_6:
+1.646190846780 
+# theta[40] -- Scaled_logN_for_Male_mature_2_shell_1_class_7:
+1.771589276500 
+# theta[41] -- Scaled_logN_for_Male_mature_2_shell_1_class_8:
+1.663646256080 
+# theta[42] -- Scaled_logN_for_Male_mature_2_shell_1_class_9:
+1.512824497120 
+# theta[43] -- Scaled_logN_for_Male_mature_2_shell_1_class_10:
+1.306552167750 
+# theta[44] -- Scaled_logN_for_Male_mature_2_shell_1_class_11:
+1.019042133220 
+# theta[45] -- Scaled_logN_for_Male_mature_2_shell_1_class_12:
+0.690312400454 
+# theta[46] -- Scaled_logN_for_Male_mature_2_shell_1_class_13:
+0.256429987046 
+# theta[47] -- Scaled_logN_for_Male_mature_2_shell_1_class_14:
+-0.379576006110 
+# theta[48] -- Scaled_logN_for_Male_mature_2_shell_1_class_15:
+-0.909865763740 
+# theta[49] -- Scaled_logN_for_Male_mature_2_shell_1_class_16:
+-0.917870415600 
+# theta[50] -- Scaled_logN_for_Male_mature_2_shell_1_class_17:
+-1.379876302980 
+# theta[51] -- Scaled_logN_for_Male_mature_2_shell_1_class_18:
+-1.604179953730 
+# theta[52] -- Scaled_logN_for_Male_mature_2_shell_1_class_19:
+-1.757296422770 
+# theta[53] -- Scaled_logN_for_Male_mature_2_shell_1_class_20:
+-1.736063302820 
+# theta[54] -- Scaled_logN_for_Male_mature_2_shell_1_class_21:
+-1.755239289530 
+# theta[55] -- Scaled_logN_for_Male_mature_2_shell_1_class_22:
+-1.653084014910 
+# theta[56] -- Scaled_logN_for_Female_mature_1_shell_1_class_1:
+0.322825267015 
+# theta[57] -- Scaled_logN_for_Female_mature_1_shell_1_class_2:
+0.451860784997 
+# theta[58] -- Scaled_logN_for_Female_mature_1_shell_1_class_3:
+0.764608734355 
+# theta[59] -- Scaled_logN_for_Female_mature_1_shell_1_class_4:
+1.440220821310 
+# theta[60] -- Scaled_logN_for_Female_mature_1_shell_1_class_5:
+2.886101374240 
+# theta[61] -- Scaled_logN_for_Female_mature_1_shell_1_class_6:
+3.897682891770 
+# theta[62] -- Scaled_logN_for_Female_mature_1_shell_1_class_7:
+3.376414773600 
+# theta[63] -- Scaled_logN_for_Female_mature_1_shell_1_class_8:
+2.257647619060 
+# theta[64] -- Scaled_logN_for_Female_mature_1_shell_1_class_9:
+1.145829258080 
+# theta[65] -- Scaled_logN_for_Female_mature_1_shell_1_class_10:
+0.140367067214 
+# theta[66] -- Scaled_logN_for_Female_mature_1_shell_1_class_11:
+-0.365195654058 
+# theta[67] -- Scaled_logN_for_Female_mature_1_shell_1_class_12:
+-0.566815114950 
+# theta[68] -- Scaled_logN_for_Female_mature_1_shell_1_class_13:
+-0.637845373958 
+# theta[69] -- Scaled_logN_for_Female_mature_1_shell_1_class_14:
+-0.713897234256 
+# theta[70] -- Scaled_logN_for_Female_mature_1_shell_1_class_15:
+-0.812955259170 
+# theta[71] -- Scaled_logN_for_Female_mature_1_shell_1_class_16:
+-0.988015929973 
+# theta[72] -- Scaled_logN_for_Female_mature_1_shell_1_class_17:
+-1.140762775350 
+# theta[73] -- Scaled_logN_for_Female_mature_1_shell_1_class_18:
+-1.265644367060 
+# theta[74] -- Scaled_logN_for_Female_mature_1_shell_1_class_19:
+-1.357660425630 
+# theta[75] -- Scaled_logN_for_Female_mature_1_shell_1_class_20:
+-1.421919782900 
+# theta[76] -- Scaled_logN_for_Female_mature_1_shell_1_class_21:
+-1.460125841000 
+# theta[77] -- Scaled_logN_for_Female_mature_1_shell_1_class_22:
+-1.391949249450 
+# theta[78] -- Scaled_logN_for_Female_mature_2_shell_1_class_1:
+0.205104761988 
+# theta[79] -- Scaled_logN_for_Female_mature_2_shell_1_class_2:
+0.267710984605 
+# theta[80] -- Scaled_logN_for_Female_mature_2_shell_1_class_3:
+0.370167101040 
+# theta[81] -- Scaled_logN_for_Female_mature_2_shell_1_class_4:
+0.681559993539 
+# theta[82] -- Scaled_logN_for_Female_mature_2_shell_1_class_5:
+1.345102951180 
+# theta[83] -- Scaled_logN_for_Female_mature_2_shell_1_class_6:
+1.905250350720 
+# theta[84] -- Scaled_logN_for_Female_mature_2_shell_1_class_7:
+1.132154710130 
+# theta[85] -- Scaled_logN_for_Female_mature_2_shell_1_class_8:
+-0.101339803125 
+# theta[86] -- Scaled_logN_for_Female_mature_2_shell_1_class_9:
+-0.872900542503 
+# theta[87] -- Scaled_logN_for_Female_mature_2_shell_1_class_10:
+-1.350223341740 
+# theta[88] -- Scaled_logN_for_Female_mature_2_shell_1_class_11:
+-1.596985715070 
+# theta[89] -- Scaled_logN_for_Female_mature_2_shell_1_class_12:
+-1.693391962850 
+# theta[90] -- Scaled_logN_for_Female_mature_2_shell_1_class_13:
+-1.769518888000 
+# theta[91] -- Scaled_logN_for_Female_mature_2_shell_1_class_14:
+-1.812279798400 
+# theta[92] -- Scaled_logN_for_Female_mature_2_shell_1_class_15:
+-1.829986187650 
+# theta[93] -- Scaled_logN_for_Female_mature_2_shell_1_class_16:
+-1.827175714560 
+# theta[94] -- Scaled_logN_for_Female_mature_2_shell_1_class_17:
+-1.817300890620 
+# theta[95] -- Scaled_logN_for_Female_mature_2_shell_1_class_18:
+-1.809134588360 
+# theta[96] -- Scaled_logN_for_Female_mature_2_shell_1_class_19:
+-1.804309242190 
+# theta[97] -- Scaled_logN_for_Female_mature_2_shell_1_class_20:
+-1.801879170310 
+# theta[98] -- Scaled_logN_for_Female_mature_2_shell_1_class_21:
+-1.800756869600 
+# theta[99] -- Scaled_logN_for_Female_mature_2_shell_1_class_22:
+-1.800220669010 
+# -------------------------------------- #
+
+#_Growth parameters: 
+# -------------------------------------- #
+# Grwth[1] -- Alpha_Male_period_1:
+1.892016493320 
+# Grwth[2] -- Beta_Male_period_1:
+-0.228207914092 
+# Grwth[3] -- Gscale_Male_period_1:
+0.250000000000 
+# Grwth[4] -- Alpha_Female_period_1:
+-0.490282964189 
+# Grwth[5] -- Beta_Female_period_1:
+-0.311815592064 
+# Grwth[6] -- Gscale_Female_period_1:
+0.250000000000 
+# Grwth[7] -- Molt_probability_Male_period_1_class_1:
+0.006403424000 
+# Grwth[8] -- Molt_probability_Male_period_1_class_2:
+0.011119150000 
+# Grwth[9] -- Molt_probability_Male_period_1_class_3:
+0.019307700000 
+# Grwth[10] -- Molt_probability_Male_period_1_class_4:
+0.918858420905 
+# Grwth[11] -- Molt_probability_Male_period_1_class_5:
+0.999999943905 
+# Grwth[12] -- Molt_probability_Male_period_1_class_6:
+0.999999989815 
+# Grwth[13] -- Molt_probability_Male_period_1_class_7:
+0.999999958341 
+# Grwth[14] -- Molt_probability_Male_period_1_class_8:
+0.982233563828 
+# Grwth[15] -- Molt_probability_Male_period_1_class_9:
+0.999999968049 
+# Grwth[16] -- Molt_probability_Male_period_1_class_10:
+0.999999957033 
+# Grwth[17] -- Molt_probability_Male_period_1_class_11:
+0.999999928389 
+# Grwth[18] -- Molt_probability_Male_period_1_class_12:
+0.999999967157 
+# Grwth[19] -- Molt_probability_Male_period_1_class_13:
+0.999999980733 
+# Grwth[20] -- Molt_probability_Male_period_1_class_14:
+0.999999961895 
+# Grwth[21] -- Molt_probability_Male_period_1_class_15:
+0.813145702419 
+# Grwth[22] -- Molt_probability_Male_period_1_class_16:
+0.000000011204 
+# Grwth[23] -- Molt_probability_Male_period_1_class_17:
+0.500000000000 
+# Grwth[24] -- Molt_probability_Male_period_1_class_18:
+0.500000000000 
+# Grwth[25] -- Molt_probability_Male_period_1_class_19:
+0.500000000000 
+# Grwth[26] -- Molt_probability_Male_period_1_class_20:
+0.500000000000 
+# Grwth[27] -- Molt_probability_Male_period_1_class_21:
+0.500000000000 
+# Grwth[28] -- Molt_probability_Male_period_1_class_22:
+0.500000000000 
+# Grwth[29] -- Molt_probability_Female_period_1_class_1:
+0.006167864000 
+# Grwth[30] -- Molt_probability_Female_period_1_class_2:
+0.529004119819 
+# Grwth[31] -- Molt_probability_Female_period_1_class_3:
+0.984160551305 
+# Grwth[32] -- Molt_probability_Female_period_1_class_4:
+0.836487189096 
+# Grwth[33] -- Molt_probability_Female_period_1_class_5:
+0.265816600877 
+# Grwth[34] -- Molt_probability_Female_period_1_class_6:
+0.132094555660 
+# Grwth[35] -- Molt_probability_Female_period_1_class_7:
+0.000000006029 
+# Grwth[36] -- Molt_probability_Female_period_1_class_8:
+0.500000000000 
+# Grwth[37] -- Molt_probability_Female_period_1_class_9:
+0.500000000000 
+# Grwth[38] -- Molt_probability_Female_period_1_class_10:
+0.500000000000 
+# Grwth[39] -- Molt_probability_Female_period_1_class_11:
+0.500000000000 
+# Grwth[40] -- Molt_probability_Female_period_1_class_12:
+0.500000000000 
+# Grwth[41] -- Molt_probability_Female_period_1_class_13:
+0.500000000000 
+# Grwth[42] -- Molt_probability_Female_period_1_class_14:
+0.500000000000 
+# Grwth[43] -- Molt_probability_Female_period_1_class_15:
+0.500000000000 
+# Grwth[44] -- Molt_probability_Female_period_1_class_16:
+0.500000000000 
+# Grwth[45] -- Molt_probability_Female_period_1_class_17:
+0.500000000000 
+# Grwth[46] -- Molt_probability_Female_period_1_class_18:
+0.500000000000 
+# Grwth[47] -- Molt_probability_Female_period_1_class_19:
+0.500000000000 
+# Grwth[48] -- Molt_probability_Female_period_1_class_20:
+0.500000000000 
+# Grwth[49] -- Molt_probability_Female_period_1_class_21:
+0.500000000000 
+# Grwth[50] -- Molt_probability_Female_period_1_class_22:
+0.500000000000 
+# -------------------------------------- #
+
+#_Vulnerability parameters: 
+# -------------------------------------- #
+# log_slx_pars[1] -- Sel_Pot_Fishery_Male_period_1_par_1:
+4.674775019590 
+# log_slx_pars[2] -- Sel_Pot_Fishery_Male_period_1_par_2:
+1.441835358250 
+# log_slx_pars[3] -- Sel_Pot_Fishery_Female_period_1_par_1:
+4.312178251340 
+# log_slx_pars[4] -- Sel_Pot_Fishery_Female_period_1_par_2:
+0.972348290067 
+# log_slx_pars[5] -- Sel_Trawl_Bycatch_Male_period_1_par_1:
+4.647707884250 
+# log_slx_pars[6] -- Sel_Trawl_Bycatch_Male_period_1_par_2:
+2.068833262520 
+# log_slx_pars[7] -- Sel_NMFS_Trawl_1982_Male_period_1_par_1:
+3.818863224560 
+# log_slx_pars[8] -- Sel_NMFS_Trawl_1982_Male_period_1_par_2:
+1.032758295850 
+# log_slx_pars[9] -- Sel_NMFS_Trawl_1982_Female_period_1_par_1:
+3.782910708980 
+# log_slx_pars[10] -- Sel_NMFS_Trawl_1982_Female_period_1_par_2:
+1.287625783450 
+# log_slx_pars[11] -- Sel_NMFS_Trawl_1989_Male_period_1_par_1:
+3.779244511120 
+# log_slx_pars[12] -- Sel_NMFS_Trawl_1989_Male_period_1_par_2:
+0.578987424436 
+# log_slx_pars[13] -- Sel_NMFS_Trawl_1989_Female_period_1_par_1:
+3.704659497290 
+# log_slx_pars[14] -- Sel_NMFS_Trawl_1989_Female_period_1_par_2:
+1.132564466650 
+# log_slx_pars[15] -- Sel_BSFRF_2009_Male_period_1_par_1:
+-4.294574830050 
+# log_slx_pars[16] -- Sel_BSFRF_2009_Male_period_1_par_2:
+-4.294574841220 
+# log_slx_pars[17] -- Sel_BSFRF_2009_Male_period_1_par_3:
+-4.294574797150 
+# log_slx_pars[18] -- Sel_BSFRF_2009_Male_period_1_par_4:
+-4.294572797010 
+# log_slx_pars[19] -- Sel_BSFRF_2009_Male_period_1_par_5:
+-4.296573685060 
+# log_slx_pars[20] -- Sel_BSFRF_2009_Male_period_1_par_6:
+-4.280728562420 
+# log_slx_pars[21] -- Sel_BSFRF_2009_Male_period_1_par_7:
+-4.051036465860 
+# log_slx_pars[22] -- Sel_BSFRF_2009_Male_period_1_par_8:
+-3.657655546330 
+# log_slx_pars[23] -- Sel_BSFRF_2009_Male_period_1_par_9:
+-3.357116201150 
+# log_slx_pars[24] -- Sel_BSFRF_2009_Male_period_1_par_10:
+-2.938970523510 
+# log_slx_pars[25] -- Sel_BSFRF_2009_Male_period_1_par_11:
+-2.651615855060 
+# log_slx_pars[26] -- Sel_BSFRF_2009_Male_period_1_par_12:
+-2.412728621130 
+# log_slx_pars[27] -- Sel_BSFRF_2009_Male_period_1_par_13:
+-2.026360753530 
+# log_slx_pars[28] -- Sel_BSFRF_2009_Male_period_1_par_14:
+-1.572517689800 
+# log_slx_pars[29] -- Sel_BSFRF_2009_Male_period_1_par_15:
+-1.325417822910 
+# log_slx_pars[30] -- Sel_BSFRF_2009_Male_period_1_par_16:
+-1.320033050970 
+# log_slx_pars[31] -- Sel_BSFRF_2009_Male_period_1_par_17:
+-1.344223807930 
+# log_slx_pars[32] -- Sel_BSFRF_2009_Male_period_1_par_18:
+-1.369063961290 
+# log_slx_pars[33] -- Sel_BSFRF_2009_Male_period_1_par_19:
+-1.285856285220 
+# log_slx_pars[34] -- Sel_BSFRF_2009_Male_period_1_par_20:
+-1.078094138020 
+# log_slx_pars[35] -- Sel_BSFRF_2009_Male_period_1_par_21:
+-0.997295998602 
+# log_slx_pars[36] -- Sel_BSFRF_2009_Male_period_1_par_22:
+-0.983147159335 
+# log_slx_pars[37] -- Sel_BSFRF_2009_Female_period_1_par_1:
+-3.324173178170 
+# log_slx_pars[38] -- Sel_BSFRF_2009_Female_period_1_par_2:
+-3.324189858610 
+# log_slx_pars[39] -- Sel_BSFRF_2009_Female_period_1_par_3:
+-3.326600858480 
+# log_slx_pars[40] -- Sel_BSFRF_2009_Female_period_1_par_4:
+-3.437780685010 
+# log_slx_pars[41] -- Sel_BSFRF_2009_Female_period_1_par_5:
+-3.625483977810 
+# log_slx_pars[42] -- Sel_BSFRF_2009_Female_period_1_par_6:
+-2.937728523300 
+# log_slx_pars[43] -- Sel_BSFRF_2009_Female_period_1_par_7:
+-2.454927704200 
+# log_slx_pars[44] -- Sel_BSFRF_2009_Female_period_1_par_8:
+-2.244600916810 
+# log_slx_pars[45] -- Sel_BSFRF_2009_Female_period_1_par_9:
+-2.142721533630 
+# log_slx_pars[46] -- Sel_BSFRF_2009_Female_period_1_par_10:
+-2.158729132550 
+# log_slx_pars[47] -- Sel_BSFRF_2009_Female_period_1_par_11:
+-2.139516827030 
+# log_slx_pars[48] -- Sel_BSFRF_2009_Female_period_1_par_12:
+-2.137736363350 
+# log_slx_pars[49] -- Sel_BSFRF_2009_Female_period_1_par_13:
+-2.137668891140 
+# log_slx_pars[50] -- Sel_BSFRF_2009_Female_period_1_par_14:
+-2.137654547590 
+# log_slx_pars[51] -- Sel_BSFRF_2009_Female_period_1_par_15:
+-2.137646835500 
+# log_slx_pars[52] -- Sel_BSFRF_2009_Female_period_1_par_16:
+-2.137641999950 
+# log_slx_pars[53] -- Sel_BSFRF_2009_Female_period_1_par_17:
+-2.137638528890 
+# log_slx_pars[54] -- Sel_BSFRF_2009_Female_period_1_par_18:
+-2.137635602870 
+# log_slx_pars[55] -- Sel_BSFRF_2009_Female_period_1_par_19:
+-2.137633196410 
+# log_slx_pars[56] -- Sel_BSFRF_2009_Female_period_1_par_20:
+-2.137630987380 
+# log_slx_pars[57] -- Sel_BSFRF_2009_Female_period_1_par_21:
+-2.137629265920 
+# log_slx_pars[58] -- Sel_BSFRF_2009_Female_period_1_par_22:
+-2.137628082020 
+# log_slx_pars[59] -- Sel_NMFS_2009_Male_period_1_par_1:
+-4.605170185990 
+# log_slx_pars[60] -- Sel_NMFS_2009_Female_period_1_par_1:
+-4.605170185990 
+# log_slx_pars[61] -- Sel_BSFRF_2010_Male_period_1_par_1:
+-3.401082488370 
+# log_slx_pars[62] -- Sel_BSFRF_2010_Male_period_1_par_2:
+-3.354808581700 
+# log_slx_pars[63] -- Sel_BSFRF_2010_Male_period_1_par_3:
+-2.094900271650 
+# log_slx_pars[64] -- Sel_BSFRF_2010_Male_period_1_par_4:
+-0.910362305760 
+# log_slx_pars[65] -- Sel_BSFRF_2010_Male_period_1_par_5:
+-0.000001000001 
+# log_slx_pars[66] -- Sel_BSFRF_2010_Male_period_1_par_6:
+-0.000001000001 
+# log_slx_pars[67] -- Sel_BSFRF_2010_Male_period_1_par_7:
+-0.000001000001 
+# log_slx_pars[68] -- Sel_BSFRF_2010_Male_period_1_par_8:
+-0.000001000001 
+# log_slx_pars[69] -- Sel_BSFRF_2010_Male_period_1_par_9:
+-0.669201216710 
+# log_slx_pars[70] -- Sel_BSFRF_2010_Male_period_1_par_10:
+-0.838464053960 
+# log_slx_pars[71] -- Sel_BSFRF_2010_Male_period_1_par_11:
+-0.891692572712 
+# log_slx_pars[72] -- Sel_BSFRF_2010_Male_period_1_par_12:
+-0.968816267024 
+# log_slx_pars[73] -- Sel_BSFRF_2010_Male_period_1_par_13:
+-0.913077805574 
+# log_slx_pars[74] -- Sel_BSFRF_2010_Male_period_1_par_14:
+-0.873516079091 
+# log_slx_pars[75] -- Sel_BSFRF_2010_Male_period_1_par_15:
+-0.848526389183 
+# log_slx_pars[76] -- Sel_BSFRF_2010_Male_period_1_par_16:
+-0.865162186579 
+# log_slx_pars[77] -- Sel_BSFRF_2010_Male_period_1_par_17:
+-0.895577256996 
+# log_slx_pars[78] -- Sel_BSFRF_2010_Male_period_1_par_18:
+-0.929524655829 
+# log_slx_pars[79] -- Sel_BSFRF_2010_Male_period_1_par_19:
+-0.966985187716 
+# log_slx_pars[80] -- Sel_BSFRF_2010_Male_period_1_par_20:
+-1.000350551590 
+# log_slx_pars[81] -- Sel_BSFRF_2010_Male_period_1_par_21:
+-1.023903976880 
+# log_slx_pars[82] -- Sel_BSFRF_2010_Male_period_1_par_22:
+-1.037556058900 
+# log_slx_pars[83] -- Sel_BSFRF_2010_Female_period_1_par_1:
+-2.335128228700 
+# log_slx_pars[84] -- Sel_BSFRF_2010_Female_period_1_par_2:
+-2.127833015080 
+# log_slx_pars[85] -- Sel_BSFRF_2010_Female_period_1_par_3:
+-1.545834697880 
+# log_slx_pars[86] -- Sel_BSFRF_2010_Female_period_1_par_4:
+-1.206875903520 
+# log_slx_pars[87] -- Sel_BSFRF_2010_Female_period_1_par_5:
+-1.203603666920 
+# log_slx_pars[88] -- Sel_BSFRF_2010_Female_period_1_par_6:
+-1.147010184430 
+# log_slx_pars[89] -- Sel_BSFRF_2010_Female_period_1_par_7:
+-0.922309385239 
+# log_slx_pars[90] -- Sel_BSFRF_2010_Female_period_1_par_8:
+-0.851534310579 
+# log_slx_pars[91] -- Sel_BSFRF_2010_Female_period_1_par_9:
+-0.719308975537 
+# log_slx_pars[92] -- Sel_BSFRF_2010_Female_period_1_par_10:
+-0.708405482858 
+# log_slx_pars[93] -- Sel_BSFRF_2010_Female_period_1_par_11:
+-0.707483852726 
+# log_slx_pars[94] -- Sel_BSFRF_2010_Female_period_1_par_12:
+-0.707400453905 
+# log_slx_pars[95] -- Sel_BSFRF_2010_Female_period_1_par_13:
+-0.707395567476 
+# log_slx_pars[96] -- Sel_BSFRF_2010_Female_period_1_par_14:
+-0.707393813544 
+# log_slx_pars[97] -- Sel_BSFRF_2010_Female_period_1_par_15:
+-0.707392813287 
+# log_slx_pars[98] -- Sel_BSFRF_2010_Female_period_1_par_16:
+-0.707392237058 
+# log_slx_pars[99] -- Sel_BSFRF_2010_Female_period_1_par_17:
+-0.707391811956 
+# log_slx_pars[100] -- Sel_BSFRF_2010_Female_period_1_par_18:
+-0.707391064643 
+# log_slx_pars[101] -- Sel_BSFRF_2010_Female_period_1_par_19:
+-0.707390569044 
+# log_slx_pars[102] -- Sel_BSFRF_2010_Female_period_1_par_20:
+-0.707389779075 
+# log_slx_pars[103] -- Sel_BSFRF_2010_Female_period_1_par_21:
+-0.707389593193 
+# log_slx_pars[104] -- Sel_BSFRF_2010_Female_period_1_par_22:
+-0.707389461989 
+# log_slx_pars[105] -- Sel_NMFS_2010_Male_period_1_par_1:
+-4.605170185990 
+# log_slx_pars[106] -- Sel_NMFS_2010_Female_period_1_par_1:
+-4.605170185990 
+# log_slx_pars[107] -- Ret_Pot_Fishery_Male_period_1_par_1:
+4.584813852080 
+# log_slx_pars[108] -- Ret_Pot_Fishery_Male_period_1_par_2:
+0.629641583310 
+# log_slx_pars[109] -- Ret_Pot_Fishery_Female_period_1_par_1:
+6.388561405550 
+# log_slx_pars[110] -- Ret_Trawl_Bycatch_Male_period_1_par_1:
+6.388561405550 
+# log_slx_pars[111] -- Ret_NMFS_Trawl_1982_Male_period_1_par_1:
+6.388561405550 
+# log_slx_pars[112] -- Ret_NMFS_Trawl_1989_Male_period_1_par_1:
+6.388561405550 
+# log_slx_pars[113] -- Ret_BSFRF_2009_Male_period_1_par_1:
+6.388561405550 
+# log_slx_pars[114] -- Ret_NMFS_2009_Male_period_1_par_1:
+6.388561405550 
+# log_slx_pars[115] -- Ret_BSFRF_2010_Male_period_1_par_1:
+6.388561405550 
+# log_slx_pars[116] -- Ret_NMFS_2010_Male_period_1_par_1:
+6.388561405550 
+# -------------------------------------- #
+
+#_Asymptotic retention parameters: 
+# -------------------------------------- #
+
+# -------------------------------------- #
+
+#_Environmental parameters: 
+# -------------------------------------- #
+# vulnerability: 
+# Envpar_Slx_0 -- Dummy_sel_env_par:
+0.000000000000 
+# -------------------------------------- #
+
+#_Vulnerability deviations: 
+# -------------------------------------- #
+# Slx_Devs_0 -- Dummy_sel_dev_par:
+0.000000000000 
+# -------------------------------------- #
+
+#_Mean fishing mortality rate parameters: 
+# -------------------------------------- #
+# log_fbar[1] -- log_fbar_Pot_Fishery:
+-0.568609423677 
+# log_fbar[2] -- log_fbar_Trawl_Bycatch:
+-6.175770758790 
+# log_fbar[3] -- log_fbar_NMFS_Trawl_1982:
+-4.000000000000 
+# log_fbar[4] -- log_fbar_NMFS_Trawl_1989:
+-4.000000000000 
+# log_fbar[5] -- log_fbar_BSFRF_2009:
+-4.000000000000 
+# log_fbar[6] -- log_fbar_NMFS_2009:
+-4.000000000000 
+# log_fbar[7] -- log_fbar_BSFRF_2010:
+-4.000000000000 
+# log_fbar[8] -- log_fbar_NMFS_2010:
+-4.000000000000 
+# -------------------------------------- #
+
+#_Mean fishing mortality rate deviations: 
+# -------------------------------------- #
+# ----Pot_Fishery:----
+# Log_fdev_Pot_Fishery_year_1982_season_2 :
+-2.103390144140 
+# Log_fdev_Pot_Fishery_year_1983_season_2 :
+-2.073343250630 
+# Log_fdev_Pot_Fishery_year_1984_season_2 :
+-1.101432332220 
+# Log_fdev_Pot_Fishery_year_1985_season_2 :
+-0.398759172018 
+# Log_fdev_Pot_Fishery_year_1986_season_2 :
+-0.032187233809 
+# Log_fdev_Pot_Fishery_year_1987_season_2 :
+0.210218192827 
+# Log_fdev_Pot_Fishery_year_1988_season_2 :
+0.194170855025 
+# Log_fdev_Pot_Fishery_year_1989_season_2 :
+0.090511348112 
+# Log_fdev_Pot_Fishery_year_1990_season_2 :
+0.852965076877 
+# Log_fdev_Pot_Fishery_year_1991_season_2 :
+0.943737940492 
+# Log_fdev_Pot_Fishery_year_1992_season_2 :
+1.183013636580 
+# Log_fdev_Pot_Fishery_year_1993_season_2 :
+0.642693987906 
+# Log_fdev_Pot_Fishery_year_1994_season_2 :
+0.303586904881 
+# Log_fdev_Pot_Fishery_year_1995_season_2 :
+0.362517128998 
+# Log_fdev_Pot_Fishery_year_1996_season_2 :
+0.211521328742 
+# Log_fdev_Pot_Fishery_year_1997_season_2 :
+0.438636534242 
+# Log_fdev_Pot_Fishery_year_1998_season_2 :
+0.385566490119 
+# Log_fdev_Pot_Fishery_year_1999_season_2 :
+-1.219127764060 
+# Log_fdev_Pot_Fishery_year_2000_season_2 :
+-1.106832157600 
+# Log_fdev_Pot_Fishery_year_2001_season_2 :
+-0.296782457547 
+# Log_fdev_Pot_Fishery_year_2002_season_2 :
+-0.512170074588 
+# Log_fdev_Pot_Fishery_year_2003_season_2 :
+-1.130228976390 
+# Log_fdev_Pot_Fishery_year_2004_season_2 :
+-1.023127734070 
+# Log_fdev_Pot_Fishery_year_2005_season_2 :
+-0.243142698395 
+# Log_fdev_Pot_Fishery_year_2006_season_2 :
+-0.196051362124 
+# Log_fdev_Pot_Fishery_year_2007_season_2 :
+-0.116318088877 
+# Log_fdev_Pot_Fishery_year_2008_season_2 :
+-0.473922835638 
+# Log_fdev_Pot_Fishery_year_2009_season_2 :
+-0.900035016936 
+# Log_fdev_Pot_Fishery_year_2010_season_2 :
+-0.870572372256 
+# Log_fdev_Pot_Fishery_year_2011_season_2 :
+0.025358358126 
+# Log_fdev_Pot_Fishery_year_2012_season_2 :
+0.474599906540 
+# Log_fdev_Pot_Fishery_year_2013_season_2 :
+0.617721998873 
+# Log_fdev_Pot_Fishery_year_2014_season_2 :
+0.801400256051 
+# Log_fdev_Pot_Fishery_year_2015_season_2 :
+0.790669488408 
+# Log_fdev_Pot_Fishery_year_2016_season_2 :
+0.269353342573 
+# Log_fdev_Pot_Fishery_year_2017_season_2 :
+0.190777738239 
+# Log_fdev_Pot_Fishery_year_2018_season_2 :
+1.630672092690 
+# Log_fdev_Pot_Fishery_year_2019_season_2 :
+1.800258137910 
+# Log_fdev_Pot_Fishery_year_2020_season_2 :
+1.377473014320 
+# ----Trawl_Bycatch:----
+# Log_fdev_Trawl_Bycatch_year_1982_season_2 :
+-0.730645881506 
+# Log_fdev_Trawl_Bycatch_year_1983_season_2 :
+-0.399192400478 
+# Log_fdev_Trawl_Bycatch_year_1984_season_2 :
+-0.187506467516 
+# Log_fdev_Trawl_Bycatch_year_1985_season_2 :
+-0.026181886227 
+# Log_fdev_Trawl_Bycatch_year_1986_season_2 :
+-8.973820890420 
+# Log_fdev_Trawl_Bycatch_year_1987_season_2 :
+-4.818819804750 
+# Log_fdev_Trawl_Bycatch_year_1988_season_2 :
+-5.288113151300 
+# Log_fdev_Trawl_Bycatch_year_1989_season_2 :
+-1.501839367190 
+# Log_fdev_Trawl_Bycatch_year_1990_season_2 :
+0.487817796842 
+# Log_fdev_Trawl_Bycatch_year_1991_season_2 :
+1.420529577840 
+# Log_fdev_Trawl_Bycatch_year_1992_season_2 :
+2.193068031750 
+# Log_fdev_Trawl_Bycatch_year_1993_season_2 :
+1.949726406390 
+# Log_fdev_Trawl_Bycatch_year_1994_season_2 :
+2.638975437590 
+# Log_fdev_Trawl_Bycatch_year_1995_season_2 :
+1.602320301940 
+# Log_fdev_Trawl_Bycatch_year_1996_season_2 :
+0.678368919585 
+# Log_fdev_Trawl_Bycatch_year_1997_season_2 :
+0.756130947481 
+# Log_fdev_Trawl_Bycatch_year_1998_season_2 :
+0.530769956690 
+# Log_fdev_Trawl_Bycatch_year_1999_season_2 :
+0.658914740981 
+# Log_fdev_Trawl_Bycatch_year_2000_season_2 :
+0.778278243977 
+# Log_fdev_Trawl_Bycatch_year_2001_season_2 :
+0.763093799600 
+# Log_fdev_Trawl_Bycatch_year_2002_season_2 :
+0.125840576488 
+# Log_fdev_Trawl_Bycatch_year_2003_season_2 :
+0.950419422740 
+# Log_fdev_Trawl_Bycatch_year_2004_season_2 :
+1.377073221420 
+# Log_fdev_Trawl_Bycatch_year_2005_season_2 :
+0.411360457038 
+# Log_fdev_Trawl_Bycatch_year_2006_season_2 :
+1.038321361980 
+# Log_fdev_Trawl_Bycatch_year_2007_season_2 :
+-0.133574310490 
+# Log_fdev_Trawl_Bycatch_year_2008_season_2 :
+-0.343632821896 
+# Log_fdev_Trawl_Bycatch_year_2009_season_2 :
+0.507969524166 
+# Log_fdev_Trawl_Bycatch_year_2010_season_2 :
+-0.595504393431 
+# Log_fdev_Trawl_Bycatch_year_2011_season_2 :
+-0.270007889583 
+# Log_fdev_Trawl_Bycatch_year_2012_season_2 :
+0.587916413170 
+# Log_fdev_Trawl_Bycatch_year_2013_season_2 :
+0.050849066261 
+# Log_fdev_Trawl_Bycatch_year_2014_season_2 :
+0.269478451700 
+# Log_fdev_Trawl_Bycatch_year_2015_season_2 :
+0.586072292229 
+# Log_fdev_Trawl_Bycatch_year_2016_season_2 :
+-0.051631266623 
+# Log_fdev_Trawl_Bycatch_year_2017_season_2 :
+-0.515650983806 
+# Log_fdev_Trawl_Bycatch_year_2018_season_2 :
+1.754481563830 
+# Log_fdev_Trawl_Bycatch_year_2019_season_2 :
+1.649678160920 
+# Log_fdev_Trawl_Bycatch_year_2020_season_2 :
+0.068666901463 
+# ----NMFS_Trawl_1982:----
+# Log_fdev_NMFS_Trawl_1982 :
+0.000000000000 
+# ----NMFS_Trawl_1989:----
+# Log_fdev_NMFS_Trawl_1989 :
+0.000000000000 
+# ----BSFRF_2009:----
+# Log_fdev_BSFRF_2009 :
+0.000000000000 
+# ----NMFS_2009:----
+# Log_fdev_NMFS_2009 :
+0.000000000000 
+# ----BSFRF_2010:----
+# Log_fdev_BSFRF_2010 :
+0.000000000000 
+# ----NMFS_2010:----
+# Log_fdev_NMFS_2010 :
+0.000000000000 
+# -------------------------------------- #
+
+#_Female F offset to male fishing mortality parameters: 
+# -------------------------------------- #
+# log_foff[1] -- Log_foff_Pot_Fishery:
+-5.973346796050 
+# log_foff[2] -- Log_foff_Trawl_Bycatch:
+0.000000000000 
+# log_foff[3] -- Log_foff_NMFS_Trawl_1982:
+0.000000000000 
+# log_foff[4] -- Log_foff_NMFS_Trawl_1989:
+0.000000000000 
+# log_foff[5] -- Log_foff_BSFRF_2009:
+0.000000000000 
+# log_foff[6] -- Log_foff_NMFS_2009:
+0.000000000000 
+# log_foff[7] -- Log_foff_BSFRF_2010:
+0.000000000000 
+# log_foff[8] -- Log_foff_NMFS_2010:
+0.000000000000 
+# -------------------------------------- #
+
+#_Female F deviation offset parameters: 
+# -------------------------------------- #
+# ----Pot_Fishery:----
+# Log_fdov_Pot_Fishery_year_1982_season_2 :
+-0.276460261880 
+# Log_fdov_Pot_Fishery_year_1983_season_2 :
+-0.360270968457 
+# Log_fdov_Pot_Fishery_year_1984_season_2 :
+-0.977849980159 
+# Log_fdov_Pot_Fishery_year_1985_season_2 :
+-1.290031385640 
+# Log_fdov_Pot_Fishery_year_1986_season_2 :
+-0.482322476163 
+# Log_fdov_Pot_Fishery_year_1987_season_2 :
+-0.099566356018 
+# Log_fdov_Pot_Fishery_year_1988_season_2 :
+0.011817384383 
+# Log_fdov_Pot_Fishery_year_1989_season_2 :
+0.456451081973 
+# Log_fdov_Pot_Fishery_year_1990_season_2 :
+-0.102975533706 
+# Log_fdov_Pot_Fishery_year_1991_season_2 :
+0.146687032526 
+# Log_fdov_Pot_Fishery_year_1992_season_2 :
+0.840542521475 
+# Log_fdov_Pot_Fishery_year_1993_season_2 :
+1.157551627550 
+# Log_fdov_Pot_Fishery_year_1994_season_2 :
+1.259701230660 
+# Log_fdov_Pot_Fishery_year_1995_season_2 :
+-0.110532109951 
+# Log_fdov_Pot_Fishery_year_1996_season_2 :
+1.441423710080 
+# Log_fdov_Pot_Fishery_year_1997_season_2 :
+-1.299069733110 
+# Log_fdov_Pot_Fishery_year_1998_season_2 :
+-0.894572467668 
+# Log_fdov_Pot_Fishery_year_1999_season_2 :
+-1.847073234000 
+# Log_fdov_Pot_Fishery_year_2000_season_2 :
+-1.696240481280 
+# Log_fdov_Pot_Fishery_year_2001_season_2 :
+-2.419714100260 
+# Log_fdov_Pot_Fishery_year_2002_season_2 :
+0.222506200592 
+# Log_fdov_Pot_Fishery_year_2003_season_2 :
+-0.899828119335 
+# Log_fdov_Pot_Fishery_year_2004_season_2 :
+-0.795756180899 
+# Log_fdov_Pot_Fishery_year_2005_season_2 :
+-0.380513394264 
+# Log_fdov_Pot_Fishery_year_2006_season_2 :
+-1.966221092450 
+# Log_fdov_Pot_Fishery_year_2007_season_2 :
+0.574906684069 
+# Log_fdov_Pot_Fishery_year_2008_season_2 :
+0.787808114807 
+# Log_fdov_Pot_Fishery_year_2009_season_2 :
+1.298203630060 
+# Log_fdov_Pot_Fishery_year_2010_season_2 :
+0.884108262041 
+# Log_fdov_Pot_Fishery_year_2011_season_2 :
+2.885199300710 
+# Log_fdov_Pot_Fishery_year_2012_season_2 :
+0.510462659179 
+# Log_fdov_Pot_Fishery_year_2013_season_2 :
+1.303256488010 
+# Log_fdov_Pot_Fishery_year_2014_season_2 :
+2.204393394190 
+# Log_fdov_Pot_Fishery_year_2015_season_2 :
+1.470109348130 
+# Log_fdov_Pot_Fishery_year_2016_season_2 :
+0.851687959989 
+# Log_fdov_Pot_Fishery_year_2017_season_2 :
+0.856339897581 
+# Log_fdov_Pot_Fishery_year_2018_season_2 :
+-0.787163783356 
+# Log_fdov_Pot_Fishery_year_2019_season_2 :
+-0.190829994368 
+# Log_fdov_Pot_Fishery_year_2020_season_2 :
+-2.286164878860 
+# ----Trawl_Bycatch:----
+# Log_fdov_Trawl_Bycatch :
+0.000000000000 
+# ----NMFS_Trawl_1982:----
+# Log_fdov_NMFS_Trawl_1982 :
+0.000000000000 
+# ----NMFS_Trawl_1989:----
+# Log_fdov_NMFS_Trawl_1989 :
+0.000000000000 
+# ----BSFRF_2009:----
+# Log_fdov_BSFRF_2009 :
+0.000000000000 
+# ----NMFS_2009:----
+# Log_fdov_NMFS_2009 :
+0.000000000000 
+# ----BSFRF_2010:----
+# Log_fdov_BSFRF_2010 :
+0.000000000000 
+# ----NMFS_2010:----
+# Log_fdov_NMFS_2010 :
+0.000000000000 
+# -------------------------------------- #
+
+#_Initial values of recruitment: 
+# -------------------------------------- #
+# rec_ini:
+0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 
+# -------------------------------------- #
+
+#_Recruitment deviation estimates: 
+# -------------------------------------- #
+# rec_dev_est:
+10.221364190800 9.946779958180 10.525130833900 11.653387401900 10.783257600500 9.874664743200 9.392513401770 9.470325035850 9.455031546190 10.779444260700 10.914658624100 10.675241457900 9.341997887830 7.133021782350 6.915745708890 8.203224571840 10.242890956200 8.623861688100 7.771294095660 8.040825630390 10.002303890300 10.757352737200 9.752947873570 9.703253706630 7.306913464840 7.632553791500 11.048191505600 9.392861558710 8.748736143110 8.870420151770 8.957824898390 9.223570826720 9.732635706500 10.865621689300 11.999992186500 9.548926240310 8.417726060970 7.969387025680 7.787382376030 
+# -------------------------------------- #
+
+#_Sex-ratio recruitment deviation estimates: 
+# -------------------------------------- #
+# logit_rec_prop_est:
+1.740215979590 2.648382376830 1.284173946480 -0.970151876133 0.683322829414 -1.674610574100 2.318687645360 -1.223080727490 0.168201374276 0.524986782301 1.255317870650 -0.992516701151 -3.005392493430 -2.662502552170 -1.829500177620 1.560198185770 0.255233327338 -1.501234098420 -0.388707763615 0.836346467462 2.258165780260 -0.830654313544 2.330525809870 1.944004388320 1.106595369520 -0.503310564097 -1.862909005290 1.540255127380 -0.835900804850 -0.406479203277 -1.933170189300 2.454145172660 -0.565891021180 0.699444046254 -0.141173139655 0.771508379317 -2.626772981990 -2.022916638400 -0.402836033331 
+# -------------------------------------- #
+
+#_Natural mortality deviation parameters: 
+# -------------------------------------- #
+# m_dev_est[1] -- M_dev_est_par_1:
+1.851032337320 
+# m_dev_est[2] -- M_dev_est_par_2:
+1.737406689180 
+# m_dev_est[3] -- M_dev_est_par_3:
+0.001136679587 
+# m_dev_est[4] -- M_dev_est_par_4:
+0.000083811262 
+# m_dev_est[5] -- M_dev_est_par_5:
+1.490278243960 
+# m_dev_est[6] -- M_dev_est_par_6:
+0.001150679257 
+# m_dev_est[7] -- M_dev_est_par_7:
+0.598336852060 
+# m_dev_est[8] -- M_dev_est_par_8:
+1.033843598490 
+# m_dev_est[9] -- M_dev_est_par_9:
+0.001136679587 
+# m_dev_est[10] -- M_dev_est_par_10:
+1.971512722290 
+# m_dev_est[11] -- M_dev_est_par_11:
+0.713353719623 
+# m_dev_est[12] -- M_dev_est_par_12:
+0.001147859939 
+# -------------------------------------- #
+
+#_Maturity specific natural mortality parameters: 
+# -------------------------------------- #
+# m_mat_mult[1] -- m_mat_mult_Male:
+-0.067688755030 
+# m_mat_mult[2] -- m_mat_mult_Female:
+0.283711149835 
+# -------------------------------------- #
+
+#_Effective sample size parameters: 
+# -------------------------------------- #
+# log_vn[1] -- Log_vn_comp_1:
+0.000000000000 
+# log_vn[2] -- Log_vn_comp_2:
+0.000000000000 
+# log_vn[3] -- Log_vn_comp_3:
+0.000000000000 
+# log_vn[4] -- Log_vn_comp_4:
+0.000000000000 
+# log_vn[5] -- Log_vn_comp_5:
+0.000000000000 
+# log_vn[6] -- Log_vn_comp_6:
+0.000000000000 
+# log_vn[7] -- Log_vn_comp_7:
+0.000000000000 
+# log_vn[8] -- Log_vn_comp_8:
+0.000000000000 
+# log_vn[9] -- Log_vn_comp_9:
+0.000000000000 
+# log_vn[10] -- Log_vn_comp_10:
+0.000000000000 
+# log_vn[11] -- Log_vn_comp_11:
+0.000000000000 
+# log_vn[12] -- Log_vn_comp_12:
+0.000000000000 
+# log_vn[13] -- Log_vn_comp_13:
+0.000000000000 
+# log_vn[14] -- Log_vn_comp_14:
+0.000000000000 
+# log_vn[15] -- Log_vn_comp_15:
+0.000000000000 
+# log_vn[16] -- Log_vn_comp_16:
+0.000000000000 
+# log_vn[17] -- Log_vn_comp_17:
+0.000000000000 
+# -------------------------------------- #
+
+#_Catchability coefficient parameters: 
+# -------------------------------------- #
+# survey_q[1] -- Log_vn_comp_1:
+0.123110128391 
+# survey_q[2] -- Log_vn_comp_2:
+0.174643542265 
+# survey_q[3] -- Log_vn_comp_3:
+0.163682603564 
+# survey_q[4] -- Log_vn_comp_4:
+0.303162463452 
+# survey_q[5] -- Log_vn_comp_5:
+0.999900000000 
+# survey_q[6] -- Log_vn_comp_6:
+0.999900000000 
+# -------------------------------------- #
+
+#_Addtional CV for surveys/indices parameters: 
+# -------------------------------------- #
+# log_add_cv[1] -- Log_add_cvt_survey_1:
+-9.210340371980 
+# log_add_cv[2] -- Log_add_cvt_survey_2:
+-9.210340371980 
+# log_add_cv[3] -- Log_add_cvt_survey_3:
+-9.210340371980 
+# log_add_cv[4] -- Log_add_cvt_survey_4:
+-9.210340371980 
+# log_add_cv[5] -- Log_add_cvt_survey_5:
+-9.210340371980 
+# log_add_cv[6] -- Log_add_cvt_survey_6:
+-9.210340371980 
+# -------------------------------------- #
+
+# -------------------------------------- #
+##_End of parameter file file
+# -------------------------------------- #
+9999

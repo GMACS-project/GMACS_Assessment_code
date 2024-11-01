@@ -2,14 +2,14 @@
 #                  GMACS main control file 
 # 
 #_*** 
-#_  GMACS Version 2.01.M.01 
-#_Last GMACS mofification made by:   ** MV ** 
-#_Date of writing the control file: 2024-02-17 16:44:17 
+#_GMACS Version 2.10.01 
+#_Last GMACS mofification made by: ** MV ** 
+#_Date of writing the control file:2024-11-01 01:40:00 
 #_*** 
 # 
-#_Stock of interest:  WAG 
-#_Model name:  model_21_1e 
-#_Year of assessment:  2021 
+#_Stock of interest: WAG 
+#_Model name: model_21_1e 
+#_Year of assessment: 2021 
 # ============================================================ #
 
 # -------------------------------------- #
@@ -34,26 +34,28 @@
 # ************************************** #
 # 
 #_Init_val_| Lower_Bd_| Upper_Bd_| Phase_| Prior_type_| p1_| p2
-0.21 0.01 1 -3 2 0.18 0.04
-7.569555623 -10 20 1 0 -10 20
-12 -10 20 -3 0 -10 20
-8 -10 20 -1 0 -10 20
-110 103 165 -2 1 72.5 7.25
-0.961318631 0.001 20 3 0 0.1 5
--0.693147181 -10 0.75 -1 0 -10 0.75
-0.73 0.2 1 -2 3 3 2
-0.001 0 1 -3 3 1.01 1.01
+0.21 0.01 1 -3 2 0.18 0.04 			# M-base
+7.569556 -10 20 1 0 -10 20 			# Log_R0
+12 -10 20 -3 0 -10 20 			# Log_Rinitial
+8 -10 20 -1 0 -10 20 			# Log_Rbar
+110 103 165 -2 1 72.5 7.25 			# Recruitment_ra-males
+0.9613186 0.001 20 3 0 0.1 5 			# Recruitment_rb-males
+-0.6931472 -10 0.75 -1 0 -10 0.75 			# log_SigmaR
+0.73 0.2 1 -2 3 3 2 			# Steepness
+0.001 0 1 -3 3 1.01 1.01 			# Rho
 # -------------------------------------- #
 
 # -------------------------------------- #
 ##_Allometry
 # -------------------------------------- #
 #_Length-weight type/method
-#_1 = Length-weight relationship (vector of sex specific parameters: w_l = a[s]*l^b[s])
-#_2 = Input vector of mean weight-at-size by sex (dim=[1:nclass])
-#_3 = Input matrix of mean weight-at-size by sex and year (dim=[nsex*Nyear; nclass])
+#_1 = Length-weight relationship parameters (w_l = a[s]*l^b[s]): vector of sex specific parameters for each maturity type:
+#_(i.e., immature males, mature males, immature females, mature females).
+#_2 = Input vector of mean weight-at-size by sex (dim=[1:nclass]) and maturity type (i.e., matrix of dim=[nsex*nmature,nclass]) 
+#_3 = Input matrix of mean weight-at-size by sex and year for each maturity type (dim=[nsex*nmature*Nyear; nclass])
 2 
-#_vector of male mean weight-at-size
+#_vector of male mean weight-at-size for each maturity type.
+#_size_Class_1 size_Class_2 size_Class_3 size_Class_4 size_Class_5 size_Class_6 size_Class_7 size_Class_8 size_Class_9 size_Class_10 size_Class_11 size_Class_12 size_Class_13 size_Class_14 size_Class_15 size_Class_16 size_Class_17 
 0.5815157 0.6793282 0.7880323 0.9082783 1.040724 1.186036 1.344888 1.517961 1.705944 1.909531 2.129426 2.366337 2.62098 2.894077 3.186357 3.498554 3.993658 
 # -------------------------------------- #
 
@@ -61,11 +63,13 @@
 ##_Fecundity for MMB/MMA calculation
 # -------------------------------------- #
 #_Maturity definition: Proportion of mature at size by sex
+#_size_Class_1 size_Class_2 size_Class_3 size_Class_4 size_Class_5 size_Class_6 size_Class_7 size_Class_8 size_Class_9 size_Class_10 size_Class_11 size_Class_12 size_Class_13 size_Class_14 size_Class_15 size_Class_16 size_Class_17 
 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
 #_Legal definition of the proportion of mature at size by sex
+#_size_Class_1 size_Class_2 size_Class_3 size_Class_4 size_Class_5 size_Class_6 size_Class_7 size_Class_8 size_Class_9 size_Class_10 size_Class_11 size_Class_12 size_Class_13 size_Class_14 size_Class_15 size_Class_16 size_Class_17 
 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 
-# use functional maturity for terminally molting animals?
-0
+#_Use functional maturity for terminally molting animals? (0 = No; 1 = Yes)
+0 
 # -------------------------------------- #
 
 # -------------------------------------- #
@@ -105,6 +109,7 @@
 # ************************************** #
 #_If the custom growth model option = 1 then the molt probability function must be 1 
 2 
+ 
 #_Maximum of size-classes to which recruitment must occur (males then females)
 5 
 #_Number of blocks of growth matrix parameters (i.e., number of size-increment period)
@@ -116,6 +121,7 @@
 1 
 #_Year(s) with changes in molt probability
 #_-> 1 line per sex - blank if no change (i.e., if the number of blocks of growth matrix parameters = 1)
+
 #_Are the beta parameters relative to a base level?
 1 
 
@@ -135,9 +141,9 @@
 # ************************************** #
 # 
 #_Init_val_| Lower_Bd_| Upper_Bd_| Phase_| Prior_type_| p1_| p2
-25.196667522 10 50 7 0 0 20
-0.090287711 -0.4 20 7 0 0 10
-3.667971226 0.01 5 7 0 0 3
+25.19667 10 50 7 0 0 20 			# Alpha_Male_period_1
+0.09028771 -0.4 20 7 0 0 10 			# Beta_Male_period_1
+3.667971 0.01 5 7 0 0 3 			# Gscale_Male_period_1
 
 #_Molt probability controls
 # ************************************** #
@@ -155,13 +161,33 @@
 # ************************************** #
  
 #_Init_val_| Lower_Bd_| Upper_Bd_| Phase_| Prior_type_| p1_| p2
-141.100064775 65 165 7 0 0 999
-0.102920636 -0.1 2 7 0 0 2
+141.1001 65 165 7 0 0 999 			# Molt_probability_mu_Male_period_1
+0.1029206 -0.1 2 7 0 0 2 			# Molt_probability_CV_Male_period_1
+
+#_Mature probability controls
+# ************************************** #
+#_For each parameter columns are:
+#_Init_val: Initial value for the parameter (must lie between lower and upper bounds)
+#_Lower_Bd & Upper_Bd: Range for the parameter
+#_Phase: Set equal to a negative number not to estimate
+#_Available prior types:
+#_-> 0 = Uniform   - parameters are the range of the uniform prior
+#_-> 1 = Normal    - parameters are the mean and sd
+#_-> 2 = Lognormal - parameters are the mean and sd of the log
+#_-> 3 = Beta      - parameters are the two beta parameters [see dbeta]
+#_-> 4 = Gamma     - parameters are the two gamma parameters [see dgamma]
+#_p1; p2: priors
+# ************************************** #
+ 
+#_Init_val_| Lower_Bd_| Upper_Bd_| Phase_| Prior_type_| p1_| p2
 
 #_Custom growth-increment matrix or size-transition matrix (if any)
 # 
 
 #_Custom molt probability matrix  (if any)
+# 
+
+#_Custom maturity probability matrix  (if any)
 # 
 # -------------------------------------- #
 
@@ -246,12 +272,12 @@
  
 #_Fleet_| Index_| Par_no_| Sex_| Init_val_| Lower_Bd_| Upper_Bd_| Prior_type_| p1_| p2_| Phase_| Start_Block_| End_Block_| Env_Link_| Link_Par_| Rand_Walk_| Start_RdWalk_| End_RdWalk_| Sigma_RdWalk
 # Pot_Fishery  
-1 1 1 0 134.9011 105 180 0 100 190 3 1960 2004 0 0 0 0 0 0  
-1 2 2 0 18.43161 0.01 20 0 0.1 50 3 1960 2004 0 0 0 0 0 0  
-1 3 1 0 134.4369 105 180 0 100 190 3 2005 2021 0 0 0 0 0 0  
-1 4 2 0 7.435699 0.01 20 0 0.1 50 3 2005 2021 0 0 0 0 0 0  
+1 1 1 0 134.9011 105 180 0 100 190 3 1960 2004 0 0 0 0 0 0 			# Sel_Pot_Fishery_Male_period_1_par_1
+1 2 2 0 18.43161 0.01 20 0 0.1 50 3 1960 2004 0 0 0 0 0 0 			# Sel_Pot_Fishery_Male_period_1_par_2
+1 3 1 0 134.4369 105 180 0 100 190 3 2005 2021 0 0 0 0 0 0 			# Sel_Pot_Fishery_Male_period_2_par_1
+1 4 2 0 7.435699 0.01 20 0 0.1 50 3 2005 2021 0 0 0 0 0 0 			# Sel_Pot_Fishery_Male_period_2_par_2
 # Trawl_Bycatch  
-2 5 1 0 1 0.99 1.02 0 10 200 -3 1960 2021 0 0 0 0 0 0  
+2 5 1 0 1 0.99 1.02 0 10 200 -3 1960 2021 0 0 0 0 0 0 			# Sel_Trawl_Bycatch_Male_period_1_par_1
 
 #_Retention parameter controls
 # ************************************** #
@@ -282,10 +308,10 @@
  
 #_Fleet_| Index_| Par_no_| Sex_| Init_val_| Lower_Bd_| Upper_Bd_| Prior_type_| p1_| p2_| Phase_| Start_Block_| End_Block_| Env_Link_| Link_Par_| Rand_Walk_| Start_RdWalk_| End_RdWalk_| Sigma_RdWalk
 # Pot_Fishery  
--1 6 1 0 136.0095 105 180 0 100 190 3 1960 2021 0 0 0 0 0 0  
--1 7 2 0 1.869278 1e-04 20 0 0.1 50 3 1960 2021 0 0 0 0 0 0  
+-1 6 1 0 136.0095 105 180 0 100 190 3 1960 2021 0 0 0 0 0 0 			# Ret_Pot_Fishery_Male_period_1_par_1
+-1 7 2 0 1.869278 1e-04 20 0 0.1 50 3 1960 2021 0 0 0 0 0 0 			# Ret_Pot_Fishery_Male_period_1_par_2
 # Trawl_Bycatch  
--2 8 1 0 1 0.99 1.01 0 10 200 -3 1960 2021 0 0 0 0 0 0  
+-2 8 1 0 1 0.99 1.01 0 10 200 -3 1960 2021 0 0 0 0 0 0 			# Ret_Trawl_Bycatch_Male_period_1_par_1
 
 #_Number of asymptotic retention parameter
 1 
@@ -299,7 +325,7 @@
 #_Phase: Set equal to a negative number not to estimate
 # ************************************** #
 #_Fleet_| Sex_| Year_| Init_val_| Lower_Bd_| Upper_Bd_| Phase 
-1 1 1960 1e-06 0 1 -3
+1 1 1960 1e-06 0 1 -3 			# AsympRet_fleet_Pot_Fishery_sex_Male_year_1960
 # -------------------------------------- #
 
 
@@ -319,7 +345,7 @@
 
 #_Deviation parameter phase for the random walk in vulnerability parameters
 #_Need to be defined
--1 
+-1 	#  Dummy_sel_dev_par 
 
 # -------------------------------------- #
 ## Priors for catchability
@@ -341,9 +367,9 @@
 # Loglik_mult: weight for the likelihood
 # ************************************** #
 # Init_val | Lower_Bd | Upper_Bd | Phase | Prior_type | p1 | p2 | Q_anal | CV_mult | Loglik_mult
-0.001038534 1e-07 0.01 1 0 0 1 0 1 1
-0.001080062 1e-07 0.01 1 0 0 1 0 1 1
-0.000674553 1e-07 0.01 1 0 0 1 0 1 1
+0.001038534 1e-07 0.01 1 0 0 1 0 1 1 			# Log_vn_comp_1
+0.001080062 1e-07 0.01 1 0 0 1 0 1 1 			# Log_vn_comp_2
+0.000674553 1e-07 0.01 1 0 0 1 0 1 1 			# Log_vn_comp_3
 # -------------------------------------- #
 
 # -------------------------------------- #
@@ -363,9 +389,9 @@
 # p1; p2: priors
 # ************************************** #
 # Init_val | Lower_Bd | Upper_Bd | Phase | Prior_type| p1 | p2
-0.00017292 1e-07 0.5 6 0 0.5 100
-8.2029e-05 1e-07 0.5 6 0 0.5 100
-0.000140039 1e-07 0.5 6 0 0.5 100
+0.00017292 1e-07 0.5 6 0 0.5 100 			# Log_add_cvt_survey_1
+8.2029e-05 1e-07 0.5 6 0 0.5 100 			# Log_add_cvt_survey_2
+0.000140039 1e-07 0.5 6 0 0.5 100 			# Log_add_cvt_survey_3
  
 # Additional variance control for each survey (0 = ignore; >0 = use)
 1 2 3 
@@ -387,8 +413,8 @@
 # Low_bd_Y_female_F & Up_bd_Y_female_F: Range for the female fishing mortality (lower and upper bounds, respectivly)#
 # ************************************** #
 #  Mean_F_male | Female_Offset | Pen_std_Ph1 | Pen_std_Ph2 | Ph_Mean_F_male | Ph_Mean_F_female | Low_bd_mean_F | Up_bd_mean_F | Low_bd_Y_male_F | Up_bd_Y_male_F | Low_bd_Y_female_F | Up_bd_Y_female_F 
-0.487826676 0 3 15 2 -1 -12 5 -10 10 -10 10
-0.00027863 0 4 15 2 -1 -12 5 -10 10 -10 10
+0.4878267 0 3 15 2 -1 -12 5 -10 10 -10 10 			# log_fbar_Pot_Fishery
+0.00027863 0 4 15 2 -1 -12 5 -10 10 -10 10 			# log_fbar_Trawl_Bycatch
 # -------------------------------------- #
 
 # -------------------------------------- #
@@ -491,7 +517,7 @@
 # p1; p2: priors
 # ************************************** #
 # Init_val | Lower_Bd | Upper_Bd | Phase | Prior_type| p1 | p2
-0 -1 1 -1 0 1 1
+0 -1 1 -1 0 1 1 			# m_mat_mult_Male
 # -------------------------------------- #
 
 # -------------------------------------- #
@@ -533,8 +559,8 @@
 # Penalties on deviations
 # ************************************** #
 #  Fdev_total | Fdov_total | Fdev_year | Fdov_year 
-0 0 0.001 0
-0 0 0.001 0
+0 0 0.001 0 			# Pot_Fishery
+0 0 0.001 0 			# Trawl_Bycatch
 
 # Account for priors (penalties)
 # ************************************** #

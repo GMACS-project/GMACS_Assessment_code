@@ -1,7 +1,10 @@
-- GMACS version:  2.01.M.09
-- Last compilation date: 2024-02-22 12:20:22 
+- GMACS version:  2.10.01
+- Last compilation date: 2024-10-31 10:01:47 
 - Last update(s) have been made by:  Matthieu Veron
 
 - Details about the last modification:
-// 2024-02-22 ** MV ** (Update GMACS version 2.01.M.09) - 1. Update info about developpers
-// - 2. Fix indetation issues when compiling and chage the length of the selname1 vector
+// 2024-10-31 ** MV ** (Update GMACS version 2.10.01) - 1. Incorporate implementations made by ** AEP ** for Gmacs 2.01.M.10 - (a) corrected
+// error with retrospective patterns and catch read-in, (b) adding units to read-in, and (c)
+// selex and gradient output.
+// - 2. Incorporate implementations made by ** AEP ** for Gmacs 2.10 - Corrected the terminal molt
+// - 3. Incorporate implementations made by ** AEP ** for Gmacs 2.10.01 - Added immature N matrices

@@ -1,0 +1,320 @@
+# ============================================================ #
+#_Number of parameters:  156 
+#_Objective function value:  3095.429050501240 
+#_Maximum gradient component:  0.123367106725 
+# ============================================================ #
+
+#_theta parameters: 
+# -------------------------------------- #
+# theta[1] -- M-base:
+0.210000000000 
+# theta[2] -- Log_R0:
+7.855727129880 
+# theta[3] -- Log_Rinitial:
+12.000000000000 
+# theta[4] -- Log_Rbar:
+8.000000000000 
+# theta[5] -- Recruitment_ra-males:
+110.000000000000 
+# theta[6] -- Recruitment_rb-males:
+1.757180928120 
+# theta[7] -- log_SigmaR:
+-0.693147200000 
+# theta[8] -- Steepness:
+0.730000000000 
+# theta[9] -- Rho:
+0.001000000000 
+# -------------------------------------- #
+
+#_Growth parameters: 
+# -------------------------------------- #
+# Grwth[1] -- Alpha_Male_period_1:
+25.071338672000 
+# Grwth[2] -- Beta_Male_period_1:
+0.088826847299 
+# Grwth[3] -- Gscale_Male_period_1:
+3.673124907660 
+# Grwth[4] -- Molt_probability_mu_Male_period_1:
+141.432524982000 
+# Grwth[5] -- Molt_probability_CV_Male_period_1:
+0.087140726185 
+# -------------------------------------- #
+
+#_Vulnerability parameters: 
+# -------------------------------------- #
+# log_slx_pars[1] -- Sel_Pot_Fishery_Male_period_1_par_1:
+4.782706989420 
+# log_slx_pars[2] -- Sel_Pot_Fishery_Male_period_1_par_2:
+3.195087172930 
+# log_slx_pars[3] -- Sel_Pot_Fishery_Male_period_2_par_1:
+4.915349008320 
+# log_slx_pars[4] -- Sel_Pot_Fishery_Male_period_2_par_2:
+2.122362875230 
+# log_slx_pars[5] -- Sel_Trawl_Bycatch_Male_period_1_par_1:
+0.000000000000 
+# log_slx_pars[6] -- Ret_Pot_Fishery_Male_period_1_par_1:
+4.916137862800 
+# log_slx_pars[7] -- Ret_Pot_Fishery_Male_period_1_par_2:
+0.790392462704 
+# log_slx_pars[8] -- Ret_Trawl_Bycatch_Male_period_1_par_1:
+0.000000000000 
+# -------------------------------------- #
+
+#_Asymptotic retention parameters: 
+# -------------------------------------- #
+# Asymret[1] -- AsympRet_fleet_Pot_Fishery_sex_Male_year_1960:
+0.000001000000 
+# -------------------------------------- #
+
+#_Environmental parameters: 
+# -------------------------------------- #
+# vulnerability: 
+# Envpar_Slx_0 -- Dummy_sel_env_par:
+0.000000000000 
+# -------------------------------------- #
+
+#_Vulnerability deviations: 
+# -------------------------------------- #
+# Slx_Devs_0 -- Dummy_sel_dev_par:
+0.000000000000 
+# -------------------------------------- #
+
+#_Mean fishing mortality rate parameters: 
+# -------------------------------------- #
+# log_fbar[1] -- log_fbar_Pot_Fishery:
+-0.984686740476 
+# log_fbar[2] -- log_fbar_Trawl_Bycatch:
+-8.376654006320 
+# -------------------------------------- #
+
+#_Mean fishing mortality rate deviations: 
+# -------------------------------------- #
+# ----Pot_Fishery:----
+# Log_fdev_Pot_Fishery_year_1981_season_3 :
+-2.192749351610 
+# Log_fdev_Pot_Fishery_year_1982_season_3 :
+-1.147757772900 
+# Log_fdev_Pot_Fishery_year_1983_season_3 :
+-0.807122204451 
+# Log_fdev_Pot_Fishery_year_1984_season_3 :
+-0.519960838362 
+# Log_fdev_Pot_Fishery_year_1985_season_3 :
+0.008204491452 
+# Log_fdev_Pot_Fishery_year_1986_season_3 :
+0.334932599228 
+# Log_fdev_Pot_Fishery_year_1987_season_3 :
+0.130723900567 
+# Log_fdev_Pot_Fishery_year_1988_season_3 :
+0.690180656490 
+# Log_fdev_Pot_Fishery_year_1989_season_3 :
+1.168101292500 
+# Log_fdev_Pot_Fishery_year_1990_season_3 :
+0.530056798974 
+# Log_fdev_Pot_Fishery_year_1991_season_3 :
+0.712651910827 
+# Log_fdev_Pot_Fishery_year_1992_season_3 :
+0.776165868839 
+# Log_fdev_Pot_Fishery_year_1993_season_3 :
+0.304653085598 
+# Log_fdev_Pot_Fishery_year_1994_season_3 :
+0.575818599876 
+# Log_fdev_Pot_Fishery_year_1995_season_3 :
+0.775162020120 
+# Log_fdev_Pot_Fishery_year_1996_season_3 :
+0.487451335481 
+# Log_fdev_Pot_Fishery_year_1997_season_3 :
+0.398751170049 
+# Log_fdev_Pot_Fishery_year_1998_season_3 :
+0.316550678722 
+# Log_fdev_Pot_Fishery_year_1999_season_3 :
+0.111840641628 
+# Log_fdev_Pot_Fishery_year_2000_season_3 :
+-0.029745190807 
+# Log_fdev_Pot_Fishery_year_2001_season_3 :
+-0.156305863802 
+# Log_fdev_Pot_Fishery_year_2002_season_3 :
+-0.387358995830 
+# Log_fdev_Pot_Fishery_year_2003_season_3 :
+-0.397314062441 
+# Log_fdev_Pot_Fishery_year_2004_season_3 :
+-0.446747539283 
+# Log_fdev_Pot_Fishery_year_2005_season_3 :
+-0.325299924548 
+# Log_fdev_Pot_Fishery_year_2006_season_3 :
+-0.216696222466 
+# Log_fdev_Pot_Fishery_year_2007_season_3 :
+-0.263716723194 
+# Log_fdev_Pot_Fishery_year_2008_season_3 :
+-0.240672317368 
+# Log_fdev_Pot_Fishery_year_2009_season_3 :
+-0.219351123356 
+# Log_fdev_Pot_Fishery_year_2010_season_3 :
+-0.266245716443 
+# Log_fdev_Pot_Fishery_year_2011_season_3 :
+-0.264518593588 
+# Log_fdev_Pot_Fishery_year_2012_season_3 :
+-0.205333315410 
+# Log_fdev_Pot_Fishery_year_2013_season_3 :
+-0.126510534505 
+# Log_fdev_Pot_Fishery_year_2014_season_3 :
+-0.056397517710 
+# Log_fdev_Pot_Fishery_year_2015_season_3 :
+0.115981651962 
+# Log_fdev_Pot_Fishery_year_2016_season_3 :
+0.206529763594 
+# Log_fdev_Pot_Fishery_year_2017_season_3 :
+0.167512892967 
+# Log_fdev_Pot_Fishery_year_2018_season_3 :
+0.241725373479 
+# Log_fdev_Pot_Fishery_year_2019_season_3 :
+0.280691869644 
+# Log_fdev_Pot_Fishery_year_2020_season_3 :
+0.004764684955 
+# Log_fdev_Pot_Fishery_year_2021_season_3 :
+-0.068611195236 
+# ----Trawl_Bycatch:----
+# Log_fdev_Trawl_Bycatch_year_1989_season_3 :
+-0.379031121086 
+# Log_fdev_Trawl_Bycatch_year_1990_season_3 :
+0.737042220452 
+# Log_fdev_Trawl_Bycatch_year_1992_season_3 :
+-0.035211404393 
+# Log_fdev_Trawl_Bycatch_year_1993_season_3 :
+-0.055265530754 
+# Log_fdev_Trawl_Bycatch_year_1994_season_3 :
+-1.251273682040 
+# Log_fdev_Trawl_Bycatch_year_1995_season_3 :
+-0.152986151233 
+# Log_fdev_Trawl_Bycatch_year_1996_season_3 :
+-1.391252908380 
+# Log_fdev_Trawl_Bycatch_year_1997_season_3 :
+-2.387748895130 
+# Log_fdev_Trawl_Bycatch_year_1998_season_3 :
+-0.181280523176 
+# Log_fdev_Trawl_Bycatch_year_1999_season_3 :
+-0.761160265281 
+# Log_fdev_Trawl_Bycatch_year_2000_season_3 :
+-0.306436074894 
+# Log_fdev_Trawl_Bycatch_year_2001_season_3 :
+0.079384167849 
+# Log_fdev_Trawl_Bycatch_year_2002_season_3 :
+0.405952133799 
+# Log_fdev_Trawl_Bycatch_year_2003_season_3 :
+-0.178514774445 
+# Log_fdev_Trawl_Bycatch_year_2004_season_3 :
+-1.614331450920 
+# Log_fdev_Trawl_Bycatch_year_2005_season_3 :
+0.202614887828 
+# Log_fdev_Trawl_Bycatch_year_2006_season_3 :
+0.750671399021 
+# Log_fdev_Trawl_Bycatch_year_2007_season_3 :
+0.230069573617 
+# Log_fdev_Trawl_Bycatch_year_2008_season_3 :
+0.985711484884 
+# Log_fdev_Trawl_Bycatch_year_2009_season_3 :
+0.251355673087 
+# Log_fdev_Trawl_Bycatch_year_2010_season_3 :
+1.361143506910 
+# Log_fdev_Trawl_Bycatch_year_2011_season_3 :
+1.209100350390 
+# Log_fdev_Trawl_Bycatch_year_2012_season_3 :
+1.406333908320 
+# Log_fdev_Trawl_Bycatch_year_2013_season_3 :
+0.784458610440 
+# Log_fdev_Trawl_Bycatch_year_2014_season_3 :
+0.715139425758 
+# Log_fdev_Trawl_Bycatch_year_2015_season_3 :
+-0.122311970109 
+# Log_fdev_Trawl_Bycatch_year_2016_season_3 :
+-0.388444441650 
+# Log_fdev_Trawl_Bycatch_year_2017_season_3 :
+0.019330201487 
+# Log_fdev_Trawl_Bycatch_year_2018_season_3 :
+0.010434781466 
+# Log_fdev_Trawl_Bycatch_year_2019_season_3 :
+0.787638299845 
+# Log_fdev_Trawl_Bycatch_year_2020_season_3 :
+-0.864609933537 
+# Log_fdev_Trawl_Bycatch_year_2021_season_3 :
+0.133473138584 
+# -------------------------------------- #
+
+#_Female F offset to male fishing mortality parameters: 
+# -------------------------------------- #
+# log_foff[1] -- Log_foff_Pot_Fishery:
+0.000000000000 
+# log_foff[2] -- Log_foff_Trawl_Bycatch:
+0.000000000000 
+# -------------------------------------- #
+
+#_Female F deviation offset parameters: 
+# -------------------------------------- #
+# ----Pot_Fishery:----
+# Log_fdov_Pot_Fishery :
+0.000000000000 
+# ----Trawl_Bycatch:----
+# Log_fdov_Trawl_Bycatch :
+0.000000000000 
+# -------------------------------------- #
+
+#_Initial values of recruitment: 
+# -------------------------------------- #
+# rec_ini:
+0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 
+# -------------------------------------- #
+
+#_Recruitment deviation estimates: 
+# -------------------------------------- #
+# rec_dev_est:
+-0.119317466760 -0.119171078066 -0.119131609082 -0.119444178246 -0.120275541857 -0.121843534674 -0.124425003549 -0.128363521861 -0.134064416349 -0.141984868953 -0.152607701277 -0.166381488315 -0.183644240128 -0.204504319021 -0.228694669645 -0.255399938238 -0.283056210602 -0.309098084615 -0.329557355917 -0.338292514022 -0.326445495670 -0.286742921585 -0.226817133526 -0.167649001289 -0.225996573941 -0.613337687637 -0.177197477328 0.766884165637 -0.511773315845 0.207583678907 0.210647501886 0.067965582558 -0.115639018205 -0.047913603047 -0.018450686247 -0.339134038365 0.167891882437 0.127444592960 0.049277459418 0.165461908070 -0.348170794640 -0.086291144731 -0.348562680359 -0.530476960468 0.145711568285 -0.105688571314 -0.288228448432 -0.005368192686 -0.110886967725 -0.268930019535 -0.293827395394 -0.336842256242 -0.366999325455 -0.189055642442 0.091797353605 0.114387380940 0.198974273809 0.377164506411 0.086887929363 -0.126997079751 -0.293287724126 -0.125293296072 
+# -------------------------------------- #
+
+#_Sex-ratio recruitment deviation estimates: 
+# -------------------------------------- #
+# logit_rec_prop_est:
+0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 
+# -------------------------------------- #
+
+#_Natural mortality deviation parameters: 
+# -------------------------------------- #
+
+# -------------------------------------- #
+
+#_Maturity specific natural mortality parameters: 
+# -------------------------------------- #
+# m_mat_mult[1] -- m_mat_mult_Male:
+0.000000000000 
+# -------------------------------------- #
+
+#_Effective sample size parameters: 
+# -------------------------------------- #
+# log_vn[1] -- Log_vn_comp_1:
+0.000000000000 
+# log_vn[2] -- Log_vn_comp_2:
+0.000000000000 
+# -------------------------------------- #
+
+#_Catchability coefficient parameters: 
+# -------------------------------------- #
+# survey_q[1] -- Log_vn_comp_1:
+0.000540644776 
+# survey_q[2] -- Log_vn_comp_2:
+0.000463893098 
+# survey_q[3] -- Log_vn_comp_3:
+0.000627620560 
+# -------------------------------------- #
+
+#_Addtional CV for surveys/indices parameters: 
+# -------------------------------------- #
+# log_add_cv[1] -- Log_add_cvt_survey_1:
+-1.740228971920 
+# log_add_cv[2] -- Log_add_cvt_survey_2:
+-1.469099974740 
+# log_add_cv[3] -- Log_add_cvt_survey_3:
+-1.641045920150 
+# -------------------------------------- #
+
+# -------------------------------------- #
+##_End of parameter file file
+# -------------------------------------- #
+9999

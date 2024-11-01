@@ -1,0 +1,997 @@
+# ============================================================ #
+#_Number of parameters:  366 
+#_Objective function value:  -25346.504646553400 
+#_Maximum gradient component:  0.000530444862 
+# ============================================================ #
+
+#_theta parameters: 
+# -------------------------------------- #
+# theta[1] -- M-base:
+0.180000000000 
+# theta[2] -- M-fem-offset:
+0.281088719789 
+# theta[3] -- Log_R0:
+16.500000000000 
+# theta[4] -- Log_Rinitial:
+19.826603133600 
+# theta[5] -- Log_Rbar:
+16.229070497700 
+# theta[6] -- Recruitment_ra-males:
+72.500000000000 
+# theta[7] -- Recruitment_rb-males:
+0.678878091050 
+# theta[8] -- Recruitment_ra-females:
+0.000000000000 
+# theta[9] -- Recruitment_rb-females:
+-0.489643541044 
+# theta[10] -- log_SigmaR:
+-0.105360000000 
+# theta[11] -- Steepness:
+0.750000000000 
+# theta[12] -- Rho:
+0.010000000000 
+# theta[13] -- Scaled_logN_for_Male_mature_1_shell_1_class_2:
+0.963897982893 
+# theta[14] -- Scaled_logN_for_Male_mature_1_shell_1_class_3:
+0.656093433507 
+# theta[15] -- Scaled_logN_for_Male_mature_1_shell_1_class_4:
+0.860383238415 
+# theta[16] -- Scaled_logN_for_Male_mature_1_shell_1_class_5:
+0.706489383863 
+# theta[17] -- Scaled_logN_for_Male_mature_1_shell_1_class_6:
+0.540731053863 
+# theta[18] -- Scaled_logN_for_Male_mature_1_shell_1_class_7:
+0.497651818937 
+# theta[19] -- Scaled_logN_for_Male_mature_1_shell_1_class_8:
+0.338235397853 
+# theta[20] -- Scaled_logN_for_Male_mature_1_shell_1_class_9:
+0.373141303034 
+# theta[21] -- Scaled_logN_for_Male_mature_1_shell_1_class_10:
+0.405616722510 
+# theta[22] -- Scaled_logN_for_Male_mature_1_shell_1_class_11:
+0.179238892821 
+# theta[23] -- Scaled_logN_for_Male_mature_1_shell_1_class_12:
+0.158687528672 
+# theta[24] -- Scaled_logN_for_Male_mature_1_shell_1_class_13:
+0.053866505312 
+# theta[25] -- Scaled_logN_for_Male_mature_1_shell_1_class_14:
+0.169442897493 
+# theta[26] -- Scaled_logN_for_Male_mature_1_shell_1_class_15:
+-0.008510138469 
+# theta[27] -- Scaled_logN_for_Male_mature_1_shell_1_class_16:
+-0.238353773212 
+# theta[28] -- Scaled_logN_for_Male_mature_1_shell_1_class_17:
+-0.391440036239 
+# theta[29] -- Scaled_logN_for_Male_mature_1_shell_1_class_18:
+-0.739508165630 
+# theta[30] -- Scaled_logN_for_Male_mature_1_shell_1_class_19:
+-1.199800450190 
+# theta[31] -- Scaled_logN_for_Male_mature_1_shell_1_class_20:
+-1.245823332870 
+# theta[32] -- Scaled_logN_for_Male_mature_1_shell_2_class_1:
+-100.000000000000 
+# theta[33] -- Scaled_logN_for_Male_mature_1_shell_2_class_2:
+-100.000000000000 
+# theta[34] -- Scaled_logN_for_Male_mature_1_shell_2_class_3:
+-100.000000000000 
+# theta[35] -- Scaled_logN_for_Male_mature_1_shell_2_class_4:
+-100.000000000000 
+# theta[36] -- Scaled_logN_for_Male_mature_1_shell_2_class_5:
+-100.000000000000 
+# theta[37] -- Scaled_logN_for_Male_mature_1_shell_2_class_6:
+-100.000000000000 
+# theta[38] -- Scaled_logN_for_Male_mature_1_shell_2_class_7:
+-100.000000000000 
+# theta[39] -- Scaled_logN_for_Male_mature_1_shell_2_class_8:
+-100.000000000000 
+# theta[40] -- Scaled_logN_for_Male_mature_1_shell_2_class_9:
+-100.000000000000 
+# theta[41] -- Scaled_logN_for_Male_mature_1_shell_2_class_10:
+-100.000000000000 
+# theta[42] -- Scaled_logN_for_Male_mature_1_shell_2_class_11:
+-100.000000000000 
+# theta[43] -- Scaled_logN_for_Male_mature_1_shell_2_class_12:
+-100.000000000000 
+# theta[44] -- Scaled_logN_for_Male_mature_1_shell_2_class_13:
+-100.000000000000 
+# theta[45] -- Scaled_logN_for_Male_mature_1_shell_2_class_14:
+-100.000000000000 
+# theta[46] -- Scaled_logN_for_Male_mature_1_shell_2_class_15:
+-100.000000000000 
+# theta[47] -- Scaled_logN_for_Male_mature_1_shell_2_class_16:
+-100.000000000000 
+# theta[48] -- Scaled_logN_for_Male_mature_1_shell_2_class_17:
+-100.000000000000 
+# theta[49] -- Scaled_logN_for_Male_mature_1_shell_2_class_18:
+-100.000000000000 
+# theta[50] -- Scaled_logN_for_Male_mature_1_shell_2_class_19:
+-100.000000000000 
+# theta[51] -- Scaled_logN_for_Male_mature_1_shell_2_class_20:
+-100.000000000000 
+# theta[52] -- Scaled_logN_for_Female_mature_1_shell_1_class_1:
+1.213306858300 
+# theta[53] -- Scaled_logN_for_Female_mature_1_shell_1_class_2:
+1.470701246950 
+# theta[54] -- Scaled_logN_for_Female_mature_1_shell_1_class_3:
+1.410472497720 
+# theta[55] -- Scaled_logN_for_Female_mature_1_shell_1_class_4:
+1.179083449470 
+# theta[56] -- Scaled_logN_for_Female_mature_1_shell_1_class_5:
+1.090797365450 
+# theta[57] -- Scaled_logN_for_Female_mature_1_shell_1_class_6:
+0.606988158756 
+# theta[58] -- Scaled_logN_for_Female_mature_1_shell_1_class_7:
+0.221210946309 
+# theta[59] -- Scaled_logN_for_Female_mature_1_shell_1_class_8:
+-0.017139962444 
+# theta[60] -- Scaled_logN_for_Female_mature_1_shell_1_class_9:
+-0.206328451261 
+# theta[61] -- Scaled_logN_for_Female_mature_1_shell_1_class_10:
+-0.541388709760 
+# theta[62] -- Scaled_logN_for_Female_mature_1_shell_1_class_11:
+-0.928608082495 
+# theta[63] -- Scaled_logN_for_Female_mature_1_shell_1_class_12:
+-1.188623021900 
+# theta[64] -- Scaled_logN_for_Female_mature_1_shell_1_class_13:
+-1.418351339240 
+# theta[65] -- Scaled_logN_for_Female_mature_1_shell_1_class_14:
+-1.791529088410 
+# theta[66] -- Scaled_logN_for_Female_mature_1_shell_1_class_15:
+-1.896503476270 
+# theta[67] -- Scaled_logN_for_Female_mature_1_shell_1_class_16:
+-1.837428656250 
+# theta[68] -- Scaled_logN_for_Female_mature_1_shell_1_class_17:
+-100.000000000000 
+# theta[69] -- Scaled_logN_for_Female_mature_1_shell_1_class_18:
+-100.000000000000 
+# theta[70] -- Scaled_logN_for_Female_mature_1_shell_1_class_19:
+-100.000000000000 
+# theta[71] -- Scaled_logN_for_Female_mature_1_shell_1_class_20:
+-100.000000000000 
+# theta[72] -- Scaled_logN_for_Female_mature_1_shell_2_class_1:
+-100.000000000000 
+# theta[73] -- Scaled_logN_for_Female_mature_1_shell_2_class_2:
+-100.000000000000 
+# theta[74] -- Scaled_logN_for_Female_mature_1_shell_2_class_3:
+-100.000000000000 
+# theta[75] -- Scaled_logN_for_Female_mature_1_shell_2_class_4:
+-100.000000000000 
+# theta[76] -- Scaled_logN_for_Female_mature_1_shell_2_class_5:
+-100.000000000000 
+# theta[77] -- Scaled_logN_for_Female_mature_1_shell_2_class_6:
+-100.000000000000 
+# theta[78] -- Scaled_logN_for_Female_mature_1_shell_2_class_7:
+-100.000000000000 
+# theta[79] -- Scaled_logN_for_Female_mature_1_shell_2_class_8:
+-100.000000000000 
+# theta[80] -- Scaled_logN_for_Female_mature_1_shell_2_class_9:
+-100.000000000000 
+# theta[81] -- Scaled_logN_for_Female_mature_1_shell_2_class_10:
+-100.000000000000 
+# theta[82] -- Scaled_logN_for_Female_mature_1_shell_2_class_11:
+-100.000000000000 
+# theta[83] -- Scaled_logN_for_Female_mature_1_shell_2_class_12:
+-100.000000000000 
+# theta[84] -- Scaled_logN_for_Female_mature_1_shell_2_class_13:
+-100.000000000000 
+# theta[85] -- Scaled_logN_for_Female_mature_1_shell_2_class_14:
+-100.000000000000 
+# theta[86] -- Scaled_logN_for_Female_mature_1_shell_2_class_15:
+-100.000000000000 
+# theta[87] -- Scaled_logN_for_Female_mature_1_shell_2_class_16:
+-100.000000000000 
+# theta[88] -- Scaled_logN_for_Female_mature_1_shell_2_class_17:
+-100.000000000000 
+# theta[89] -- Scaled_logN_for_Female_mature_1_shell_2_class_18:
+-100.000000000000 
+# theta[90] -- Scaled_logN_for_Female_mature_1_shell_2_class_19:
+-100.000000000000 
+# theta[91] -- Scaled_logN_for_Female_mature_1_shell_2_class_20:
+-100.000000000000 
+# -------------------------------------- #
+
+#_Growth parameters: 
+# -------------------------------------- #
+# Grwth[1] -- Molt_increment_Male_period_1_class_1:
+16.500000000000 
+# Grwth[2] -- Molt_increment_Male_period_1_class_2:
+16.500000000000 
+# Grwth[3] -- Molt_increment_Male_period_1_class_3:
+16.400000000000 
+# Grwth[4] -- Molt_increment_Male_period_1_class_4:
+16.300000000000 
+# Grwth[5] -- Molt_increment_Male_period_1_class_5:
+16.300000000000 
+# Grwth[6] -- Molt_increment_Male_period_1_class_6:
+16.200000000000 
+# Grwth[7] -- Molt_increment_Male_period_1_class_7:
+16.200000000000 
+# Grwth[8] -- Molt_increment_Male_period_1_class_8:
+16.100000000000 
+# Grwth[9] -- Molt_increment_Male_period_1_class_9:
+16.100000000000 
+# Grwth[10] -- Molt_increment_Male_period_1_class_10:
+16.000000000000 
+# Grwth[11] -- Molt_increment_Male_period_1_class_11:
+16.000000000000 
+# Grwth[12] -- Molt_increment_Male_period_1_class_12:
+15.900000000000 
+# Grwth[13] -- Molt_increment_Male_period_1_class_13:
+15.800000000000 
+# Grwth[14] -- Molt_increment_Male_period_1_class_14:
+15.800000000000 
+# Grwth[15] -- Molt_increment_Male_period_1_class_15:
+15.700000000000 
+# Grwth[16] -- Molt_increment_Male_period_1_class_16:
+15.700000000000 
+# Grwth[17] -- Molt_increment_Male_period_1_class_17:
+15.600000000000 
+# Grwth[18] -- Molt_increment_Male_period_1_class_18:
+15.600000000000 
+# Grwth[19] -- Molt_increment_Male_period_1_class_19:
+15.500000000000 
+# Grwth[20] -- Molt_increment_Male_period_1_class_20:
+15.500000000000 
+# Grwth[21] -- Gscale_Male_period_1:
+0.995697780330 
+# Grwth[22] -- Molt_increment_Female_period_1_class_1:
+13.800000000000 
+# Grwth[23] -- Molt_increment_Female_period_1_class_2:
+12.200000000000 
+# Grwth[24] -- Molt_increment_Female_period_1_class_3:
+10.500000000000 
+# Grwth[25] -- Molt_increment_Female_period_1_class_4:
+8.400000000000 
+# Grwth[26] -- Molt_increment_Female_period_1_class_5:
+7.500000000000 
+# Grwth[27] -- Molt_increment_Female_period_1_class_6:
+7.000000000000 
+# Grwth[28] -- Molt_increment_Female_period_1_class_7:
+6.600000000000 
+# Grwth[29] -- Molt_increment_Female_period_1_class_8:
+6.100000000000 
+# Grwth[30] -- Molt_increment_Female_period_1_class_9:
+5.600000000000 
+# Grwth[31] -- Molt_increment_Female_period_1_class_10:
+5.100000000000 
+# Grwth[32] -- Molt_increment_Female_period_1_class_11:
+4.600000000000 
+# Grwth[33] -- Molt_increment_Female_period_1_class_12:
+4.100000000000 
+# Grwth[34] -- Molt_increment_Female_period_1_class_13:
+3.600000000000 
+# Grwth[35] -- Molt_increment_Female_period_1_class_14:
+3.200000000000 
+# Grwth[36] -- Molt_increment_Female_period_1_class_15:
+2.700000000000 
+# Grwth[37] -- Molt_increment_Female_period_1_class_16:
+2.200000000000 
+# Grwth[38] -- Molt_increment_Female_period_1_class_17:
+1.700000000000 
+# Grwth[39] -- Molt_increment_Female_period_1_class_18:
+1.200000000000 
+# Grwth[40] -- Molt_increment_Female_period_1_class_19:
+0.700000000000 
+# Grwth[41] -- Molt_increment_Female_period_1_class_20:
+0.400000000000 
+# Grwth[42] -- Gscale_Female_period_1:
+1.408510194130 
+# Grwth[43] -- Molt_increment_Female_period_2_class_1:
+15.400000000000 
+# Grwth[44] -- Molt_increment_Female_period_2_class_2:
+13.800000000000 
+# Grwth[45] -- Molt_increment_Female_period_2_class_3:
+12.200000000000 
+# Grwth[46] -- Molt_increment_Female_period_2_class_4:
+10.500000000000 
+# Grwth[47] -- Molt_increment_Female_period_2_class_5:
+8.900000000000 
+# Grwth[48] -- Molt_increment_Female_period_2_class_6:
+7.900000000000 
+# Grwth[49] -- Molt_increment_Female_period_2_class_7:
+7.200000000000 
+# Grwth[50] -- Molt_increment_Female_period_2_class_8:
+6.600000000000 
+# Grwth[51] -- Molt_increment_Female_period_2_class_9:
+6.100000000000 
+# Grwth[52] -- Molt_increment_Female_period_2_class_10:
+5.600000000000 
+# Grwth[53] -- Molt_increment_Female_period_2_class_11:
+5.100000000000 
+# Grwth[54] -- Molt_increment_Female_period_2_class_12:
+4.600000000000 
+# Grwth[55] -- Molt_increment_Female_period_2_class_13:
+4.100000000000 
+# Grwth[56] -- Molt_increment_Female_period_2_class_14:
+3.600000000000 
+# Grwth[57] -- Molt_increment_Female_period_2_class_15:
+3.200000000000 
+# Grwth[58] -- Molt_increment_Female_period_2_class_16:
+2.700000000000 
+# Grwth[59] -- Molt_increment_Female_period_2_class_17:
+2.200000000000 
+# Grwth[60] -- Molt_increment_Female_period_2_class_18:
+1.700000000000 
+# Grwth[61] -- Molt_increment_Female_period_2_class_19:
+1.200000000000 
+# Grwth[62] -- Molt_increment_Female_period_2_class_20:
+0.700000000000 
+# Grwth[63] -- Gscale_Female_period_2:
+0.000000000000 
+# Grwth[64] -- Molt_increment_Female_period_3_class_1:
+15.100000000000 
+# Grwth[65] -- Molt_increment_Female_period_3_class_2:
+14.000000000000 
+# Grwth[66] -- Molt_increment_Female_period_3_class_3:
+12.900000000000 
+# Grwth[67] -- Molt_increment_Female_period_3_class_4:
+11.800000000000 
+# Grwth[68] -- Molt_increment_Female_period_3_class_5:
+10.600000000000 
+# Grwth[69] -- Molt_increment_Female_period_3_class_6:
+8.700000000000 
+# Grwth[70] -- Molt_increment_Female_period_3_class_7:
+7.400000000000 
+# Grwth[71] -- Molt_increment_Female_period_3_class_8:
+6.600000000000 
+# Grwth[72] -- Molt_increment_Female_period_3_class_9:
+6.100000000000 
+# Grwth[73] -- Molt_increment_Female_period_3_class_10:
+5.600000000000 
+# Grwth[74] -- Molt_increment_Female_period_3_class_11:
+5.100000000000 
+# Grwth[75] -- Molt_increment_Female_period_3_class_12:
+4.600000000000 
+# Grwth[76] -- Molt_increment_Female_period_3_class_13:
+4.100000000000 
+# Grwth[77] -- Molt_increment_Female_period_3_class_14:
+3.600000000000 
+# Grwth[78] -- Molt_increment_Female_period_3_class_15:
+3.200000000000 
+# Grwth[79] -- Molt_increment_Female_period_3_class_16:
+2.700000000000 
+# Grwth[80] -- Molt_increment_Female_period_3_class_17:
+2.200000000000 
+# Grwth[81] -- Molt_increment_Female_period_3_class_18:
+1.700000000000 
+# Grwth[82] -- Molt_increment_Female_period_3_class_19:
+1.200000000000 
+# Grwth[83] -- Molt_increment_Female_period_3_class_20:
+0.700000000000 
+# Grwth[84] -- Gscale_Female_period_3:
+0.000000000000 
+# Grwth[85] -- Molt_probability_mu_Male_period_1:
+142.381393086000 
+# Grwth[86] -- Molt_probability_CV_Male_period_1:
+0.058354404566 
+# Grwth[87] -- Molt_probability_mu_Male_period_2:
+139.844980381000 
+# Grwth[88] -- Molt_probability_CV_Male_period_2:
+0.071304339993 
+# Grwth[89] -- Molt_probability_mu_Female_period_1:
+300.000000000000 
+# Grwth[90] -- Molt_probability_CV_Female_period_1:
+0.010000000000 
+# Grwth[91] -- Molt_probability_mu_Female_period_2:
+300.000000000000 
+# Grwth[92] -- Molt_probability_CV_Female_period_2:
+0.010000000000 
+# -------------------------------------- #
+
+#_Vulnerability parameters: 
+# -------------------------------------- #
+# log_slx_pars[1] -- Sel_Pot_Fishery_Male_period_1_par_1:
+4.760717770860 
+# log_slx_pars[2] -- Sel_Pot_Fishery_Male_period_1_par_2:
+2.278646751400 
+# log_slx_pars[3] -- Sel_Pot_Fishery_Female_period_1_par_1:
+4.507541576850 
+# log_slx_pars[4] -- Sel_Pot_Fishery_Female_period_1_par_2:
+2.035871128170 
+# log_slx_pars[5] -- Sel_Trawl_Bycatch_Male_period_1_par_1:
+5.150929511800 
+# log_slx_pars[6] -- Sel_Trawl_Bycatch_Male_period_1_par_2:
+2.849670307060 
+# log_slx_pars[7] -- Sel_Bairdi_Fishery_Bycatch_Male_period_1_par_1:
+4.725250359090 
+# log_slx_pars[8] -- Sel_Bairdi_Fishery_Bycatch_Male_period_1_par_2:
+2.163064372450 
+# log_slx_pars[9] -- Sel_Bairdi_Fishery_Bycatch_Female_period_1_par_1:
+4.743034640140 
+# log_slx_pars[10] -- Sel_Bairdi_Fishery_Bycatch_Female_period_1_par_2:
+0.900039410879 
+# log_slx_pars[11] -- Sel_Fixed_Gear_Male_period_1_par_1:
+4.795492368090 
+# log_slx_pars[12] -- Sel_Fixed_Gear_Male_period_1_par_2:
+2.350832564280 
+# log_slx_pars[13] -- Sel_NMFS_Trawl_Male_period_1_par_1:
+4.125984984360 
+# log_slx_pars[14] -- Sel_NMFS_Trawl_Male_period_1_par_2:
+2.231365162190 
+# log_slx_pars[15] -- Sel_NMFS_Trawl_Male_period_2_par_1:
+3.728982489460 
+# log_slx_pars[16] -- Sel_NMFS_Trawl_Male_period_2_par_2:
+3.325668640990 
+# log_slx_pars[17] -- Sel_BSFRF_Male_period_1_par_1:
+4.428934935420 
+# log_slx_pars[18] -- Sel_BSFRF_Male_period_1_par_2:
+2.446680944430 
+# log_slx_pars[19] -- Ret_Pot_Fishery_Male_period_1_par_1:
+4.923205944540 
+# log_slx_pars[20] -- Ret_Pot_Fishery_Male_period_1_par_2:
+0.674269829818 
+# log_slx_pars[21] -- Ret_Pot_Fishery_Male_period_2_par_1:
+4.931283998740 
+# log_slx_pars[22] -- Ret_Pot_Fishery_Male_period_2_par_2:
+0.699047730236 
+# log_slx_pars[23] -- Ret_Pot_Fishery_Female_period_1_par_1:
+6.381816017410 
+# log_slx_pars[24] -- Ret_Pot_Fishery_Female_period_2_par_1:
+6.381816017410 
+# log_slx_pars[25] -- Ret_Trawl_Bycatch_Male_period_1_par_1:
+6.388561405550 
+# log_slx_pars[26] -- Ret_Bairdi_Fishery_Bycatch_Male_period_1_par_1:
+6.388561405550 
+# log_slx_pars[27] -- Ret_Fixed_Gear_Male_period_1_par_1:
+6.388561405550 
+# log_slx_pars[28] -- Ret_NMFS_Trawl_Male_period_1_par_1:
+6.380122536900 
+# log_slx_pars[29] -- Ret_BSFRF_Male_period_1_par_1:
+6.363028103540 
+# -------------------------------------- #
+
+#_Asymptotic retention parameters: 
+# -------------------------------------- #
+# Asymret[1] -- AsympRet_fleet_Pot_Fishery_sex_Male_year_1975:
+0.000001000000 
+# -------------------------------------- #
+
+#_Environmental parameters: 
+# -------------------------------------- #
+# vulnerability: 
+# Envpar_Slx_0 -- Dummy_sel_env_par:
+0.000000000000 
+# -------------------------------------- #
+
+#_Vulnerability deviations: 
+# -------------------------------------- #
+# Slx_Devs_0 -- Dummy_sel_dev_par:
+0.000000000000 
+# -------------------------------------- #
+
+#_Mean fishing mortality rate parameters: 
+# -------------------------------------- #
+# log_fbar[1] -- log_fbar_Pot_Fishery:
+-1.483006566550 
+# log_fbar[2] -- log_fbar_Trawl_Bycatch:
+-4.289874746030 
+# log_fbar[3] -- log_fbar_Bairdi_Fishery_Bycatch:
+-5.607283966050 
+# log_fbar[4] -- log_fbar_Fixed_Gear:
+-6.554402525080 
+# log_fbar[5] -- log_fbar_NMFS_Trawl:
+-32.236191301900 
+# log_fbar[6] -- log_fbar_BSFRF:
+-32.236191301900 
+# -------------------------------------- #
+
+#_Mean fishing mortality rate deviations: 
+# -------------------------------------- #
+# ----Pot_Fishery:----
+# Log_fdev_Pot_Fishery_year_1975_season_3 :
+0.725282742134 
+# Log_fdev_Pot_Fishery_year_1976_season_3 :
+0.683944549847 
+# Log_fdev_Pot_Fishery_year_1977_season_3 :
+0.595829204470 
+# Log_fdev_Pot_Fishery_year_1978_season_3 :
+0.689151538244 
+# Log_fdev_Pot_Fishery_year_1979_season_3 :
+0.899928354319 
+# Log_fdev_Pot_Fishery_year_1980_season_3 :
+1.766502742030 
+# Log_fdev_Pot_Fishery_year_1981_season_3 :
+2.300995539970 
+# Log_fdev_Pot_Fishery_year_1982_season_3 :
+0.725317625003 
+# Log_fdev_Pot_Fishery_year_1983_season_3 :
+-8.986805341010 
+# Log_fdev_Pot_Fishery_year_1984_season_3 :
+1.055046537480 
+# Log_fdev_Pot_Fishery_year_1985_season_3 :
+1.126304199750 
+# Log_fdev_Pot_Fishery_year_1986_season_3 :
+1.298578224480 
+# Log_fdev_Pot_Fishery_year_1987_season_3 :
+0.832808229801 
+# Log_fdev_Pot_Fishery_year_1988_season_3 :
+-0.106535489112 
+# Log_fdev_Pot_Fishery_year_1989_season_3 :
+0.008083604584 
+# Log_fdev_Pot_Fishery_year_1990_season_3 :
+0.655936965919 
+# Log_fdev_Pot_Fishery_year_1991_season_3 :
+0.668728243807 
+# Log_fdev_Pot_Fishery_year_1992_season_3 :
+0.153114633487 
+# Log_fdev_Pot_Fishery_year_1993_season_3 :
+0.820696508760 
+# Log_fdev_Pot_Fishery_year_1994_season_3 :
+-4.331736706390 
+# Log_fdev_Pot_Fishery_year_1995_season_3 :
+-4.741567131730 
+# Log_fdev_Pot_Fishery_year_1996_season_3 :
+-0.270602443391 
+# Log_fdev_Pot_Fishery_year_1997_season_3 :
+-0.221813188984 
+# Log_fdev_Pot_Fishery_year_1998_season_3 :
+0.693918640530 
+# Log_fdev_Pot_Fishery_year_1999_season_3 :
+0.336777588577 
+# Log_fdev_Pot_Fishery_year_2000_season_3 :
+-0.249708514409 
+# Log_fdev_Pot_Fishery_year_2001_season_3 :
+-0.329028854453 
+# Log_fdev_Pot_Fishery_year_2002_season_3 :
+-0.217468863664 
+# Log_fdev_Pot_Fishery_year_2003_season_3 :
+0.246219505299 
+# Log_fdev_Pot_Fishery_year_2004_season_3 :
+0.203516592190 
+# Log_fdev_Pot_Fishery_year_2005_season_3 :
+0.491195128215 
+# Log_fdev_Pot_Fishery_year_2006_season_3 :
+0.242275044570 
+# Log_fdev_Pot_Fishery_year_2007_season_3 :
+0.606396715358 
+# Log_fdev_Pot_Fishery_year_2008_season_3 :
+0.774530527139 
+# Log_fdev_Pot_Fishery_year_2009_season_3 :
+0.585489091606 
+# Log_fdev_Pot_Fishery_year_2010_season_3 :
+0.450914412811 
+# Log_fdev_Pot_Fishery_year_2011_season_3 :
+-0.188010079804 
+# Log_fdev_Pot_Fishery_year_2012_season_3 :
+-0.266055198997 
+# Log_fdev_Pot_Fishery_year_2013_season_3 :
+-0.082578406181 
+# Log_fdev_Pot_Fishery_year_2014_season_3 :
+0.239948408083 
+# Log_fdev_Pot_Fishery_year_2015_season_3 :
+0.301894847912 
+# Log_fdev_Pot_Fishery_year_2016_season_3 :
+0.286961154024 
+# Log_fdev_Pot_Fishery_year_2017_season_3 :
+0.180101735789 
+# Log_fdev_Pot_Fishery_year_2018_season_3 :
+-0.026620258811 
+# Log_fdev_Pot_Fishery_year_2019_season_3 :
+-0.097831653001 
+# Log_fdev_Pot_Fishery_year_2020_season_3 :
+-0.530026719014 
+# ----Trawl_Bycatch:----
+# Log_fdev_Trawl_Bycatch_year_1976_season_5 :
+0.174283842351 
+# Log_fdev_Trawl_Bycatch_year_1977_season_5 :
+0.613387060735 
+# Log_fdev_Trawl_Bycatch_year_1978_season_5 :
+0.592245099569 
+# Log_fdev_Trawl_Bycatch_year_1979_season_5 :
+0.667370238699 
+# Log_fdev_Trawl_Bycatch_year_1980_season_5 :
+1.381719958850 
+# Log_fdev_Trawl_Bycatch_year_1981_season_5 :
+1.150564719650 
+# Log_fdev_Trawl_Bycatch_year_1982_season_5 :
+2.435390821370 
+# Log_fdev_Trawl_Bycatch_year_1983_season_5 :
+2.158553761730 
+# Log_fdev_Trawl_Bycatch_year_1984_season_5 :
+3.380859936140 
+# Log_fdev_Trawl_Bycatch_year_1985_season_5 :
+2.174843800210 
+# Log_fdev_Trawl_Bycatch_year_1986_season_5 :
+1.112100550390 
+# Log_fdev_Trawl_Bycatch_year_1987_season_5 :
+0.658616639441 
+# Log_fdev_Trawl_Bycatch_year_1988_season_5 :
+1.434937799670 
+# Log_fdev_Trawl_Bycatch_year_1989_season_5 :
+0.004515430845 
+# Log_fdev_Trawl_Bycatch_year_1990_season_5 :
+0.458025275127 
+# Log_fdev_Trawl_Bycatch_year_1991_season_5 :
+0.881348359237 
+# Log_fdev_Trawl_Bycatch_year_1992_season_5 :
+0.717590333180 
+# Log_fdev_Trawl_Bycatch_year_1993_season_5 :
+1.193198705950 
+# Log_fdev_Trawl_Bycatch_year_1994_season_5 :
+-0.574773264687 
+# Log_fdev_Trawl_Bycatch_year_1995_season_5 :
+-0.861377251682 
+# Log_fdev_Trawl_Bycatch_year_1996_season_5 :
+-0.793134684032 
+# Log_fdev_Trawl_Bycatch_year_1997_season_5 :
+-1.258339924390 
+# Log_fdev_Trawl_Bycatch_year_1998_season_5 :
+0.039176157338 
+# Log_fdev_Trawl_Bycatch_year_1999_season_5 :
+-0.241169694507 
+# Log_fdev_Trawl_Bycatch_year_2000_season_5 :
+-1.000565218440 
+# Log_fdev_Trawl_Bycatch_year_2001_season_5 :
+-0.230577848123 
+# Log_fdev_Trawl_Bycatch_year_2002_season_5 :
+-0.529987856959 
+# Log_fdev_Trawl_Bycatch_year_2003_season_5 :
+-0.624178841496 
+# Log_fdev_Trawl_Bycatch_year_2004_season_5 :
+-0.391869523088 
+# Log_fdev_Trawl_Bycatch_year_2005_season_5 :
+-0.668933377083 
+# Log_fdev_Trawl_Bycatch_year_2006_season_5 :
+-0.500960456387 
+# Log_fdev_Trawl_Bycatch_year_2007_season_5 :
+-0.425741027970 
+# Log_fdev_Trawl_Bycatch_year_2008_season_5 :
+-0.456326164899 
+# Log_fdev_Trawl_Bycatch_year_2009_season_5 :
+-0.817258358203 
+# Log_fdev_Trawl_Bycatch_year_2010_season_5 :
+-0.969007477981 
+# Log_fdev_Trawl_Bycatch_year_2011_season_5 :
+-1.433521365040 
+# Log_fdev_Trawl_Bycatch_year_2012_season_5 :
+-1.955972659550 
+# Log_fdev_Trawl_Bycatch_year_2013_season_5 :
+-1.244451713680 
+# Log_fdev_Trawl_Bycatch_year_2014_season_5 :
+-1.814413583420 
+# Log_fdev_Trawl_Bycatch_year_2015_season_5 :
+-1.438621597220 
+# Log_fdev_Trawl_Bycatch_year_2016_season_5 :
+-0.922657046533 
+# Log_fdev_Trawl_Bycatch_year_2017_season_5 :
+-0.499601142312 
+# Log_fdev_Trawl_Bycatch_year_2018_season_5 :
+-0.573478362183 
+# Log_fdev_Trawl_Bycatch_year_2019_season_5 :
+-0.486594438849 
+# Log_fdev_Trawl_Bycatch_year_2020_season_5 :
+-0.515215604569 
+# ----Bairdi_Fishery_Bycatch:----
+# Log_fdev_Bairdi_Fishery_Bycatch_year_1975_season_5 :
+-0.116366863641 
+# Log_fdev_Bairdi_Fishery_Bycatch_year_1976_season_5 :
+0.669860052862 
+# Log_fdev_Bairdi_Fishery_Bycatch_year_1977_season_5 :
+1.228324544480 
+# Log_fdev_Bairdi_Fishery_Bycatch_year_1978_season_5 :
+1.092720804430 
+# Log_fdev_Bairdi_Fishery_Bycatch_year_1979_season_5 :
+1.382473373870 
+# Log_fdev_Bairdi_Fishery_Bycatch_year_1980_season_5 :
+1.424274986600 
+# Log_fdev_Bairdi_Fishery_Bycatch_year_1981_season_5 :
+0.992711362526 
+# Log_fdev_Bairdi_Fishery_Bycatch_year_1982_season_5 :
+0.476446387031 
+# Log_fdev_Bairdi_Fishery_Bycatch_year_1983_season_5 :
+-0.987405080449 
+# Log_fdev_Bairdi_Fishery_Bycatch_year_1984_season_5 :
+-0.578745859718 
+# Log_fdev_Bairdi_Fishery_Bycatch_year_1987_season_5 :
+-1.099432860020 
+# Log_fdev_Bairdi_Fishery_Bycatch_year_1988_season_5 :
+-0.256306701535 
+# Log_fdev_Bairdi_Fishery_Bycatch_year_1989_season_5 :
+0.940054181956 
+# Log_fdev_Bairdi_Fishery_Bycatch_year_1990_season_5 :
+1.418165500200 
+# Log_fdev_Bairdi_Fishery_Bycatch_year_1991_season_5 :
+3.253360084390 
+# Log_fdev_Bairdi_Fishery_Bycatch_year_1992_season_5 :
+1.300016902620 
+# Log_fdev_Bairdi_Fishery_Bycatch_year_1993_season_5 :
+0.596632516848 
+# Log_fdev_Bairdi_Fishery_Bycatch_year_1994_season_5 :
+-0.744412448749 
+# Log_fdev_Bairdi_Fishery_Bycatch_year_2006_season_5 :
+-2.128023223800 
+# Log_fdev_Bairdi_Fishery_Bycatch_year_2007_season_5 :
+-2.982005438080 
+# Log_fdev_Bairdi_Fishery_Bycatch_year_2008_season_5 :
+-2.407167411400 
+# Log_fdev_Bairdi_Fishery_Bycatch_year_2009_season_5 :
+-3.494461540090 
+# Log_fdev_Bairdi_Fishery_Bycatch_year_2013_season_5 :
+-0.861343553681 
+# Log_fdev_Bairdi_Fishery_Bycatch_year_2014_season_5 :
+-0.145028123820 
+# Log_fdev_Bairdi_Fishery_Bycatch_year_2015_season_5 :
+1.025658406880 
+# ----Fixed_Gear:----
+# Log_fdev_Fixed_Gear_year_1996_season_5 :
+0.609528754820 
+# Log_fdev_Fixed_Gear_year_1997_season_5 :
+-0.049326255859 
+# Log_fdev_Fixed_Gear_year_1998_season_5 :
+-0.261967526059 
+# Log_fdev_Fixed_Gear_year_1999_season_5 :
+0.656908454172 
+# Log_fdev_Fixed_Gear_year_2000_season_5 :
+-1.772781819770 
+# Log_fdev_Fixed_Gear_year_2001_season_5 :
+0.182399822854 
+# Log_fdev_Fixed_Gear_year_2002_season_5 :
+-0.075493455732 
+# Log_fdev_Fixed_Gear_year_2003_season_5 :
+-0.909799243913 
+# Log_fdev_Fixed_Gear_year_2004_season_5 :
+-0.735621774905 
+# Log_fdev_Fixed_Gear_year_2005_season_5 :
+-0.461875723251 
+# Log_fdev_Fixed_Gear_year_2006_season_5 :
+-0.510084698974 
+# Log_fdev_Fixed_Gear_year_2007_season_5 :
+0.035938325169 
+# Log_fdev_Fixed_Gear_year_2008_season_5 :
+-0.665129966015 
+# Log_fdev_Fixed_Gear_year_2009_season_5 :
+-1.665350669290 
+# Log_fdev_Fixed_Gear_year_2010_season_5 :
+-2.504342706340 
+# Log_fdev_Fixed_Gear_year_2011_season_5 :
+-1.027397333440 
+# Log_fdev_Fixed_Gear_year_2012_season_5 :
+-0.474700122027 
+# Log_fdev_Fixed_Gear_year_2013_season_5 :
+0.662396709585 
+# Log_fdev_Fixed_Gear_year_2014_season_5 :
+1.508937486200 
+# Log_fdev_Fixed_Gear_year_2015_season_5 :
+1.186063332790 
+# Log_fdev_Fixed_Gear_year_2016_season_5 :
+0.348345320567 
+# Log_fdev_Fixed_Gear_year_2017_season_5 :
+1.943740022860 
+# Log_fdev_Fixed_Gear_year_2018_season_5 :
+2.196243356360 
+# Log_fdev_Fixed_Gear_year_2019_season_5 :
+0.991667790287 
+# Log_fdev_Fixed_Gear_year_2020_season_5 :
+0.791701920935 
+# ----NMFS_Trawl:----
+# Log_fdev_NMFS_Trawl :
+0.000000000000 
+# ----BSFRF:----
+# Log_fdev_BSFRF :
+0.000000000000 
+# -------------------------------------- #
+
+#_Female F offset to male fishing mortality parameters: 
+# -------------------------------------- #
+# log_foff[1] -- Log_foff_Pot_Fishery:
+-2.874291040210 
+# log_foff[2] -- Log_foff_Trawl_Bycatch:
+0.000000000000 
+# log_foff[3] -- Log_foff_Bairdi_Fishery_Bycatch:
+-0.115906416599 
+# log_foff[4] -- Log_foff_Fixed_Gear:
+0.000000000000 
+# log_foff[5] -- Log_foff_NMFS_Trawl:
+0.000000000000 
+# log_foff[6] -- Log_foff_BSFRF:
+0.000000000000 
+# -------------------------------------- #
+
+#_Female F deviation offset parameters: 
+# -------------------------------------- #
+# ----Pot_Fishery:----
+# Log_fdov_Pot_Fishery_year_1990_season_3 :
+2.054501558520 
+# Log_fdov_Pot_Fishery_year_1991_season_3 :
+-0.615607987239 
+# Log_fdov_Pot_Fishery_year_1992_season_3 :
+2.058477410430 
+# Log_fdov_Pot_Fishery_year_1993_season_3 :
+1.893521117330 
+# Log_fdov_Pot_Fishery_year_1994_season_3 :
+-0.338707162125 
+# Log_fdov_Pot_Fishery_year_1995_season_3 :
+-0.110280271094 
+# Log_fdov_Pot_Fishery_year_1996_season_3 :
+-3.610935642830 
+# Log_fdov_Pot_Fishery_year_1997_season_3 :
+-0.241766885643 
+# Log_fdov_Pot_Fishery_year_1998_season_3 :
+1.541057655010 
+# Log_fdov_Pot_Fishery_year_1999_season_3 :
+-2.691394318140 
+# Log_fdov_Pot_Fishery_year_2000_season_3 :
+1.236759024380 
+# Log_fdov_Pot_Fishery_year_2001_season_3 :
+0.961729926656 
+# Log_fdov_Pot_Fishery_year_2002_season_3 :
+-1.786818141710 
+# Log_fdov_Pot_Fishery_year_2003_season_3 :
+1.297533508370 
+# Log_fdov_Pot_Fishery_year_2004_season_3 :
+0.504702418289 
+# Log_fdov_Pot_Fishery_year_2005_season_3 :
+1.038159495430 
+# Log_fdov_Pot_Fishery_year_2006_season_3 :
+-1.144930693590 
+# Log_fdov_Pot_Fishery_year_2007_season_3 :
+-0.105209053307 
+# Log_fdov_Pot_Fishery_year_2008_season_3 :
+-0.367677936196 
+# Log_fdov_Pot_Fishery_year_2009_season_3 :
+-0.629392893930 
+# Log_fdov_Pot_Fishery_year_2010_season_3 :
+-0.145934777478 
+# Log_fdov_Pot_Fishery_year_2011_season_3 :
+-1.040916628610 
+# Log_fdov_Pot_Fishery_year_2012_season_3 :
+-1.756425285690 
+# Log_fdov_Pot_Fishery_year_2013_season_3 :
+0.269000301272 
+# Log_fdov_Pot_Fishery_year_2014_season_3 :
+-0.129366509985 
+# Log_fdov_Pot_Fishery_year_2015_season_3 :
+0.940211764609 
+# Log_fdov_Pot_Fishery_year_2016_season_3 :
+0.406819203735 
+# Log_fdov_Pot_Fishery_year_2017_season_3 :
+-0.225499947345 
+# Log_fdov_Pot_Fishery_year_2018_season_3 :
+1.120047179970 
+# Log_fdov_Pot_Fishery_year_2019_season_3 :
+0.063210787008 
+# Log_fdov_Pot_Fishery_year_2020_season_3 :
+-0.448200424460 
+# ----Trawl_Bycatch:----
+# Log_fdov_Trawl_Bycatch :
+0.000000000000 
+# ----Bairdi_Fishery_Bycatch:----
+# Log_fdov_Bairdi_Fishery_Bycatch_year_1975_season_5 :
+-0.000016964615 
+# Log_fdov_Bairdi_Fishery_Bycatch_year_1976_season_5 :
+0.000075465632 
+# Log_fdov_Bairdi_Fishery_Bycatch_year_1977_season_5 :
+0.000278719938 
+# Log_fdov_Bairdi_Fishery_Bycatch_year_1978_season_5 :
+0.000218943125 
+# Log_fdov_Bairdi_Fishery_Bycatch_year_1979_season_5 :
+0.000377285804 
+# Log_fdov_Bairdi_Fishery_Bycatch_year_1980_season_5 :
+0.000048002276 
+# Log_fdov_Bairdi_Fishery_Bycatch_year_1981_season_5 :
+-0.000120346702 
+# Log_fdov_Bairdi_Fishery_Bycatch_year_1982_season_5 :
+-0.000180073517 
+# Log_fdov_Bairdi_Fishery_Bycatch_year_1983_season_5 :
+-0.000153644948 
+# Log_fdov_Bairdi_Fishery_Bycatch_year_1984_season_5 :
+-0.000092261958 
+# Log_fdov_Bairdi_Fishery_Bycatch_year_1987_season_5 :
+-0.000087134924 
+# Log_fdov_Bairdi_Fishery_Bycatch_year_1988_season_5 :
+0.000077487073 
+# Log_fdov_Bairdi_Fishery_Bycatch_year_1989_season_5 :
+0.000340781213 
+# Log_fdov_Bairdi_Fishery_Bycatch_year_1990_season_5 :
+0.000782991797 
+# Log_fdov_Bairdi_Fishery_Bycatch_year_1991_season_5 :
+1.538153979240 
+# Log_fdov_Bairdi_Fishery_Bycatch_year_1992_season_5 :
+1.796881094040 
+# Log_fdov_Bairdi_Fishery_Bycatch_year_1993_season_5 :
+0.566980427184 
+# Log_fdov_Bairdi_Fishery_Bycatch_year_1994_season_5 :
+-3.443245659780 
+# Log_fdov_Bairdi_Fishery_Bycatch_year_2006_season_5 :
+-2.144824770370 
+# Log_fdov_Bairdi_Fishery_Bycatch_year_2007_season_5 :
+-0.785312895526 
+# Log_fdov_Bairdi_Fishery_Bycatch_year_2008_season_5 :
+0.036007672206 
+# Log_fdov_Bairdi_Fishery_Bycatch_year_2009_season_5 :
+0.385029278657 
+# Log_fdov_Bairdi_Fishery_Bycatch_year_2013_season_5 :
+0.954219359203 
+# Log_fdov_Bairdi_Fishery_Bycatch_year_2014_season_5 :
+0.178917835651 
+# Log_fdov_Bairdi_Fishery_Bycatch_year_2015_season_5 :
+0.915644432005 
+# ----Fixed_Gear:----
+# Log_fdov_Fixed_Gear :
+0.000000000000 
+# ----NMFS_Trawl:----
+# Log_fdov_NMFS_Trawl :
+0.000000000000 
+# ----BSFRF:----
+# Log_fdov_BSFRF :
+0.000000000000 
+# -------------------------------------- #
+
+#_Initial values of recruitment: 
+# -------------------------------------- #
+# rec_ini:
+0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 0.000000000000 
+# -------------------------------------- #
+
+#_Recruitment deviation estimates: 
+# -------------------------------------- #
+# rec_dev_est:
+1.088365976630 0.611152961359 1.088401781450 1.660130218840 1.937413700310 1.147663082410 2.392434924340 1.441600407650 1.060097418820 -0.761129334858 0.299618017929 -0.836725138192 -1.274610020880 -1.008198160600 -0.068435305527 -0.529103510298 -1.961498041400 -0.896687270273 -1.969128083700 0.977099054172 -0.923589542648 -1.592943683850 -0.572420027542 0.413045450927 -0.563967409072 -0.535186268813 0.845559792305 -0.621185347550 -0.671344920711 0.584942625894 -0.138296109583 -0.528710379310 -1.105789058650 -0.961995450013 0.009995153503 -0.535705465077 -1.073160608040 -1.390273007930 -1.854851459800 -1.417053931690 -0.727241478890 -1.619685953020 -0.971713469681 -1.829299413130 -1.753743031130 -1.046511312950 
+# -------------------------------------- #
+
+#_Sex-ratio recruitment deviation estimates: 
+# -------------------------------------- #
+# logit_rec_prop_est:
+-0.169436543864 -0.934142394519 -0.260522290579 -0.454988189962 0.057529254473 0.209388638319 0.342523716743 0.369470326820 -0.080171493436 0.346457106142 -0.470147442280 0.146198084828 -0.144783338056 0.385149204119 -0.078944467971 0.173834207550 0.491502253789 0.245386109602 -0.507514377461 -0.277698434608 1.140830876230 0.296919486929 0.465045010026 -0.043902178259 0.148638963287 -0.607915987328 -0.475472577748 -0.497635271367 -0.075633963178 -0.386673543356 -0.119116884294 0.337447546975 -0.230615524869 -0.478186390027 -0.791820843357 -0.448661733515 -0.528405687079 -0.175880435941 -0.284867642280 -0.263251060321 0.449291591134 0.506087405079 0.514751183880 0.667140746303 1.304902987010 0.187893996413 
+# -------------------------------------- #
+
+#_Natural mortality deviation parameters: 
+# -------------------------------------- #
+# m_dev_est[1] -- M_dev_est_par_1:
+1.598072913210 
+# m_dev_est[2] -- M_dev_est_par_2:
+0.000000000000 
+# m_dev_est[3] -- M_dev_est_par_3:
+1.780586000000 
+# m_dev_est[4] -- M_dev_est_par_4:
+0.000000000000 
+# -------------------------------------- #
+
+#_Maturity specific natural mortality parameters: 
+# -------------------------------------- #
+# m_mat_mult[1] -- m_mat_mult_Male:
+0.000000000000 
+# m_mat_mult[2] -- m_mat_mult_Female:
+0.000000000000 
+# -------------------------------------- #
+
+#_Effective sample size parameters: 
+# -------------------------------------- #
+# log_vn[1] -- Log_vn_comp_1:
+0.000000000000 
+# log_vn[2] -- Log_vn_comp_2:
+0.000000000000 
+# log_vn[3] -- Log_vn_comp_3:
+0.000000000000 
+# log_vn[4] -- Log_vn_comp_4:
+0.000000000000 
+# log_vn[5] -- Log_vn_comp_5:
+0.000000000000 
+# log_vn[6] -- Log_vn_comp_6:
+0.000000000000 
+# log_vn[7] -- Log_vn_comp_7:
+0.000000000000 
+# log_vn[8] -- Log_vn_comp_8:
+0.000000000000 
+# -------------------------------------- #
+
+#_Catchability coefficient parameters: 
+# -------------------------------------- #
+# survey_q[1] -- Log_vn_comp_1:
+0.960885165414 
+# survey_q[2] -- Log_vn_comp_2:
+1.000000000000 
+# -------------------------------------- #
+
+#_Addtional CV for surveys/indices parameters: 
+# -------------------------------------- #
+# log_add_cv[1] -- Log_add_cvt_survey_1:
+-9.210340371980 
+# log_add_cv[2] -- Log_add_cvt_survey_2:
+-0.838789092127 
+# -------------------------------------- #
+
+# -------------------------------------- #
+##_End of parameter file file
+# -------------------------------------- #
+9999

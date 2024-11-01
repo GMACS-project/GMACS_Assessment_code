@@ -1,15 +1,15 @@
 #_============================================================ #
-#                    GMACS main data file 
+#                    GMACS data file 
 # 
 #_*** 
-#_ GMACS Version 2.01.M.01 
-#_Last GMACS mofification made by:   ** MV ** 
-#_Date of writing the data file: 2024-02-17 16:44:17 
+#_GMACS Version 2.10.01 
+#_Last GMACS mofification made by: ** MV ** 
+#_Date of writing the data file:2024-11-01 01:40:01 
 #_*** 
 # 
-#_Stock of interest:  SNOW_crab 
-#_Model name:  model_21_g 
-#_Year of assessment:  2021 
+#_Stock of interest: SNOW_crab 
+#_Model name: model_21_g 
+#_Year of assessment: 2021 
 #_============================================================ #
 
 #_-------------------------------------- #
@@ -74,7 +74,8 @@ NMFS_Trawl_1982 NMFS_Trawl_1989 BSFRF_2009 NMFS_2009 BSFRF_2010 NMFS_2010
 #_-------------------------------------- #
 ##_Catch data
 #_-------------------------------------- #
-0 #--input format for catch data (0:old format; 1: new format)
+#_Input format for catch data (0: old format; 1: new format)
+0 
 #_Number of catch data frames
 4 
 #_Number of rows in each data frame
@@ -84,13 +85,12 @@ NMFS_Trawl_1982 NMFS_Trawl_1989 BSFRF_2009 NMFS_2009 BSFRF_2010 NMFS_2010
 #         ** CATCH DATA **
 #_Sex: 0 = both; 1 = male; 2 = female
 #_Type of catch: 0 = total; 1 = retained; 2 = discard
-#_Units of catch: 1 = biomass; 2 = numbers
-#_Mult: 1 = use data as they are; 2 = multiply by this number (e.g., lbs to kg)
+#_Units of catch: 1 = biomass; 2 = abundance (numbers)
+#_Mult: 1 = use data as they are; otherwise (!=1) = multiply by this number (e.g., lbs to kg)
 #_Year_| Season_| Fleet_| Sex_| Obs_| CV_| Type_| Units_| Mult_| Effort_| Discard_mortality ##
 #_************************************** #
 
-
-# ** Males_Retained_Pot_Fishery_Seas2  **
+# ** Fleet: Pot_Fishery; Catch type: Retained; Sex: Males; Season: 2 **
 # Year | Season | Fleet | Sex | Obs | CV | Type | Units | Mult | Effort | Discard_mortality
 1982 2 1 1 11.8518 0.04 1 1 1 0 1
 1983 2 1 1 12.1623 0.04 1 1 1 0 1
@@ -132,7 +132,7 @@ NMFS_Trawl_1982 NMFS_Trawl_1989 BSFRF_2009 NMFS_2009 BSFRF_2010 NMFS_2010
 2019 2 1 1 15.4334 0.04 1 1 1 0 1
 2020 2 1 1 20.4124 0.04 1 1 1 0 1
 
-# ** Males_Discard_Pot_Fishery_Seas2  **
+# ** Fleet: Pot_Fishery; Catch type: Discard; Sex: Males; Season: 2 **
 # Year | Season | Fleet | Sex | Obs | CV | Type | Units | Mult | Effort | Discard_mortality
 1982 2 1 1 1.2665 0.07 2 1 1 0 1
 1983 2 1 1 1.23826 0.07 2 1 1 0 1
@@ -174,7 +174,7 @@ NMFS_Trawl_1982 NMFS_Trawl_1989 BSFRF_2009 NMFS_2009 BSFRF_2010 NMFS_2010
 2019 2 1 1 5.07027 0.07 2 1 1 0 1
 2020 2 1 1 5.79557 0.07 2 1 1 0 1
 
-# ** Females_Discard_Pot_Fishery_Seas2  **
+# ** Fleet: Pot_Fishery; Catch type: Discard; Sex: Females; Season: 2 **
 # Year | Season | Fleet | Sex | Obs | CV | Type | Units | Mult | Effort | Discard_mortality
 1982 2 1 2 0.015556 0.07 2 1 1 0 1
 1983 2 1 2 0.0108887 0.07 2 1 1 0 1
@@ -216,7 +216,7 @@ NMFS_Trawl_1982 NMFS_Trawl_1989 BSFRF_2009 NMFS_2009 BSFRF_2010 NMFS_2010
 2019 2 1 2 0.0161846 0.07 2 1 1 0 1
 2020 2 1 2 0.000744 0.07 2 1 1 0 1
 
-# ** Both_Discard_Trawl_Bycatch_Seas2  **
+# ** Fleet: Trawl_Bycatch; Catch type: Discard; Sex: Both; Season: 2 **
 # Year | Season | Fleet | Sex | Obs | CV | Type | Units | Mult | Effort | Discard_mortality
 1982 2 2 0 0.367285 0.2 2 1 1 0 1
 1983 2 2 0 0.473323 0.2 2 1 1 0 1
@@ -262,16 +262,17 @@ NMFS_Trawl_1982 NMFS_Trawl_1989 BSFRF_2009 NMFS_2009 BSFRF_2010 NMFS_2010
 #_-------------------------------------- #
 ##_Relative abundance data
 #_-------------------------------------- #
-0 #--input format for relative abundance data (0:old format; 1: new format)
+#_Input format for the relative abundance data (0: old format; 1: new format)
+0 
 #_Number of relative abundance indices
 6 
 #_Index Type (1 = Selectivity; 2 = Selectivity + retention)
 1 1 1 1 1 1 
-#_Number of rows in each data frame of index data
+#_Total number of rows of index data
 86 
 
 #_************************************** #
-#    ** RELATIVE ABUNDANCE	DATA **       #
+#     ** RELATIVE ABUNDANCE	DATA **     #
 #_Index: One q is estimated for each index (the number of index values should match nSurveys)
 #_Sex: 0 = both; 1 = male; 2 = female
 #_Maturity: 0 = both; 1 = mature; 2 = immature
@@ -387,7 +388,8 @@ NMFS_Trawl_1982 NMFS_Trawl_1989 BSFRF_2009 NMFS_2009 BSFRF_2010 NMFS_2010
 #_-------------------------------------- #
 ##_Size composition for all fleets
 #_-------------------------------------- #
-0 #--input format for size comps (0:old format; 1: new format)
+#_Input format for the size composition data (0: old format; 1: new format)
+0 
 #_Number of size frequency matrices
 17 
 #_Number of rows in each size frequency matrix

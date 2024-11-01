@@ -27,7 +27,7 @@
 rm(list = ls())     # Clean your R session
 
 # Set the working directory as the directory of this document
-setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+# setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 # check your directory
 getwd()
@@ -88,7 +88,9 @@ ADMBpaths <- ifelse(.Platform$OS.type == "windows",
 
 # Run the .GetGmacsExe() function to create an executable for the
 # new version of GMACS you've been developing.
-.GetGmacsExe(.nameFold = "Dvpt_Version", ADMBpaths = ADMBpaths)
+.GetGmacsExe(DirFold = file.path(here::here(), fsep = fsep),
+             .nameFold = "Dvpt_Version", 
+             ADMBpaths = ADMBpaths)
 
 # Now run the createGmacsExe() function to get the executable for the
 # latest version (if applicable)
@@ -181,101 +183,102 @@ res <- GMACS(
 # -----------------------------------------------------------
 
 
-# IV- Compare the development version and the latest assessment ----
+# # IV- Compare the development version and the latest assessment ----
 
-# Names of the GMACS version to consider for run
-# Here we want comparison between the development version and the latest version of GMACS
-
-# Name the GMACS version you want to consider for the comparison
-# Vector of character string
-GMACS_version <- c(
-  # "Last_Assessment",
-  "Dvpt_Version",
-  "Latest_Version")
-
-# Define directory
-# Vector of path directory
-VERSIONDIR <- c(
-  # Dir_Assess,
-  Dir_Dvpt_Vers,
-  Dir_Last_Vers)
-
-
-# Need to conpile the model?
-# vector of interger of length(.GMACS_version)
-# 0: GMACS is not compiled. This assumes that an executable exists in the directory of the concerned version.
-# 1: GMACS is compiles
-# COMPILE <- c(0,0,0)       # You already compile and build the executable
-COMPILE <- c(0,0) 
-
-# Run GMACS - Runs have already been done
-# Logical
-# Here, we already have assessment outputs for each stock
-RUN_GMACS <- FALSE
-
-
-# Stock of interest - Here we are going to test all stocks
-# Vector of character string
-# For one stock in particular (e.g., EAG), use the following command:
+# # Names of the GMACS version to consider for run
+# # Here we want comparison between the development version and the latest version of GMACS
+# 
+# # Name the GMACS version you want to consider for the comparison
+# # Vector of character string
+# GMACS_version <- c(
+#   # "Last_Assessment",
+#   "Dvpt_Version",
+#   "Latest_Version")
+# 
+# # Define directory
+# # Vector of path directory
+# VERSIONDIR <- c(
+#   # Dir_Assess,
+#   Dir_Dvpt_Vers,
+#   Dir_Last_Vers)
+# 
+# 
+# # Need to conpile the model?
+# # vector of interger of length(.GMACS_version)
+# # 0: GMACS is not compiled. This assumes that an executable exists in the directory of the concerned version.
+# # 1: GMACS is compiles
+# # COMPILE <- c(0,0,0)       # You already compile and build the executable
+# COMPILE <- c(0,0) 
+# 
+# # Run GMACS - Runs have already been done
+# # Logical
+# # Here, we already have assessment outputs for each stock
+# RUN_GMACS <- FALSE
+# 
+# 
+# # Stock of interest - Here we are going to test all stocks
+# # Vector of character string
+# # For one stock in particular (e.g., EAG), use the following command:
+# # Stock <-c(
+# #   "EAG"
+# # )
 # Stock <-c(
-#   "EAG"
+#   "all"
 # )
-Stock <-c(
-  "all"
-)
-
-# Use Last Assessment for comparison?
-# Logical
-# If yes, you must provide the names of the model(s) you want to consider for 
-# comparison for each stock in the variable named ASSMOD_NAMES. 
-# Those models folders must have to be hold in the "Assessments" folder of 
-# the GMACS_Assessment_code repository.
-ASS <- FALSE
-
-# names of the model for the last assessment
-# Only useful if comparison is made.
-# Vector of character string
-# If all stocks are considered they have to be ordered as follow:
-# "AIGKC/EAG" / "AIGKC/WAG" / "BBRKC" / "SMBKC" / "SNOW"
-ASSMOD_NAMES <- c('model_21_1e',
-                  'model_21_1e',
-                  'model_21_1',
-                  'model_16_0',
-                  'model_21_g')
-
-# Do comparisons?
-# Logical
-MAKE_Comp <- TRUE
-
-#  ===================================== #
-#  ===================================== #
-
-# The results of the comparisons are in a list form and stored in the
-# "tables" object
-# ----------------------------------------------------- #
-
-tables <- GMACS(Spc = Stock, 
-                GMACS_version = GMACS_version,
-                Dir = VERSIONDIR,
-                compile = COMPILE,
-                ADMBpaths = ADMBpaths,
-                ASS = ASS,
-                AssMod_names = ASSMOD_NAMES,
-                run = RUN_GMACS,
-                make.comp = MAKE_Comp)
-
-# The table variable is a named list where the first argument of this
-# list is the name of each stock:
-names(tables)
-
-# Then the second level of arguments corresponds to each 
-# version of GMCAS / model you want to compare:
-names(tables$EAG)
-
-# Finally the last level of this list is the values of management 
-# quantities that are used for comparison.
-# MMB | B35 | F35 | FOFL | OFL | Status | M | Av_Recr
-names(tables$EAG$Dvpt_Version)
+# 
+# # Use Last Assessment for comparison?
+# # Logical
+# # If yes, you must provide the names of the model(s) you want to consider for 
+# # comparison for each stock in the variable named ASSMOD_NAMES. 
+# # Those models folders must have to be hold in the "Assessments" folder of 
+# # the GMACS_Assessment_code repository.
+# ASS <- FALSE
+# 
+# # names of the model for the last assessment
+# # Only useful if comparison is made.
+# # Vector of character string
+# # If all stocks are considered they have to be ordered as follow:
+# # "AIGKC/EAG" / "AIGKC/WAG" / "BBRKC" / "SMBKC" / "SNOW"
+# ASSMOD_NAMES <- c('model_21_1e',
+#                   'model_21_1e',
+#                   'model_21_1',
+#                   'model_16_0',
+#                   'model_21_g')
+# 
+# # Do comparisons?
+# # Logical
+# MAKE_Comp <- TRUE
+# 
+# #  ===================================== #
+# #  ===================================== #
+# 
+# # The results of the comparisons are in a list form and stored in the
+# # "tables" object
+# # ----------------------------------------------------- #
+# 
+# tables <- GMACS(Spc = Stock, 
+#                 GMACS_version = GMACS_version,
+#                 Dir = VERSIONDIR,
+#                 compile = COMPILE,
+#                 ADMBpaths = ADMBpaths,
+#                 ASS = ASS,
+#                 AssMod_names = ASSMOD_NAMES,
+#                 run = RUN_GMACS,
+#                 make.comp = MAKE_Comp)
+# 
+# 
+# # The table variable is a named list where the first argument of this
+# # list is the name of each stock:
+# names(tables)
+# 
+# # Then the second level of arguments corresponds to each 
+# # version of GMCAS / model you want to compare:
+# names(tables$EAG)
+# 
+# # Finally the last level of this list is the values of management 
+# # quantities that are used for comparison.
+# # MMB | B35 | F35 | FOFL | OFL | Status | M | Av_Recr
+# names(tables$EAG$Dvpt_Version)
 
 # -----------------------------------------------------------
 

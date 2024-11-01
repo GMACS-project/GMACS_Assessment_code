@@ -2,14 +2,14 @@
 #                  GMACS main control file 
 # 
 #_*** 
-#_  GMACS Version 2.01.M.01 
-#_Last GMACS mofification made by:   ** MV ** 
-#_Date of writing the control file: 2024-02-17 16:44:17 
+#_GMACS Version 2.10.01 
+#_Last GMACS mofification made by: ** MV ** 
+#_Date of writing the control file:2024-11-01 01:40:01 
 #_*** 
 # 
-#_Stock of interest:  BBRKC 
-#_Model name:  model_21_1 
-#_Year of assessment:  2021 
+#_Stock of interest: BBRKC 
+#_Model name: model_21_1 
+#_Year of assessment: 2021 
 # ============================================================ #
 
 # -------------------------------------- #
@@ -34,110 +34,111 @@
 # ************************************** #
 # 
 #_Init_val_| Lower_Bd_| Upper_Bd_| Phase_| Prior_type_| p1_| p2
-0.18 0.15 0.2 -4 2 0.18 0.04
-0 -0.4 0.4 4 1 0 0.03
-16.5 -10 18 -2 0 -10 20
-19.5 -10 25 3 0 10 25
-16.5 -10 25 1 0 10 20
-72.5 55 100 -4 1 72.5 7.25
-0.726149 0.32 1.64 3 0 0.1 5
-0 -5 5 -4 0 0 20
-0 -1.69 0.4 3 0 0 20
--0.10536 -10 0.75 -4 0 -10 0.75
-0.75 0.2 1 -2 3 3 2
-0.01 0 1 -3 3 1.01 1.01
-1.10796288563 -10 4 9 0 10 20
-0.563229168219 -10 4 9 0 10 20
-0.681928313426 -10 4 9 0 10 20
-0.491057364532 -10 4 9 0 10 20
-0.40791177756 -10 4 9 0 10 20
-0.436516142684 -10 4 9 0 10 20
-0.4061267539555 -10 4 9 0 10 20
-0.43614597488 -10 4 9 0 10 20
-0.40494522852708 -10 4 9 0 10 20
-0.30401970466854 -10 4 9 0 10 20
-0.2973752673022 -10 4 9 0 10 20
-0.1746800712364 -10 4 9 0 10 20
-0.0845298456942 -10 4 9 0 10 20
-0.0107462399193 -10 4 9 0 10 20
--0.190468322904 -10 4 9 0 10 20
--0.376312503735 -10 4 9 0 10 20
--0.699162895473 -10 4 9 0 10 20
--1.1588177153 -10 4 9 0 10 20
--1.17311583316 -10 4 9 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
-0.425704202053 -10 4 9 0 10 20
-2.26840859266 -10 4 9 0 10 20
-1.81045137308 -10 4 9 0 10 20
-1.37035725111 -10 4 9 0 10 20
-1.15825808799 -10 4 9 0 10 20
-0.596196784439 -10 4 9 0 10 20
-0.225756761257 -10 4 9 0 10 20
--0.0247857565368 -10 4 9 0 10 20
--0.214045895269 -10 4 9 0 10 20
--0.56053957778 -10 4 9 0 10 20
--0.974218300021 -10 4 9 0 10 20
--1.24580072031 -10 4 9 0 10 20
--1.4929289745 -10 4 9 0 10 20
--1.94135821253 -10 4 9 0 10 20
--2.05101560679 -10 4 9 0 10 20
--1.9495660643 -10 4 9 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
--100 -101 5 -2 0 10 20
+0.18 0.15 0.2 -4 2 0.18 0.04 			# M-base
+0 -0.4 0.4 4 1 0 0.03 			# M-fem-offset
+16.5 -10 18 -2 0 -10 20 			# Log_R0
+19.5 -10 25 3 0 10 25 			# Log_Rinitial
+16.5 -10 25 1 0 10 20 			# Log_Rbar
+72.5 55 100 -4 1 72.5 7.25 			# Recruitment_ra-males
+0.726149 0.32 1.64 3 0 0.1 5 			# Recruitment_rb-males
+0 -5 5 -4 0 0 20 			# Recruitment_ra-females
+0 -1.69 0.4 3 0 0 20 			# Recruitment_rb-females
+-0.10536 -10 0.75 -4 0 -10 0.75 			# log_SigmaR
+0.75 0.2 1 -2 3 3 2 			# Steepness
+0.01 0 1 -3 3 1.01 1.01 			# Rho
+1.107963 -10 4 9 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_1_class_2
+0.5632292 -10 4 9 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_1_class_3
+0.6819283 -10 4 9 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_1_class_4
+0.4910574 -10 4 9 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_1_class_5
+0.4079118 -10 4 9 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_1_class_6
+0.4365161 -10 4 9 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_1_class_7
+0.4061268 -10 4 9 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_1_class_8
+0.436146 -10 4 9 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_1_class_9
+0.4049452 -10 4 9 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_1_class_10
+0.3040197 -10 4 9 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_1_class_11
+0.2973753 -10 4 9 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_1_class_12
+0.1746801 -10 4 9 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_1_class_13
+0.08452985 -10 4 9 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_1_class_14
+0.01074624 -10 4 9 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_1_class_15
+-0.1904683 -10 4 9 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_1_class_16
+-0.3763125 -10 4 9 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_1_class_17
+-0.6991629 -10 4 9 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_1_class_18
+-1.158818 -10 4 9 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_1_class_19
+-1.173116 -10 4 9 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_1_class_20
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_2_class_1
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_2_class_2
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_2_class_3
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_2_class_4
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_2_class_5
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_2_class_6
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_2_class_7
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_2_class_8
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_2_class_9
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_2_class_10
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_2_class_11
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_2_class_12
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_2_class_13
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_2_class_14
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_2_class_15
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_2_class_16
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_2_class_17
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_2_class_18
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_2_class_19
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Male_mature_1_shell_2_class_20
+0.4257042 -10 4 9 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_1_class_1
+2.268409 -10 4 9 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_1_class_2
+1.810451 -10 4 9 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_1_class_3
+1.370357 -10 4 9 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_1_class_4
+1.158258 -10 4 9 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_1_class_5
+0.5961968 -10 4 9 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_1_class_6
+0.2257568 -10 4 9 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_1_class_7
+-0.02478576 -10 4 9 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_1_class_8
+-0.2140459 -10 4 9 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_1_class_9
+-0.5605396 -10 4 9 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_1_class_10
+-0.9742183 -10 4 9 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_1_class_11
+-1.245801 -10 4 9 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_1_class_12
+-1.492929 -10 4 9 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_1_class_13
+-1.941358 -10 4 9 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_1_class_14
+-2.051016 -10 4 9 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_1_class_15
+-1.949566 -10 4 9 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_1_class_16
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_1_class_17
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_1_class_18
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_1_class_19
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_1_class_20
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_2_class_1
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_2_class_2
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_2_class_3
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_2_class_4
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_2_class_5
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_2_class_6
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_2_class_7
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_2_class_8
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_2_class_9
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_2_class_10
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_2_class_11
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_2_class_12
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_2_class_13
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_2_class_14
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_2_class_15
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_2_class_16
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_2_class_17
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_2_class_18
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_2_class_19
+-100 -101 5 -2 0 10 20 			# Scaled_logN_for_Female_mature_1_shell_2_class_20
 # -------------------------------------- #
 
 # -------------------------------------- #
 ##_Allometry
 # -------------------------------------- #
 #_Length-weight type/method
-#_1 = Length-weight relationship (vector of sex specific parameters: w_l = a[s]*l^b[s])
-#_2 = Input vector of mean weight-at-size by sex (dim=[1:nclass])
-#_3 = Input matrix of mean weight-at-size by sex and year (dim=[nsex*Nyear; nclass])
+#_1 = Length-weight relationship parameters (w_l = a[s]*l^b[s]): vector of sex specific parameters for each maturity type:
+#_(i.e., immature males, mature males, immature females, mature females).
+#_2 = Input vector of mean weight-at-size by sex (dim=[1:nclass]) and maturity type (i.e., matrix of dim=[nsex*nmature,nclass]) 
+#_3 = Input matrix of mean weight-at-size by sex and year for each maturity type (dim=[nsex*nmature*Nyear; nclass])
 2 
-#_vector of male mean weight-at-size
+#_vectors of Male mean weight-at-size for immature and mature individuals
 0.000224781 0.000281351 0.000346923 0.000422209 0.000507927 0.000604802 0.000713564 0.00083495 0.0009697 0.00111856 0.00128229 0.00146163 0.00165736 0.00187023 0.00210101 0.00235048 0.00261942 0.00290861 0.00321882 0.0039059
-#_vector of female mean weight-at-size
+#_vectors of Female mean weight-at-size for immature and mature individuals
 0.0002151 0.00026898 0.00033137 0.00040294 0.00048437 0.00062711 0.0007216 0.00082452 0.00093615 0.00105678 0.00118669 0.00132613 0.00147539 0.00163473 0.00180441 0.00218315 0.00218315 0.00218315 0.00218315 0.0021831
 # -------------------------------------- #
 
@@ -145,13 +146,15 @@
 ##_Fecundity for MMB/MMA calculation
 # -------------------------------------- #
 #_Maturity definition: Proportion of mature at size by sex
+#_size_Class_1 size_Class_2 size_Class_3 size_Class_4 size_Class_5 size_Class_6 size_Class_7 size_Class_8 size_Class_9 size_Class_10 size_Class_11 size_Class_12 size_Class_13 size_Class_14 size_Class_15 size_Class_16 size_Class_17 size_Class_18 size_Class_19 size_Class_20 
 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1
 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 #_Legal definition of the proportion of mature at size by sex
+#_size_Class_1 size_Class_2 size_Class_3 size_Class_4 size_Class_5 size_Class_6 size_Class_7 size_Class_8 size_Class_9 size_Class_10 size_Class_11 size_Class_12 size_Class_13 size_Class_14 size_Class_15 size_Class_16 size_Class_17 size_Class_18 size_Class_19 size_Class_20 
 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-# use functional maturity for terminally molting animals?
-0
+#_Use functional maturity for terminally molting animals? (0 = No; 1 = Yes)
+0 
 # -------------------------------------- #
 
 # -------------------------------------- #
@@ -191,6 +194,7 @@
 # ************************************** #
 #_If the custom growth model option = 1 then the molt probability function must be 1 
 2 
+ 
 #_Maximum of size-classes to which recruitment must occur (males then females)
 7 5 
 #_Number of blocks of growth matrix parameters (i.e., number of size-increment period)
@@ -204,6 +208,7 @@
 #_-> 1 line per sex - blank if no change (i.e., if the number of blocks of growth matrix parameters = 1)
 1980
 1980
+
 #_Are the beta parameters relative to a base level?
 1 
 
@@ -223,90 +228,90 @@
 # ************************************** #
 # 
 #_Init_val_| Lower_Bd_| Upper_Bd_| Phase_| Prior_type_| p1_| p2
-16.5 0 20 -33 0 0 999
-16.5 0 20 -33 0 0 999
-16.4 0 20 -33 0 0 999
-16.3 0 20 -33 0 0 999
-16.3 0 20 -33 0 0 999
-16.2 0 20 -33 0 0 999
-16.2 0 20 -33 0 0 999
-16.1 0 20 -33 0 0 999
-16.1 0 20 -33 0 0 999
-16 0 20 -33 0 0 999
-16 0 20 -33 0 0 999
-15.9 0 20 -33 0 0 999
-15.8 0 20 -33 0 0 999
-15.8 0 20 -33 0 0 999
-15.7 0 20 -33 0 0 999
-15.7 0 20 -33 0 0 999
-15.6 0 20 -33 0 0 999
-15.6 0 20 -33 0 0 999
-15.5 0 20 -33 0 0 999
-15.5 0 20 -33 0 0 999
-1 0.5 3 6 0 0 999
-13.8 0 20 -33 0 0 999
-12.2 0 20 -33 0 0 999
-10.5 0 20 -33 0 0 999
-8.4 0 20 -33 0 0 999
-7.5 0 20 -33 0 0 999
-7 0 20 -33 0 0 999
-6.6 0 20 -33 0 0 999
-6.1 0 20 -33 0 0 999
-5.6 0 20 -33 0 0 999
-5.1 0 20 -33 0 0 999
-4.6 0 20 -33 0 0 999
-4.1 0 20 -33 0 0 999
-3.6 0 20 -33 0 0 999
-3.2 0 20 -33 0 0 999
-2.7 0 20 -33 0 0 999
-2.2 0 20 -33 0 0 999
-1.7 0 20 -33 0 0 999
-1.2 0 20 -33 0 0 999
-0.7 0 20 -33 0 0 999
-0.4 0 20 -33 0 0 999
-1.5 0.5 3 6 0 0 999
-15.4 0 20 -33 0 0 999
-13.8 0 20 -33 0 0 999
-12.2 0 20 -33 0 0 999
-10.5 0 20 -33 0 0 999
-8.9 0 20 -33 0 0 999
-7.9 0 20 -33 0 0 999
-7.2 0 20 -33 0 0 999
-6.6 0 20 -33 0 0 999
-6.1 0 20 -33 0 0 999
-5.6 0 20 -33 0 0 999
-5.1 0 20 -33 0 0 999
-4.6 0 20 -33 0 0 999
-4.1 0 20 -33 0 0 999
-3.6 0 20 -33 0 0 999
-3.2 0 20 -33 0 0 999
-2.7 0 20 -33 0 0 999
-2.2 0 20 -33 0 0 999
-1.7 0 20 -33 0 0 999
-1.2 0 20 -33 0 0 999
-0.7 0 20 -33 0 0 999
-0 -1 1 -7 0 0 999
-15.1 0 20 -33 0 0 999
-14 0 20 -33 0 0 999
-12.9 0 20 -33 0 0 999
-11.8 0 20 -33 0 0 999
-10.6 0 20 -33 0 0 999
-8.7 0 20 -33 0 0 999
-7.4 0 20 -33 0 0 999
-6.6 0 20 -33 0 0 999
-6.1 0 20 -33 0 0 999
-5.6 0 20 -33 0 0 999
-5.1 0 20 -33 0 0 999
-4.6 0 20 -33 0 0 999
-4.1 0 20 -33 0 0 999
-3.6 0 20 -33 0 0 999
-3.2 0 20 -33 0 0 999
-2.7 0 20 -33 0 0 999
-2.2 0 20 -33 0 0 999
-1.7 0 20 -33 0 0 999
-1.2 0 20 -33 0 0 999
-0.7 0 20 -33 0 0 999
-0 -1 1 -7 0 0 999
+16.5 0 20 -33 0 0 999 			# Molt_increment_Male_period_1_class_1
+16.5 0 20 -33 0 0 999 			# Molt_increment_Male_period_1_class_2
+16.4 0 20 -33 0 0 999 			# Molt_increment_Male_period_1_class_3
+16.3 0 20 -33 0 0 999 			# Molt_increment_Male_period_1_class_4
+16.3 0 20 -33 0 0 999 			# Molt_increment_Male_period_1_class_5
+16.2 0 20 -33 0 0 999 			# Molt_increment_Male_period_1_class_6
+16.2 0 20 -33 0 0 999 			# Molt_increment_Male_period_1_class_7
+16.1 0 20 -33 0 0 999 			# Molt_increment_Male_period_1_class_8
+16.1 0 20 -33 0 0 999 			# Molt_increment_Male_period_1_class_9
+16 0 20 -33 0 0 999 			# Molt_increment_Male_period_1_class_10
+16 0 20 -33 0 0 999 			# Molt_increment_Male_period_1_class_11
+15.9 0 20 -33 0 0 999 			# Molt_increment_Male_period_1_class_12
+15.8 0 20 -33 0 0 999 			# Molt_increment_Male_period_1_class_13
+15.8 0 20 -33 0 0 999 			# Molt_increment_Male_period_1_class_14
+15.7 0 20 -33 0 0 999 			# Molt_increment_Male_period_1_class_15
+15.7 0 20 -33 0 0 999 			# Molt_increment_Male_period_1_class_16
+15.6 0 20 -33 0 0 999 			# Molt_increment_Male_period_1_class_17
+15.6 0 20 -33 0 0 999 			# Molt_increment_Male_period_1_class_18
+15.5 0 20 -33 0 0 999 			# Molt_increment_Male_period_1_class_19
+15.5 0 20 -33 0 0 999 			# Molt_increment_Male_period_1_class_20
+1 0.5 3 6 0 0 999 			# Gscale_Male_period_1
+13.8 0 20 -33 0 0 999 			# Molt_increment_Female_period_1_class_1
+12.2 0 20 -33 0 0 999 			# Molt_increment_Female_period_1_class_2
+10.5 0 20 -33 0 0 999 			# Molt_increment_Female_period_1_class_3
+8.4 0 20 -33 0 0 999 			# Molt_increment_Female_period_1_class_4
+7.5 0 20 -33 0 0 999 			# Molt_increment_Female_period_1_class_5
+7 0 20 -33 0 0 999 			# Molt_increment_Female_period_1_class_6
+6.6 0 20 -33 0 0 999 			# Molt_increment_Female_period_1_class_7
+6.1 0 20 -33 0 0 999 			# Molt_increment_Female_period_1_class_8
+5.6 0 20 -33 0 0 999 			# Molt_increment_Female_period_1_class_9
+5.1 0 20 -33 0 0 999 			# Molt_increment_Female_period_1_class_10
+4.6 0 20 -33 0 0 999 			# Molt_increment_Female_period_1_class_11
+4.1 0 20 -33 0 0 999 			# Molt_increment_Female_period_1_class_12
+3.6 0 20 -33 0 0 999 			# Molt_increment_Female_period_1_class_13
+3.2 0 20 -33 0 0 999 			# Molt_increment_Female_period_1_class_14
+2.7 0 20 -33 0 0 999 			# Molt_increment_Female_period_1_class_15
+2.2 0 20 -33 0 0 999 			# Molt_increment_Female_period_1_class_16
+1.7 0 20 -33 0 0 999 			# Molt_increment_Female_period_1_class_17
+1.2 0 20 -33 0 0 999 			# Molt_increment_Female_period_1_class_18
+0.7 0 20 -33 0 0 999 			# Molt_increment_Female_period_1_class_19
+0.4 0 20 -33 0 0 999 			# Molt_increment_Female_period_1_class_20
+1.5 0.5 3 6 0 0 999 			# Gscale_Female_period_1
+15.4 0 20 -33 0 0 999 			# Molt_increment_Female_period_2_class_1
+13.8 0 20 -33 0 0 999 			# Molt_increment_Female_period_2_class_2
+12.2 0 20 -33 0 0 999 			# Molt_increment_Female_period_2_class_3
+10.5 0 20 -33 0 0 999 			# Molt_increment_Female_period_2_class_4
+8.9 0 20 -33 0 0 999 			# Molt_increment_Female_period_2_class_5
+7.9 0 20 -33 0 0 999 			# Molt_increment_Female_period_2_class_6
+7.2 0 20 -33 0 0 999 			# Molt_increment_Female_period_2_class_7
+6.6 0 20 -33 0 0 999 			# Molt_increment_Female_period_2_class_8
+6.1 0 20 -33 0 0 999 			# Molt_increment_Female_period_2_class_9
+5.6 0 20 -33 0 0 999 			# Molt_increment_Female_period_2_class_10
+5.1 0 20 -33 0 0 999 			# Molt_increment_Female_period_2_class_11
+4.6 0 20 -33 0 0 999 			# Molt_increment_Female_period_2_class_12
+4.1 0 20 -33 0 0 999 			# Molt_increment_Female_period_2_class_13
+3.6 0 20 -33 0 0 999 			# Molt_increment_Female_period_2_class_14
+3.2 0 20 -33 0 0 999 			# Molt_increment_Female_period_2_class_15
+2.7 0 20 -33 0 0 999 			# Molt_increment_Female_period_2_class_16
+2.2 0 20 -33 0 0 999 			# Molt_increment_Female_period_2_class_17
+1.7 0 20 -33 0 0 999 			# Molt_increment_Female_period_2_class_18
+1.2 0 20 -33 0 0 999 			# Molt_increment_Female_period_2_class_19
+0.7 0 20 -33 0 0 999 			# Molt_increment_Female_period_2_class_20
+0 -1 1 -7 0 0 999 			# Gscale_Female_period_2
+15.1 0 20 -33 0 0 999 			# Molt_increment_Female_period_3_class_1
+14 0 20 -33 0 0 999 			# Molt_increment_Female_period_3_class_2
+12.9 0 20 -33 0 0 999 			# Molt_increment_Female_period_3_class_3
+11.8 0 20 -33 0 0 999 			# Molt_increment_Female_period_3_class_4
+10.6 0 20 -33 0 0 999 			# Molt_increment_Female_period_3_class_5
+8.7 0 20 -33 0 0 999 			# Molt_increment_Female_period_3_class_6
+7.4 0 20 -33 0 0 999 			# Molt_increment_Female_period_3_class_7
+6.6 0 20 -33 0 0 999 			# Molt_increment_Female_period_3_class_8
+6.1 0 20 -33 0 0 999 			# Molt_increment_Female_period_3_class_9
+5.6 0 20 -33 0 0 999 			# Molt_increment_Female_period_3_class_10
+5.1 0 20 -33 0 0 999 			# Molt_increment_Female_period_3_class_11
+4.6 0 20 -33 0 0 999 			# Molt_increment_Female_period_3_class_12
+4.1 0 20 -33 0 0 999 			# Molt_increment_Female_period_3_class_13
+3.6 0 20 -33 0 0 999 			# Molt_increment_Female_period_3_class_14
+3.2 0 20 -33 0 0 999 			# Molt_increment_Female_period_3_class_15
+2.7 0 20 -33 0 0 999 			# Molt_increment_Female_period_3_class_16
+2.2 0 20 -33 0 0 999 			# Molt_increment_Female_period_3_class_17
+1.7 0 20 -33 0 0 999 			# Molt_increment_Female_period_3_class_18
+1.2 0 20 -33 0 0 999 			# Molt_increment_Female_period_3_class_19
+0.7 0 20 -33 0 0 999 			# Molt_increment_Female_period_3_class_20
+0 -1 1 -7 0 0 999 			# Gscale_Female_period_3
 
 #_Molt probability controls
 # ************************************** #
@@ -324,19 +329,39 @@
 # ************************************** #
  
 #_Init_val_| Lower_Bd_| Upper_Bd_| Phase_| Prior_type_| p1_| p2
-145.0386 100 500 3 0 0 999
-0.053036 0.02 2 3 0 0 999
-145.0386 100 500 3 0 0 999
-0.053036 0.02 2 3 0 0 999
-300 5 500 -4 0 0 999
-0.01 0.001 9 -4 0 0 999
-300 5 500 -4 0 0 999
-0.01 0.001 9 -4 0 0 999
+145.0386 100 500 3 0 0 999 			# Molt_probability_mu_Male_period_1
+0.053036 0.02 2 3 0 0 999 			# Molt_probability_CV_Male_period_1
+145.0386 100 500 3 0 0 999 			# Molt_probability_mu_Male_period_2
+0.053036 0.02 2 3 0 0 999 			# Molt_probability_CV_Male_period_2
+300 5 500 -4 0 0 999 			# Molt_probability_mu_Female_period_1
+0.01 0.001 9 -4 0 0 999 			# Molt_probability_CV_Female_period_1
+300 5 500 -4 0 0 999 			# Molt_probability_mu_Female_period_2
+0.01 0.001 9 -4 0 0 999 			# Molt_probability_CV_Female_period_2
+
+#_Mature probability controls
+# ************************************** #
+#_For each parameter columns are:
+#_Init_val: Initial value for the parameter (must lie between lower and upper bounds)
+#_Lower_Bd & Upper_Bd: Range for the parameter
+#_Phase: Set equal to a negative number not to estimate
+#_Available prior types:
+#_-> 0 = Uniform   - parameters are the range of the uniform prior
+#_-> 1 = Normal    - parameters are the mean and sd
+#_-> 2 = Lognormal - parameters are the mean and sd of the log
+#_-> 3 = Beta      - parameters are the two beta parameters [see dbeta]
+#_-> 4 = Gamma     - parameters are the two gamma parameters [see dgamma]
+#_p1; p2: priors
+# ************************************** #
+ 
+#_Init_val_| Lower_Bd_| Upper_Bd_| Phase_| Prior_type_| p1_| p2
 
 #_Custom growth-increment matrix or size-transition matrix (if any)
 # 
 
 #_Custom molt probability matrix  (if any)
+# 
+
+#_Custom maturity probability matrix  (if any)
 # 
 # -------------------------------------- #
 
@@ -426,29 +451,29 @@
  
 #_Fleet_| Index_| Par_no_| Sex_| Init_val_| Lower_Bd_| Upper_Bd_| Prior_type_| p1_| p2_| Phase_| Start_Block_| End_Block_| Env_Link_| Link_Par_| Rand_Walk_| Start_RdWalk_| End_RdWalk_| Sigma_RdWalk
 # Pot_Fishery  
-1 1 1 1 125 5 190 0 1 999 4 1975 2020 0 0 0 1978 1978 0  
-1 2 2 1 8 0.1 20 0 1 999 4 1975 2020 0 0 0 1978 1978 0  
-1 3 1 2 84 5 150 0 1 999 4 1975 2020 0 0 0 1978 1978 0  
-1 4 2 2 4 0.1 20 0 1 999 4 1975 2020 0 0 0 1978 1978 0  
+1 1 1 1 125 5 190 0 1 999 4 1975 2020 0 0 0 1978 1978 0 			# Sel_Pot_Fishery_Male_period_1_par_1
+1 2 2 1 8 0.1 20 0 1 999 4 1975 2020 0 0 0 1978 1978 0 			# Sel_Pot_Fishery_Male_period_1_par_2
+1 3 1 2 84 5 150 0 1 999 4 1975 2020 0 0 0 1978 1978 0 			# Sel_Pot_Fishery_Female_period_1_par_1
+1 4 2 2 4 0.1 20 0 1 999 4 1975 2020 0 0 0 1978 1978 0 			# Sel_Pot_Fishery_Female_period_1_par_2
 # Trawl_Bycatch  
-2 5 1 0 165 5 190 0 1 999 4 1975 2020 0 0 0 1978 1978 0  
-2 6 2 0 15 0.1 25 0 1 999 4 1975 2020 0 0 0 1978 1978 0  
+2 5 1 0 165 5 190 0 1 999 4 1975 2020 0 0 0 1978 1978 0 			# Sel_Trawl_Bycatch_Male_period_1_par_1
+2 6 2 0 15 0.1 25 0 1 999 4 1975 2020 0 0 0 1978 1978 0 			# Sel_Trawl_Bycatch_Male_period_1_par_2
 # Bairdi_Fishery_Bycatch  
-3 7 1 1 103.275 5 190 1 103.275 30.98 4 1975 2020 0 0 0 1978 1978 0  
-3 8 2 1 8.834 0.1 25 1 8.834 2.65 4 1975 2020 0 0 0 1978 1978 0  
-3 9 1 2 91.178 5 190 1 91.178 27.35 4 1975 2020 0 0 0 1978 1978 0  
-3 10 2 2 2.5 0.1 25 1 2.5 0.75 4 1975 2020 0 0 0 1978 1978 0  
+3 7 1 1 103.275 5 190 1 103.275 30.98 4 1975 2020 0 0 0 1978 1978 0 			# Sel_Bairdi_Fishery_Bycatch_Male_period_1_par_1
+3 8 2 1 8.834 0.1 25 1 8.834 2.65 4 1975 2020 0 0 0 1978 1978 0 			# Sel_Bairdi_Fishery_Bycatch_Male_period_1_par_2
+3 9 1 2 91.178 5 190 1 91.178 27.35 4 1975 2020 0 0 0 1978 1978 0 			# Sel_Bairdi_Fishery_Bycatch_Female_period_1_par_1
+3 10 2 2 2.5 0.1 25 1 2.5 0.75 4 1975 2020 0 0 0 1978 1978 0 			# Sel_Bairdi_Fishery_Bycatch_Female_period_1_par_2
 # Fixed_Gear  
-4 11 1 0 115 5 190 0 1 999 4 1975 2020 0 0 0 1978 1978 0  
-4 12 2 0 9 0.1 25 0 1 999 4 1975 2020 0 0 0 1978 1978 0  
+4 11 1 0 115 5 190 0 1 999 4 1975 2020 0 0 0 1978 1978 0 			# Sel_Fixed_Gear_Male_period_1_par_1
+4 12 2 0 9 0.1 25 0 1 999 4 1975 2020 0 0 0 1978 1978 0 			# Sel_Fixed_Gear_Male_period_1_par_2
 # NMFS_Trawl  
-5 13 1 0 75 30 190 0 1 999 5 1975 1981 0 0 0 1978 1978 0  
-5 14 2 0 5 1 50 0 1 999 5 1975 1981 0 0 0 1978 1978 0  
-5 15 1 0 80 30 190 0 1 999 5 1982 2021 0 0 0 1978 1978 0  
-5 16 2 0 10 1 50 0 1 999 5 1982 2021 0 0 0 1978 1978 0  
+5 13 1 0 75 30 190 0 1 999 5 1975 1981 0 0 0 1978 1978 0 			# Sel_NMFS_Trawl_Male_period_1_par_1
+5 14 2 0 5 1 50 0 1 999 5 1975 1981 0 0 0 1978 1978 0 			# Sel_NMFS_Trawl_Male_period_1_par_2
+5 15 1 0 80 30 190 0 1 999 5 1982 2021 0 0 0 1978 1978 0 			# Sel_NMFS_Trawl_Male_period_2_par_1
+5 16 2 0 10 1 50 0 1 999 5 1982 2021 0 0 0 1978 1978 0 			# Sel_NMFS_Trawl_Male_period_2_par_2
 # BSFRF  
-6 17 1 0 75 1 180 0 1 999 5 1975 2021 0 0 0 1978 1978 0  
-6 18 2 0 8.5 1 50 0 1 999 5 1975 2021 0 0 0 1978 1978 0  
+6 17 1 0 75 1 180 0 1 999 5 1975 2021 0 0 0 1978 1978 0 			# Sel_BSFRF_Male_period_1_par_1
+6 18 2 0 8.5 1 50 0 1 999 5 1975 2021 0 0 0 1978 1978 0 			# Sel_BSFRF_Male_period_1_par_2
 
 #_Retention parameter controls
 # ************************************** #
@@ -479,22 +504,22 @@
  
 #_Fleet_| Index_| Par_no_| Sex_| Init_val_| Lower_Bd_| Upper_Bd_| Prior_type_| p1_| p2_| Phase_| Start_Block_| End_Block_| Env_Link_| Link_Par_| Rand_Walk_| Start_RdWalk_| End_RdWalk_| Sigma_RdWalk
 # Pot_Fishery  
--1 25 1 1 135 1 999 0 1 999 4 1975 2004 0 0 0 1978 1978 0  
--1 26 2 1 2 1 20 0 1 999 4 1975 2004 0 0 0 1978 1978 0  
--1 27 1 1 140 1 999 0 1 999 4 2005 2020 0 0 0 1978 1978 0  
--1 28 2 1 2.5 1 20 0 1 999 4 2005 2020 0 0 0 1978 1978 0  
--1 29 1 2 591 1 999 0 1 999 -3 1975 2004 0 0 0 1978 1978 0  
--1 30 1 2 591 1 999 0 1 999 -3 2005 2020 0 0 0 1978 1978 0  
+-1 25 1 1 135 1 999 0 1 999 4 1975 2004 0 0 0 1978 1978 0 			# Ret_Pot_Fishery_Male_period_1_par_1
+-1 26 2 1 2 1 20 0 1 999 4 1975 2004 0 0 0 1978 1978 0 			# Ret_Pot_Fishery_Male_period_1_par_2
+-1 27 1 1 140 1 999 0 1 999 4 2005 2020 0 0 0 1978 1978 0 			# Ret_Pot_Fishery_Male_period_2_par_1
+-1 28 2 1 2.5 1 20 0 1 999 4 2005 2020 0 0 0 1978 1978 0 			# Ret_Pot_Fishery_Male_period_2_par_2
+-1 29 1 2 591 1 999 0 1 999 -3 1975 2004 0 0 0 1978 1978 0 			# Ret_Pot_Fishery_Female_period_1_par_1
+-1 30 1 2 591 1 999 0 1 999 -3 2005 2020 0 0 0 1978 1978 0 			# Ret_Pot_Fishery_Female_period_2_par_1
 # Trawl_Bycatch  
--2 31 1 0 595 1 999 0 1 999 -3 1975 2020 0 0 0 1978 1978 0  
+-2 31 1 0 595 1 999 0 1 999 -3 1975 2020 0 0 0 1978 1978 0 			# Ret_Trawl_Bycatch_Male_period_1_par_1
 # Bairdi_Fishery_Bycatch  
--3 32 1 0 595 1 999 0 1 999 -3 1975 2020 0 0 0 1978 1978 0  
+-3 32 1 0 595 1 999 0 1 999 -3 1975 2020 0 0 0 1978 1978 0 			# Ret_Bairdi_Fishery_Bycatch_Male_period_1_par_1
 # Fixed_Gear  
--4 33 1 0 595 1 999 0 1 999 -3 1975 2020 0 0 0 1978 1978 0  
+-4 33 1 0 595 1 999 0 1 999 -3 1975 2020 0 0 0 1978 1978 0 			# Ret_Fixed_Gear_Male_period_1_par_1
 # NMFS_Trawl  
--5 34 1 0 590 1 999 0 1 999 -3 1975 2021 0 0 0 1978 1978 0  
+-5 34 1 0 590 1 999 0 1 999 -3 1975 2021 0 0 0 1978 1978 0 			# Ret_NMFS_Trawl_Male_period_1_par_1
 # BSFRF  
--6 35 1 0 580 1 999 0 1 999 -3 1975 2021 0 0 0 1978 1978 0  
+-6 35 1 0 580 1 999 0 1 999 -3 1975 2021 0 0 0 1978 1978 0 			# Ret_BSFRF_Male_period_1_par_1
 
 #_Number of asymptotic retention parameter
 1 
@@ -508,7 +533,7 @@
 #_Phase: Set equal to a negative number not to estimate
 # ************************************** #
 #_Fleet_| Sex_| Year_| Init_val_| Lower_Bd_| Upper_Bd_| Phase 
-1 1 1975 1e-06 0 1 -3
+1 1 1975 1e-06 0 1 -3 			# AsympRet_fleet_Pot_Fishery_sex_Male_year_1975
 # -------------------------------------- #
 
 
@@ -528,7 +553,7 @@
 
 #_Deviation parameter phase for the random walk in vulnerability parameters
 #_Need to be defined
--1 
+-1 	#  Dummy_sel_dev_par 
 
 # -------------------------------------- #
 ## Priors for catchability
@@ -550,8 +575,8 @@
 # Loglik_mult: weight for the likelihood
 # ************************************** #
 # Init_val | Lower_Bd | Upper_Bd | Phase | Prior_type | p1 | p2 | Q_anal | CV_mult | Loglik_mult
-0.896 0 2 6 1 0.896 0.03 0 1 1
-1 0 5 -6 0 0.001 5 0 1 1
+0.896 0 2 6 1 0.896 0.03 0 1 1 			# Log_vn_comp_1
+1 0 5 -6 0 0.001 5 0 1 1 			# Log_vn_comp_2
 # -------------------------------------- #
 
 # -------------------------------------- #
@@ -571,8 +596,8 @@
 # p1; p2: priors
 # ************************************** #
 # Init_val | Lower_Bd | Upper_Bd | Phase | Prior_type| p1 | p2
-1e-04 1e-05 10 -4 4 1 100
-0.25 1e-05 10 10 0 0.001 1
+1e-04 1e-05 10 -4 4 1 100 			# Log_add_cvt_survey_1
+0.25 1e-05 10 10 0 0.001 1 			# Log_add_cvt_survey_2
  
 # Additional variance control for each survey (0 = ignore; >0 = use)
 1 2 
@@ -594,12 +619,12 @@
 # Low_bd_Y_female_F & Up_bd_Y_female_F: Range for the female fishing mortality (lower and upper bounds, respectivly)#
 # ************************************** #
 #  Mean_F_male | Female_Offset | Pen_std_Ph1 | Pen_std_Ph2 | Ph_Mean_F_male | Ph_Mean_F_female | Low_bd_mean_F | Up_bd_mean_F | Low_bd_Y_male_F | Up_bd_Y_male_F | Low_bd_Y_female_F | Up_bd_Y_female_F 
-0.22313 0.0505 0.5 45.5 1 1 -12 4 -10 2.95 -10 10
-0.0183156 1 0.5 45.5 1 -1 -12 4 -10 10 -10 10
-0.011109 1 0.5 45.5 1 1 -12 4 -10 10 -10 10
-0.011109 1 0.5 45.5 1 -1 -12 4 -10 10 -10 10
-0 0 2 20 -1 -1 -12 4 -10 10 -10 10
-0 0 2 20 -1 -1 -12 4 -10 10 -10 10
+0.22313 0.0505 0.5 45.5 1 1 -12 4 -10 2.95 -10 10 			# log_fbar_Pot_Fishery
+0.0183156 1 0.5 45.5 1 -1 -12 4 -10 10 -10 10 			# log_fbar_Trawl_Bycatch
+0.011109 1 0.5 45.5 1 1 -12 4 -10 10 -10 10 			# log_fbar_Bairdi_Fishery_Bycatch
+0.011109 1 0.5 45.5 1 -1 -12 4 -10 10 -10 10 			# log_fbar_Fixed_Gear
+0 0 2 20 -1 -1 -12 4 -10 10 -10 10 			# log_fbar_NMFS_Trawl
+0 0 2 20 -1 -1 -12 4 -10 10 -10 10 			# log_fbar_BSFRF
 # -------------------------------------- #
 
 # -------------------------------------- #
@@ -675,10 +700,10 @@
 # Size_spec: Are the deviations size-specific ? (integer that specifies which size-class (negative to be considered))
 # ************************************** #
 # Init_val | Lower_Bd | Upper_Bd | Phase | Size_spec
-1.7342575 0 2 8 0
-0 -2 2 -99 0
-1.780586 0 2 8 -1
-0 -2 2 -99 0
+1.734258 0 2 8 0 			# M_dev_est_par_1
+0 -2 2 -99 0 			# M_dev_est_par_2
+1.780586 0 2 8 -1 			# M_dev_est_par_3
+0 -2 2 -99 0 			# M_dev_est_par_4
 # -------------------------------------- #
 
 # -------------------------------------- #
@@ -707,8 +732,8 @@
 # p1; p2: priors
 # ************************************** #
 # Init_val | Lower_Bd | Upper_Bd | Phase | Prior_type| p1 | p2
-0 -1 1 -1 0 1 1
-0 -1 1 -1 0 1 1
+0 -1 1 -1 0 1 1 			# m_mat_mult_Male
+0 -1 1 -1 0 1 1 			# m_mat_mult_Female
 # -------------------------------------- #
 
 # -------------------------------------- #
@@ -750,12 +775,12 @@
 # Penalties on deviations
 # ************************************** #
 #  Fdev_total | Fdov_total | Fdev_year | Fdov_year 
-1 1 0 0
-1 1 0 0
-1 1 0 0
-1 1 0 0
-1 1 0 0
-1 1 0 0
+1 1 0 0 			# Pot_Fishery
+1 1 0 0 			# Trawl_Bycatch
+1 1 0 0 			# Bairdi_Fishery_Bycatch
+1 1 0 0 			# Fixed_Gear
+1 1 0 0 			# NMFS_Trawl
+1 1 0 0 			# BSFRF
 
 # Account for priors (penalties)
 # ************************************** #

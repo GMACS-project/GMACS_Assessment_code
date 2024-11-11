@@ -65,7 +65,7 @@ The [SAFE_documents](https://github.com/GMACS-project/GMACS_Assessment_code/tree
 
 ## Installation
 
-The most recent version of GMACS is a UNIFIED code and can therefore be used for all stocks (see ["GMACS V 2.10.01"]([https://github.com/GMACS-project/GMACS_Assessment_code/releases/tag/V2.10.01]) release). 
+The most recent version of GMACS is a UNIFIED code and can therefore be used for all stocks (see ["GMACS V 2.10.01"](https://github.com/GMACS-project/GMACS_Assessment_code/releases/tag/V2.10.01) release). 
 
 You can download the latest compiled version from GMACS-project [Github Latest_verions](https://github.com/GMACS-project/GMACS_Assessment_code/tree/main/GMACS_versions/Latest_Version)
 

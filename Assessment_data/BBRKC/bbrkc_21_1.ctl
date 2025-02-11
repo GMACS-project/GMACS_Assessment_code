@@ -2,9 +2,9 @@
 #                  GMACS main control file 
 # 
 #_*** 
-#_GMACS Version 2.10.01 
+#_GMACS Version 2.10.05 
 #_Last GMACS mofification made by: ** MV ** 
-#_Date of writing the control file:2024-11-01 01:40:01 
+#_Date of writing the control file: 2025-02-11 05:44:38 
 #_*** 
 # 
 #_Stock of interest: BBRKC 
@@ -13,11 +13,51 @@
 # ============================================================ #
 
 # -------------------------------------- #
+##_Time blocks set up
+# -------------------------------------- #
+#_Number of blocks to be used in the model
+#_if set to 0: this means 1 block corresponding to the year range
+1 
+#_Number of sub-blocks per group (i.e., within each block)
+#_This occurs after the first block, i.e. 1 means two sub-blocks
+2 
+#_Block definition - set the limits of each sub-block
+#_The first block always start with the start year
+# Block 1
+1980 1980 1985 1985 
+# -------------------------------------- #
+
+# -------------------------------------- #
+## Other (additional) controls
+# -------------------------------------- #
+# First year of recruitment estimation deviations
+1975 
+# Last year of recruitment estimation deviations
+2020 
+# Consider terminal molting? (0 = No; 1 = Yes
+0 
+# Phase for recruitment estimation
+2 
+# Phase for recruitment sex-ratio estimation
+2 
+# Initial value for expected sex-ratio
+0.5 
+# Initial conditions (1 = unfished, 2 = steady-state, 3 = free params, 4 = free params revised)
+3 
+# Proportion of mature male biomass for SPR reference points
+1 
+# Stock-Recruit-Relationship (0 = none, 1 = Beverton-Holt) 
+0 
+# Use years specified to computed average sex ratio in the calculation of average recruitment for reference points
+# -> 0 = No, i.e. Rec based on End year; 1 = Yes 
+1 
+# Years to compute equilibrium
+200 
+# -------------------------------------- #
+
+# -------------------------------------- #
 ##_Key parameter controls
 # -------------------------------------- #
-#_ntheta - Number of leading parameters (guestimated)
-91 
-#
 #_Core parameters
 # ************************************** #
 #_For each parameter columns are:
@@ -35,7 +75,7 @@
 # 
 #_Init_val_| Lower_Bd_| Upper_Bd_| Phase_| Prior_type_| p1_| p2
 0.18 0.15 0.2 -4 2 0.18 0.04 			# M-base
-0 -0.4 0.4 4 1 0 0.03 			# M-fem-offset
+0 -0.4 0.4 -4 1 0 0.03 			# M-fem-offset
 16.5 -10 18 -2 0 -10 20 			# Log_R0
 19.5 -10 25 3 0 10 25 			# Log_Rinitial
 16.5 -10 25 1 0 10 20 			# Log_Rbar
@@ -153,8 +193,6 @@
 #_size_Class_1 size_Class_2 size_Class_3 size_Class_4 size_Class_5 size_Class_6 size_Class_7 size_Class_8 size_Class_9 size_Class_10 size_Class_11 size_Class_12 size_Class_13 size_Class_14 size_Class_15 size_Class_16 size_Class_17 size_Class_18 size_Class_19 size_Class_20 
 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-#_Use functional maturity for terminally molting animals? (0 = No; 1 = Yes)
-0 
 # -------------------------------------- #
 
 # -------------------------------------- #
@@ -168,10 +206,10 @@
 #_1 = Fixed growth transition matrix (requires molt probability)
 #_2 = Fixed size transition matrix (molt probability is ignored)
 #_3 = Growth increment is gamma distributed
-#_4 = Size after growth is gamma distributed
-#_5 = kappa varies among individuals
-#_6 = Linf varies among individuals
-#_7 = kappa and Ling varies among individuals
+#_4 = Post-molt size is gamma distributed
+#_5 = Von-Bertalanffy: kappa varies among individuals
+#_6 = Von-Bertalanffy: Linf varies among individuals
+#_7 = Von-Bertalanffy: kappa and Ling varies among individuals
 #_8 = Growth increment is normally distributed
 # ************************************** #
 3 
@@ -180,8 +218,8 @@
 # ************************************** #
 #_0 = Pre-specified growth increment
 #_1 = linear (alpha; beta parameters)
-#_2 = Estimated by size-class
-#_3 = Pre-specified by size-class (empirical approach)
+#_2 = Estimated by size-class (i.e., individual)
+#_3 = Pre-specified by size-class (i.e., individual - empirical approach)
 # ************************************** #
 3 
  
@@ -197,6 +235,8 @@
  
 #_Maximum of size-classes to which recruitment must occur (males then females)
 7 5 
+#_Use functional maturity for terminally molting animals? (0 = No; 1 = Yes)
+0 
 #_Number of blocks of growth matrix parameters (i.e., number of size-increment period)
 1 3 
 #_Year(s) with changes in the growth matrix
@@ -366,13 +406,71 @@
 # -------------------------------------- #
 
 # -------------------------------------- #
+##_Natural mortality rates controls
+# -------------------------------------- #
+ 
+#_Natural mortality rates definition
+# ************************************** #
+#_For each combination sex*mature state, the set up line columns are:
+#_Relative:
+#_-> 0 = absolute values
+#_-> 1+ = based on another (subsequent) M-at-size vector (indexed by the combination sex*mature)
+#_Natural mortality rate type:
+#_-> 0 = standard
+#_-> 1 = Spline (implies to provide the number of knots for each combination sex*mature - see Extra)
+#_Extra: specification of the number of knots when the type is a spline
+#_M_size_breakpnts: number of changes in M by size
+#_Mirror: Mirror M-at-size over to that for another partition (indexed by the combination sex*mature)
+#_Block: Refers to the block number for time-varying M-at-size
+#_Block_fn:
+#_-> 0 = absolute values
+#_-> 1 = exponential
+#_Env_Link: Environmental link:
+#_-> 1 = additive
+#_-> 2 = multiplicative
+#_-> 3 = exponential
+#_EnvL_var: Environmental variable
+#_Rand_Walk:
+#_-> 0 = no random walk changes
+#_-> 1 = otherwise
+#_RW_block: Refer to the block number for random walks
+#_Sigma_RW: Sigma for the random walk parameters
+#_Mirror_RW: Should time-varying aspects be mirrows (Indexed by the combination sex*mature)
+# ************************************** #
+
+#_Relative?_| Type_| Extra_| size_breakpnts_| Mirror_| Block_| Block_fn_| Env_Link_| EnvL_var_| Rand_Walk_| RW_block_| Sigma_RW_| Mirror_RW
+0 0 0 0 0 1 1 0 0 0 0 0 0 			# Male ; BothMature
+1 0 0 0 0 0 0 0 0 0 0 0 0 			# Female ; BothMature
+ 
+#_Natural mortality rates parameters
+# ************************************** #
+#_For each parameter columns are:
+#_Init_val: Initial value for the parameter (must lie between lower and upper bounds)
+#_Lower_Bd & Upper_Bd: Range for the parameter
+#_Available prior types:
+#_-> 0 = Uniform   - parameters are the range of the uniform prior
+#_-> 1 = Normal    - parameters are the mean and sd
+#_-> 2 = Lognormal - parameters are the mean and sd of the log
+#_-> 3 = Beta      - parameters are the two beta parameters [see dbeta]
+#_-> 4 = Gamma     - parameters are the two gamma parameters [see dgamma]
+#_p1; p2: priors
+#_Phase: Set equal to a negative number not to estimate
+# ************************************** #
+ 
+#_Init_val_| Lower_Bd_| Upper_Bd_| Prior_type_| p1_| p2_| Phase
+0.18 0.15 0.2 2 0.18 0.04 -4 			# Male (BothMature)
+1.734258 0 2 1 0 0 8 			# Block_1_1980_1980
+0 -2 2 1 0 0 -99 			# Block_2_1985_1985
+0 -0.4 0.4 1 0 0.03 4 			# Female (BothMature)
+# -------------------------------------- #
+
+# -------------------------------------- #
 ##_Vulnerability parameter controls
 # 
 #_Vulnerability is the combination of selectivity and retention selectivity.
 #_Gmacs requires that each gear has a vulnerability.
-# 
 # -------------------------------------- #
-# 
+
 #_For each of the vulnerability component (selectivity and retention), the following need to be specified:
 # ************************************** #
 #_Component periods: Number of component time periods
@@ -397,8 +495,11 @@
 # ************************************** #
  
 #_The number of columns corresponds to the number of fleets (fisheries and surveys)
+#_Pot_Fishery_| Trawl_Bycatch_| Bairdi_Fishery_Bycatch_| Fixed_Gear_| NMFS_Trawl_| BSFRF 
+
 # Selectivity
-#  Gear-1 | Gear-2 | Gear-3 | Gear-4 | Gear-5 | Gear-6#  Pot_Fishery | Trawl_Bycatch | Bairdi_Fishery_Bycatch | Fixed_Gear | NMFS_Trawl | BSFRF 
+#_ Gear-1 | Gear-2 | Gear-3 | Gear-4 | Gear-5 | Gear-6 
+#_ Pot_Fishery | Trawl_Bycatch | Bairdi_Fishery_Bycatch | Fixed_Gear | NMFS_Trawl | BSFRF 
 1 1 1 1 2 1 #_Number of selectivity time period per fleet
 1 0 1 0 0 0 #_Sex specific selectivity
 2 2 2 2 2 2 #_Male selectivity type
@@ -406,7 +507,7 @@
 0 0 0 0 6 0 #_Insertion of fleet in another
 0 0 0 0 0 0 #_Extra parameters for each pattern by fleet (males)
 0 0 0 0 0 0 #_Extra parameters for each pattern by fleet (females)
-# 
+
 #_Retention
 #_Gear-1 | Gear-2 | Gear-3 | Gear-4 | Gear-5 | Gear-6#_Pot_Fishery_| Trawl_Bycatch_| Bairdi_Fishery_Bycatch_| Fixed_Gear_| NMFS_Trawl_| BSFRF
 2 1 1 1 1 1 #_Number of Retention time period per fleet
@@ -450,28 +551,28 @@
 # ************************************** #
  
 #_Fleet_| Index_| Par_no_| Sex_| Init_val_| Lower_Bd_| Upper_Bd_| Prior_type_| p1_| p2_| Phase_| Start_Block_| End_Block_| Env_Link_| Link_Par_| Rand_Walk_| Start_RdWalk_| End_RdWalk_| Sigma_RdWalk
-# Pot_Fishery  
+#_Pot_Fishery  
 1 1 1 1 125 5 190 0 1 999 4 1975 2020 0 0 0 1978 1978 0 			# Sel_Pot_Fishery_Male_period_1_par_1
 1 2 2 1 8 0.1 20 0 1 999 4 1975 2020 0 0 0 1978 1978 0 			# Sel_Pot_Fishery_Male_period_1_par_2
 1 3 1 2 84 5 150 0 1 999 4 1975 2020 0 0 0 1978 1978 0 			# Sel_Pot_Fishery_Female_period_1_par_1
 1 4 2 2 4 0.1 20 0 1 999 4 1975 2020 0 0 0 1978 1978 0 			# Sel_Pot_Fishery_Female_period_1_par_2
-# Trawl_Bycatch  
+#_Trawl_Bycatch  
 2 5 1 0 165 5 190 0 1 999 4 1975 2020 0 0 0 1978 1978 0 			# Sel_Trawl_Bycatch_Male_period_1_par_1
 2 6 2 0 15 0.1 25 0 1 999 4 1975 2020 0 0 0 1978 1978 0 			# Sel_Trawl_Bycatch_Male_period_1_par_2
-# Bairdi_Fishery_Bycatch  
+#_Bairdi_Fishery_Bycatch  
 3 7 1 1 103.275 5 190 1 103.275 30.98 4 1975 2020 0 0 0 1978 1978 0 			# Sel_Bairdi_Fishery_Bycatch_Male_period_1_par_1
 3 8 2 1 8.834 0.1 25 1 8.834 2.65 4 1975 2020 0 0 0 1978 1978 0 			# Sel_Bairdi_Fishery_Bycatch_Male_period_1_par_2
 3 9 1 2 91.178 5 190 1 91.178 27.35 4 1975 2020 0 0 0 1978 1978 0 			# Sel_Bairdi_Fishery_Bycatch_Female_period_1_par_1
 3 10 2 2 2.5 0.1 25 1 2.5 0.75 4 1975 2020 0 0 0 1978 1978 0 			# Sel_Bairdi_Fishery_Bycatch_Female_period_1_par_2
-# Fixed_Gear  
+#_Fixed_Gear  
 4 11 1 0 115 5 190 0 1 999 4 1975 2020 0 0 0 1978 1978 0 			# Sel_Fixed_Gear_Male_period_1_par_1
 4 12 2 0 9 0.1 25 0 1 999 4 1975 2020 0 0 0 1978 1978 0 			# Sel_Fixed_Gear_Male_period_1_par_2
-# NMFS_Trawl  
+#_NMFS_Trawl  
 5 13 1 0 75 30 190 0 1 999 5 1975 1981 0 0 0 1978 1978 0 			# Sel_NMFS_Trawl_Male_period_1_par_1
 5 14 2 0 5 1 50 0 1 999 5 1975 1981 0 0 0 1978 1978 0 			# Sel_NMFS_Trawl_Male_period_1_par_2
 5 15 1 0 80 30 190 0 1 999 5 1982 2021 0 0 0 1978 1978 0 			# Sel_NMFS_Trawl_Male_period_2_par_1
 5 16 2 0 10 1 50 0 1 999 5 1982 2021 0 0 0 1978 1978 0 			# Sel_NMFS_Trawl_Male_period_2_par_2
-# BSFRF  
+#_BSFRF  
 6 17 1 0 75 1 180 0 1 999 5 1975 2021 0 0 0 1978 1978 0 			# Sel_BSFRF_Male_period_1_par_1
 6 18 2 0 8.5 1 50 0 1 999 5 1975 2021 0 0 0 1978 1978 0 			# Sel_BSFRF_Male_period_1_par_2
 
@@ -503,26 +604,27 @@
 # ************************************** #
  
 #_Fleet_| Index_| Par_no_| Sex_| Init_val_| Lower_Bd_| Upper_Bd_| Prior_type_| p1_| p2_| Phase_| Start_Block_| End_Block_| Env_Link_| Link_Par_| Rand_Walk_| Start_RdWalk_| End_RdWalk_| Sigma_RdWalk
-# Pot_Fishery  
+#_Pot_Fishery  
 -1 25 1 1 135 1 999 0 1 999 4 1975 2004 0 0 0 1978 1978 0 			# Ret_Pot_Fishery_Male_period_1_par_1
 -1 26 2 1 2 1 20 0 1 999 4 1975 2004 0 0 0 1978 1978 0 			# Ret_Pot_Fishery_Male_period_1_par_2
 -1 27 1 1 140 1 999 0 1 999 4 2005 2020 0 0 0 1978 1978 0 			# Ret_Pot_Fishery_Male_period_2_par_1
 -1 28 2 1 2.5 1 20 0 1 999 4 2005 2020 0 0 0 1978 1978 0 			# Ret_Pot_Fishery_Male_period_2_par_2
 -1 29 1 2 591 1 999 0 1 999 -3 1975 2004 0 0 0 1978 1978 0 			# Ret_Pot_Fishery_Female_period_1_par_1
 -1 30 1 2 591 1 999 0 1 999 -3 2005 2020 0 0 0 1978 1978 0 			# Ret_Pot_Fishery_Female_period_2_par_1
-# Trawl_Bycatch  
+#_Trawl_Bycatch  
 -2 31 1 0 595 1 999 0 1 999 -3 1975 2020 0 0 0 1978 1978 0 			# Ret_Trawl_Bycatch_Male_period_1_par_1
-# Bairdi_Fishery_Bycatch  
+#_Bairdi_Fishery_Bycatch  
 -3 32 1 0 595 1 999 0 1 999 -3 1975 2020 0 0 0 1978 1978 0 			# Ret_Bairdi_Fishery_Bycatch_Male_period_1_par_1
-# Fixed_Gear  
+#_Fixed_Gear  
 -4 33 1 0 595 1 999 0 1 999 -3 1975 2020 0 0 0 1978 1978 0 			# Ret_Fixed_Gear_Male_period_1_par_1
-# NMFS_Trawl  
+#_NMFS_Trawl  
 -5 34 1 0 590 1 999 0 1 999 -3 1975 2021 0 0 0 1978 1978 0 			# Ret_NMFS_Trawl_Male_period_1_par_1
-# BSFRF  
+#_BSFRF  
 -6 35 1 0 580 1 999 0 1 999 -3 1975 2021 0 0 0 1978 1978 0 			# Ret_BSFRF_Male_period_1_par_1
 
 #_Number of asymptotic retention parameter
 1 
+
 #_Asymptotic parameter controls
 # ************************************** #
 #_Fleet: The index of the fleet (negative for retention)
@@ -534,6 +636,7 @@
 # ************************************** #
 #_Fleet_| Sex_| Year_| Init_val_| Lower_Bd_| Upper_Bd_| Phase 
 1 1 1975 1e-06 0 1 -3 			# AsympRet_fleet_Pot_Fishery_sex_Male_year_1975
+
 # -------------------------------------- #
 
 
@@ -549,6 +652,7 @@
 # ************************************** #
 
 #_Vulnerability impact#_Init_val_| Lower_Bd_| Upper_Bd_| Phase 
+
 # -------------------------------------- #
 
 #_Deviation parameter phase for the random walk in vulnerability parameters
@@ -556,69 +660,114 @@
 -1 	#  Dummy_sel_dev_par 
 
 # -------------------------------------- #
-## Priors for catchability
+##_Catchability controls
 # -------------------------------------- #
  
+#_Catchability definition
 # ************************************** #
-# Init_val: Initial value for the parameter (must lie between lower and upper bounds)
-# Lower_Bd & Upper_Bd: Range for the parameter
-# Phase: Set equal to a negative number not to estimate
-# Available prior types:
-# -> 0 = Uniform   - parameters are the range of the uniform prior
-# -> 1 = Normal    - parameters are the mean and sd
-# -> 2 = Lognormal - parameters are the mean and sd of the log
-# -> 3 = Beta      - parameters are the two beta parameters [see dbeta]
-# -> 4 = Gamma     - parameters are the two gamma parameters [see dgamma]
-# p1; p2: priors
-# Q_anal: Do we need to solve analytically Q? (0 = No; 1 = Yes)
-# CV_mult: multiplier ofr the input survey CV
-# Loglik_mult: weight for the likelihood
+#_For each survey index, the set up line columns fro catchability parameters are:
+#_Q_analytic: Do we need to solve analytically Q? (0 = No; 1 = Yes)
+#_CV_mult: multiplier for the input survey CV
+#_Loglik_mult: weight for the likelihood (emphasis)
+#_Mirror: Mirror survey catchability over to that for another partition (indexed by the combination survey*sex)
+#_Block: Refers to the block number for time-varying catchability
+#_Env_Link: Environmental link:
+#_-> 1 = additive
+#_-> 2 = multiplicative
+#_-> 3 = exponential
+#_EnvL_var: Environmental variable
+#_Rand_Walk:
+#_-> 0 = no random walk changes
+#_-> 1 = otherwise
+#_RW_block: Refer to the block number for random walks
+#_Sigma_RW: Sigma for the random walk parameters
 # ************************************** #
-# Init_val | Lower_Bd | Upper_Bd | Phase | Prior_type | p1 | p2 | Q_anal | CV_mult | Loglik_mult
-0.896 0 2 6 1 0.896 0.03 0 1 1 			# Log_vn_comp_1
-1 0 5 -6 0 0.001 5 0 1 1 			# Log_vn_comp_2
+
+#_Q_analytic_| CV_mult_| Loglik_mult_| Mirror_| Block_| Env_Link_| EnvL_var_| Rand_Walk_| RW_block_| Sigma_RW
+0 1 1 0 0 0 0 0 0 0 			# Survey_q 1 NMFS_Trawl Male
+0 1 1 0 0 0 0 0 0 0 			# Survey_q 2 NMFS_Trawl Female
+ 
+#_Catchability priors
+# ************************************** #
+#_Init_val: Initial value for the parameter (must lie between lower and upper bounds)
+#_Lower_Bd & Upper_Bd: Range for the parameter
+#_Available prior types:
+#_-> 0 = Uniform   - parameters are the range of the uniform prior
+#_-> 1 = Normal    - parameters are the mean and sd
+#_-> 2 = Lognormal - parameters are the mean and sd of the log
+#_-> 3 = Beta      - parameters are the two beta parameters [see dbeta]
+#_-> 4 = Gamma     - parameters are the two gamma parameters [see dgamma]
+#_p1; p2: priors
+#_Phase: Set equal to a negative number not to estimate
+# ************************************** #
+
+#_Init_val_| Lower_Bd_| Upper_Bd_| Prior_type_| p1_| p2_| Phase
+0.896 0 2 1 0.896 0.03 6 			# Log_vn_comp_1_NMFS_Trawl_Male
+1 0 5 0 0.001 5 -6 			# Log_vn_comp_2_NMFS_Trawl_Female
 # -------------------------------------- #
 
 # -------------------------------------- #
-## Additional CV controls
+##_Additional CV controls for surveys/indices
 # -------------------------------------- #
  
+#_Additional CV definition
 # ************************************** #
-# Init_val: Initial value for the parameter (must lie between lower and upper bounds)
-# Lower_Bd & Upper_Bd: Range for the parameter
-# Phase: Set equal to a negative number not to estimate
-# Available prior types:
-# -> 0 = Uniform   - parameters are the range of the uniform prior
-# -> 1 = Normal    - parameters are the mean and sd
-# -> 2 = Lognormal - parameters are the mean and sd of the log
-# -> 3 = Beta      - parameters are the two beta parameters [see dbeta]
-# -> 4 = Gamma     - parameters are the two gamma parameters [see dgamma]
-# p1; p2: priors
+#_For each survey index, the set up line columns fro catchability parameters are:
 # ************************************** #
-# Init_val | Lower_Bd | Upper_Bd | Phase | Prior_type| p1 | p2
-1e-04 1e-05 10 -4 4 1 100 			# Log_add_cvt_survey_1
-0.25 1e-05 10 10 0 0.001 1 			# Log_add_cvt_survey_2
+#_Mirror: Mirror survey catchability over to that for another partition (indexed by the combination survey*sex)
+#_Block: Refers to the block number for time-varying catchability
+#_Env_Link: Environmental link:
+#_-> 1 = additive
+#_-> 2 = multiplicative
+#_-> 3 = exponential
+#_EnvL_var: Environmental variable
+#_Rand_Walk:
+#_-> 0 = no random walk changes
+#_-> 1 = otherwise
+#_RW_block: Refer to the block number for random walks
+#_Sigma_RW: Sigma for the random walk parameters
+# ************************************** #
+
+#_Mirror_| Block_| Env_Link_| EnvL_var_| Rand_Walk_| RW_block_| Sigma_RW
+0 0 0 0 0 0 0 			# era 1 NMFS_Trawl Male
+0 0 0 0 0 0 0 			# era 2 NMFS_Trawl Female
  
-# Additional variance control for each survey (0 = ignore; >0 = use)
-1 2 
+#_Parameter definition
+# ************************************** #
+#_Init_val: Initial value for the parameter (must lie between lower and upper bounds)
+#_Lower_Bd & Upper_Bd: Range for the parameter
+#_Available prior types:
+#_-> 0 = Uniform   - parameters are the range of the uniform prior
+#_-> 1 = Normal    - parameters are the mean and sd
+#_-> 2 = Lognormal - parameters are the mean and sd of the log
+#_-> 3 = Beta      - parameters are the two beta parameters [see dbeta]
+#_-> 4 = Gamma     - parameters are the two gamma parameters [see dgamma]
+#_p1; p2: priors
+#_Phase: Set equal to a negative number not to estimate
+# ************************************** #
+
+#_Init_val_| Lower_Bd_| Upper_Bd_| Prior_type_| p1_| p2_| Phase_|
+1e-04 1e-05 10 4 1 100 -4 			# Log_add_cvt_survey_1
+0.25 1e-05 10 0 0.001 1 10 			# Log_add_cvt_survey_2
+ 
 # -------------------------------------- #
 
 # -------------------------------------- #
-## Penalties for the average fishing mortality rate
+##_Penalties for the average fishing mortality rate
 # -------------------------------------- #
  
 # ************************************** #
-# Fishing mortality controls
+#_Fishing mortality controls
 # ************************************** #
-# Mean_F_male: mean male fishing mortality (base value for the fully-selected F) #
-# Female_Offset: Offset between female and male fully-selected F  #
-# Pen_std_Ph1 & Pen_std_Ph2: penalties on the fully-selected F during the early and later phase, respectively  #
-# Ph_Mean_F_male & Ph_Mean_F_female: Phases to estimate the fishing mortality for males and females, respectively #
-# Low_bd_mean_F & Up_bd_mean_F: Range for the mean fishing mortality (lower and upper bounds, respectivly) #
-# Low_bd_Y_male_F & Up_bd_Y_male_F: Range for the male fishing mortality (lower and upper bounds, respectivly) #
-# Low_bd_Y_female_F & Up_bd_Y_female_F: Range for the female fishing mortality (lower and upper bounds, respectivly)#
+#_Mean_F_male: mean male fishing mortality (base value for the fully-selected F) #
+#_Female_Offset: Offset between female and male fully-selected F  #
+#_Pen_std_Ph1 & Pen_std_Ph2: penalties on the fully-selected F during the early and later phase, respectively  #
+#_Ph_Mean_F_male & Ph_Mean_F_female: Phases to estimate the fishing mortality for males and females, respectively #
+#_Low_bd_mean_F & Up_bd_mean_F: Range for the mean fishing mortality (lower and upper bounds, respectivly) #
+#_Low_bd_Y_male_F & Up_bd_Y_male_F: Range for the male fishing mortality (lower and upper bounds, respectivly) #
+#_Low_bd_Y_female_F & Up_bd_Y_female_F: Range for the female fishing mortality (lower and upper bounds, respectivly)#
 # ************************************** #
-#  Mean_F_male | Female_Offset | Pen_std_Ph1 | Pen_std_Ph2 | Ph_Mean_F_male | Ph_Mean_F_female | Low_bd_mean_F | Up_bd_mean_F | Low_bd_Y_male_F | Up_bd_Y_male_F | Low_bd_Y_female_F | Up_bd_Y_female_F 
+#_Mean_F_male_| Female_Offset_| Pen_std_Ph1_| Pen_std_Ph2_| Ph_Mean_F_male_| Ph_Mean_F_female_| Low_bd_mean_F_| Up_bd_mean_F_| Low_bd_Y_male_F_| Up_bd_Y_male_F_| Low_bd_Y_female_F_| Up_bd_Y_female_F 
 0.22313 0.0505 0.5 45.5 1 1 -12 4 -10 2.95 -10 10 			# log_fbar_Pot_Fishery
 0.0183156 1 0.5 45.5 1 -1 -12 4 -10 10 -10 10 			# log_fbar_Trawl_Bycatch
 0.011109 1 0.5 45.5 1 1 -12 4 -10 10 -10 10 			# log_fbar_Bairdi_Fishery_Bycatch
@@ -628,78 +777,78 @@
 # -------------------------------------- #
 
 # -------------------------------------- #
-## Size composition data control
+###_Size composition data control
 # -------------------------------------- #
  
 # ************************************** #
-# Available types of likelihood:
-# -> 0 = Ignore size-composition data in model fitting
-# -> 1 = Multinomial with estimated/fixed sample size
-# -> 2 = Robust approximation to multinomial
-# -> 5 = Dirichlet
-# Auto tail compression (pmin):
-# -> pmin is the cumulative proportion used in tail compression
-# Type-like prediction (1 = catch-like predictions; 2 = survey-like predictions)
-# Lambda: multiplier for the effective sample size
-# Emphasis: multiplier for weighting the overall likelihood
+#_Available types of likelihood:
+#_-> 0 = Ignore size-composition data in model fitting
+#_-> 1 = Multinomial with estimated/fixed sample size
+#_-> 2 = Robust approximation to multinomial
+#_-> 5 = Dirichlet
+#_Auto tail compression (pmin):
+#_-> pmin is the cumulative proportion used in tail compression
+#_Type-like prediction (1 = catch-like predictions; 2 = survey-like predictions)
+#_Lambda: multiplier for the effective sample size
+#_Emphasis: multiplier for weighting the overall likelihood
 # ************************************** #
  
-# The number of columns corresponds to the number size-composition data frames
-2 2 2 2 2 2 2 2 2 2 2 2 2 # Type of likelihood for the size-composition
-0 0 0 0 0 0 0 0 0 0 0 0 0 # Option for the auto tail compression
-1 1 1 1 1 1 1 1 1 1 1 1 1 # Initial value for effective sample size multiplier
--4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4 # Phase for estimating the effective sample size
-1 2 3 4 4 5 5 6 6 7 7 8 8 # Composition appender (Should data be aggregated?)
-1 1 1 1 1 1 1 1 1 2 2 2 2 # Type-like predictions
-1 1 1 1 1 1 1 1 1 1 1 1 1 # Lambda: multiplier for the effective sample size
-1 1 1 1 1 1 1 1 1 1 1 1 1 # Emphasis: multiplier for weighting the overall likelihood
+#_The number of columns corresponds to the number size-composition data frames
+2 2 2 2 2 2 2 2 2 2 2 2 2 #_Type of likelihood for the size-composition
+0 0 0 0 0 0 0 0 0 0 0 0 0 #_Option for the auto tail compression
+1 1 1 1 1 1 1 1 1 1 1 1 1 #_Initial value for effective sample size multiplier
+-4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4 #_Phase for estimating the effective sample size
+1 2 3 4 4 5 5 6 6 7 7 8 8 #_Composition appender (Should data be aggregated?)
+1 1 1 1 1 1 1 1 1 2 2 2 2 #_Type-like predictions
+1 1 1 1 1 1 1 1 1 1 1 1 1 #_Lambda: multiplier for the effective sample size
+1 1 1 1 1 1 1 1 1 1 1 1 1 #_Emphasis: multiplier for weighting the overall likelihood
 # -------------------------------------- #
 
 # -------------------------------------- #
-## Time-varying Natural mortality controls
+##_Time-varying Natural mortality controls
 # -------------------------------------- #
  
 # ************************************** #
-# Available types of M specification:
-# -> 0 = Constant natural mortality
-# -> 1 = Random walk (deviates constrained by variance in M)
-# -> 2 = Cubic Spline (deviates constrained by nodes & node-placement)
-# -> 3 = Blocked changes (deviates constrained by variance at specific knots)
-# -> 4 = Natural mortality is estimated as an annual deviation
-# -> 5 = Deviations in M are estimated for specific periods relatively to the M estimated in the first year of the assessment
-# -> 6 = Deviation in M are estimated for specific periods relatively to M during the current year
+#_Available types of M specification:
+#_-> 0 = Constant natural mortality
+#_-> 1 = Random walk (deviates constrained by variance in M)
+#_-> 2 = Cubic Spline (deviates constrained by nodes & node-placement)
+#_-> 3 = Blocked changes (deviates constrained by variance at specific knots)
+#_-> 4 = Natural mortality is estimated as an annual deviation
+#_-> 5 = Deviations in M are estimated for specific periods relatively to the M estimated in the first year of the assessment
+#_-> 6 = Deviation in M are estimated for specific periods relatively to M during the current year
 # ************************************** #
-# Type of natural mortality
+#_Type of natural mortality
 6 
-# Is female M relative to M male?
-# 0: No (absolute); 1: Yes (relative) 
+#_Is female M relative to M male?
+#_0: No (absolute); 1: Yes (relative) 
 1 
-# Phase of estimation
+#_Phase of estimation
 3 
-# Standard deviation in M deviations
+#_Standard deviation in M deviations
 0.25 
-# Number of nodes for cubic spline or number of step-changes for option 3
-# -> One line per sex
+#_Number of nodes for cubic spline or number of step-changes for option 3
+#_-> One line per sex
 2
 2
-# Year position of the knots for each sex (vector must be equal to the number of nodes)
-# -> One line per sex
+#_Year position of the knots for each sex (vector must be equal to the number of nodes)
+#_-> One line per sex
 1980 1985 
 1980 1985 
-# number of breakpoints in M by size
+#_number of breakpoints in M by size
 0 
-# Size positions of breakpoints in M by size class
+#_Size positions of breakpoints in M by size class
  
-# Specific initial value for natural mortality deviations
+#_Specific initial value for natural mortality deviations
 1 
-# Natural mortality deviation controls
+#_Natural mortality deviation controls
 # ************************************** #
-# Init_val: Initial value for the parameter (must lie between lower and upper bounds)
-# Lower_Bd & Upper_Bd: Range for the parameter
-# Phase: Set equal to a negative number not to estimate
-# Size_spec: Are the deviations size-specific ? (integer that specifies which size-class (negative to be considered))
+#_Init_val: Initial value for the parameter (must lie between lower and upper bounds)
+#_Lower_Bd & Upper_Bd: Range for the parameter
+#_Phase: Set equal to a negative number not to estimate
+#_Size_spec: Are the deviations size-specific ? (integer that specifies which size-class (negative to be considered))
 # ************************************** #
-# Init_val | Lower_Bd | Upper_Bd | Phase | Size_spec
+#_Init_val_| Lower_Bd_| Upper_Bd_| Phase_| Size_spec
 1.734258 0 2 8 0 			# M_dev_est_par_1
 0 -2 2 -99 0 			# M_dev_est_par_2
 1.780586 0 2 8 -1 			# M_dev_est_par_3
@@ -707,74 +856,45 @@
 # -------------------------------------- #
 
 # -------------------------------------- #
-## Tagging controls
+##_Tagging controls
 # -------------------------------------- #
-# Emphasis (likelihood weight) on tagging
+#_Emphasis (likelihood weight) on tagging
 1 
 # -------------------------------------- #
 
 # -------------------------------------- #
-##  Immature/mature natural mortality 
+##_Immature/mature natural mortality 
 # -------------------------------------- #
-# maturity specific natural mortality? ( 0 = No; 1 = Yes - only for use if nmature > 1)
+#_maturity specific natural mortality? ( 0 = No; 1 = Yes - only for use if nmature > 1)
 0 
-# immature/mature natural mortality controls
+#_immature/mature natural mortality controls
 # ************************************** #
-# Init_val: Initial value for the parameter (must lie between lower and upper bounds)
-# Lower_Bd & Upper_Bd: Range for the parameter
-# Phase: Set equal to a negative number not to estimate
-# Available prior types:
-# -> 0 = Uniform   - parameters are the range of the uniform prior
-# -> 1 = Normal    - parameters are the mean and sd
-# -> 2 = Lognormal - parameters are the mean and sd of the log
-# -> 3 = Beta      - parameters are the two beta parameters [see dbeta]
-# -> 4 = Gamma     - parameters are the two gamma parameters [see dgamma]
-# p1; p2: priors
+#_Init_val: Initial value for the parameter (must lie between lower and upper bounds)
+#_Lower_Bd & Upper_Bd: Range for the parameter
+#_Phase: Set equal to a negative number not to estimate
+#_Available prior types:
+#_-> 0 = Uniform   - parameters are the range of the uniform prior
+#_-> 1 = Normal    - parameters are the mean and sd
+#_-> 2 = Lognormal - parameters are the mean and sd of the log
+#_-> 3 = Beta      - parameters are the two beta parameters [see dbeta]
+#_-> 4 = Gamma     - parameters are the two gamma parameters [see dgamma]
+#_p1; p2: priors
 # ************************************** #
-# Init_val | Lower_Bd | Upper_Bd | Phase | Prior_type| p1 | p2
+
+#_Init_val_| Lower_Bd_| Upper_Bd_| Phase_| Prior_type_| p1_| p2
 0 -1 1 -1 0 1 1 			# m_mat_mult_Male
 0 -1 1 -1 0 1 1 			# m_mat_mult_Female
 # -------------------------------------- #
 
 # -------------------------------------- #
-## Other (additional) controls
+##_Emphasis factor (weights for likelihood) controls
 # -------------------------------------- #
-# First year of recruitment estimation deviations
-1975 
-# Last year of recruitment estimation deviations
-2020 
-# Consider terminal molting? (0 = No; 1 = Yes
-0 
-# Phase for recruitment estimation
-2 
-# Phase for recruitment sex-ratio estimation
-2 
-# Initial value for expected sex-ratio
-0.5 
-# Phase for initial recruitment estimation
--3 
-# Initial conditions (1 = unfished, 2 = steady-state, 3 = free params, 4 = free params revised)
-3 
-# Proportion of mature male biomass for SPR reference points
-1 
-# Stock-Recruit-Relationship (0 = none, 1 = Beverton-Holt) 
-0 
-# Use years specified to computed average sex ratio in the calculation of average recruitment for reference points
-# -> 0 = No, i.e. Rec based on End year; 1 = Yes 
-1 
-# Years to compute equilibrium
-200 
-# -------------------------------------- #
-
-# -------------------------------------- #
-## Emphasis factor (weights for likelihood) controls
-# -------------------------------------- #
-# Weights on catches for the likelihood component
+#_Weights on catches for the likelihood component
 1 1 1 1 1 1 1 
 
-# Penalties on deviations
+#_Penalties on deviations
 # ************************************** #
-#  Fdev_total | Fdov_total | Fdev_year | Fdov_year 
+#_Fdev_total_| Fdov_total_| Fdev_year_| Fdov_year 
 1 1 0 0 			# Pot_Fishery
 1 1 0 0 			# Trawl_Bycatch
 1 1 0 0 			# Bairdi_Fishery_Bycatch
@@ -782,25 +902,25 @@
 1 1 0 0 			# NMFS_Trawl
 1 1 0 0 			# BSFRF
 
-# Account for priors (penalties)
+#_Account for priors (penalties)
 # ************************************** #
-10000 	#_ Log_fdevs 
-0 	#_ meanF 
-1 	#_ Mdevs 
-2 	#_ Rec_devs 
-0 	#_ Initial_devs 
-0 	#_ Fst_dif_dev 
-10 	#_ Mean_sex-Ratio 
-0 	#_ Molt_prob 
-0 	#_ Free_selectivity 
-0 	#_ Init_n_at_len 
-0 	#_ Fvecs 
-0 	#_ Fdovs 
-0 	#_ Vul_devs 
+10000 	#_Log_fdevs 
+0 	#_meanF 
+1 	#_Mdevs 
+2 	#_Rec_devs 
+0 	#_Initial_devs 
+0 	#_Fst_dif_dev 
+10 	#_Mean_sex-Ratio 
+0 	#_Molt_prob 
+0 	#_Free_selectivity 
+0 	#_Init_n_at_len 
+0 	#_Fvecs 
+0 	#_Fdovs 
+0 	#_Vul_devs 
 
 # -------------------------------------- #
 
 # -------------------------------------- #
-## End of control file
+##_End of control file
 # -------------------------------------- #
 9999

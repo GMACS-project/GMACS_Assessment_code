@@ -2,9 +2,9 @@
 #                    GMACS data file 
 # 
 #_*** 
-#_GMACS Version 2.10.01 
+#_GMACS Version 2.10.05 
 #_Last GMACS mofification made by: ** MV ** 
-#_Date of writing the data file:2024-11-01 01:40:00 
+#_Date of writing the data file: 2025-02-11 05:44:45 
 #_*** 
 # 
 #_Stock of interest: WAG 
@@ -127,7 +127,7 @@
 #_Fishing fleet	names (delimited with a space - no spaces in names)
 Pot_Fishery Trawl_Bycatch 
 #_Survey names (delimited with a space - no spaces in names)
- 
+
 #_Are the seasons: 0 = instantaneous or 1 = continuous
 1 1 1 1 1 1 
 #_-------------------------------------- #
@@ -287,7 +287,7 @@ Pot_Fishery Trawl_Bycatch
 #_Index_| Year_| Season_| Fleet_| Sex_| Maturity_| Obs_| CV_| Units_| CPUE_time ##
 #_************************************** #
 
-# **   ** #
+# ** Pot_Fishery_Males_Index_1  ** #
 # Index | Year | Season | Fleet | Sex | Maturity | Obs | CV | Units | CPUE_time
 1 1995 3 1 1 0 1.001427527 0.034063946 2 0.5
 1 1996 3 1 1 0 0.929544695 0.022023622 2 0.5
@@ -299,6 +299,9 @@ Pot_Fishery Trawl_Bycatch
 1 2002 3 1 1 0 0.969453867 0.027722312 2 0.5
 1 2003 3 1 1 0 1.272957978 0.028325031 2 0.5
 1 2004 3 1 1 0 1.299252834 0.028364089 2 0.5
+
+# ** Pot_Fishery_Males_Index_2  ** #
+# Index | Year | Season | Fleet | Sex | Maturity | Obs | CV | Units | CPUE_time
 2 2005 3 1 1 0 1.220923247 0.034279197 2 0.5
 2 2006 3 1 1 0 1.156132493 0.034515041 2 0.5
 2 2007 3 1 1 0 1.029731651 0.040358749 2 0.5
@@ -316,6 +319,9 @@ Pot_Fishery Trawl_Bycatch
 2 2019 3 1 1 0 0.995528283 0.033405643 2 0.5
 2 2020 3 1 1 0 0.863580034 0.031476455 2 0.5
 2 2021 3 1 1 0 0.745497898 0.040162062 2 0.5
+
+# ** Pot_Fishery_Males_Index_3  ** #
+# Index | Year | Season | Fleet | Sex | Maturity | Obs | CV | Units | CPUE_time
 3 1985 3 1 1 0 2.071043441 0.046182047 2 0.5
 3 1986 3 1 1 0 1.593579212 0.040226639 2 0.5
 3 1987 3 1 1 0 1.220361839 0.043228444 2 0.5
@@ -330,12 +336,6 @@ Pot_Fishery Trawl_Bycatch
 3 1996 3 1 1 0 0.835343642 0.031318824 2 0.5
 3 1997 3 1 1 0 0.763847986 0.030723148 2 0.5
 3 1998 3 1 1 0 1.064769668 0.033983872 2 0.5
-
-# ** NA  ** #
-# Index | Year | Season | Fleet | Sex | Maturity | Obs | CV | Units | CPUE_time
-
-# ** NA  ** #
-# Index | Year | Season | Fleet | Sex | Maturity | Obs | CV | Units | CPUE_time
 #_-------------------------------------- #
 
 #_-------------------------------------- #

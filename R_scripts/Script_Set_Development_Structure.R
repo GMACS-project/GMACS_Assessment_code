@@ -19,17 +19,17 @@ library(magrittr)
 
 # Set directories ----
 dir_test <- file.path(here::here(), "Testing_Versions")
-dir_old_version <- file.path(here::here(), "Dvpt_Version", fsep = fsep)
+dir_old_version <- file.path(here::here(), "Latest_Version", fsep = fsep)
 dir_LastAss_Files <- file.path(dirname(here::here()), "Assessment_data", fsep = fsep)
-dir_Version_Files <- file.path(here::here(), "Testing_Versions", "Stock_Input_files","Gmacs_2_10_01", fsep = fsep)
+dir_Version_Files <- file.path(here::here(), "Testing_Versions", "Stock_Input_files","Gmacs_2_10_05", fsep = fsep)
 dir_ADMBpath_Files <- here::here()
 
 # 2. local functions ----
 
 # Specification for building the structure
 stock <-  "all"
-use_LastAss_Files <- TRUE
-use_Version_Files <- FALSE
+use_LastAss_Files <- FALSE
+use_Version_Files <- TRUE
 new_Ver_ID <- NULL
 verbose <- TRUE
 

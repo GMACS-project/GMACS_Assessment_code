@@ -15,14 +15,18 @@ library(magrittr)
 
 # Name of the folder in the Testing_Version folder of the version being developed
 # Gmacs_Ver <-"Gmacs_2_10_01"
-Gmacs_Ver <-"Gmacs_2_10_01"
+Gmacs_Ver <-"Gmacs_2_10_05"
+
+.ac<- function(x){return(as.character(x))}
+.an<- function(x){return(as.numeric(x))}
+.af<- function(x){return(as.factor(x))}
 
 
 # Set directories ----
-Dir_Dvpt_Vers <- file.path(here::here(), "Dvpt_Version", "build", fsep = fsep)
-dir_test <- file.path(here::here(), "Testing_Versions", Gmacs_Ver)
-dir_InputFiles <- file.path(dirname(dir_test), "Stock_Input_files", Gmacs_Ver, fsep = fsep)
-dir_Gmacs_Exe <- NULL
+Dir_Last_vers <- file.path(here::here(), "Latest_Version", "build", fsep = fsep)
+dir_test <- file.path(here::here(), "Testing_Versions", Gmacs_Ver, "build", fsep = fsep)
+dir_InputFiles <- file.path(here::here(), "Testing_Versions", "Stock_Input_files", Gmacs_Ver, fsep = fsep)
+dir_Gmacs_Exe <- file.path(here::here(), "Testing_Versions", Gmacs_Ver, fsep = fsep)
 
 # 2. local functions ----
 
@@ -80,36 +84,60 @@ Stock_models <- list(
 # Write the stock input files ----
 write_Gmacs_InputFiles(
   stock = c("EAG", "WAG", "SMBKC", "BBRKC", "SNOW_crab"),
+  # stock = c("SNOW_crab"),
   Stock_NameFiles = Stock_models,
-  verbose = FALSE,
+  verbose = TRUE,
   dir_InputFiles = dir_InputFiles,
-  dir_WriteFiles = NULL,
+  dir_WriteFiles = dir_test,
   CatchDF_format = NULL,
   SurveyDF_format = NULL,
   SizeFreqDF_format = NULL,
-  cleanup = TRUE,
+  cleanup = FALSE,
   dir_TPL = NULL,
   Gmacs_Version = Gmacs_Ver
 )
 
 # 4. Compare versions of Gmacs ----
+
+# ================================
+# stock = "EAG"
+# dir_test = dir_test
+# dir_old_version = Dir_Last_vers
+# dir_Gmacs_Exe = dir_Gmacs_Exe
+# dir_InputFiles = dir_InputFiles
+# dir_OLD_Gmacs_Exe = NULL
+# Run_old_version = TRUE
+# usePin = TRUE
+# compareWithPin = FALSE
+# verbose = TRUE
+# Threshold = 1.0e-5
+# Clean_Files = TRUE
+# verbose_shell <- TRUE
+# writePin <- TRUE
+# ================================
 Res <- CompareCodeVersion(
   stock = "all",
+  # stock = "WAG",
+  # stock = "SNOW_crab",
   dir_test = dir_test,
-  dir_old_version = Dir_Dvpt_Vers,
+  dir_old_version = Dir_Last_vers,
   dir_Gmacs_Exe = dir_Gmacs_Exe,
   dir_InputFiles = dir_InputFiles,
   dir_OLD_Gmacs_Exe = NULL,
-  Run_old_version = TRUE,
+  Run_old_version = FALSE,
   usePin = TRUE,
-  compareWithPin = FALSE,
+  compareWithPin = TRUE,
   verbose = TRUE,
+  verbose_shell = FALSE, 
   Threshold = 1.0e-5,
-  Clean_Files = TRUE
+  Clean_Files = FALSE
 )
 
+clean_bat(file.path(dir_test, c("EAG", "WAG", "SMBKC", "BBRKC", "SNOW_crab"), fsep = fsep))
+
+
 # 5. Update the stock input files ----
-# This is needed to update the Gmacs version name and specifiy the date of last 
+# This is needed to update the Gmacs version name and specify the date of last 
 # compilation
 write_Gmacs_InputFiles(
    stock = c("EAG", "WAG", "SMBKC", "BBRKC", "SNOW_crab"),

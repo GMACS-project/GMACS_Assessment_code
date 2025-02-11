@@ -9,6 +9,9 @@
 # If the input files are modified, then some modifications will probably have to 
 # happen in gmr as well.
 
+# Run the new version of Gmacs
+# SCRIPT: "Script_Run_Gmacs.R"
+
 # 3. Re write the input files and make comparisons between code versions
 # script: "Script_Test_Code_Version_GMACS.R"
 

@@ -2,9 +2,9 @@
 #                    GMACS data file 
 # 
 #_*** 
-#_GMACS Version 2.10.01 
+#_GMACS Version 2.10.05 
 #_Last GMACS mofification made by: ** MV ** 
-#_Date of writing the data file:2024-11-01 01:40:00 
+#_Date of writing the data file: 2025-02-11 05:44:39 
 #_*** 
 # 
 #_Stock of interest: SMBKC 
@@ -271,7 +271,7 @@ NMFS_Trawl ADFG_Pot
 #_Index_| Year_| Season_| Fleet_| Sex_| Maturity_| Obs_| CV_| Units_| CPUE_time ##
 #_************************************** #
 
-# ** NMFS_Trawl  ** #
+# ** NMFS_Trawl_Males  ** #
 # Index | Year | Season | Fleet | Sex | Maturity | Obs | CV | Units | CPUE_time
 1 1978 1 4 1 0 6832.819 0.394 1 0
 1 1979 1 4 1 0 7989.881 0.463 1 0
@@ -317,7 +317,7 @@ NMFS_Trawl ADFG_Pot
 1 2019 1 4 1 0 3170.467 0.337 1 0
 1 2021 1 4 1 0 1929.298 0.427 1 0
 
-# ** ADFG_Pot  ** #
+# ** ADFG_Pot_Males  ** #
 # Index | Year | Season | Fleet | Sex | Maturity | Obs | CV | Units | CPUE_time
 2 1995 1 5 1 0 12042 0.13 2 0
 2 1998 1 5 1 0 12531 0.06 2 0

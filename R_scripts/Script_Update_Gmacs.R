@@ -13,7 +13,7 @@ library(gmr)
 library(magrittr)
 
 # Name of the Testing_Version folder of the version being developed
-Gmacs_Ver <- "Gmacs_2_10_01"
+Gmacs_Ver <- "Gmacs_2_10_05"
 
 # Set directories ----
 dir_test <- file.path(here::here(), "Testing_Versions", Gmacs_Ver)
@@ -75,7 +75,7 @@ UpdateGMACS(
   dirSrc = dir_test,
   dirNew = dir_Last_Ver,
   dir_Assdata = dir_Ass_data,
-  dir_Supp = file.path(here::here(), "Dvpt_Version", "build", fsep = fsep),
+  # dir_Supp = file.path(here::here(), "Dvpt_Version", "build", fsep = fsep),
   ADMBpaths = NULL,
   UpdateInputFiles = TRUE,
   Stock_models_names = Stock_models,
@@ -83,6 +83,6 @@ UpdateGMACS(
   UpdateLast_GmacsVer = TRUE,
   verbose = TRUE,
   cleanStockFolder = TRUE,
-  cleanInputFiles = TRUE,
+  cleanInputFiles = FALSE,
   cleanTest = TRUE
 )
